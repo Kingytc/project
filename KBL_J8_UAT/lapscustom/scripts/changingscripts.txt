@@ -1,6 +1,0 @@
-
-
-select 'update applications set app_applnholder='''||a.mail_tousrid||''' where app_no='''||
-mail_appno||''';' as output from appmailbox a where
-		 mail_date =(select max(mail_date) from
-		appmailbox b where a.mail_appno = b.mail_appno and mail_type='C') and mail_type='C'

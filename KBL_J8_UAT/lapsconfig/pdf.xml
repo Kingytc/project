@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<PDFMAPS>
-	<!-- START RETAIL REPORTS -->
-	<PDF FILENAME="ExecutiveSummary.pdf" BEANID="corpexecutivesummarypdf" GETMETHOD="getExecutiveSummaryData"></PDF>
-	
-</PDFMAPS>
