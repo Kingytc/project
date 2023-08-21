@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+	
+	<query code="getmismasterdata">
+		select mis_sno,mis_subsector,
+		mis_constitutioncode,mis_constitutionvalue,mis_loanamtcode,mis_loanamtvalue,
+		mis_loantenorcode,mis_loantenorvalue,mis_plantmaccode,mis_plantmacvalue,
+		mis_fixedassetcode,mis_fixedassetvalue, mis_hlcode,mis_hlvalue,
+		mis_branchlocationcode,mis_branchlocationvalue,mis_farmercode,mis_farmervalue,
+		mis_govtsposchcode,mis_govtsposchvalue,mis_shgcode,mis_shgvalue,
+		mis_bankschemecode,mis_bankschemevalue,mis_utilizationcode,mis_utilizationvalue,
+		mis_faminccode,mis_famincvalue,mis_totallimitcode,mis_totallimitvalue,
+		mis_totalservicelimitcode,mis_totalservicelimitvalue,mis_totalagrilimitcode,mis_totalagrilimitvalue,
+		mis_sectorcode,mis_sectorval,mis_staffcode,mis_staffval,mis_castecode,mis_castevalue,mis_gendercode,mis_gendervalue,
+		mis_irrigatedcode,mis_irrigatedvalue,mis_displayscreencode,mis_displayscreenvalue,
+		mis_securitytypecode,mis_securitytypevalue,mis_securitynamecode,mis_securitynamevalue,mis_sharebrokercode,
+		mis_sharebrokervalue,MIS_CRECODE,MIS_CREVALUE,MIS_MANAGEMENTGENDERCODE,MIS_MANAGEMENTGENDERVALUE,MIS_SOCIAL_INFRA_CODE,MIS_SOCIAL_INFRA_VALUE,
+		MIS_AGRI_ANCI_CODE,MIS_AGRI_ANCI_VALUE,MIS_RENEW_ENERGY_CODE,MIS_RENEW_ENERGY_VALUE,MIS_RENEW_ENERGY_INDV_CODE,MIS_RENEW_ENERGY_INDV_VALUE,
+		MIS_PHYS_CHALL_CODE,MIS_PHYS_CHALL_VALUE,MIS_AGRI_INFRA_CODE,MIS_AGRI_INFRA_VALUE,MIS_CONST_COST_CODE,MIS_CONST_COST_VALUE,
+		MIS_SALESFROMVALUE,MIS_SALESTOVALUE,MIS_MINORITY_CODE,MIS_MINORITY_VALUE,MIS_NONIND_MINORITY_CODE,MIS_NONIND_MINORITY_VALUE,MIS_START_UP_CODE,MIS_CARPET_AREA_CODE,MIS_CARPET_AREA_VALUE,MIS_FLOOR_AREA_CODE,MIS_FLOOR_AREA_VALUE
+		 ,MIS_INDIVIDUAL_HOUSE,MIS_SHG_PROPOSED_LOAN_CODE,MIS_SHG_PROPOSED_LOAN_VALUE,MIS_ALLIEDACTIVITY,MIS_DWELLING_CODE,MIS_DWELLING_VALUE  from mis_master 
+		where mis_type='^' and mis_activitycode='^' and  mis_activitysno='^' and mis_show='E' and mis_psdatevalue=(select  max(mis_psdatevalue) 
+		from mis_master where mis_type='^' and mis_activitysno='^' and mis_activitycode='^' and mis_show='E') order by mis_sno
+	</query>
+	<query code="selconstitution">
+		select  app_no from applications, loandetails,
+		perapplicant, per_demographics, organisations where
+		org_scode=perapp_branchcode and perapp_id=demo_appid and
+		demo_type='a' and demo_appno=app_no and  app_no=loan_appno and app_no='^' ^
+	</query>
+	
+	<query code="selconstitutioncorp">
+		select  app_no from applications, facilities,
+		perapplicant, com_demographics, organisations where
+		org_scode=perapp_branchcode and perapp_id=demo_comappnewid and
+		demo_appno=app_no and  app_no= facility_appno and app_no='^' and facility_sno='^' ^
+	</query>
+	
+	<query code="selmisstaticdata">
+		select mis_static_data_desc from mis_staticdata where mis_static_data_id='^' and mis_static_data_show='^' and mis_static_data_code='^' 	
+	</query>
+	<query code="selmisappdetails">
+		select app_no,app_activitycode,app_activitysno from  mis_appdetails where app_no='^' and app_facility_sno='^' ^
+	</query>
+	<query code="selmisclassiactmaster">
+		select APP_NO from MIS_APPDISPLAYSCREEN where APP_NO='^' and APP_FACILITY_SNO='^' ^
+	</query>
+	<query code="selmisappclassification">
+		select app_no  from  mis_appclassification where app_no='^' ^
+	</query>
+	<query code="selmisappdisplayscreendetails">
+		select app_no from mis_appdisplayscreen where app_no='^' and app_facility_sno='^' ^
+	</query>
+	<query code="selBankschematiccode">
+		select app_no,prd_desc from applications,products where app_prdcode=prd_code and app_no='^' ^
+	</query>
+	<query code="selBankschematiccodecorp">
+		select  facility_appno from facilities,facility_corp where facility_code= com_facid and facility_appno='^' and facility_sno='^' ^
+	</query>
+	<query code="selcustomerdata">
+		select app_no from applications, perapplicant, per_demographics,individual_info
+		where app_no=demo_appno and app_no='^' and demo_type='a'  and demo_appid=perapp_id and perapp_id=indinfo_appid ^
+	</query>
+	<query code="selcustomerdatacorp">
+		select app_no from applications, perapplicant, com_demographics,individual_info
+		where app_no=demo_appno and app_no='^' and demo_comappnewid=perapp_id and perapp_id=indinfo_appid ^
+	</query>
+	<query code="sel_securities">
+		select app_sec_appno from  app_securitydetails where APP_SEC_LOANTYPE='P' and app_sec_appno='^' and app_sec_facsno='^' ^ and app_sec_secid in (select cus_sec_id from cus_securities where CUS_SEC_ID=app_sec_secid and ^)
+	</query>
+	<query code="seltotliability">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A') group by a.app_no, a.app_valuesin
+	</query>
+
+	<query code="seltotliability1">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and (f.facility_status in ('op','ol','pa')or (f.facility_status='pr' and a.app_autorej='Y')) and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A') ^ group by a.app_no, a.app_valuesin
+	</query>
+	<query code="seltotagriliability_agri1">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and (f.facility_status in ('op','ol','pa')or (f.facility_status='pr' and a.app_autorej='Y')) and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A')
+        and f.facility_appno in (select  app_no from mis_appclassification 
+        where app_subsector in (^) ^ and app_facility_sno = f.facility_sno)
+        and f.facility_code  in (select com_facid from facility_corp where  com_factype='F')
+        group by a.app_no, a.app_valuesin
+	</query>
+	<query code="seltotagriliability_agri">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A')
+        and f.facility_appno in (select  app_no from mis_appclassification 
+        where app_subsector in (^) ^ and app_facility_sno = f.facility_sno)
+        and f.facility_code  in (select com_facid from facility_corp where  com_factype='F')
+        group by a.app_no, a.app_valuesin
+	</query>
+	<query code="seltotagriliability_serv">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A')
+        and f.facility_appno in (select  app_no from mis_appclassification 
+        where app_agriculture in (^) ^ and app_facility_sno = f.facility_sno)
+        and f.facility_code  in (select com_facid from facility_corp where  com_factype='F')
+        group by a.app_no, a.app_valuesin 
+	</query>
+	<query code="seltotagriliability_serv1">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and (f.facility_status in ('op','ol','pa')or (f.facility_status='pr' and a.app_autorej='Y')) and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A')
+        and f.facility_appno in (select  app_no from mis_appclassification 
+        where app_agriculture in (^) ^ and app_facility_sno = f.facility_sno)
+        and f.facility_code  in (select com_facid from facility_corp where  com_factype='F')
+        group by a.app_no, a.app_valuesin 
+	</query>
+	<query code="sel_ClassiActivityLimit_CorpAgri">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A')
+        and f.facility_appno in (select  app_no from MIS_APPDETAILS 
+        where APP_ACTIVITYCODE in (^) and app_facility_sno = f.facility_sno)
+        and f.facility_code  in (select com_facid from facility_corp where  com_factype='F')
+        group by a.app_no, a.app_valuesin
+	</query>
+	<query code="sel_incomeret">
+		select  pa.perapp_employment ,  pe.perinc_takehome ,pe.perinc_year1_income 
+		from  applications A ,  per_demographics PD,
+		perapplicant PA , perincexpenses PE where  A.app_no=PD.demo_appno
+		and PD.demo_type='a' and PD.demo_appid=PA.perapp_id 
+		and PA.perapp_id=PE.perinc_id and A.app_no='^'
+	</query>
+	<query code="sel_Incomecorp">
+		select PA.perapp_employment ,  PE.perinc_takehome ,PE.perinc_year1_income  
+		from applications A ,  com_demographics CD ,perapplicant PA , perincexpenses PE
+		where A.app_no=CD.demo_appno and CD.demo_comappid=PA.perapp_id
+		and PA.perapp_id=PE.perinc_id and A.app_no='^'
+	</query>
+	<query code="selSHGbeneficiaries">
+		select nvl(PERAPP_SHGMEMBER,1) as members from com_demographics,PERAPP_SHGDETAILS 
+		where demo_comappnewid=perapp_id and demo_appno='^'
+	</query>
+	<query code="sel_infracredittype_subsector">
+		select MIS_SUBSECTOR from MIS_MASTER where MIS_TYPE='^' and MIS_ACTIVITYCODE='^' and MIS_ACTIVITYSNO='^'
+	</query>
+	
+	<query code="upd_agrservlimit">
+		update MIS_APPDETAILS set APP_TOTLIMAGRI=?,APP_TOTLIMSER=? where APP_NO=? and APP_FACILITY_SNO=?
+	</query>
+	
+	<query code="upd_agrservlimit1">
+		update MIS_APPDETAILS set APP_TOTLIM=?,APP_TOTLIMAGRI=?,APP_TOTLIMSER=?,APP_DISPSCREEN=? where APP_NO=? and APP_FACILITY_SNO=?
+	</query>
+	
+	<query code="upd_classiActivityList">
+		update MIS_APPDISPLAYSCREEN set APP_SOCIALINFRA=?,APP_AGRIANCIACTIVITY=?,APP_RENEWENERGY=?,APP_RENEWENERGY_INDV=?,APP_AGRIINFRA=? where APP_NO=? and APP_FACILITY_SNO=?
+	</query>
+	
+	<query code="sel_mngmntgendervalue">
+		select com_compdtappno from com_companydetails,perapplicant where perapp_id=com_compdtappid and com_compdtappno='^' and com_compdttype='SP' ^
+	</query>
+	
+	<query code="sel_landholdingMIS">
+		select sum(land_acreage) land_acreage,sum(land_irrigsize) land_irrigsize,sum(land_nonirriga) land_nonirriga,sum(land_cultivatable) land_cultivatable,
+		sum(land_noncultivatable) land_noncultivatable,land_farmercategory from agr_landholdings where land_appid='^' group by land_farmercategory
+	</query>
+	
+	<query code="sel_masteruserid_mis">
+		select USER_ID from MIS_USERS
+	</query>
+
+	<query code="sel_otherbankliab_MIS">
+		select sum(PERBANK_LIMIT) as PERBANK_LIMIT from PER_OTHERBANK where PERBANK_OLDID in (select perapp_oldid from perapplicant 
+		where perapp_id='^') and PERBANK_LOANPURPOSE='^' and PERBANK_DELETEFLAG is null
+	</query>
+
+	<query code="sel_costofconstruction"> 
+		select LOAN_APPNO from LOANDETAILS where LOAN_APPNO='^' ^
+	</query>
+
+	<query code="selGovtschemeDual"> 
+		select DUMMY from dual where ^ ^ ^
+	</query>
+
+	<query code="sel_sancamt_avail"> 
+		select FACILITY_SANCAMT as sancamt from FACILITIES where FACILITY_APPNO='^' and FACILITY_SNO='^'
+	</query>
+
+	<query code="sel_sancamtretail_avail"> 
+		select LOAN_RECMDAMT as sancamt from LOANDETAILS where LOAN_APPNO='^'
+	</query>
+
+	<query code="sel_ModeOfAdv_mastersno"> 
+		select MIS_MODEADV from MIS_MASTER ^
+	</query>
+	<query code="getmismasterdata_ps">
+		select mis_sno,mis_subsector,
+		mis_constitutioncode,mis_constitutionvalue,mis_loanamtcode,mis_loanamtvalue,
+		mis_loantenorcode,mis_loantenorvalue,mis_plantmaccode,mis_plantmacvalue,
+		mis_fixedassetcode,mis_fixedassetvalue, mis_hlcode,mis_hlvalue,
+		mis_branchlocationcode,mis_branchlocationvalue,mis_farmercode,mis_farmervalue,
+		mis_govtsposchcode,mis_govtsposchvalue,mis_shgcode,mis_shgvalue,
+		mis_bankschemecode,mis_bankschemevalue,mis_utilizationcode,mis_utilizationvalue,
+		mis_faminccode,mis_famincvalue,mis_totallimitcode,mis_totallimitvalue,
+		mis_totalservicelimitcode,mis_totalservicelimitvalue,mis_totalagrilimitcode,mis_totalagrilimitvalue,
+		mis_sectorcode,mis_sectorval,mis_staffcode,mis_staffval,mis_castecode,mis_castevalue,mis_gendercode,mis_gendervalue,
+		mis_irrigatedcode,mis_irrigatedvalue,mis_displayscreencode,mis_displayscreenvalue,
+		mis_securitytypecode,mis_securitytypevalue,mis_securitynamecode,mis_securitynamevalue,mis_sharebrokercode,
+		mis_sharebrokervalue,MIS_CRECODE,MIS_CREVALUE,MIS_MANAGEMENTGENDERCODE,MIS_MANAGEMENTGENDERVALUE,MIS_SOCIAL_INFRA_CODE,MIS_SOCIAL_INFRA_VALUE,
+		MIS_AGRI_ANCI_CODE,MIS_AGRI_ANCI_VALUE,MIS_RENEW_ENERGY_CODE,MIS_RENEW_ENERGY_VALUE,MIS_RENEW_ENERGY_INDV_CODE,MIS_RENEW_ENERGY_INDV_VALUE,
+		MIS_PHYS_CHALL_CODE,MIS_PHYS_CHALL_VALUE,MIS_AGRI_INFRA_CODE,MIS_AGRI_INFRA_VALUE,MIS_CONST_COST_CODE,MIS_CONST_COST_VALUE,MIS_SALESFROMVALUE,
+		MIS_SALESTOVALUE,MIS_MINORITY_CODE,MIS_MINORITY_VALUE,MIS_NONIND_MINORITY_CODE,MIS_NONIND_MINORITY_VALUE,MIS_START_UP_CODE,MIS_CARPET_AREA_CODE,MIS_CARPET_AREA_VALUE,MIS_FLOOR_AREA_CODE,MIS_FLOOR_AREA_VALUE
+		 ,MIS_INDIVIDUAL_HOUSE,MIS_SHG_PROPOSED_LOAN_CODE,MIS_SHG_PROPOSED_LOAN_VALUE,MIS_ALLIEDACTIVITY,MIS_DWELLING_CODE,MIS_DWELLING_VALUE from mis_master 
+		where mis_type='^' and mis_activitycode='^' and  mis_activitysno='^' and mis_show='E' and mis_psdatevalue=(select  max(mis_psdatevalue) 
+		from mis_master where mis_type='^' and mis_activitysno='^' and mis_activitycode='^' and mis_show='E' and mis_psdatevalue &lt;= to_date('^','dd/mm/yyyy') ) order by mis_sno
+	</query>
+	<query code="sel_mngmntgendervalue_retail">
+		select demo_appno from per_demographics,perapplicant where perapp_id=demo_appid and demo_appno='^' and demo_type='p' ^
+	</query>
+	<query code="sel_borrowertotallimitagr_agri_newprop">
+		select nvl(sum(loan_recmdamt),0) as totallimit from loandetails l, applications a, perapplicant p,
+		per_demographics d,mis_appclassification m where l.loan_appno=a.app_no and 
+		a.app_no=d.demo_appno and a.app_no=m.app_no and d.demo_appid=p.perapp_id and
+		p.perapp_oldid='^' and a.app_status in('op','pa')
+		and a.app_delflag='N' and d.demo_type='a' and APP_RENEW_STATUS is null
+		and m.app_facility_sno='1' and m.app_subsector in (^)
+	</query>
+	<query code="seltotagriliability_agri_newprop">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A')
+        and f.facility_appno in (select  app_no from mis_appclassification 
+        where app_subsector in (^)  and app_facility_sno = f.facility_sno)
+        and f.facility_code  in (select com_facid from facility_corp where  com_factype='F')
+        group by a.app_no, a.app_valuesin
+	</query>
+	<query code="sel_borrowertotallimitagr_serv_newprop">
+		select nvl(sum(loan_recmdamt),0) as totallimit from loandetails l, applications a, perapplicant p,
+		per_demographics d,mis_appclassification m where l.loan_appno=a.app_no and 
+		a.app_no=d.demo_appno and a.app_no=m.app_no and d.demo_appid=p.perapp_id and
+		p.perapp_oldid='^' and a.app_status in('op','pa')
+		and a.app_delflag='N' and d.demo_type='a' and APP_RENEW_STATUS is null
+		and m.app_facility_sno='1' and m.app_agriculture in (^) 
+	</query>
+	<query code="seltotagriliability_serv_newprop">
+		select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A')
+        and f.facility_appno in (select  app_no from mis_appclassification 
+        where app_agriculture in (^) and app_facility_sno = f.facility_sno)
+        and f.facility_code  in (select com_facid from facility_corp where  com_factype='F')
+        group by a.app_no, a.app_valuesin 
+	</query>
+	<query code="sel_retail_alliedactivity">
+	select sum(loan_recmdamt) as totallimit from loandetails l, applications a, perapplicant p, per_demographics d, MIS_ACTIVITY a,MIS_APPDETAILS m 
+		where l.loan_appno=a.app_no and a.app_no=d.demo_appno and d.demo_appid=p.perapp_id and
+		p.perapp_oldid='^' ^ and a.app_status in('op','pa') and a.app_delflag!='Y' and d.demo_type='a' and l.LOAN_APPNO=m.APP_NO and a.MIS_MAINACT='01'
+		 and a.MIS_SUBACTCODE in('11','12','13','14','15','18')
+ and m.APP_MAINACTIVITY=a.MIS_MAINACT and a.MIS_SUBACTCODE=m.APP_SUBACTIVITY  and p.PERAPP_CONSTITUTIONNEW='01' and APP_RENEW_STATUS is null
+	</query>
+		<query code="sel_corp_alliedactivity">
+ select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a, MIS_ACTIVITY ma,MIS_APPDETAILS m  where pa.perapp_id=cd.demo_comappid and perapp_oldid='^' and f.FACILITY_SNO='^' ^
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'  and ma.MIS_MAINACT='01' and ma.MIS_SUBACTCODE in('11','12','13','14','15','18')
+ and m.APP_MAINACTIVITY=ma.MIS_MAINACT and ma.MIS_SUBACTCODE=m.APP_SUBACTIVITY  and pa.PERAPP_CONSTITUTIONNEW='01' and m.APP_NO=f.FACILITY_APPNO and m.APP_FACILITY_SNO=f.FACILITY_SNO and  APP_RENEW_STATUS is null
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A') group by a.app_no, a.app_valuesin
+	</query>
+	<query code="sel_retail_alliedactivity_borrower">
+	select sum(loan_recmdamt) as totallimit from loandetails l, applications a, perapplicant p, per_demographics d, MIS_ACTIVITY a,MIS_APPDETAILS m 
+		where l.loan_appno=a.app_no and a.app_no=d.demo_appno and d.demo_appid=p.perapp_id and
+		p.perapp_oldid='^'  and a.app_status in('op','pa') and a.app_delflag!='Y' and d.demo_type='a' and l.LOAN_APPNO=m.APP_NO and a.MIS_MAINACT='01'
+		 and a.MIS_SUBACTCODE in('11','12','13','14','15','18')
+ and m.APP_MAINACTIVITY=a.MIS_MAINACT and a.MIS_SUBACTCODE=m.APP_SUBACTIVITY  and p.PERAPP_CONSTITUTIONNEW='01' and APP_RENEW_STATUS is null
+	</query>
+		<query code="sel_corp_alliedactivity_borrower">
+ select nvl(sum(
+		case 
+		when (a.app_valuesin='R') then nvl(sum(f.facility_sancamt),0)
+		when (a.app_valuesin='L') then (nvl(sum(f.facility_sancamt),0)*100000)
+		when (a.app_valuesin='C') then (nvl(sum(f.facility_sancamt),0)*10000000)
+		end),0) as totallimit
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a, MIS_ACTIVITY ma,MIS_APPDETAILS m  where pa.perapp_id=cd.demo_comappid and perapp_oldid='^' and f.FACILITY_SNO='^' 
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'  and ma.MIS_MAINACT='01' and ma.MIS_SUBACTCODE in('11','12','13','14','15','18')
+ and m.APP_MAINACTIVITY=ma.MIS_MAINACT and ma.MIS_SUBACTCODE=m.APP_SUBACTIVITY  and pa.PERAPP_CONSTITUTIONNEW='01' and m.APP_NO=f.FACILITY_APPNO and m.APP_FACILITY_SNO=f.FACILITY_SNO and  APP_RENEW_STATUS is null
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A') group by a.app_no, a.app_valuesin
+	</query>
+	<!--<query code="sel_existing_alliedchk_ret">
+	select a.app_no,p.perapp_id,a.MIS_SUBACTCODE from loandetails l, applications a, perapplicant p, per_demographics d, MIS_ACTIVITY a,MIS_APPDETAILS m 
+		where l.loan_appno=a.app_no and a.app_no=d.demo_appno and d.demo_appid=p.perapp_id and
+		p.perapp_oldid='^'  and a.app_status in('op','pa') and a.app_delflag!='Y' and d.demo_type='a' and l.LOAN_APPNO=m.APP_NO and a.MIS_MAINACT in('01','02')
+ and m.APP_MAINACTIVITY=a.MIS_MAINACT and a.MIS_SUBACTCODE=m.APP_SUBACTIVITY  and p.PERAPP_CONSTITUTIONNEW='01' and APP_RENEW_STATUS is null
+	</query>
+	--><query code="sel_existing_alliedchk_corp">
+	select a.app_no,pa.perapp_id ,ma.MIS_MAINACT as MIS_MAINACT
+		from facilities f , com_demographics cd , facility_corp fc,
+		perapplicant pa , applications a, MIS_ACTIVITY ma,MIS_APPDETAILS m  where pa.perapp_id=cd.demo_comappid and perapp_oldid='^'  
+		and f.facility_appno=a.app_no and a.app_status in ('pa','op') and f.FACILITY_STATUS in ('op','pa') and a.app_delflag='N' and f.facility_renew is null
+		and cd.demo_appno=a.app_no and fc.com_facid=f.facility_code and f.facility_group='0'  and ma.MIS_MAINACT in('01','02')
+ and m.APP_MAINACTIVITY=ma.MIS_MAINACT and ma.MIS_SUBACTCODE=m.APP_SUBACTIVITY  and pa.PERAPP_CONSTITUTIONNEW='01' and m.APP_NO=f.FACILITY_APPNO and m.APP_FACILITY_SNO=f.FACILITY_SNO and  APP_RENEW_STATUS is null
+		and (f.facility_sancstatus is null or f.facility_sancstatus='A') 
+	</query>
+	<query code="sel_shgcount">
+		select count(*) as shgcount from COM_DEMOGRAPHICS,PERAPP_SHGMEMBERS where DEMO_COMAPPNEWID=SHG_ID and DEMO_APPNO='^' order by to_number(SHG_MEM_SNO)
+	</query>
+	<query code="sel_shgIncomecorp">
+		select PA.perapp_employment ,  PE.perinc_takehome ,PE.perinc_year1_income  
+		from applications A ,  com_demographics CD ,perapplicant PA , perincexpenses PE
+		where A.app_no=CD.demo_appno and CD.demo_comappid=PA.perapp_id
+		and PA.perapp_id=PE.perinc_id and A.app_no='^' and PA.perapp_id='^'
+	</query>
+	<query code="sel_activitydescription">
+	select ACT_DISPLAYSCREEN from MIS_ACTIVITYCODE where ACT_ACTIVITYCODE='^'
+	</query>
+	<query code="sel_salesdet">
+	select APP_SALETURNOVER,to_char(APP_SALESTURNOVER_DATE,'dd/mm/yyyy') as APP_SALESTURNOVER_DATE,APP_CRITERIA_SALESTURNOVER, to_char(MSME_RECLASSIF_DATE,'dd/mm/yyyy') as  MSME_RECLASSIF_DATE,to_char(MSME_RECLASSIF_VERIFIEDON,'dd/mm/yyyy') as  MSME_RECLASSIF_VERIFIEDON, to_char(APP_INVESTMENT_DATE,'dd/mm/yyyy') as  APP_INVESTMENT_DATE,APP_CRITERIA_INVESTMENT from  mis_appdisplayscreen where APP_NO='^' and APP_FACILITY_SNO='^'
+	</query>
+	<query code="upd_misappdetailsclass">
+		update MIS_APPDETAILS set APP_MISDATE=to_date(?,'dd/mm/yyyy HH24:MI:SS'),MIS_IND_MINORITY=?,MIS_IND_RELIGION=?,MIS_NONIND_MINORITY_COMMUNITY=?,MIS_NONIND_RELIGION=? where APP_NO=? and APP_FACILITY_SNO=?
+	</query>
+	<query code="upd_misapp_classification">
+		update mis_appclassification set APP_AGRICULTURE=?,APP_SECTOR=?,APP_SUBSECTOR=?,APP_SENSITIVESECTOR=?,APP_WEAKERSEC=?,APP_TWENTYPOINTPGM=?,APP_INFRASTRCODE=?,APP_GOVTANNOUNCESCHEME=?,APP_MISMASTER_SNO=?,APP_STANDUP_INDIA=? where APP_NO=? and APP_FACILITY_SNO=?
+	</query>
+	<query code="sel_weakersection_det">
+	select  MIS_IND_MINORITY,MIS_IND_RELIGION,MIS_NONIND_MINORITY_COMMUNITY,MIS_NONIND_RELIGION from MIS_APPDETAILS where APP_NO='^' and APP_FACILITY_SNO='^'
+	</query>
+	
+	<query code="sel_retail_msmedetails">
+	SELECT LOAN_RECMDAMT AS AMOUNT,PRD_DESC,APP_STATUS, to_char(APP_PROCESSDATE,'dd/mm/yyyy') as APP_PROCESSDATE FROM APPLICATIONS B,PRODUCTS P,LOANDETAILS L
+    WHERE B.APP_NO=L.LOAN_APPNO AND B.APP_PRDCODE=P.PRD_CODE AND B.APP_NO='^'
+    </query>
+	<query code="sel_corp_msmedetails">
+	SELECT F.FACILITY_SANCAMT AS AMOUNT, STAT_DATA_DESC1 AS PRD_DESC,APP_STATUS,to_char(APP_PROCESSDATE,'dd/mm/yyyy') as APP_PROCESSDATE  FROM APPLICATIONS A,STATIC_DATA SD ,
+    FACILITIES F WHERE SD.STAT_DATA_ID='180' and F.FACILITY_APPNO='^' and F.FACILITY_SNO='^'  AND FACILITY_DISPLAYDESC=STAT_DATA_DESC and F.FACILITY_APPNO=a.APP_NO
+   </query>
+    <query code="sel_msmeproposalall">
+	SELECT MSME_PROPOSALNO as ProposalNo,MSME_FACSNO as FacilitySlNo,MSME_FACILITYNAME as FacilityName,
+	MSME_SANCAMT as Amount,APP_ACTIVITYCODE_OLD as ActivityCode,MSME_EQUIPMENTVALOLD as EquipmentValue,
+    case MSME_APPSTATUS when 'op' then
+	'Open/Pending' when 'pa' then 'Processed/Approved' when 'ol' then 'Open/Lodged'  when 'pr' then 'Processed/Rejected'
+	when 'ca' then 'Closed/Approved'  when 'cr' then 'Closed/Rejected'  else '' end as 
+    StatusOfFacility,APP_AGRICULTURE_OLD as APP_AGRICULTURE ,
+	MSME_PLANTVALOLD as APP_PLANTVAL,APP_SECTOR_OLD as app_sector,APP_STANDUP_INDIA_OLD as APP_STANDUP_INDIA,APP_GOVTANNOUNCESCHEME_OLD as APP_GOVTANNOUNCESCHEME,to_char(MSME_APPPROCESSEDDATE,'dd/mm/yyyy') as APP_PROCESSDATE
+    from msme_proposalupdate where MSME_APPNO='^' order by to_date( APP_PROCESSDATE, 'dd/mm/yyyy')
+    </query>
+    <query code="getloandisbranch">
+    select distinct (ma.APP_NO) as ProposalNo,ma.APP_FACILITY_SNO as FacilitySlNo from APPLICATIONS a,MIS_APPDETAILS ma,MIS_APPDISPLAYSCREEN md,mis_appclassification mc,com_DEMOGRAPHICS pd,PERAPPLICANT p,ORGANISATIONS o,FACILITIES f,
+	static_data sd , PER_CUSCBSACCOUNTDATA CUS where ma.APP_NO=md.APP_NO and ma.APP_FACILITY_SNO=md.APP_FACILITY_SNO and	a.APP_NO=md.APP_NO and md.APP_NO=pd.DEMO_APPNO
+	and pd.DEMO_COMAPPNEWID=p.PERAPP_ID and o.ORG_CODE=a.APP_ORGCODE  and ma.APP_FACILITY_SNO=f.FACILITY_SNO and ma.app_facility_sno=mc.app_facility_sno and
+	 mc.app_no=md.app_no and ma.APP_NO=f.FACILITY_APPNO and p.PERAPP_CBSID='^' and nvl(app_delflag,'N')='N'
+	 and (facility_status in ('op','ol','pa')or (facility_status='pr' and app_autorej='Y'))  and sd.stat_data_id='180' and facility_displaydesc=STAT_DATA_DESC  and app_agriculture in ('7','8','9','10','11','12','13','14','15','18','19','20','21','22','23','24','25','26','27','28','29')  and CUS.LOANDISBBRANCH ='^' and CUS.appno=a.APP_NO and f.FACILITY_SNO=cus.FACILITY_SNO
+union 
+	 select distinct(b.APP_NO) as ProposalNo,ma.APP_FACILITY_SNO as FacilitySlNo from applications b,per_demographics pd,loandetails l,MIS_APPDETAILS ma,MIS_APPDISPLAYSCREEN md,MIS_APPCLASSIFICATION mc,
+	 products p, PERAPPLICANT pr,PER_CUSCBSACCOUNTDATA CUS where b.APP_NO=pd.DEMO_APPNO
+     and b.APP_NO=l.LOAN_APPNO and ma.APP_NO=b.APP_NO and md.APP_NO=b.APP_NO and mc.APP_NO=b.APP_NO and b.APP_PRDCODE=p.PRD_CODE and 
+     pr.PERAPP_ID=pd.DEMO_APPID and pr.PERAPP_CBSID ='^'  and nvl(app_delflag,'N')='N' and
+      (app_status in ('op','ol','pa') or (app_status='pr' and app_autorej='Y')) 
+     and app_agriculture in ('7','8','9','10','11','12','13','14','15','18','19','20','21','22','23','24','25','26','27','28','29') and CUS.LOANDISBBRANCH ='^' and CUS.appno=b.APP_NO
+     </query>
+	<query code="upd_perappmsme">
+	update MSME_APPDETAILS set MSME_PERAPPID=?
+      where MSME_APPNO=?
+	</query>
+	<query code="getuser_det">
+	select U.usr_fname||' '||U.usr_mname||' '||U.usr_lname as user_name, U.USR_DEPARTMENT,O.ORG_NAME from USERS U,ORGANISATIONS O where  U.USR_ORGCODE=O.ORG_CODE and U.USR_ID='^'
+
+	</query>
+	<query code="sel_processApplmsmenewid">
+		select MSME_APPNO from msme_appdetails where MSME_APPSTATUS in ('pa') and MSME_PERAPPID='^'
+	</query>
+	<query code="sel_misappdis_plantval">
+		select app_plantval from mis_appdisplayscreen where app_no='^' and APP_PLANTVAL != '0'
+	</query>
+</sql>

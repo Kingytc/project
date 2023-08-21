@@ -1,0 +1,18 @@
+.txtstyle {  font-family: "MS Sans Serif"; font-size: 9px; color: #000066; border-style: groove}
+input {  font-family: "MS Sans Serif"; font-size: 9px; color: #003399; border-style: groove}
+
+.fontcolor
+{ 
+	font-family: "MS Sans Serif"; 
+	font-size: 75%; 
+	color: brown;  
+	text-decoration: none
+}
+
+.fontcolor1
+{ 
+	font-family: "MS Sans Serif"; 
+	font-size: 75%; 
+	color:#003399; 
+	text-decoration: none
+}

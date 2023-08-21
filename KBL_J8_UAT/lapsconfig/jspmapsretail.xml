@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JSPMaps>
+	<!-- Start of Retail Customer Profile Pages -->
+	<MapJsp Page="mastersearchper.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="searchresults.jsp" Path="/jsp/set/"></MapJsp>
+
+	<MapJsp Page="perapplicant.jsp" Path="/jsp/set/" PageId="perdemo"></MapJsp>
+	<MapJsp Page="perincexpenses.jsp" BeanId="mastapplicant" Path="/jsp/set/" PageId="pincexp"></MapJsp>
+	<MapJsp Page="peremployer.jsp" BeanId="mastapplicant" Path="/jsp/set/" PageId="pempdet"></MapJsp>
+
+	<MapJsp Page="setphoto.jsp" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="perreferences.jsp" Path="/jsp/per/" PageId="prefdet"></MapJsp>
+	<MapJsp Page="perdirectors.jsp" Path="/jsp/per/" PageId="pdirdet"></MapJsp>
+	<MapJsp Page="nridetails.jsp" Path="/jsp/set/" PageId="retnridt"></MapJsp>
+	<!-- End of Retail Customer Profile Pages -->
+	
+	<!-- Start of Retail Application JSPs -->
+	<MapJsp Page="perborrowersearch.jsp" BeanId="perborrowersearch" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perborrowerresult.jsp" BeanId="perborrowersearch" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="persearch.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perresult.jsp" BeanId="perborrowersearch" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="branchdet.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perloandetails.jsp" Path="/jsp/per/" PageId="perloan"></MapJsp>
+	<MapJsp Page="ladloandetails.jsp" Path="/jsp/per/" PageId="ladloan"></MapJsp>
+	<MapJsp Page="productslisthelp.jsp" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="amortization.jsp" BeanId="perapplicant" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="repaymentschedule.jsp" BeanId="perapplicant" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="equalinstallments.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="slabrateChart.jsp" BeanId="perapplicant" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="iframeperinteresttype.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="iframedocfee.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="iframestaffservice.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="iframemonthinstallment.jsp" BeanId="perapplicant" Path="/jsp/per/"></MapJsp>
+	
+	<MapJsp Page="perapplicantdisp.jsp" BeanId="mastapplicant" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="peremployerdisp.jsp" BeanId="mastapplicant" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perincexpensesdisp.jsp" BeanId="mastapplicant" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="percoappguarantor.jsp" Path="/jsp/per/" PageId="percoapp"></MapJsp>
+	<MapJsp Page="perapplicantidhelp.jsp" Path="/jsp/share/"></MapJsp>
+	
+	<MapJsp Page="perpropertydetails.jsp" BeanId="perpropertydetails" Path="/jsp/per/" PageId="perprope"></MapJsp>
+	<MapJsp Page="disburdetails.jsp" Path="/jsp/per/" PageId="disbdet"></MapJsp>
+	<MapJsp Page="propgeninfo.jsp" Path="/jsp/set/" PageId="pergenin"></MapJsp>
+	<MapJsp Page="per_takeover.jsp" Path="/jsp/per/" PageId="pertakeo"></MapJsp>
+	
+	<MapJsp Page="perappvehicle.jsp" BeanId="percollateral" Path="/jsp/per/" PageId="pervehi"></MapJsp>
+	<MapJsp Page="operationalviability.jsp" Path="/jsp/per/" PageId="opervia"></MapJsp>
+	
+	<MapJsp Page="otherassets.jsp" Path="/jsp/per/" PageId="otherast"></MapJsp>
+	
+	<MapJsp Page="perverificationdetails.jsp" Path="/jsp/per/" PageId="perverfi"></MapJsp>
+	
+	<MapJsp Page="legal_opinion.jsp" PageId="legalopi" Path="/jsp/per/"></MapJsp>
+	
+	<MapJsp Page="valuation_entry.jsp" Path="/jsp/per/" PageId="pervaley"></MapJsp>
+	
+	<MapJsp Page="persecurities.jsp" Path="/jsp/per/"></MapJsp>
+	
+	<MapJsp Page="loanagainstdep.jsp" Path="/jsp/per/" PageId="deposits"></MapJsp>
+	<MapJsp Page="per_renewal_details.jsp" Path="/jsp/per/"></MapJsp>
+	
+	<MapJsp Page="agr_goldloan.jsp" Path="/jsp/per/" PageId="goldloan"></MapJsp>
+	
+	<MapJsp Page="edustudent.jsp" Path="/jsp/per/" PageId="studpart"></MapJsp>
+	<MapJsp Page="iframestudpart.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="edueducational.jsp" Path="/jsp/per/" PageId="edudet"></MapJsp>
+	<MapJsp Page="iframeedueducational.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="eduscholarship.jsp" Path="/jsp/per/" PageId="edusch"></MapJsp>
+	<MapJsp Page="iframeeduscholarship.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="eduparticulars.jsp" Path="/jsp/per/" PageId="courpart"></MapJsp>
+	<MapJsp Page="educourse.jsp" Path="/jsp/per/" PageId="eduIE"></MapJsp>
+	
+	<MapJsp Page="perapplicantdispco.jsp" BeanId="mastapplicant" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="peremployerdispco.jsp" BeanId="mastapplicant" Path="/jsp/per/" PageId="perempdi"></MapJsp>
+	<MapJsp Page="perincexpensesdispco.jsp" BeanId="mastapplicant" Path="/jsp/per/"></MapJsp>
+	
+	<MapJsp Page="perfinancialinvst.jsp" BeanId="perfinancial" Path="/jsp/per/" PageId="perbnkac"></MapJsp>
+	<MapJsp Page="perfinancialinspol.jsp" BeanId="perfinancial" Path="/jsp/per/" PageId="perinsur"></MapJsp>
+	<MapJsp Page="perfinancialliab.jsp" BeanId="perfinancial" Path="/jsp/per/" PageId="perliab"></MapJsp>
+	<MapJsp Page="perlifestyle.jsp" BeanId="perlifestyle" Path="/jsp/per/" PageId="perlife"></MapJsp>
+	
+	<MapJsp Page="percollateralhome.jsp" BeanId="percollateral" Path="/jsp/per/" PageId="pcolhome"></MapJsp>
+	<MapJsp Page="percollateralcar.jsp" Path="/jsp/per/" PageId="pcolveh"></MapJsp>
+	<MapJsp Page="collotherassets.jsp" Path="/jsp/per/" PageId="pcolaset"></MapJsp>
+	
+	<MapJsp Page="appdocumentsappl.jsp" BeanId="commdocument" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="appdocumentsinter.jsp" BeanId="commdocument" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="apprules.jsp" BeanId="commdocument" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="appdoclist.jsp" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="appdocscan.jsp" BeanId="commdocument" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="docscanpreview.jsp" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="printpdfviewdocument.jsp" BeanId="commdocument" Path="/jsp/share/"></MapJsp>
+	
+	<MapJsp Page="loandetails.jsp" BeanId="appraisal" Path="/jsp/share/" PageId="loandeta"></MapJsp>
+	<MapJsp Page="iframeeligibility.jsp" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="incomeexpenses.jsp" BeanId="appraisal" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="experienceservices.jsp" BeanId="appraisal" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="confidentialopinion.jsp" BeanId="appraisal" Path="/jsp/share/"></MapJsp>
+	<MapJsp Page="presanctionvisit.jsp" Path="/jsp/per/" PageId="insrep"></MapJsp>
+	<MapJsp Page="presanction_print.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="Duediligence1.jsp" BeanId="lapsReport" Path="/jsp/print/" PageId="duerep"></MapJsp>
+	<MapJsp Page="Duediligence2.jsp" Path="/jsp/print/"></MapJsp>
+	<MapJsp Page="Duediligence3.jsp" Path="/jsp/print/"></MapJsp>
+	<MapJsp Page="Duediligence_print.jsp" Path="/jsp/print/"></MapJsp>
+	<MapJsp Page="creditreport1.jsp" Path="/jsp/share/" PageId="crdrep1"></MapJsp>
+	<MapJsp Page="creditreport2.jsp" Path="/jsp/share/" PageId="crdrep2"></MapJsp>
+	<MapJsp Page="apptermsandcond.jsp" Path="/jsp/share/" PageId="termscon"></MapJsp>
+	<MapJsp Page="appraisalconfirm.jsp" BeanId="appraisal" Path="/jsp/share/" PageId="appconf"></MapJsp>
+	<!-- End of Retail Application JSPs -->
+	
+	<!-- Start of Corporate Application JSPs -->
+	<MapJsp Page="comborrowersearch.jsp" BeanId="borrowersearch" Path="/jsp/com/"></MapJsp>
+	<MapJsp Page="comborrowerresult.jsp" BeanId="borrowersearch" Path="/jsp/com/"></MapJsp>
+	<!-- End of Corporate Application JSPs -->
+	
+	<MapJsp Page="perrepappproduct.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perrepprddisposal.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perunappproduct.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perunappdisposal.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perkycnormsdisp.jsp" Path="/jsp/per/" PageId="perkeynm"></MapJsp>
+
+	<MapJsp Page="iframestate.jsp" Path="/jsp/per/"></MapJsp>
+	
+	<!-- Added By Zahoorunnisa.S to change the product even after application created -->
+	<MapJsp Page="productslistafterapp.jsp" Path="/jsp/share/"></MapJsp>
+	<!-- End -->
+	<!-- SP.RAMANATHAN @ 09-APR-2013 -->
+	<MapJsp Page="per_assessment_repayment_capacity.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="per_vehicle_assessment.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="per_common_assessment.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="per_house_proposed_asset.jsp" Path="/jsp/per/" PageId="hpaloan"></MapJsp>
+	<!-- End -->
+	<!-- Venkata Prasad Chowdary on 17-APR-2013 -->
+	<MapJsp Page="customerRating.jsp" Path="/jsp/set/" PageId="perrate"></MapJsp>
+	<MapJsp Page="customerDefaulter.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="persource_of_margin.jsp" Path="/jsp/per/" PageId="permarg"></MapJsp>
+	<MapJsp Page="customer_securities.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="ifrmsecurityclassification.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="iframeupdatefarmbudget.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="ifrmonclickgrid.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="valuersname.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="addjointsecurities.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="addjointsecurities_applicantsearch.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="perloan_preapplicationhistroy.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="applicationsearch.jsp" Path="/jsp/per/"></MapJsp>	
+	<MapJsp Page="iframepermargincalc.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="perrating.jsp" Path="/jsp/per/"></MapJsp>
+	<MapJsp Page="Per_leaseperiod.jsp" Path="/jsp/per/"></MapJsp>
+	
+	<!-- Added By tharani for Retail Repayment schedule non emi page created -->
+		<MapJsp Page="per_RepaymentSchedulenonemi.jsp" Path="/jsp/per/"></MapJsp>
+		<!-- End -->
+		<!-- Added By punitha for insta cash -->
+		<MapJsp Page="per_instacash.jsp" Path="/jsp/per/"></MapJsp>
+		<MapJsp Page="per_dssassessment.jsp" Path="/jsp/per/"></MapJsp>
+		<!-- End -->
+	<MapJsp Page="financialsrchresults.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="peragriculturegold.jsp" Path="/jsp/per/"></MapJsp>
+	<!-- Added By Mohan for Excel Bulk Upload -->
+	<MapJsp Page="exceluploader.jsp" BeanId="excelfunction" Path="/jsp/per/"></MapJsp>
+	<!-- End -->
+	
+	<MapJsp Page ="nsdl_download.jsp" Path="/jsp/nsdl/"></MapJsp>
+	<MapJsp Page="iframeNSDLResponseUpload.jsp" Path="/jsp/nsdl/"></MapJsp>
+	<MapJsp Page="iframeNSDLreportView.jsp" Path="/jsp/nsdl/"></MapJsp>
+	<MapJsp Page="appqueryhome.jsp" Path="/jsp/share/" PageId="queries"></MapJsp>
+	<MapJsp Page="ifrmcersaiIDcheckduplicate.jsp" Path="/jsp/set/"></MapJsp>
+	
+	<MapJsp Page="DOC_508A.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_951A.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_959K.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_959L.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_978C.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_978D.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_984F.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_984G.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_987A.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_1026A.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_1034B.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_1034C.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_1603B.jsp" Path="/jsp/doc/"></MapJsp>
+	<MapJsp Page="DOC_1603C.jsp" Path="/jsp/doc/"></MapJsp>
+</JSPMaps>

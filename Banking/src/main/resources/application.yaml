@@ -1,0 +1,11 @@
+spring:
+  profiles: development
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+
+

@@ -1,0 +1,648 @@
+//Changes for Hiding/Showing fields based on MIS Classification Type
+function displayFields()
+{
+	
+	if(document.forms[0].sel_classtype.value=="01")
+	{
+		showLoanAmount("show");
+		showLoanTenor("show");
+		showPlanMachinery("show");
+		showFamilyIncome("show");
+		showFixedValue("show");
+		showHLValue("show");
+		showSHGValue("show");
+		showIrrigatedValue("hide");
+		showTotalLimit("show");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("show");
+		showTotalLimitService("show");
+		showBranchArea("show");
+		showSecurityType("hide");
+		showUtilizationCredit("show");
+		showConstitution("show");
+		showCaste("hide");
+		showFarmerCategory("show");
+		showDisplayScreen("hide");
+		showGender("hide");
+		showManagementGender("hide");
+		showGovtSponserScheme("show");
+		showSecurityValue("hide");
+		showBankScheme("show");
+		showSanctionDate("hide");
+		showSector("hide");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("show");
+		showAgriAnci("show");
+		showRenewEnergy("show");
+		showRenewEnergyIndv("show");
+		showPhysicalChallenge("hide");
+		showCostConstruction("show");
+		showAgriInfra("show");
+		showSlesTurnoverValue("show");
+		showminority("hide");
+		showprioritysector("show");
+		showprioritychanges("hide");
+		showdrillingchanges("show");
+	}
+	else if(document.forms[0].sel_classtype.value=="02")
+	{
+		showLoanAmount("hide");
+		showLoanTenor("hide");
+		showPlanMachinery("show");
+		showFamilyIncome("hide");
+		showFixedValue("show");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("hide");
+		showTotalLimit("hide");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("hide");
+		showSecurityType("hide");
+		showUtilizationCredit("hide");
+		showConstitution("hide");
+		showCaste("hide");
+		showFarmerCategory("hide");
+		showDisplayScreen("hide");
+		showGender("hide");
+		showManagementGender("hide");
+		showGovtSponserScheme("hide");
+		showSecurityValue("hide");
+		showBankScheme("hide");
+		showSanctionDate("hide");
+		showSector("hide");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("hide");
+		showCostConstruction("hide");
+		showAgriInfra("hide");
+		showSlesTurnoverValue("show");
+		showminority("hide");
+		showprioritysector("show");
+		showprioritychanges("hide");
+		showdrillingchanges("hide");
+	}
+	else if(document.forms[0].sel_classtype.value=="03")
+	{
+		showLoanAmount("hide");
+		showLoanTenor("hide");
+		showPlanMachinery("show");
+		showFamilyIncome("hide");
+		showFixedValue("show");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("hide");
+		showTotalLimit("hide");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("hide");
+		showSecurityType("hide");
+		showUtilizationCredit("hide");
+		showConstitution("show");
+		showCaste("hide");
+		showFarmerCategory("hide");
+		showDisplayScreen("show");
+		showGender("hide");
+		showManagementGender("hide");
+		showGovtSponserScheme("show");
+		showSecurityValue("hide");
+		showBankScheme("hide");
+		showSanctionDate("hide");
+		showSector("show");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("hide");
+		showCostConstruction("hide");
+		showAgriInfra("hide");
+		showSlesTurnoverValue("show");
+		showminority("hide");
+		showprioritysector("hide");
+		showprioritychanges("hide");
+		showdrillingchanges("hide");
+	}
+	else if(document.forms[0].sel_classtype.value=="04")
+	{
+		showLoanAmount("hide");
+		showLoanTenor("hide");
+		showPlanMachinery("hide");
+		showFamilyIncome("hide");
+		showFixedValue("hide");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("hide");
+		showTotalLimit("hide");
+		showShareBrokerValue("show");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("hide");
+		showSecurityType("show");
+		showUtilizationCredit("hide");
+		showConstitution("show");
+		showCaste("hide");
+		showFarmerCategory("hide");
+		showDisplayScreen("hide");
+		showGender("hide");
+		showManagementGender("hide");
+		showGovtSponserScheme("hide");
+		showSecurityValue("show");
+		showBankScheme("show");
+		showSanctionDate("hide");
+		showStaff("show");
+		showSector("hide");
+		showCRE("show");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("hide");
+		showCostConstruction("hide");
+		showAgriInfra("hide");
+		showSlesTurnoverValue("hide");
+		showminority("hide");
+		showprioritysector("hide");
+		showprioritychanges("hide");
+		showdrillingchanges("hide");
+	}
+	else if(document.forms[0].sel_classtype.value=="05")
+	{
+		showLoanAmount("show");
+		showLoanTenor("hide");
+		showPlanMachinery("show");
+		showFamilyIncome("hide");
+		showFixedValue("hide");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("show");
+		showTotalLimit("show");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("hide");
+		showSecurityType("hide");
+		showUtilizationCredit("hide");
+		showConstitution("show");
+		showCaste("show");
+		showFarmerCategory("show");
+		showDisplayScreen("show");
+		showGender("show");
+		showManagementGender("hide");
+		showGovtSponserScheme("show");
+		showSecurityValue("hide");
+		showBankScheme("hide");
+		showSanctionDate("hide");
+		showSector("hide");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("show");
+		showCostConstruction("hide");
+		showAgriInfra("hide");
+		showSlesTurnoverValue("hide");
+		showminority("show");
+		showprioritysector("hide");
+		showprioritychanges("show");
+		showdrillingchanges("hide");
+
+	}
+	else if(document.forms[0].sel_classtype.value=="06")
+	{
+		showLoanAmount("hide");
+		showLoanTenor("hide");
+		showPlanMachinery("hide");
+		showFamilyIncome("hide");
+		showFixedValue("hide");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("hide");
+		showTotalLimit("hide");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("show");
+		showSecurityType("hide");
+		showUtilizationCredit("hide");
+		showConstitution("show");
+		showCaste("show");
+		showFarmerCategory("show");
+		showDisplayScreen("hide");
+		showGender("show");
+		showManagementGender("show");
+		showGovtSponserScheme("show");
+		showSecurityValue("hide");
+		showBankScheme("hide");
+		showSanctionDate("hide");
+		showSector("hide");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("hide");
+		showCostConstruction("hide");
+		showAgriInfra("hide");
+		showSlesTurnoverValue("hide");
+		showminority("hide");
+		showprioritysector("hide");
+		showprioritychanges("hide");
+		showdrillingchanges("hide");
+	}
+	else if(document.forms[0].sel_classtype.value=="07")
+	{
+		showLoanAmount("hide");
+		showLoanTenor("hide");
+		showPlanMachinery("hide");
+		showFamilyIncome("hide");
+		showFixedValue("hide");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("hide");
+		showTotalLimit("hide");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("hide");
+		showSecurityType("hide");
+		showUtilizationCredit("hide");
+		showConstitution("hide");
+		showCaste("hide");
+		showFarmerCategory("hide");
+		showDisplayScreen("hide");
+		showGender("hide");
+		showManagementGender("hide");
+		showGovtSponserScheme("hide");
+		showSecurityValue("hide");
+		showBankScheme("hide");
+		showSanctionDate("hide");
+		showSector("hide");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("hide");
+		showCostConstruction("hide");
+		showAgriInfra("hide");
+		showSlesTurnoverValue("hide");
+		showminority("hide");
+		showprioritysector("hide");
+		showprioritychanges("hide");
+		showdrillingchanges("hide");
+
+	}
+	else if(document.forms[0].sel_classtype.value=="08")
+	{
+		showLoanAmount("show");
+		showLoanTenor("hide");
+		showPlanMachinery("show");
+		showFamilyIncome("hide");
+		showFixedValue("show");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("hide");
+		showTotalLimit("hide");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("hide");
+		showSecurityType("hide");
+		showUtilizationCredit("hide");
+		showConstitution("hide");
+		showCaste("hide");
+		showFarmerCategory("hide");
+		showDisplayScreen("hide");
+		showGender("hide");
+		showManagementGender("hide");
+		showGovtSponserScheme("hide");
+		showSecurityValue("hide");
+		showBankScheme("hide");
+		showSanctionDate("hide");
+		showSector("hide");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("hide");
+		showCostConstruction("hide");
+		showAgriInfra("hide");	
+		showSlesTurnoverValue("show");
+		showminority("hide");
+		showprioritysector("hide");
+		showprioritychanges("hide");
+		showdrillingchanges("hide");
+	}	
+	else
+	{
+		showLoanAmount("hide");
+		showLoanTenor("hide");
+		showPlanMachinery("hide");
+		showFamilyIncome("hide");
+		showFixedValue("hide");
+		showHLValue("hide");
+		showSHGValue("hide");
+		showIrrigatedValue("hide");
+		showTotalLimit("hide");
+		showShareBrokerValue("hide");
+		showTotalLimitAgri("hide");
+		showTotalLimitService("hide");
+		showBranchArea("hide");
+		showSecurityType("hide");
+		showUtilizationCredit("hide");
+		showConstitution("hide");
+		showCaste("hide");
+		showFarmerCategory("hide");
+		showDisplayScreen("hide");
+		showGender("hide");
+		showManagementGender("hide");
+		showGovtSponserScheme("hide");
+		showSecurityValue("hide");
+		showBankScheme("hide");
+		showSanctionDate("hide");
+		showSector("hide");
+		showStaff("hide");
+		showCRE("hide");
+		showSocialInfra("hide");
+		showAgriAnci("hide");
+		showRenewEnergy("hide");
+		showRenewEnergyIndv("hide");
+		showPhysicalChallenge("hide");
+		showCostConstruction("hide");
+		showAgriInfra("hide");	
+		showSlesTurnoverValue("hide");
+		showminority("hide");
+		showprioritysector("hide");
+		showprioritychanges("hide");
+		showdrillingchanges("hide");
+	}	
+	
+	if(document.forms[0].sel_classtype.value=="08")
+	{
+		document.getElementById("microunit").innerHTML = "Loan Amount (Micro units)";
+	}
+	else
+	{
+		document.getElementById("microunit").innerHTML = "Loan Amount";
+	}
+}
+function showLoanAmount(disp)
+{
+	showFields("lnamt1",disp);
+	showFields("lnamt2",disp);
+	showFields("lnamt3",disp);
+}
+function showLoanTenor(disp)
+{
+	showFields("lntnr1",disp);
+	showFields("lntnr2",disp);
+	showFields("lntnr3",disp);
+}
+function showPlanMachinery(disp)
+{
+	showFields("plant1",disp);
+	showFields("plant2",disp);
+	showFields("plant3",disp);
+}
+function showFamilyIncome(disp)
+{
+	showFields("fi1",disp);
+	showFields("fi2",disp);
+	showFields("fi3",disp);
+}
+function showFixedValue(disp)
+{
+	showFields("fdval1",disp);
+	showFields("fdval2",disp);
+	showFields("fdval3",disp);
+}
+function showHLValue(disp)
+{
+	showFields("hlval1",disp);
+	showFields("hlval2",disp);
+	showFields("hlval3",disp);
+}
+function showSHGValue(disp)
+{
+	showFields("shgval1",disp);
+	showFields("shgval2",disp);
+	showFields("shgval3",disp);
+}
+function showIrrigatedValue(disp)
+{
+	showFields("iv1",disp);
+	showFields("iv2",disp);
+	showFields("iv3",disp);
+}
+function showTotalLimit(disp)
+{
+	showFields("tl1",disp);
+	showFields("tl2",disp);
+	showFields("tl3",disp);
+}
+function showShareBrokerValue(disp)
+{
+	showFields("sbv1",disp);
+	showFields("sbv2",disp);
+	showFields("sbv3",disp);
+}
+function showTotalLimitAgri(disp)
+{
+	showFields("tlac1",disp);
+	showFields("tlac2",disp);
+	showFields("tlac3",disp);
+}
+function showTotalLimitService(disp)
+{
+	showFields("tlsc1",disp);
+	showFields("tlsc2",disp);
+	showFields("tlsc3",disp);
+}
+function showBranchArea(disp)
+{
+	showFields("ba1",disp);
+	showFields("ba2",disp);
+	showFields("ba3",disp);
+}
+function showSecurityType(disp)
+{
+	showFields("st1",disp);
+	showFields("st2",disp);
+	showFields("st3",disp);
+}
+function showUtilizationCredit(disp)
+{
+	showFields("uc1",disp);
+	showFields("uc2",disp);
+	showFields("uc3",disp);
+}
+function showConstitution(disp)
+{
+	showFields("cons1",disp);
+	showFields("cons2",disp);
+	showFields("cons3",disp);
+}
+function showCaste(disp)
+{
+	showFields("ct1",disp);
+	showFields("ct2",disp);
+	showFields("ct3",disp);
+}
+function showFarmerCategory(disp)
+{
+	showFields("fc1",disp);
+	showFields("fc2",disp);
+	showFields("fc3",disp);
+}
+function showDisplayScreen(disp)
+{
+	showFields("ds1",disp);
+	showFields("ds2",disp);
+	showFields("ds3",disp);
+}
+function showGender(disp)
+{
+	showFields("gen1",disp);
+	showFields("gen2",disp);
+	showFields("gen3",disp);
+}
+function showManagementGender(disp)
+{
+	showFields("mg1",disp);
+	showFields("mg2",disp);
+	showFields("mg3",disp);
+}
+function showGovtSponserScheme(disp)
+{
+	showFields("gss1",disp);
+	showFields("gss2",disp);
+	showFields("gss3",disp);
+}
+function showSecurityValue(disp)
+{
+	showFields("sv1",disp);
+	showFields("sv2",disp);
+	showFields("sv3",disp);
+}
+function showBankScheme(disp)
+{
+	showFields("bsc1",disp);
+	showFields("bsc2",disp);
+	showFields("bsc3",disp);
+}
+function showSanctionDate(disp)
+{
+	showFields("sd1",disp);
+	showFields("sd2",disp);
+	showFields("sd3",disp);
+}
+function showCRE(disp)
+{
+	showFields("cre1",disp);
+	showFields("cre2",disp);
+	showFields("cre3",disp);
+}
+function showSocialInfra(disp)
+{
+	showFields("socInfra1",disp);
+	showFields("socInfra2",disp);
+	showFields("socInfra3",disp);
+}
+function showAgriAnci(disp)
+{
+	showFields("agrianci1",disp);
+	showFields("agrianci2",disp);
+	showFields("agrianci3",disp);
+}
+function showRenewEnergy(disp)
+{
+	showFields("renew1",disp);
+	showFields("renew2",disp);
+	showFields("renew3",disp);
+}
+function showRenewEnergyIndv(disp)
+{
+	showFields("renewIndv1",disp);
+	showFields("renewIndv2",disp);
+	showFields("renewIndv3",disp);
+}
+function showStaff(disp)
+{
+	showFields("staff1",disp);	
+	showFields("staff2",disp);	
+	showFields("staff3",disp);	
+}
+function showPhysicalChallenge(disp)
+{
+	showFields("physical1",disp);	
+	showFields("physical2",disp);	
+	showFields("physical3",disp);	
+}
+function showCostConstruction(disp)
+{
+	showFields("conscost1",disp);	
+	showFields("conscost2",disp);	
+	showFields("conscost3",disp);	
+}
+function showAgriInfra(disp)
+{
+	showFields("agriinfra1",disp);	
+	showFields("agriinfra2",disp);	
+	showFields("agriinfra3",disp);	
+}
+function showSlesTurnoverValue(disp)
+{
+	showFields("sales1",disp);
+	showFields("sales2",disp);
+	showFields("sales3",disp);
+}
+function showminority(disp)
+{
+	showFields("minority",disp);
+	showFields("minority1",disp);
+
+}
+function showprioritysector(disp)
+{
+	showFields("priority_id1",disp);
+	showFields("priority_id2",disp);
+	showFields("priority_id3",disp);
+}
+function showprioritychanges(disp){
+	showFields("priority_id4",disp);
+}
+function showdrillingchanges(disp){
+	showFields("id_drilling",disp);
+}
+function showFields(val,disp)
+{
+	if(disp=="show")
+	{
+		document.getElementById(val).style.display="table-cell";
+	}
+	else
+	{
+		document.getElementById(val).style.display="none";
+	}
+}
+
+function showSector(disp)
+{
+	showFields("sector",disp);	
+}
+

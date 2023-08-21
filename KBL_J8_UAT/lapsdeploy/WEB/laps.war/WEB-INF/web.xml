@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	      http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	      version="2.5">
+  <display-name>lapsWeb</display-name>
+	
+	<context-param>
+		<param-name>PROPERTIESFILENAME</param-name>	
+		<param-value>LAPSProperties.xml</param-value>
+	</context-param>	
+	
+	<context-param>
+		<param-name>JRXML</param-name>	
+		<param-value>classic1.jrxml</param-value>
+	</context-param>	
+	
+	<context-param>
+		<param-name>XMLFACTORY</param-name>
+		<param-value>com.sun.xml.parser.DocumentBuilderFactoryImpl</param-value>
+	</context-param>
+ 			
+	<context-param>
+		<param-name>APPHOME</param-name>
+		<param-value>jboss.home.dir</param-value> 
+	</context-param>
+	
+	<context-param>
+		<param-name>WASAPPHOME</param-name>
+		<param-value>app.home.dir</param-value> 
+	</context-param>	
+		
+	<context-param> 
+		<param-name>LAPSHOME</param-name> 
+		<param-value>lapshome</param-value> 
+	</context-param> 
+	
+	<context-param> 
+		<param-name>LAPSCONFIG</param-name> 
+		<param-value>lapsconfig</param-value> 
+	</context-param> 
+	<context-param>
+		<param-name>PDFFILENAME</param-name>
+		<param-value>pdf.xml</param-value>
+	</context-param>
+	
+	 <filter>
+	<filter-name>WebServicesFilterHandler</filter-name>
+	<filter-class>com.sai.laps.filter.WebServicesFilterHandler</filter-class>
+	</filter>
+	
+	<servlet>
+		<servlet-name>controller</servlet-name>
+		<servlet-class>com.sai.laps.helper.ControllerServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>pdfcontroller</servlet-name>
+		<servlet-class>com.sai.laps.helper.controllers.ServiceController_5</servlet-class>
+	</servlet>
+	
+	
+	
+	
+	<servlet-mapping>
+		<servlet-name>controller</servlet-name>
+		<url-pattern>/action/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+	<servlet-name>controller</servlet-name>
+		<url-pattern>/controllerservlet</url-pattern>		
+	</servlet-mapping>
+		
+	<servlet-mapping>
+		<servlet-name>pdfcontroller</servlet-name>
+		<url-pattern>/pdfaction/*</url-pattern>
+	</servlet-mapping>
+
+<!-- Rest service implementation with jersy  -->
+	<servlet>
+  <servlet-name>Jersey REST Service</servlet-name>
+  <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+  <init-param>
+    <param-name>com.sun.jersey.config.property.packages</param-name>
+    <param-value>com.sai.laps.webservices.rest</param-value>
+  </init-param>
+  <load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+  <servlet-name>Jersey REST Service</servlet-name>
+  <url-pattern>/rest/*</url-pattern>
+</servlet-mapping> 
+<filter-mapping>     
+      	<filter-name>WebServicesFilterHandler</filter-name>      
+   		<url-pattern>/rest/LosServicesODAD/*</url-pattern>	     
+  	</filter-mapping> 
+
+  	
+  	
+<!-- <filter> -->
+<!--     <filter-name>AuthenticationFilter</filter-name> -->
+<!--     <filter-class>com.sai.laps.webservices.rest.AuthenticationFilter</filter-class> -->
+<!--   </filter> -->
+<!-- <filter-mapping> -->
+<!--     <filter-name>AuthenticationFilter</filter-name> -->
+<!--     <url-pattern>/rest/*</url-pattern> -->
+<!--   </filter-mapping> -->
+  
+	<!--End of  Rest service impl with jersy  -->
+	
+	<!-- need to comment for websphere patch   start -->
+	<servlet>
+<servlet-name>jsp</servlet-name>
+<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+<init-param>
+<param-name>fork</param-name>
+<param-value>false</param-value>
+</init-param>
+<init-param>
+<param-name>xpoweredBy</param-name>
+<param-value>false</param-value> 
+</init-param><init-param> 
+<param-name>mappedfile</param-name>
+<param-value>false</param-value>
+</init-param>
+<load-on-startup>2</load-on-startup>
+</servlet> 
+
+<!-- need to comment for websphere patch   end -->
+
+	<session-config>
+		<session-timeout>40</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>	
+</web-app>
+

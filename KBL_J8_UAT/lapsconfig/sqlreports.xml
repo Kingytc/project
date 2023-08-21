@@ -1,0 +1,2312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+	<!-- query code="selappstatusamtwise">
+		select ^ from organisations, applications, loandetails,
+		products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant, users  where org_code=app_orgcode and
+		app_no=demo_appno and demo_appid=perapp_id and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and ^ and upper(app_status) like
+		upper('_^') and upper(app_loantype) = upper('^') and demo_type='a' and app_no=loan_appno and
+		(loan_recmdamt between '^' and '^') group by app_status,
+		prd_desc, cat1.cat_name, cat2.cat_name, app_no, perapp_fname,
+		perapp_lname, loan_recmdamt, loan_receivedate, app_processdate, org_name, users.usr_fname
+		order by app_no
+	</query-->
+	
+	<query code="selappstatusamtwise">
+		select ^ from organisations, applications, loandetails,
+		products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant, users,appinwardreg where
+		org_code=app_orgcode and app_no=demo_appno and
+		demo_appid=perapp_id and products.prd_code=app_prdcode and
+		prd_catid = cat1.cat_id and cat2.cat_id= (select cat_parent from
+		prd_category where cat_id=prd_catid) and (upper(app_delflag) !=
+		'Y' or app_delflag is null) and ^ and upper(app_status) like
+		upper('_^') and upper(app_loantype) = upper('^') and
+		demo_type='a' and app_no=loan_appno and inward_no(+) =
+		app_inwardno and (loan_recmdamt between '^' and '^') group by
+		app_status, prd_desc, cat1.cat_name, cat2.cat_name, app_no,
+		perapp_fname, perapp_lname, loan_recmdamt, loan_receivedate,
+		app_processdate, org_name, users.usr_fname,inward_docreceivedon,app_renew_flag
+		order by app_no
+	</query>
+	
+	<!-- query code="selappstatusdatewise">
+		select ^ from organisations, applications, loandetails,
+		products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant, users where org_code =app_orgcode and
+		app_no =demo_appno and demo_appid=perapp_id and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and ^ and upper(app_status) like upper('_^') and upper(app_loantype) = upper('^') and
+		demo_type='a' and app_no=loan_appno and
+		(TO_DATE(to_char(^,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY'))
+		and (loan_recmdamt between '^' and '^') group by
+		app_status,prd_desc, cat1.cat_name, cat2.cat_name, app_no,
+		perapp_fname, perapp_lname, loan_recmdamt, loan_receivedate,
+		app_processdate,org_name, users.usr_fname order by app_no
+	</query-->
+	
+	
+	<query code="selappstatusdatewise">
+		select ^ from organisations, applications, loandetails,
+		products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant, users,appinwardreg where
+		org_code =app_orgcode and app_no =demo_appno and
+		demo_appid=perapp_id and products.prd_code=app_prdcode and
+		prd_catid = cat1.cat_id and cat2.cat_id= (select cat_parent from
+		prd_category where cat_id=prd_catid) and (upper(app_delflag) !=
+		'Y' or app_delflag is null) and ^ and upper(app_status) like
+		upper('_^') and upper(app_loantype) = upper('^') and
+		demo_type='a' and app_no=loan_appno and inward_no(+) =
+		app_inwardno and (TO_DATE(to_char(^,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY'))
+		and (loan_recmdamt between '^' and '^') group by
+		app_status,prd_desc, cat1.cat_name, cat2.cat_name, app_no,
+		perapp_fname, perapp_lname, loan_recmdamt, loan_receivedate,
+		app_processdate,org_name, users.usr_fname,inward_docreceivedon,app_lodgeddate,LOAN_PERTAINS_BRANCH,app_orglevel,app_renew_flag
+		order by app_no
+	</query>
+	
+
+	<!-- query code="selperappusertrack">
+		select app_status,^ from organisations, applications,
+		loandetails, products, prd_category cat1, prd_category cat2,
+		per_demographics,perapplicant where org_code=app_orgcode and
+		app_no=demo_appno and app_no=loan_appno and demo_appid=perapp_id
+		and (upper(app_delflag) != 'Y' or app_delflag is null) and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and ^ and upper(app_status) like upper('_^')and app_loantype IN ('P','A')
+		and demo_type='a' and ^ = ^
+	</query-->
+	
+	<query code="selperappusertrack">
+		select app_status,^ from organisations, applications,
+		loandetails, products, prd_category cat1, prd_category cat2,
+		per_demographics,perapplicant,appinwardreg where org_code=app_orgcode and
+		app_no=demo_appno and app_no=loan_appno and demo_appid=perapp_id
+		and (upper(app_delflag) != 'Y' or app_delflag is null) and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and ^ and upper(app_status) like
+		upper('_^')and app_loantype IN ('P','A') and 
+		inward_no(+)= app_inwardno and demo_type='a' and ^
+		= ^
+	</query>
+	
+	<query code="selperappusertrack1">
+		select app_status,^ from organisations, applications,
+		loandetails, products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant where org_code =app_orgcode and
+		app_no =demo_appno and app_no=loan_appno and
+		demo_appid=perapp_id and (upper(app_delflag) != 'Y' or
+		app_delflag is null) and products.prd_code=app_prdcode and
+		prd_catid = cat1.cat_id and cat2.cat_id= (select cat_parent from
+		prd_category where cat_id=prd_catid) and upper(app_loantype)
+		='^'and ^ and upper(app_status) not like 'C_' and demo_type='a'
+		and app_approvedby=^
+	</query>
+
+	<query code="selperappusertrack2">
+		select app_status,^ from
+		organisations,applications,loandetails,products,prd_category
+		cat1, prd_category cat2,per_demographics,perapplicant where
+		org_code =app_orgcode and app_no =demo_appno and
+		app_no=loan_appno and demo_appid=perapp_id and
+		(upper(app_delflag) != 'Y' or app_delflag is null) and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and upper(app_loantype) ='^'and ^ and
+		upper(app_status) not like 'C_' and demo_type='a' and
+		app_orgcode=org_code and app_approvedby=^
+	</query>
+
+	<query code="getPrdListReport">
+		select p.prd_code as prdcode,c.cat_name as category, c1.cat_name
+		as subcategory from prd_category c,prd_category c1,products p
+		where p.prd_catid=c1.cat_id and c.cat_id=c1.cat_parent
+		and Upper(prd_type) like '^' and Upper(prd_saveflag)='C' and
+		Upper(prd_stop)!='Y' 
+		<!--and p.prd_code = prd_used.prd_code  and prd_org_scode like '%^%' -->
+	</query>
+	<!-- <query code="productcat">
+		select cat_id, cat_name from  products, prd_category
+		where prd_type like '^%' and cat_id= (select cat_parent from
+		prd_category where cat_id=prd_catid) order by cat_name
+	</query> -->
+	<query code="productcat">
+		select cat_id, cat_name from  prd_category where cat_parent='0'
+		order by cat_name
+	</query>
+	
+	<query code="selcountprd">
+		select count(app_no) from applications,products where ^
+		and app_prdcode = prd_code and prd_code in (^)
+	</query>
+	<query code="selcountprd_cpc">
+		select count(app_no) from applications,products,users,organisations where ^
+		and app_prdcode = prd_code and app_applnholder=usr_id and org_code=usr_orgcode and prd_code in (^)
+	</query>
+	
+	<query code="selsoarcat">
+		select distinct products.prd_code,prd_desc,c1.cat_name as
+		category,c2.cat_name as subcategory,
+		prd_rng_from,prd_rng_to,org_name from products,prd_category
+		c1,prd_category c2,prd_interest,applications,organisations where
+		prd_interest.prd_code = products.prd_code and
+		upper(prd_saveflag) ='C' and prd_catid=c2.cat_id and app_prdcode
+		=products.prd_code and app_orgcode =org_code and
+		c1.cat_id=(select cat_parent from prd_category where
+		cat_id=prd_catid) and ^ and products.prd_code in (^)
+	</query>
+	<query code="selsoarcat_cpc">
+		select distinct products.prd_code,prd_desc,c1.cat_name as
+		category,c2.cat_name as subcategory,
+		prd_rng_from,prd_rng_to,org_name from products,prd_category
+		c1,prd_category c2,prd_interest,applications,organisations,users where
+		prd_interest.prd_code = products.prd_code and
+		upper(prd_saveflag) ='C' and prd_catid=c2.cat_id and app_prdcode
+		=products.prd_code and usr_orgcode =org_code and app_applnholder=usr_id and
+		c1.cat_id=(select cat_parent from prd_category where
+		cat_id=prd_catid) and ^ and products.prd_code in (^)
+	</query>
+	
+	<query code="selapploans">
+		select count(app_no) from products,applications where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and
+		^ and prd_code = ^ and upper(app_status)
+		in ('PA','CA')
+	</query>
+	<query code="selapploans_cpc">
+		select count(app_no) from products,applications,organisations,users where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and org_code=usr_orgcode and app_approvedby=usr_id and
+		^ and prd_code = ^ and upper(app_status)
+		in ('PA','CA')
+	</query>
+	
+	<query code="selallloans">
+		select count(app_no) from products,applications where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and
+		^ and prd_code = ^
+	</query>
+	<query code="selallloans_cpc">
+		select count(app_no) from products,applications,organisations,users where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and org_code=usr_orgcode and app_applnholder=usr_id and 
+		^ and prd_code = ^
+	</query>
+	
+	<query code="selrejloans">
+		select count(app_no) from products,applications where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and
+		^ and prd_code = ^ and upper(app_status)
+		in ('PR','CR')
+	</query>
+	<query code="selrejloans_cpc">
+		select count(app_no) from products,applications,organisations,users where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and  org_code=usr_orgcode and app_approvedby=usr_id and
+		^ and prd_code = ^ and upper(app_status)
+		in ('PR','CR')
+	</query>
+	
+	<query code="selprocloans">
+		select count(app_no) from products,applications where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and
+		^ and prd_code = ^ and upper(app_status) in ('OP')
+	</query>
+	<query code="selprocloans_cpc">
+		select count(app_no) from products,applications,organisations,users where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and  org_code=usr_orgcode and app_applnholder=usr_id   and
+		^ and prd_code = ^ and upper(app_status) in ('OP')
+	</query>
+	<query code="sel_ol_loans">
+		select count(app_no) from products,applications where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and
+		^ and prd_code = ^ and upper(app_status) in ('OL')
+	</query>
+	<query code="sel_ol_loans_cpc">
+		select count(app_no) from products,applications,organisations,users where
+		products.prd_code=app_prdcode and upper(prd_saveflag) ='C' and  org_code=usr_orgcode and app_applnholder=usr_id  and 
+		^ and prd_code = ^ and upper(app_status) in ('OL')
+	</query>
+	
+	<!-- <query code="selopenappno">
+		select ^ from
+		applications,prd_workflow,organisations,users,loandetails,per_demographics,
+		perapplicant where prd_code = app_prdcode and app_orgcode =
+		org_code and app_no=demo_appno and 
+   		demo_appid=perapp_id and usr_orgcode = org_code and app_usrid = usr_id and
+		app_no=loan_appno and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and upper(app_status) not like 'C_' and demo_type='a' and ^ and
+		upper(app_status) like upper('_^') and upper(app_loantype) ='^'
+		and (loan_recmdamt between '^' and '^') group by
+		app_no,app_status,loan_recmdamt,loan_receivedate,app_processdate,app_deldate,org_name,usr_lname,usr_fname,perapp_fname,
+		perapp_lname
+	</query>-->
+	
+	<!-- <query code="selopenappno1">
+		select ^ from applications, prd_workflow, organisations, users,
+		loandetails,per_demographics, perapplicant where prd_code = app_prdcode and app_orgcode =
+		org_code and app_no=demo_appno and 
+    	demo_appid=perapp_id and usr_orgcode = org_code and app_usrid = usr_id and
+		app_no=loan_appno and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and upper(app_status) not like 'C_' and demo_type='a' and ^ and upper(app_status) like upper('_^') and
+		TO_DATE(to_char(app_processdate,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+		and upper(app_loantype) ='^' and (loan_recmdamt between '^' and '^') group by app_no, app_status,
+		loan_recmdamt, loan_receivedate, app_processdate, app_deldate,
+		org_name, usr_lname, usr_fname,perapp_fname,perapp_lname
+	</query>-->
+	
+	<query code="selopenappno">
+		select ^ from
+		applications,prd_workflow,organisations,users,loandetails,per_demographics,
+		perapplicant, appinwardreg where prd_code = app_prdcode and app_no=demo_appno and 
+   		demo_appid=perapp_id and usr_orgcode = organisations.org_code and  app_orgcode =organisations.org_code  and
+		app_no=loan_appno and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and demo_type='a' and ^ and
+		upper(app_status) like upper('_^') and upper(app_loantype) ='^'
+		and inward_no(+)=app_inwardno and (loan_recmdamt between '^' and '^') group by
+		app_no,app_status,loan_recmdamt,loan_receivedate,app_processdate,app_deldate,
+		organisations.org_name,usr_lname,usr_fname,perapp_fname,
+		perapp_lname,organisations.org_name,inward_docreceivedon,app_lodgeddate,app_orglevel,LOAN_PERTAINS_BRANCH,app_renew_flag
+	</query>
+	<query code="selopenappno_cpc">
+		select ^ from
+		applications,prd_workflow,organisations,users,loandetails,per_demographics,
+		perapplicant, appinwardreg where prd_code = app_prdcode and app_no=demo_appno and 
+   		demo_appid=perapp_id and usr_orgcode = organisations.org_code and 
+		app_no=loan_appno and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and demo_type='a' and ^ and
+		upper(app_status) like upper('_^') and upper(app_loantype) ='^'
+		and inward_no(+)=app_inwardno and (loan_recmdamt between '^' and '^') group by
+		app_no,app_status,loan_recmdamt,loan_receivedate,app_processdate,app_deldate,
+		organisations.org_name,usr_lname,usr_fname,perapp_fname,
+		perapp_lname,organisations.org_name,inward_docreceivedon,app_lodgeddate,app_renew_flag
+	</query>
+
+	<query code="selopenappno1">
+		select ^ from applications, prd_workflow, organisations, users,
+		loandetails,per_demographics, perapplicant, organisations
+		orgs,appinwardreg where prd_code = app_prdcode and
+		app_no=demo_appno and demo_appid=perapp_id and usr_orgcode =
+		organisations.org_code and app_orgcode =orgs.org_code and
+		app_no=loan_appno and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and demo_type='a' and ^ and upper(app_status) like
+		upper('_^') and upper(app_loantype) ='^' and
+		inward_no(+)=app_inwardno and
+		TO_DATE(to_char(^,'DD/MM/YYYY'),'DD/MM/YYYY') between
+		TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY') and
+		(loan_recmdamt between '^' and '^') group by app_no, app_status,
+		loan_recmdamt, loan_receivedate, app_processdate, app_deldate,
+		organisations.org_name, usr_lname, usr_fname, perapp_fname,
+		perapp_lname, orgs.org_name, inward_docreceivedon
+	</query>
+
+	<query code="sel_users_class">
+		select distinct( a.usr_id) as usr_id, 
+		(usr_fname||' '||usr_lname) as username from applications c, users a,
+		prd_authority b where a.usr_orgcode=^ and
+		c.app_approvedby=a.usr_id and b.prd_code=c.app_prdcode and
+		a.usr_class >=b.prd_approval
+	</query>
+
+	<query code="seldatewise1">
+		and TO_DATE(to_char(app_processdate,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+	</query>
+	
+	<query code="sel_datewise">
+		and TO_DATE(to_char(^,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+	</query>
+
+	<query code="gerUserIDRep">
+		select usr_id,(usr_fname||' '||usr_lname)as username from users
+		where usr_avail='a' and usr_orgcode in(^) order by usr_fname
+	</query>
+
+	<query code="selrepappno">
+		select distinct app_no from applications, per_demographics,
+		perapplicant, organisations, products where app_no = demo_appno
+		and demo_appid=perapp_id and (upper(app_delflag) != 'Y' or
+		app_delflag is null) and upper(app_loantype) ='^' and
+		products.prd_code=app_prdcode and upper(app_status) not like 'C_'
+		and app_orgcode in (^) and
+		demo_type='a' and app_orgcode=org_code
+	</query>
+	<query code="selrepappno_cpc">
+		select distinct app_no from applications, per_demographics,
+		perapplicant, organisations, products,users where app_no = demo_appno
+		and demo_appid=perapp_id and (upper(app_delflag) != 'Y' or
+		app_delflag is null) and upper(app_loantype) ='^' and
+		products.prd_code=app_prdcode and upper(app_status) not like 'C_'
+		and org_code in (^) and
+		demo_type='a' and usr_orgcode=org_code
+	</query>
+
+	<query code="selperapptrack">
+		select app_status,^ from prd_category c,prd_category
+		c1,applications ,per_demographics ,perapplicant ,organisations
+		,products ,loandetails ,appinwardreg,users where app_no = demo_appno
+		and prd_catid = c1.cat_id and c.cat_id=c1.cat_parent and app_no
+		= loan_appno and demo_appid=perapp_id and (upper(app_delflag) !=
+		'Y' or app_delflag is null) and upper(app_loantype) ='^' and
+		products.prd_code=app_prdcode and inward_no(+)= app_inwardno and
+		org_code in (^) and upper(app_status) not like 'C_' and
+		demo_type='a' and upper(app_status) like '_^' and ^ and
+		app_orgcode=org_code and app_no in (^)
+	</query>
+	<query code="selperapptrack_cpc">
+		select app_status,^ from prd_category c,prd_category
+		c1,applications ,per_demographics ,perapplicant ,organisations
+		,products ,loandetails ,appinwardreg,users where app_no = demo_appno
+		and prd_catid = c1.cat_id and c.cat_id=c1.cat_parent and app_no
+		= loan_appno and demo_appid=perapp_id and (upper(app_delflag) !=
+		'Y' or app_delflag is null) and upper(app_loantype) ='^' and
+		products.prd_code=app_prdcode and inward_no(+)= app_inwardno and
+		org_code in (^) and upper(app_status) not like 'C_' and
+		demo_type='a' and upper(app_status) like '_^' and ^ and
+		usr_orgcode=org_code and app_no in (^)
+	</query>
+
+
+
+
+
+	<query code="selallusableprdlist">
+		select p1.prd_code,prd_desc from products p1,prd_used
+		p2,prd_category where p1.prd_code = p2.prd_code and p1.prd_catid
+		= cat_id and p2.prd_org_scode like '%^%' and prd_catid = ^ and
+		prd_renew != 'y'
+	</query>
+
+	<query code="selcreditactivitydata">
+		SELECT applications.app_prdcode, applications.app_no,
+		products.prd_desc, perapplicant.perapp_fname
+		 AS appname, loandetails.loan_appamt,
+		loandetails.loan_modintrate,
+		loandetails.loan_amtreqd,loan_recmdamt,
+		organisations.org_name,TO_CHAR(app_processdate,'DD/MM/YYYY'),
+		prd_category.cat_name, prd_category.cat_id FROM applications
+		INNER JOIN products ON applications.app_prdcode =
+		products.prd_code INNER JOIN per_demographics ON
+		applications.app_no = per_demographics.demo_appno INNER JOIN
+		perapplicant ON per_demographics.demo_appid =
+		perapplicant.perapp_id INNER JOIN loandetails ON
+		applications.app_no = loandetails.loan_appno INNER JOIN
+		organisations ON applications.app_orgcode =
+		organisations.org_code INNER JOIN prd_category ON
+		products.prd_catid = prd_category.cat_id WHERE upper(prd_type)
+		like upper('^%') AND(applications.app_orgcode = '^') AND
+		(per_demographics.demo_type = 'a') AND
+		(UPPER(applications.app_loantype) = '^') AND (products.prd_code
+		= '^')
+	</query>
+
+	<query code="selstatuswise">
+		select ^ from organisations,applications, loandetails where
+		org_code =app_orgcode and app_no =loan_appno and
+		(upper(app_delflag) != 'Y' or app_delflag is null) and
+		^ and upper(app_status) like '_^' and
+		upper(app_loantype) ='^' group by org_name,app_status
+	</query>
+	
+	<query code="usrsappcount">
+		select app_status,count(app_no),sum(loan_recmdamt) from
+		organisations,applications,loandetails where org_code
+		=app_orgcode and app_no =loan_appno and (upper(app_delflag) !=
+		'Y' or app_delflag is null) and ^ and
+		^ in ('^') and upper(app_loantype) ='^' and
+		app_status='^'
+	</query>
+	<query code="usrsappcount_cpc">
+		select app_status,count(app_no),sum(loan_recmdamt) from
+		organisations,applications,loandetails,users where org_code
+		=usr_orgcode and ^=usr_id and app_no =loan_appno and (upper(app_delflag) !=
+		'Y' or app_delflag is null) and ^ and
+		^ in ('^') and upper(app_loantype) ='^' and
+		app_status='^'
+	</query>
+	
+	<query code="selproductwise">
+		select ^ from organisations,applications,
+		loandetails,products,prd_category cat1, prd_category cat2 where
+		org_code =app_orgcode and app_no =loan_appno and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and ^ and prd_type in ('^') and
+		upper(app_loantype) ='^' group by
+		org_name,app_status,cat2.cat_name,prd_type
+	</query>
+	
+	<query code="selproductdatewise">
+		select org_name,cat_name,prd_type,app_status,count(app_no) as appno,sum(loan_recmdamt) as loan_recmdamt from 
+		(select ^ from organisations,applications,
+		loandetails,products,prd_category cat1, prd_category cat2 where
+		org_code =app_orgcode and app_no =loan_appno and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and ^ and prd_type in ('^') and
+		TO_DATE(to_char(loan_receivedate,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+		and upper(app_loantype) ='^') group by
+		org_name,app_status,cat_name,prd_type
+	</query>
+	<query code="selproductdatewise_cpc">
+		select ^ from organisations,applications,
+		loandetails,products,prd_category cat1, prd_category cat2,users where
+		org_code =usr_orgcode and app_no =loan_appno and  ^=usr_id and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and (upper(app_delflag) != 'Y' or app_delflag
+		is null) and ^ and prd_type in ('^') and
+		TO_DATE(to_char(loan_receivedate,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+		and upper(app_loantype) ='^' and app_status in('^') group by
+		org_name,app_status,cat2.cat_name,prd_type
+	</query>
+
+	<!--  Query to select organization names accord to user rights-->
+
+	<query code="selallorgnames">
+		select org_level,org_code,org_name from organisations where
+		org_level = '^' order by org_name
+	</query>
+
+	<query code="selorgcurnames">
+		select org_level,org_code,org_name from organisations where
+		org_code ='^' and org_level ='^' order by org_name
+	</query>
+
+	<query code="selorgothernames">
+		select org_level,org_code,org_name from organisations where
+		org_code not like '^%' and org_level ='^' order by org_name
+	</query>
+
+	<query code="selorgchildnames">
+		select org_level,org_code,org_name from organisations where
+		org_code like '^%' and org_level ='^' ^ order by org_name
+	</query>
+
+	<!--******************Application Status Report**********************-->
+	
+	<query code="selrepuserpass">
+		select ^ from users a,organisations b,groups c where b.org_code
+		= a.usr_orgcode and a.usr_grpid=c.grp_id and b.org_code in (^)
+	</query>
+
+	<query code="selappdate">
+		and TO_DATE(to_char(app_processdate,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+	</query>
+	
+	<!-- Start of LoanDetails -->
+
+
+
+
+	
+
+	
+
+
+
+	
+
+<!-- End of loan default -->
+
+<!-- start of Non-Renewal of limits -->
+
+	
+
+	<!-- End of Non-Renewal -->
+<!-- Start of NonInspection -->
+
+	
+
+	<!-- End of NonInspection -->
+
+<!-- Start of DeficiencyDocument -->
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	<!-- <query code="selotherdefaultsforstock">
+		select  ORG_CODE, ORG_NAME,
+		PERSONAL_CUSTNAME, LIMIT_FACILITY, LIMIT_SANCTAMT,
+		prd_desc  from (select rownum row_num,ORG_CODE, ORG_NAME,
+		PERSONAL_CUSTNAME, LIMIT_FACILITY, LIMIT_SANCTAMT,
+		stat_data_desc1 as prd_desc from mon_personalinfo
+		per,MON_LIMITREGISTER mon, organisations org,
+		static_data,MON_ACCOUNTWISEDETAILS where MON_NEXTSTOCKDUE is not
+		null and limit_custid=PERSONAL_CBSID and
+		ACCTWISE_CBSID=per.personal_CBSID and org.solid=mon.limit_solid and
+		org.solid=per.personal_solid and
+		STAT_DATA_DESC=LIMIT_FACILITY and mon.LIMIT_STATUS !='C' and stat_data_id='36' and
+		to_date(sysdate,'dd/mm/yyyy')-to_date(MON_NEXTSTOCKDUE,'dd/mm/yyyy')
+		^ and
+		to_date(sysdate,'dd/mm/yyyy')-to_date(MON_NEXTSTOCKDUE,'dd/mm/yyyy')
+		^ and mon_year=(select max(to_number(mon_year))from
+		MON_ACCOUNTWISEDETAILS where ACCTWISE_CBSID=per.personal_CBSID)
+		and mon_month=(select max(to_number(mon_month))from
+		MON_ACCOUNTWISEDETAILS where ACCTWISE_CBSID=per.personal_CBSID)
+		^
+	</query>-->
+
+	
+
+	
+
+	
+
+
+
+
+<!-- <query code="selcomappstatus">
+		select ^ from applications,com_demographics,comapplicant,
+		products where app_no = demo_appno and demo_comappid=comapp_id
+		and (upper(app_delflag) != 'Y' or app_delflag is null) and
+		upper(app_loantype) =upper('c') and
+		products.prd_code=app_prdcode and app_orgcode in (^) and
+		upper(app_status) like '_^' and demo_apptype='N'
+	</query>-->
+	
+	<!-- query code="selcomappstatus">
+		select ^ from applications,com_demographics,comapplicant,
+		products, organisations, facilities,users,facility_master facmst, facility_master
+		where
+		facmst.facility_catid=facilities.facility_headid and 
+		facmst.facility_parent=0 and facility_master.facility_catid=facilities.facility_id
+		and	facility_master.facility_parent!=0 and
+		app_no = demo_appno and demo_comappid=comapp_id
+		and (upper(app_delflag) != 'Y' or app_delflag is null) and
+		facility_appno=app_no and borrower_id= com_demographics.demo_comappid and 
+		upper(app_loantype) =upper('c') and org_code =app_orgcode  and
+		upper(app_status) like '_^' and  demo_apptype='N' and facility_group='0' and
+		(facility_proposed between '^' and '^') and 
+		products.prd_code=app_prdcode and ^ order by app_no,facility_group
+		
+	</query-->
+	
+	<query code="selcomappstatus">
+		select ^ from
+		applications,com_demographics,perapplicant,organisations,
+		facilities,users,appinwardreg where perapp_id=demo_comappnewid and
+		demo_appno=app_no and demo_apptype='N' and facility_group='0'
+		and facility_appno=app_no and app_orgcode=org_code and ^ and
+		upper(app_status) like '_^' and app_loantype ='^'
+		and upper(app_delflag) = 'N' and inward_no(+)= app_inwardno
+		GROUP BY app_no,perapp_fname,
+		to_char(app_createdate,'dd/mm/yyyy') ,
+		to_char(app_processdate,'DD/MM/YYYY')
+		,org_name,usr_fname,inward_docreceivedon,app_valuesin,app_lodgeddate,app_renew_flag having
+		sum(facility_proposed) ^ '^' and sum(facility_proposed) ^ '^'
+		order by perapp_fname
+	</query>
+	<query code="selcomappstatus_cpc">
+		select ^ from
+		applications,com_demographics,perapplicant,organisations,
+		facilities,users,appinwardreg where perapp_id=demo_comappnewid and
+		demo_appno=app_no and demo_apptype='N' and facility_group='0'
+		and facility_appno=app_no and usr_orgcode=org_code and ^ and
+		upper(app_status) like '_^' and app_loantype ='^'
+		and upper(app_delflag) = 'N' and inward_no(+)= app_inwardno
+		GROUP BY app_no,perapp_fname,
+		to_char(app_createdate,'dd/mm/yyyy') ,
+		to_char(app_processdate,'DD/MM/YYYY')
+		,org_name,usr_fname,inward_docreceivedon,app_valuesin,app_lodgeddate,app_renew_flag having
+		sum(facility_proposed) ^ '^' and sum(facility_proposed) ^ '^'
+		order by perapp_fname
+	</query>
+
+
+	
+	
+	<!-- <query code="selperappuserProductwise">
+		select app_status,^ from organisations, applications,
+		loandetails, products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant where org_code =app_orgcode and
+		app_no =demo_appno and app_no=loan_appno and
+		demo_appid=perapp_id and (upper(app_delflag) != 'Y' or
+		app_delflag is null) and products.prd_code=app_prdcode and
+		prd_catid = cat1.cat_id and cat2.cat_id= (select cat_parent from
+		prd_category where cat_id=prd_catid) and upper(app_loantype)
+		='^'and ^ and upper(app_status) = '^' and demo_type='a'
+		and app_approvedby=^
+	</query>-->
+	
+	<query code="selperappuserProductwise">
+		select app_status,^ from organisations, applications,
+		loandetails, products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant,appinwardreg where org_code
+		=app_orgcode and app_no =demo_appno and app_no=loan_appno and
+		demo_appid=perapp_id and (upper(app_delflag) != 'Y' or
+		app_delflag is null) and products.prd_code=app_prdcode and
+		prd_catid = cat1.cat_id and cat2.cat_id= (select cat_parent from
+		prd_category where cat_id=prd_catid) and upper(app_loantype)
+		='^' and ^ and upper(app_status) like upper('_^') and
+		inward_no(+) = app_inwardno and demo_type='a' and ^=^
+	</query>
+
+	<query code="selallusableprdDesc">
+	   select cat_name, prd_catid,p1.prd_code,p1.prd_desc
+	   from products p1,prd_used p2,prd_category where p1.prd_code = p2.prd_code and
+	   p1.prd_catid = cat_id and p2.prd_org_scode like '%^%' and p1.prd_type like '^'
+	   and Upper(prd_renew) != 'Y'  and	Upper(prd_saveflag) = 'C' and Upper(prd_stop)!='Y'
+   </query>
+   
+   <!-- query code="selperrepProductwise">
+    SELECT app_no,perapplicant.perapp_fname ||' '||
+	perapplicant.perapp_lname AS appname,TO_CHAR(app_processdate,'DD/MM/YYYY') as processddate,
+    loan_amtreqd loan_appamt,loan_modintrate,loan_amtreqd,loan_recmdamt,prd_category.cat_name, prd_category.cat_id,prd_desc
+    FROM applications,products, per_demographics,perapplicant,loandetails,organisations,prd_category  where 
+    applications.app_prdcode =	products.prd_code and applications.app_no = per_demographics.demo_appno and 
+    per_demographics.demo_appid = perapplicant.perapp_id and applications.app_no = loandetails.loan_appno and 
+    applications.app_orgcode = organisations.org_code  and products.prd_catid = prd_category.cat_id and
+    UPPER(applications.app_loantype) like '^' AND ^ AND
+    (per_demographics.demo_type = 'a') AND
+    (upper(prd_type) = upper('^')) AND (products.prd_catid = '^')
+    </query -->
+
+<query code="selperrepProductwise">
+    SELECT app_no,perapplicant.perapp_fname
+	AS appname,TO_CHAR(app_processdate,'DD/MM/YYYY') as processddate,
+    loan_amtreqd loan_appamt,loan_modintrate,loan_amtreqd,loan_recmdamt,prd_category.cat_name, prd_category.cat_id,prd_desc,app_renew_flag
+    FROM applications,products, per_demographics,perapplicant,loandetails,organisations,prd_category  where 
+    applications.app_prdcode =	products.prd_code and applications.app_no = per_demographics.demo_appno and 
+    per_demographics.demo_appid = perapplicant.perapp_id and applications.app_no = loandetails.loan_appno and 
+    applications.app_orgcode = organisations.org_code  and products.prd_catid = prd_category.cat_id and
+    UPPER(applications.app_loantype) like '^' AND ^ AND
+    (per_demographics.demo_type = 'a') AND
+    (upper(prd_type) = upper('^')) AND (products.prd_code = '^')
+    </query>
+    <query code="selperrepProductwise_cpc">
+    SELECT app_no,perapplicant.perapp_fname
+	AS appname,TO_CHAR(app_processdate,'DD/MM/YYYY') as processddate,
+    loan_amtreqd loan_appamt,loan_modintrate,loan_amtreqd,loan_recmdamt,prd_category.cat_name, prd_category.cat_id,prd_desc,app_renew_flag
+    FROM applications,products, per_demographics,perapplicant,loandetails,organisations,prd_category,users  where 
+    applications.app_prdcode =	products.prd_code and applications.app_no = per_demographics.demo_appno and 
+    per_demographics.demo_appid = perapplicant.perapp_id and applications.app_no = loandetails.loan_appno and 
+    users.usr_orgcode = organisations.org_code and applications.app_approvedby=users.usr_id and products.prd_catid = prd_category.cat_id and
+    UPPER(applications.app_loantype) like '^' AND ^ AND
+    (per_demographics.demo_type = 'a') AND
+    (upper(prd_type) = upper('^')) AND (products.prd_code = '^')
+    </query>
+
+   <query code="selmonsanctionlimit">
+   	select limit_custid, limit_cutaccno, limit_sanctamt,
+   	limit_sanctdate, LIMIT_ACCOPENDT, limit_solid, personal_custname,
+   	org_name, stat_data_desc1 from (select rownum row_num,
+   	limit_custid, limit_cutaccno, limit_sanctamt, limit_sanctdate,
+   	LIMIT_ACCOPENDT, limit_solid, personal_custname, org_name,
+   	stat_data_desc1 from (select rownum row_num, limit_custid,
+   	limit_cutaccno, limit_sanctamt,
+   	to_char(limit_sanctdate,'DD/MM/YYYY') as limit_sanctdate,
+   	to_char(LIMIT_ACCOPENDT,'DD/MM/YYYY') as LIMIT_ACCOPENDT,
+   	limit_solid, personal_custname, org_name, stat_data_desc1 from
+   	mon_personalinfo per, mon_limitregister lim, organisations org,
+   	static_data where 
+   	LIM.limit_sancauth = static_data.stat_data_desc AND
+   	stat_data_id='21' AND per.personal_cbsid = lim.limit_custid ^ and
+   	lim.limit_solid=org.solid ^
+   </query>
+
+
+   <query code="selapplicationwith">
+    	select users.usr_fname as createdby, users.usr_id from appmailbox,users where usr_id = mail_tousrid and
+		mail_date=(select max(mail_date) from appmailbox where  appmailbox.mail_type='C' and mail_appno= '^')
+		and appmailbox.mail_type='C'
+    </query>
+
+     <query code="selopsappstatus">
+     	select ^ from applications,com_demographics,perapplicant,
+     	organisations, facilities,users,appinwardreg where app_no =
+     	demo_appno and demo_comappid=perapp_id and (upper(app_delflag)
+     	!= 'Y' or app_delflag is null) and facility_appno=app_no and
+     	borrower_id= com_demographics.demo_comappid and
+     	facility_group='0' and upper(app_loantype) =upper('T') and
+     	org_code =app_orgcode and ^ and upper(app_status) like '_^' and
+     	demo_apptype='N' and inward_no(+)= app_inwardno GROUP BY
+     	app_no,perapp_fname,perapp_lname,to_char(app_createdate,'DD/MM/YYYY'),
+     	to_char(app_processdate,'DD/MM/YYYY'),org_name,usr_fname,
+     	to_char(inward_docreceivedon,'dd/mm/yyyy')
+     	having sum(facility_proposed) ^ '^' and sum(facility_proposed)
+     	^ '^' order by app_no
+     </query>
+
+     <query code="selopsuserstatus">
+     	select ^ from
+     	applications,com_demographics,perapplicant, organisations,
+     	facilities,appinwardreg where org_code =app_orgcode and app_no
+     	= demo_appno and facility_appno=app_no and
+     	demo_comappid=perapp_id and facility_group='0' and
+     	(upper(app_delflag) != 'Y' or app_delflag is null) and ^ and
+     	upper(app_status) like '_^' and demo_apptype='N' and
+     	borrower_id= com_demographics.demo_comappid and
+     	upper(app_loantype) =upper('T') and inward_no(+)= app_inwardno
+     	GROUP by
+     	app_no,perapp_fname,perapp_lname,to_char(app_createdate,'DD/MM/YYYY'),
+     	to_char(inward_docreceivedon,'dd/mm/yyyy'),org_name,to_char(app_processdate,'DD/MM/YYYY')
+     	order by app_no
+     </query>
+
+     <query code="selopsapptracking">
+     	select ^ from
+     	applications,com_demographics,perapplicant,organisations,
+     	facilities,appinwardreg where app_orgcode=org_code and app_no =
+     	demo_appno and facility_appno=app_no and
+     	demo_comappid=perapp_id and facility_group='0' and
+     	(upper(app_delflag) != 'Y' or app_delflag is null) and
+     	upper(app_loantype) =upper('t') and upper(app_status) like '_^'
+     	and demo_apptype='N' and inward_no(+) = app_inwardno and app_no
+     	in (^) and ^ GROUP by app_no ,perapp_fname ,perapp_lname
+     	,to_char(app_createdate,'DD/MM/YYYY')
+     	,to_char(INWARD_DOCRECEIVEDON ,'DD/MM/YYYY') ,
+     	to_char(app_processdate,'DD/MM/YYYY'),org_name order by
+     	app_no
+     </query>
+
+     <query code="selopsrepappno">
+			select distinct app_no from applications,organisations,com_demographics, perapplicant,products
+			where app_no=demo_appno and demo_comappid=perapp_id and
+			(upper(app_delflag) != 'Y' or app_delflag is null) and
+			upper(app_loantype)=upper('T') and products.prd_code=app_prdcode
+			and app_orgcode in (^) and demo_apptype='N' and app_orgcode=org_code
+			and  upper(app_status) like upper('_^')
+	</query>
+	<query code="selopsappturnaroundrep">
+			select ^ from applications,organisations,users,
+			com_demographics,perapplicant, organisations orgs,appinwardreg where
+			app_no=demo_appno and demo_comappid=perapp_id and 
+			usr_orgcode = organisations.org_code and app_orgcode =orgs.org_code  and
+			(upper(app_delflag) != 'Y' or app_delflag is null) and
+			demo_apptype='N' and ^ and upper(app_status) like upper('_^') and 
+			upper(app_loantype) ='T' and INWARD_NO(+) = app_inwardno
+			order by app_no
+		</query>
+		
+		
+	<!-- <query code="selcomapptrack">
+		select app_status,^ from
+		applications,com_demographics,comapplicant,organisations,products
+		where app_no = demo_appno and demo_comappid=comapp_id and
+		(upper(app_delflag) != 'Y' or app_delflag is null) and
+		upper(app_loantype) =upper('c') and
+		products.prd_code=app_prdcode and app_orgcode in (^) and
+		upper(app_status) not like 'P_' and demo_apptype='N' and
+		app_orgcode=org_code and app_no in (^)
+	</query>-->
+	
+	
+	<!-- query code="selcomapptrack">
+		select app_status,^ from
+		applications,com_demographics,comapplicant,organisations,products,
+		facilities, facility_master facmst, facility_master where
+		facmst.facility_catid=facilities.facility_headid and
+		facmst.facility_parent=0 and
+		facility_master.facility_catid=facilities.facility_id and
+		facility_master.facility_parent!=0 and app_orgcode=org_code and
+		app_no = demo_appno and facility_appno=app_no and
+		demo_comappid=comapp_id and (upper(app_delflag) != 'Y' or
+		app_delflag is null) and upper(app_loantype) =upper('c') and
+		facility_group='0' and products.prd_code=app_prdcode and
+		app_orgcode in (^) and upper(app_status) like '_^' and
+		demo_apptype='N' and app_no in (^)
+	</query-->
+
+	<!-- query code="selcomapptrack">
+		select app_status,^ from
+		applications,com_demographics,comapplicant,organisations where
+		app_orgcode=org_code and app_no = demo_appno and
+		demo_comappid=comapp_id and upper(app_delflag) = 'N' and
+		upper(app_loantype) =upper('c') and org_code in (^) and
+		upper(app_status) like '_^' and demo_apptype='N' and app_no in
+		(^) order by app_no
+	</query-->
+
+
+	<query code="selcomapptrack">
+		select app_status,^ from
+		applications,com_demographics,perapplicant,organisations,facilities,appinwardreg,COM_BRIEFBACKGROUND
+		where app_orgcode=org_code and app_no = demo_appno and  APP_NO=COM_APPNO and
+		demo_comappnewid=perapp_id and upper(app_delflag) = 'N' and
+		facility_group='0' and facility_appno=app_no and
+		app_loantype ='^' and ^ and upper(app_status) like
+		'_^' and demo_apptype='N' and INWARD_NO(+) = app_inwardno and
+		app_no in (^) group by
+		app_status,app_no,perapp_fname,to_char(app_createdate,'dd/mm/yyyy')
+		,org_name,to_char(app_processdate,'DD/MM/YYYY')
+		,to_char(INWARD_DOCRECEIVEDON,'DD/MM/YYYY'),app_valuesin,app_lodgeddate,app_applnholder,app_orglevel,COM_PERTAINS_BRANCH,app_renew_flag
+		order by app_no
+	</query>
+	
+		<query code="selcomappturnaroundrep">
+		select ^  from
+		applications,organisations,users,
+		com_demographics,perapplicant, organisations orgs,appinwardreg,COM_BRIEFBACKGROUND
+		where app_no=demo_appno and
+		demo_comappnewid=perapp_id and 
+		usr_orgcode = organisations.org_code
+		and app_orgcode =orgs.org_code and 
+		(upper(app_delflag) != 'Y' or app_delflag is null) and
+		demo_apptype='N' and ^ and upper(app_status) like upper('_^')
+		and upper(app_loantype) ='^' and INWARD_NO(+) = app_inwardno and COM_APPNO(+)=app_no
+		order by app_no
+	</query>
+
+	<!-- query code="selcomuserstatus">
+		select ^,facility_group from
+		applications,com_demographics,comapplicant,products,
+		organisations, facilities, facility_master facmst,
+		facility_master where
+		facmst.facility_catid=facilities.facility_headid and
+		facmst.facility_parent=0 and
+		facility_master.facility_catid=facilities.facility_id and
+		facility_master.facility_parent!=0 and org_code =app_orgcode and
+		app_no = demo_appno and facility_appno=app_no and
+		demo_comappid=comapp_id and facility_group='0' and
+		(upper(app_delflag) != 'Y' or app_delflag is null) and
+		products.prd_code=app_prdcode and ^ and upper(app_status) like
+		'_^' and demo_apptype='N' and borrower_id=
+		com_demographics.demo_comappid and upper(app_loantype)
+		=upper('C') order by app_no,facility_group
+	</query-->
+	
+	<query code="selcomuserstatus">
+		select ^ from applications,com_demographics,perapplicant,
+		organisations,facilities,appinwardreg where perapp_id=demo_comappnewid and
+		demo_appno= app_no and demo_apptype='N' and app_orgcode=org_code
+		and ^ and upper(app_status) like'_^' and
+		upper(app_loantype)='^' and upper(app_delflag) = 'N' and
+		facility_group='0' and facility_appno=app_no and
+		INWARD_NO(+) = app_inwardno group by
+		app_no,perapp_fname,to_char(app_createdate,'DD/MM/YYYY'),
+		org_name,to_char(app_processdate,'DD/MM/YYYY'),
+		to_char(INWARD_DOCRECEIVEDON,'DD/MM/YYYY'),app_valuesin,app_lodgeddate,app_renew_flag
+		order by perapp_fname
+	</query>
+
+	
+
+	
+	<!-- Queries for NPA -->
+	
+	
+
+	
+
+	
+
+	
+
+	<!-- query code="sel_AnnexureC">
+		select branchname, customername, facilitynature ,
+		sanctionedamount, outstanding, overdueamount, overduesince,
+		accountnumber, accounttype from (select rownum row_num,
+		branchname, customername, facilitynature , sanctionedamount,
+		outstanding, overdueamount, overduesince, accountnumber,
+		accounttype from annexuretable where alertfor='^' and
+		assetclassification='^' and ACCOUNTTYPE='^' ^
+	</query-->
+	<!--
+	<query code="sel_AnnexureReport">
+		select branchname,accountnumber,customername, facilitynature ,
+		sanctionedamount, outstanding, overdueamount, overduesince,
+		accounttype,BRANCHCODE from (select rownum as row_num,
+		branchname,accountnumber,customername, facilitynature ,
+		sanctionedamount, outstanding, overdueamount, overduesince,
+		accounttype,BRANCHCODE from (select rownum as row_num,
+		branchname, accountnumber,trim(customername) as customername, facilitynature ,
+		sanctionedamount, outstanding, overdueamount, overduesince,
+		accounttype,BRANCHCODE from annexuretable where alertfor='^' and
+		assetclassification='^' and ACCOUNTTYPE='^' ^
+	</query>
+	-->
+	
+
+ <!--  
+	<query code="selnpasuitreport">
+		select cbsnpa_custname, suit.suit_no,
+		to_char(suit.suit_date,'dd/mm/yyyy') as suit_date,
+		suit.suit_amount, to_char(gen.sta_npa_sincedate,'dd/mm/yyyy') as
+		sta_npa_sincedate, pre.pre_running_outstand,
+		suit.suit_presentposition, suit.suit_advocatename from
+		npa_statusSuitfield suit, npa_demographics demo, cbs_npabasic
+		bas, npa_statuspage1_part1 gen, npa_application app,
+		npa_presentposition pre, organisations org WHERE
+		bas.cbsnpa_custid= demo.npa_democbsid and demo.npa_demoappno=
+		suit.appno and pre.pre_appno=app.npa_appno and gen.sta_appno=
+		suit.appno and suit.suit_courtname='^' and ^ and
+		suit.appno=app.npa_appno and app.npa_orgcode= org.org_code and ^ order by org_name, cbsnpa_custname
+	</query>
+	-->
+	
+	
+	
+	<!-- 
+	<query code="selnpadecreedcases">
+		select cbsnpa_custname, suit.suit_no, suit.suit_decreeamount,
+		to_char(suit.suit_dateofdecree,'dd/mm/yyyy') as
+		suit_dateofdecree, suit.suit_courtname, suit.suit_totalrecovery
+		from npa_statusSuitfield suit, npa_demographics demo,
+		cbs_npabasic bas, npa_application app, organisations org WHERE
+		bas.cbsnpa_custid= demo.npa_democbsid and
+		demo.npa_demoappno=suit.appno and ^ and suit.appno=app.npa_appno
+		and app.npa_orgcode= org.org_code and ^ order by org_name,
+		cbsnpa_custname
+	</query>
+	 -->
+	 
+	 
+	
+	<!--  
+	<query code="selnpadecreedEP">
+		select cbsnpa_custname, suit.suit_no, suit.suit_decreeamount,
+		to_char(suit.suit_dateofdecree,'dd/mm/yyyy') as
+		suit_dateofdecree, to_char(suit.suit_dateoffilling,'dd/mm/yyyy')
+		as suit_dateoffilling, suit.suit_presentposition from
+		npa_statusSuitfield suit, npa_demographics demo, cbs_npabasic
+		bas, npa_application app, organisations org WHERE
+		bas.cbsnpa_custid= demo.npa_democbsid and
+		demo.npa_demoappno=suit.appno and ^ and suit.appno=app.npa_appno
+		and app.npa_orgcode= org.org_code and ^ order by org_name,
+		cbsnpa_custname
+	</query>
+ 
+     -->
+ 
+	
+	<!--  
+	<query code="selnpasarfaesireport">
+		select PRE_AMOUNT,to_char(sta_npa_sincedate,'dd/mm/yyyy') as
+		sta_npa_sincedate ,decode(bifr_account,'1','Yes','2','No') as bifr_account
+		,to_char(ref_date,'DD/MM/YYYY')
+		as ref_date, to_char(sta_demandnoticedate,'dd/mm/yyyy') as
+		sta_demandnoticedate,
+		to_char(sta_positionnoticedate,'dd/mm/yyyy') as
+		sta_positionnoticedate ,cbsnpa_custname,pre_accno
+		,pre_running_outstand from
+		npa_statuspage1_part1 a,NPA_PRESENTPOSITION b,npa_statusnotepage2
+		c,npa_STATUSNOTEPAGE21 d, npa_statuspagesarfaesia1 e,npa_application
+		f,organisations org ,cbs_npabasic g,npa_demographics h where
+		a.STA_APPNO=b.PRE_APPNO and b.PRE_APPNO=c.APPNO and
+		c.APPNO=d.APPNO and d.APPNO=e.STA_APPNO and
+		f.npa_appno=e.STA_APPNO and b.PRE_APPNO= h.npa_demoappno and
+		g.cbsnpa_custid= h.npa_democbsid and ref_date is not null and
+		org_code= f.npa_orgcode ^
+	</query>
+	 -->
+	 
+	 
+	 
+ <!-- 
+	<query code="selnparepadvocatewise">
+		select cbsnpa_custname, suit.suit_courtname,
+		to_char(suit.suit_date,'dd/mm/yyyy') as suit_date,
+		suit.suit_amount, suit.suit_presentposition, law.lawyer_name
+		from npa_statusSuitfield suit, npa_demographics demo,
+		cbs_npabasic bas, lawyermaster law, npa_application app,
+		organisations org WHERE suit.suit_advocatesno=law.lawyer_seqno
+		and bas.cbsnpa_custid= demo.npa_democbsid and
+		demo.npa_demoappno=suit.appno and law.lawyer_seqno='^' and ^ and suit.appno=app.npa_appno and
+		app.npa_orgcode= org.org_code and ^ order
+		by org_name, cbsnpa_custname
+	</query>
+	
+	 -->
+	 
+	 
+	
+	<!-- 
+	<query code="selnpaotsreport">
+		select preposi.pre_accno, basic.cbsnpa_custname,
+		ots.sta_pwoamount, ots.sta_totaldues, preposi.pre_ecgc_claim,
+		preposi.pre_expenses, ots.sta_settleamount, ots.sta_writeoff,
+		ots.sta_waiver from npa_application app, npa_demographics demo,
+		organisations org, npa_presentposition preposi,
+		npa_statusnoteots ots, npa_statuspage1_part1 gen, cbs_npabasic
+		basic where ^ and preposi.pre_appno=app.npa_appno and
+		gen.sta_appno=app.npa_appno and ots.sta_appno=app.npa_appno and
+		basic.cbsnpa_custid=demo.npa_democbsid and
+		demo.npa_demoappno=app.npa_appno and
+		app.npa_orgcode=org.org_code and ^ order by org_name,
+		cbsnpa_custname
+	</query>
+	 -->
+	 
+	 
+	
+
+
+	
+
+	<!-- query code="sel_ReviewTermLoanReport">
+		select personal_custname, cbsaccountno,
+		to_char(reviewdate,'dd/mm/yyyy') as
+		reviewdue,to_char(review_createdate,'dd/mm/yyyy') as reviewon,
+		reviewedby, orgname, to_char(review_processdate,'dd/mm/yyyy') as
+		review_processdate from (select rownum as row_num,
+		personal_custname, cbsaccountno,reviewdate, review_createdate,
+		reviewedby, orgname, review_processdate from (select rownum as
+		row_num, personal_custname, cbsaccountno, reviewdate
+		,review_createdate , usr.usr_fname as reviewedby,orgs.org_name
+		as orgname,review_processdate from reviewnotetermloan a,
+		mon_personalinfo b, mon_limitregister lim, organisations org,
+		users usr, organisations orgs where
+		b.personal_cbsid=lim.limit_custid and
+		a.cbsaccountno=lim.limit_cutaccno and a.cbsid=lim.limit_custid
+		and orgs.org_code = usr.usr_orgcode and upper(a.review_status)='^' and
+		^
+	</query>   -->
+	
+	
+	
+	
+	<query code="sel_retailsanctionedloansreport">
+		select app_no,to_char(app_processdate,'dd/mm/yyyy') as
+		app_processdate, perapp_fname, processedbrn , app_loantype,
+		perapp_id, loan_modintrate, loan_margin,
+		loan_recmdamt ,createdbrn ,loan_costloanprd from (select rownum as row_num,app_no,
+		app_processdate, perapp_fname, processedbrn , app_loantype,
+		perapp_id, loan_modintrate, loan_margin,
+		loan_recmdamt , createdbrn ,loan_costloanprd from (select rownum as row_num,app_no,
+		app_processdate, perapp_fname, org.org_name as processedbrn , app_loantype,
+		perapp_id, loan_modintrate, loan_margin,
+		loan_recmdamt ,orgs.org_name as createdbrn ,loan_costloanprd from applications app ,per_demographics demo
+		,perapplicant per ,organisations org ,
+		loandetails ld, organisations orgs  where
+		app.app_no = demo.demo_appno and
+		per.perapp_id = demo.demo_appid and 
+		ld.loan_appno = app.app_no and
+		demo_type ='a' and
+		upper(app.app_status) like '_A' and
+		upper(app.app_loantype) in ('^') and
+		upper(app.app_delflag) ='N' and
+		app_processusrclass = '^' and orgs.org_code=app.app_orgcode ^ 
+	</query>
+
+	<query code="sel_tertiarysanctionedloansreport">
+		select app_no, perapp_fname, facility_proposed, facility_headid,
+		interest, facility_margin, to_char(app_processdate,'DD/MM/YYYY')
+		as app_processdate, processedbrn, facility_existing,
+		app_loantype, perapp_id, createdbrn from (select rownum as
+		row_num, app_no, perapp_fname, facility_proposed,
+		facility_headid, interest, facility_margin, app_processdate,
+		processedbrn, facility_existing, app_loantype, perapp_id,
+		createdbrn from (select rownum as row_num, app_no, perapp_fname,
+		facility_proposed, facility_headid,facility_interest as
+		interest, facility_margin, app_processdate, org.org_name as
+		processedbrn, facility_existing, app_loantype, perapp_id,
+		orgs.org_name as createdbrn from
+		applications,com_demographics,perapplicant, facilities,
+		organisations org, organisations orgs where demo_comappid =
+		perapp_id and demo_apptype = 'N' and app_no = demo_appno and
+		facility_group = '0' and app_no = facility_appno and
+		upper(app_loantype) = 'T' and upper(app_status) like '_A' and
+		upper(app_delflag) = 'N' and app_processusrclass = '^' and
+		orgs.org_code=app_orgcode ^
+	</query>
+
+
+	<query code="sel_corporatesanctionedloansreport">
+		select app_no, comapp_companyname, facility_proposed,
+		facility_headid, interest, facility_margin,
+		to_char(app_processdate,'DD/MM/YYYY') as app_processdate,
+		processedbrn, comapp_id, facility_existing, app_loantype,createdbrn from (select rownum as row_num, app_no,
+		comapp_companyname, facility_proposed, facility_headid,
+		interest, facility_margin, app_processdate, processedbrn,
+		comapp_id, facility_existing, app_loantype,createdbrn from (select rownum as row_num, app_no,
+		comapp_companyname, facility_proposed, facility_headid,facility_interest as interest, facility_margin,
+		app_processdate,  org.org_name as
+		processedbrn, comapp_id, facility_existing, app_loantype,orgs.org_name as createdbrn from
+		applications,com_demographics,comapplicant, facilities,
+		organisations org, organisations orgs where demo_comappid =
+		comapp_id and demo_apptype = 'N' and app_no = demo_appno and
+		facility_group = '0' and app_no = facility_appno and
+		upper(app_loantype) = 'C' and upper(app_status) like '_A' and
+		upper(app_delflag) = 'N' and app_processusrclass = '^' and
+		orgs.org_code=app_orgcode ^ 
+	</query>
+
+	<query code="sel_sisterconcerndetails">
+		select sum(EXEC_GCCOMLIMIT) as sis_nonfund, sum(EXEC_GCFBWCLT+EXEC_GCTLLT) as sis_fund,
+		comapp_div_name from EXEC_EXPGROUPCONCERNS,
+		comapp_company_divisions where EXEC_GCAPPNO(+)='^' and
+		comapp_id(+)='^' and exec_gcconname(+)=comapp_div_id
+		group by comapp_div_name
+	</query>
+
+	<query code="sel_totmeans">
+		select cr_total_means from creditreport_totmeans where
+		cr_appno='^' ^
+	</query>
+	<query code="sel_appreg_report">
+		select inward_no, decode(inward_sector,'p','Retail','a','Agriculture','c','Corporate','t','Tertiary')
+		as inward_sector,inward_custname,inward_termloanamt,inward_wcloanamt,inward_nonwcloanamt,to_char(INWARD_APPLIEDON,'dd/mm/yyyy')as INWARD_APPLIEDON
+		,to_char(inward_docreceivedon,'dd/mm/yyyy') as inward_docreceivedon,decode(inward_brstatus,'O','Open','P','Pending','C','Closed') as inward_brstatus,org.org_name,inward_valuesin from ORGANISATIONS org,APPINWARDREG where ^ order by
+		org.org_name,inward_custname
+	</query>
+	<query code="sel_lsrr_report">
+	select ^ from organisations, applications app, loandetails l,
+		products,per_demographics, perapplicant, CUST_CONTACTINFO,static_data sd10,
+		APPLICANT_KYCNORMS,  app_referncenumber aref,mis_appclassification mis,PRD_INTEREST_LIMIT pil,
+		per_loan_secure pls where
+		org_code =app.app_orgcode and app.app_no =demo_appno and demo_type='a' and app.app_no=mis.app_no and
+		demo_appid=perapp_id and perapp_id=CON_APPID and perapp_id=kyc_custid and 
+     	trim(sd10.stat_data_desc)=kyc_occupationcode and 
+        pil.prd_intid=(select prdint_sno from  prdint_master where l.loan_recmdamt between prd_amtrangefrom and prd_amtrangeto and prdint_prdcode=app.app_prdcode
+        and prdint_inttype=lower(l.loan_inttype)) and
+     	sd10.stat_data_id='70' and products.prd_code=app.app_prdcode and app.app_no=aref.app_no and app.app_no=pls.loan_appno and
+		(app_delflag !='Y' or app_delflag is null) and ^ and  app_status='pa' and app.app_loantype = '^' and app.app_no=l.loan_appno and (TO_DATE(to_char(app.app_processdate,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')) and (lower(sancref_flag)='n' or sancref_flag is null) order by app.app_processdate asc
+		</query>
+		<query code="sel_coappguradetails">
+		select perapp_title||' '||perapp_fname as name,CON_COMADDR1||','||CON_COMADDR2||','||CON_COMVILLAGE||','||CON_COMCITY||','||CON_COMDIST||','||CON_COMSTATE||','||CON_COMZIP as Address,demo_type,PERAPP_CBSID, 
+		CON_PERMADDR1||','||CON_PERMADDR2||','||CON_PERMVILLAGE||','||CON_PERMCITY||','||CON_PERMDIST||','||CON_PERMSTATE||','||CON_PERMZIP as permAddress,INDINFO_RESIDENT_STATUS
+		from perapplicant,per_demographics,CUST_CONTACTINFO,INDIVIDUAL_INFO where demo_appno='^' and 
+		demo_type in('c','g','o') and demo_appid=perapp_id and perapp_id=CON_APPID and PERAPP_ID=INDINFO_APPID 
+		</query>
+		<query code="sel_Securitydetailsnew">
+		select app.app_sec_secid,app.app_sec_securityvalue,app.app_sec_margin,sec.SEC_NAME,to_char(cus_sec_valuation_date,'dd/mm/yyyy') as cus_sec_valuation_date,app_sec_securitytype from app_securitydetails app,CUS_SECURITIES cus,SECURITY_MASTER sec where app.app_sec_appno='^'  and app_sec_borrower_id='^' and cus.cus_sec_id=app.app_sec_secid and sec.SEC_ID=cus.CUS_SEC_TYPE and app_sec_loantype='P' 
+		</query>
+		<query code="sel_Applicationdetails">
+			select * from (select app.app_no,APP_LOANTYPE,org_name ~ from applications app,ORGANISATIONS,APP_REFERNCENUMBER ref where app.APP_NO=ref.APP_NO 
+			and ref.SANCREF_FLAG='n' and app_status in ('pa','ca')	and ~ and 
+			(TO_DATE(to_char(app_processdate,'DD/MM/YYYY'),'DD/MM/YYYY') between TO_DATE('~','DD/MM/YYYY') and TO_DATE('~','DD/MM/YYYY')) and 
+			(app_delflag !='Y' or app_delflag is null) and nvl(substr(regexp_substr(SANCTIONREFNO,'[^/]+',1,1),length(regexp_substr(SANCTIONREFNO,'[^/]+',1,1)),1),'S')!='P' ORDER BY app_processdate ASC) ~
+		</query>
+		<query code="sel_lsrr_reportretail">
+		  SELECT demo_oldappid,perapp_cbsid,demo_type,app.app_no,perapp_title || ' ' || perapp_fname AS name,con_comaddr1 || ', ' || con_comaddr2 || ', ' || con_comvillage || ', ' || 
+			d.district_desc || ', ' || trim(c.city_name)|| ', ' || s.state_name || ', ' || con_comzip AS address,
+			CON_PERMADDR1 || ', ' || CON_PERMADDR2 || ', ' || CON_PERMVILLAGE || ', ' || 
+			d1.district_desc || ', ' || trim(c1.city_name)|| ', ' || s1.state_name || ', ' || CON_PERMZIP AS permaddress,
+			perapp_networth,decode(perapp_employment,'1','Employee','2','Business Man','3',
+			'Professionals','4','Agriculture and allied activities','6','Trading','7','Services','8','Manufacturing','9','Pensioner','10','Student','Others') as occupation,l.loan_recmdamt AS 
+			loan_recmdamt,l.loan_repaymenttype,prd_loantype, l.loan_reqterms, pls.loan_periodicity, to_char(l.loan_receivedate,   'DD/MM/YYYY') AS app_date, to_char(app.app_processdate,   
+			'DD/MM/YYYY') AS app_processdate,sanctionrefno,mis.app_sector, '' as PRD_ADJUST,'' as prd_baserate,l.loan_purposeofloan,l.loan_modintrate,pc.cat_name as category,pc1.cat_name as 
+			subcategory,l.loan_intrate,(SELECT cbs_static_data_desc FROM cbs_staticdata  WHERE cbs_static_data_id = '2'  AND cbs_static_data_code = perapp_constitutionnew) AS constitution,
+			org_name as orgname,inf.INDINFO_RESIDENT_STATUS,inf.indinfo_staff_id,(select mis_static_data_desc from mis_staticdata where mis_static_data_id='1' and mis_static_data_code=prd_bankscheme) as prd_bankscheme,app.APP_ORGLEVEL,l.LOAN_PERTAINS_BRANCH FROM applications app,loandetails l,products,per_demographics,perapplicant,  cust_contactinfo left join district_master d1 on d1.district_code = CON_PERMDIST
+	  		left join district_master d on d.district_code  =con_comdist, app_referncenumber aref,mis_appclassification mis,  
+			per_loan_secure pls,prd_category pc,prd_category pc1,appinwardreg inw,ORGANISATIONS,INDIVIDUAL_INFO inf,laps_cities c,laps_states s,
+			laps_cities c1,laps_states s1 WHERE  app.app_no = '^' AND app.app_no = demo_appno AND demo_type = 'a' AND app.app_no = mis.app_no AND inw.inward_no=app.app_inwardno and inw.inward_orgscode=org_scode and 
+			demo_appid = perapp_id AND perapp_id = con_appid AND perapp_id = inf.indinfo_appid and APP_RENEW_FLAG!='P' AND s.state_code =con_comstate and s1.state_code=CON_PERMSTATE AND c.city_code =con_comcity 	and c1.city_code=CON_PERMCITY
+			and c.STATE_ID=s.state_id and c1.STATE_ID=s1.state_id AND products.prd_code = app.app_prdcode AND app.app_no = aref.app_no AND app.app_no = pls.loan_appno  AND app.app_no = l.loan_appno AND(LOWER(sancref_flag) = 'n' OR sancref_flag IS NULL) AND pc1.cat_id= pc.cat_parent and pc.cat_id=prd_catid ORDER BY app.app_processdate ASC
+		</query>
+		<query code="sel_lsrr_reportAgri">
+			SELECT demo_comappid,PERAPP_CBSID,app.app_no,perapp_title || ' ' || perapp_fname AS name,con_comaddr1 || ', ' || con_comaddr2 || ', ' || con_comvillage || ', ' || d.district_desc || ', ' || trim(c.city_name) || ', ' || s.state_name || ', ' || con_comzip AS address,
+			CON_PERMADDR1 || ', ' || CON_PERMADDR2 || ', ' || CON_PERMVILLAGE || ', ' || 
+			d1.district_desc || ', ' || trim(c1.city_name)|| ', ' || s1.state_name || ', ' || CON_PERMZIP AS permaddress,perapp_networth,
+			decode(perapp_employment,'1','Employee','2','Business Man','3','Professionals','4','Agriculture and allied activities','6','Trading','7','Services','8','Manufacturing','9','Pensioner','10','Student','Others') as occupation,
+			to_char(app.app_processdate,   'DD/MM/YYYY') AS app_processdate,sanctionrefno,(select cbs_static_data_desc from cbs_staticdata where cbs_static_data_id='2' and cbs_static_data_code=perapp_constitutionnew) as constitution,org_name as orgname,inf.indinfo_staff_id,inf.INDINFO_RESIDENT_STATUS,app.APP_ORGLEVEL
+			FROM applications app,com_demographics,perapplicant,cust_contactinfo  left join district_master d1 on d1.district_code = CON_PERMDIST
+	  		left join district_master d on d.district_code  =con_comdist,app_referncenumber aref,appinwardreg inw,
+     		ORGANISATIONS,INDIVIDUAL_INFO inf,laps_cities c,laps_states s, laps_cities c1,laps_states s1 WHERE app.app_no = '^' AND app.app_no = demo_appno 
+			AND app.app_no = aref.app_no and inw.inward_no=app.app_inwardno and  inw.inward_orgscode=org_scode AND demo_comappnewid = perapp_id AND perapp_id = con_appid  AND perapp_id = inf.indinfo_appid 
+			AND s.state_code  =con_comstate
+			AND c.city_code   =con_comcity and c.STATE_ID=s.state_id
+			AND s1.state_code =CON_PERMSTATE
+			AND c1.city_code =CON_PERMCITY and c1.STATE_ID=s1.state_id
+			AND(LOWER(sancref_flag) = 'n' OR sancref_flag IS NULL)ORDER BY app.app_processdate ASC
+	</query>
+		<query code="sel_facdetails">
+		select facility_sancamt,facility_proposed,facility_months,facility_perinstall,facility_baserate,
+facility_intsubtype,facility_perinstall,facility_interest,COM_FACNATURE,FACILITY_PURPOSE,facility_sno,facility_sancinterest,(select upper(facility_catdesc) from
+		facility_master where facility_catid=facility_id and
+		facility_parent!=0) as facheaddesc,com_headfac,facility_repaytype,facility_group,BPLR,(select mis_static_data_desc from mis_staticdata where mis_static_data_id='1' and mis_static_data_code=com_bankscheme) as com_bankscheme from facilities,
+facility_corp where facility_appno='^' and com_facid=facility_code and nvl(FACILITY_RENEW_FLAG,'X') != 'P'
+		</query>
+		<query code="sel_cbsdatapassingcode">
+		select cbs_static_data_code from CBS_STATICDATA where CBS_STATIC_DATA_ID='26' and cbs_static_data_passing_code='^' 
+		</query>
+		<query code="sel_costofproject">
+		select com_totalvalue,com_facsno from com_copmof where com_appno='^' and com_type='C'
+		</query>
+		<query code="sel_onlyforratingstatusreport">
+		select org_scode,fin_cbsid,fin_appname,fin_ratappno,
+decode(fin_status,'OP','Pending','PA','Approved','PR','Rejected') as status,usr_id
+,usr_fname,(select cbs_static_data_desc from cbs_staticdata where cbs_static_data_code=usr_department and cbs_static_data_id='20') as usrdepartment,(select max(to_char(af_date,'dd/mm/yyyy')) from appmailbox_financialrating
+where af_appno=fin_ratappno and af_touserid=FIN_APPHOLDER) as received_date from fin_rating,
+organisations,users where  fin_status like '_^' and org_code=FIN_ORGCODE ^
+and usr_id=FIN_APPHOLDER 
+		</query>
+		<query code="selperappusertrack_cpc">
+		select app_status,^ from organisations, applications,
+		loandetails, products, prd_category cat1, prd_category cat2,
+		per_demographics,perapplicant,appinwardreg,users where org_code=usr_orgcode and
+		app_no=demo_appno and app_no=loan_appno and demo_appid=perapp_id
+		and (upper(app_delflag) != 'Y' or app_delflag is null) and
+		products.prd_code=app_prdcode and prd_catid = cat1.cat_id and
+		cat2.cat_id= (select cat_parent from prd_category where
+		cat_id=prd_catid) and ^ and upper(app_status) like
+		upper('_^')and app_loantype IN ('P','A') and 
+		inward_no(+)= app_inwardno and demo_type='a'and app_applnholder = usr_id and ^
+		= ^
+	</query>
+		<query code="selcomappstatus_cpc">
+		select ^ from
+		applications,com_demographics,perapplicant,organisations,
+		facilities,users,appinwardreg where perapp_id=demo_comappnewid and
+		demo_appno=app_no and demo_apptype='N' and facility_group='0'
+		and facility_appno=app_no and usr_orgcode=org_code and ^ and
+		upper(app_status) like '_^' and app_loantype ='^'
+		and upper(app_delflag) = 'N' and inward_no(+)= app_inwardno
+		GROUP BY app_no,perapp_fname,
+		to_char(app_createdate,'dd/mm/yyyy') ,
+		to_char(app_processdate,'DD/MM/YYYY')
+		,org_name,usr_fname,inward_docreceivedon,app_valuesin,app_lodgeddate having
+		sum(facility_proposed) ^ '^' and sum(facility_proposed) ^ '^'
+		order by perapp_fname
+	</query>
+	<query code="selcomuserstatus_cpc">
+		select ^ from applications,com_demographics,perapplicant,
+		organisations,facilities,appinwardreg,users where perapp_id=demo_comappnewid and
+		demo_appno= app_no and demo_apptype='N' and usr_orgcode=org_code
+		and ^ and upper(app_status) like'_^' and
+		upper(app_loantype)='^' and upper(app_delflag) = 'N' and
+		facility_group='0' and facility_appno=app_no and
+		INWARD_NO(+) = app_inwardno group by
+		app_no,perapp_fname,to_char(app_createdate,'DD/MM/YYYY'),
+		org_name,to_char(app_processdate,'DD/MM/YYYY'),
+		to_char(INWARD_DOCRECEIVEDON,'DD/MM/YYYY'),app_valuesin,app_lodgeddate,app_renew_flag
+		order by perapp_fname
+	</query>
+	<query code="selcomrepappno_cpc">
+	select distinct app_no from
+		applications,organisations,com_demographics,perapplicant,users
+		where app_no=demo_appno and perapp_id=demo_comappnewid and
+		upper(app_delflag) = 'N'  and
+		app_loantype='^' 
+		and ^ and demo_apptype='N' and usr_orgcode=org_code
+	</query>
+	<query code="selcomapptrack_cpc">
+		select app_status,^ from
+		applications,com_demographics,perapplicant,organisations,facilities,appinwardreg,users
+		where usr_orgcode=org_code and app_no = demo_appno and
+		demo_comappnewid=perapp_id and upper(app_delflag) = 'N' and
+		facility_group='0' and facility_appno=app_no and
+		app_loantype ='^' and ^ and upper(app_status) like
+		'_^' and demo_apptype='N' and INWARD_NO(+) = app_inwardno and
+		app_no in (^) group by
+		app_status,app_no,perapp_fname,to_char(app_createdate,'dd/mm/yyyy')
+		,org_name,to_char(app_processdate,'DD/MM/YYYY')
+		,to_char(INWARD_DOCRECEIVEDON,'DD/MM/YYYY'),app_valuesin,app_lodgeddate,app_renew_flag
+		order by app_no
+	</query>
+	<query code="selcomappturnaroundrep_cpc">
+		select ^  from
+		applications,organisations,users,
+		com_demographics,perapplicant, organisations orgs,appinwardreg
+		where app_no=demo_appno and
+		demo_comappnewid=perapp_id and 
+		usr_orgcode = organisations.org_code and
+		(upper(app_delflag) != 'Y' or app_delflag is null) and
+		demo_apptype='N' and ^ and upper(app_status) like upper('_^')
+		and upper(app_loantype) ='^' and INWARD_NO(+) = app_inwardno
+		order by app_no
+	</query>
+	<query code="selappstatusdatewise_cpc">
+		select ^ from organisations, applications, loandetails,
+		products, prd_category cat1, prd_category cat2,
+		per_demographics, perapplicant, users,appinwardreg where
+		org_code =usr_orgcode and app_no =demo_appno and
+		demo_appid=perapp_id and products.prd_code=app_prdcode and
+		prd_catid = cat1.cat_id and cat2.cat_id= (select cat_parent from
+		prd_category where cat_id=prd_catid) and (upper(app_delflag) !=
+		'Y' or app_delflag is null) and ^ and upper(app_status) like
+		upper('_^') and upper(app_loantype) = upper('^') and
+		demo_type='a' and app_no=loan_appno and inward_no(+) =
+		app_inwardno and (TO_DATE(to_char(^,'DD/MM/YYYY'),'DD/MM/YYYY')
+		between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY'))
+		and (loan_recmdamt between '^' and '^') group by
+		app_status,prd_desc, cat1.cat_name, cat2.cat_name, app_no,
+		perapp_fname, perapp_lname, loan_recmdamt, loan_receivedate,
+		app_processdate,org_name, users.usr_fname,inward_docreceivedon,app_lodgeddate,app_renew_flag
+		order by app_no
+	</query>
+	<query code="selsolvencyreport">
+	SELECT org_name, ARS_SANCTIONREFNO,SOL_CBS_ID, TO_CHAR(as_date,'dd/mm/yyyy') AS
+sanctdate, perapp_title || ' ' || perapp_fname AS name, perapp_networth,
+a.sol_address_one ||',' ||a.sol_address_two ||','
+||a.sol_village_taluk_town ||',' ||d.district_desc ||','
+||trim(c.city_name) ||',' ||s.state_name AS address, a.sol_purpose,
+decode(perapp_employment,'1','Employee','2','Business Man','3','Professionals','4','Agriculture and allied activities','6','Trading','7','Services','8','Manufacturing','9','Pensioner','10','Student','Others') as occupation,sol_amount, cbs.cbs_static_data_desc AS constitution FROM
+solvency a, appmailbox_solvency am, app_referncenumber_solvency ars,
+perapplicant, ORGANISATIONS, laps_cities c, laps_states s,
+district_master d, cbs_staticdata
+cbs WHERE a.sol_appl_no =ars.ARS_APPNO AND a.sol_appl_no =am.as_appno
+AND solid =ars_solid AND ars_solid ='^' AND SOL_STATUS ='PA' AND
+ am.as_toflwpt ='9'  and as_date=(select max(as_date) from appmailbox_solvency a1 where a1.AS_APPNO=am.AS_APPNO  AND a1.as_toflwpt ='9') AND a.SOL_CBS_ID
+=PERAPP_CBSID AND (PERAPP_RENEW ='n' OR PERAPP_RENEW IS NULL) AND
+s.state_code =SOL_STATE AND c.city_code
+=SOL_CITY and c.STATE_ID=s.state_id AND d.district_code =SOL_DISTRICT and
+cbs_static_data_id = '2' AND cbs.cbs_static_data_code =
+perapp_constitutionnew AND a.SOL_APPROVE_DATE BETWEEN
+to_date('^','dd/mm/yyyy') AND
+(to_date('^','dd/mm/yyyy')+1) ^
+	</query>
+	<query code="selcorpratingreport">
+	select app_no,perapp_fname,perapp_lname,perapp_cbsid,org_scode,
+decode(app_status,'op','Pending','pa','Approved','pr','Rejected') as status,
+CRE_RATING,CRE_WEIGHT,to_char(CRE_ASONDATE,'dd/mm/yyyy') as CRE_ASONDATE,USR_FNAME,usr_id,
+(select CBS_STATIC_DATA_DESC from cbs_staticdata where cbs_static_data_id='20' and cbs_static_data_code=USR_DEPARTMENT) as department from 
+applications,com_demographics,
+perapplicant,creditscoring,app_securitycoverage,organisations,OTHER_PARAMETERS p1,
+OTHER_PARAMETERS p2,users
+where app_no=demo_appno and DEMO_COMAPPNEWID=PERAPP_ID and app_no=CRE_APPNO and 
+app_no=APPNO and app_status='^'  and usr_id=CRE_USERID and APP_LOANTYPE!='P' ^ and p1.loan_paramslno='7' and p2.loan_paramslno='8'        
+    and (APP_TOTAL_NFEXPOSURE >= p2.LOAN_PARAMVAL or APP_TOTALEXPOSURE>=p1.LOAN_PARAMVAL)
+  and CRE_ASONDATE=(select max(cs.CRE_ASONDATE) from creditscoring cs where cs.CRE_APPNO=app_no)
+  and (app_delflag !='Y' or app_delflag is null) order by to_date(CRE_ASONDATE,'dd/mm/yyyy') asc
+	</query>
+	<query code="selratingapplicationreport">
+	select * from (select app_loantype,app_no,perapp_fname,perapp_lname,perapp_cbsid,
+	(case when LOAN_PERTAINS_BRANCH is not null then (case when app_orglevel='C' then (select o1.ORG_SCODE from organisations o1 where o1.org_scode=LOAN_PERTAINS_BRANCH) when app_orglevel='D' then (select o2.org_scode from organisations o2 where o2.org_scode=LOAN_PERTAINS_BRANCH) else org_scode end) else org_scode end )as org_scode,
+decode(app_status,'op','Pending','pa','Approved','pr','Rejected') as status,
+CRE_RATING,CRE_WEIGHT,to_char(CRE_ASONDATE,'dd/mm/yyyy') as CRE_ASONDATE,USR_FNAME,usr_id,
+(select CBS_STATIC_DATA_DESC from cbs_staticdata where cbs_static_data_id='20' and cbs_static_data_code=USR_DEPARTMENT) as department from 
+applications,per_demographics,
+perapplicant,creditscoring,organisations,users,loandetails
+where app_no=demo_appno and APP_NO=LOAN_APPNO and DEMO_APPID=PERAPP_ID and demo_type='a' and app_no=CRE_APPNO and 
+ app_status='^'  and usr_id=CRE_USERID and APP_LOANTYPE='P'  ^       
+   and to_char(CRE_ASONDATE,'dd/mm/yyyy')=(select to_char(max(CRE_ASONDATE),'dd/mm/yyyy') from creditscoring cs where cs.CRE_APPNO=app_no)
+  and (app_delflag !='Y' or app_delflag is null)
+
+union all 
+
+select app_loantype,app_no,perapp_fname,perapp_lname,perapp_cbsid,
+(case when COM_PERTAINS_BRANCH is not null then (case when app_orglevel='C' then (select o1.org_scode from organisations o1 where o1.org_scode=COM_PERTAINS_BRANCH) when app_orglevel='D' then (select o2.org_scode from organisations o2 where o2.org_scode=COM_PERTAINS_BRANCH) else org_scode end)  else org_scode end )as org_scode,
+decode(app_status,'op','Pending','pa','Approved','pr','Rejected') as status,
+CRE_RATING,CRE_WEIGHT,to_char(CRE_ASONDATE,'dd/mm/yyyy') as CRE_ASONDATE,USR_FNAME,usr_id,
+(select CBS_STATIC_DATA_DESC from cbs_staticdata where cbs_static_data_id='20' and cbs_static_data_code=USR_DEPARTMENT) as department from 
+applications,com_demographics,
+perapplicant,creditscoring,app_securitycoverage,organisations,OTHER_PARAMETERS p1,
+OTHER_PARAMETERS p2,users,COM_BRIEFBACKGROUND
+where app_no=demo_appno and APP_NO=COM_APPNO and DEMO_COMAPPNEWID=PERAPP_ID and app_no=CRE_APPNO and 
+app_no=APPNO and app_status='^'  and usr_id=CRE_USERID and APP_LOANTYPE!='P' 
+^ and p1.loan_paramslno='7' and p2.loan_paramslno='8'        
+    and (APP_TOTAL_NFEXPOSURE ^ p2.LOAN_PARAMVAL or APP_TOTALEXPOSURE ^ p1.LOAN_PARAMVAL)
+ and CRE_ASONDATE=(select max(cs.CRE_ASONDATE) from creditscoring cs where cs.CRE_APPNO=app_no)
+  and (app_delflag !='Y' or app_delflag is null)) order by  to_date(CRE_ASONDATE,'dd/mm/yyyy') asc
+	</query>
+	<query code="selonlinerepannexure1">
+	select d.district_desc,s.state_name,o1.org_scode,(case when COM_PERTAINS_BRANCH is not null then (case when app_orglevel='C' then (select org1.org_name from organisations org1 where org1.org_scode=COM_PERTAINS_BRANCH) when app_orglevel='D' then (select org2.org_name from organisations org2 where org2.org_scode=COM_PERTAINS_BRANCH) else o1.org_name end)  else o1.org_name end )as ORG_NAME,
+	o2.org_scode as regorgcode,substr(o2.ORG_NAME,17,LENGTH(o2.ORG_NAME)-15) as regorgname,INWARD_CUSTNAME,INWARD_NO,to_char(inward_appliedon,'dd/mm/yyyy') as createddate,
+INWARD_PURPOSE,inward_termloanamt,inward_wcloanamt,inward_nonwcloanamt,to_char(APP_CREATEDATE,'dd/mm/yyyy') as uploadeddate,
+app_no,decode(app_status,'op','Pending','pa','Approved','pr','Rejected','ol','Lodged') as status,app_status,
+to_char(APP_PROCESSDATE,'dd/mm/yyyy') as processdate,(select sum(facility_proposed) from facilities,facility_corp where facility_appno=app_no
+and facility_code=COM_FACID and com_factype='F') as fundbasedamt,(select sum(facility_proposed) from facilities,facility_corp where facility_appno=app_no
+and facility_code=COM_FACID and com_factype='NF') as nonfundbasedamt
+from applications,appinwardreg,organisations o1,organisations o2,district_master d,laps_states s,COM_BRIEFBACKGROUND
+where APP_INWARDNO=INWARD_NO and app_no=COM_APPNO and APP_ONLINEUPLOAD='Y'
+and o2.org_code like substr(o1.ORG_CODE,0,6)||'%' and o2.ORG_LEVEL='R'
+and s.state_code =INWARD_STATE and d.district_code =INWARD_DIST
+and INWARD_ORGSCODE=o1.ORG_SCODE and APP_ORGCODE=o1.ORG_CODE
+^ and  (app_delflag !='Y' or app_delflag is null)
+and APP_CREATEDATE BETWEEN
+to_date('^','dd/mm/yyyy') AND
+to_date('^','dd/mm/yyyy')
+	</query>
+	<query code="selkpowerreport">
+	SELECT org_name, ARS_SANCTIONREFNO,ADDKBOW_CBS_ID, TO_CHAR(ak_date,'dd/mm/yyyy') AS
+sanctdate, perapp_title || ' ' || perapp_fname AS name, perapp_networth,
+a.ADDKBOW_ADDRESS_ONE ||',' ||a.ADDKBOW_ADDRESS_TWO ||','
+||a.ADDKBOW_VILLAGE ||',' ||d.district_desc ||','
+||trim(c.city_name) ||',' ||s.state_name||'-' ||a.ADDKBOW_PINCODE AS address, 
+decode(perapp_employment,'1','Employee','2','Business Man','3','Professionals','4','Agriculture and allied activities','6','Trading','7','Services','8','Manufacturing','9','Pensioner','10','Student','Others') as occupation,ADDKBOW_LIMITSANCTIONED, cbs.cbs_static_data_desc AS constitution,
+ADDKBOW_RATEOFINT,ADDKBOW_RATEOFINTTOTAL,ADDKBOW_PERIODIN,ADDKBOW_PERIODMONTH FROM addkbowerdetails a, 
+appmailbox_kpower am, app_referncenumber_solvency ars,
+perapplicant, ORGANISATIONS, laps_cities c, laps_states s,
+district_master d, cbs_staticdata
+cbs WHERE a.addkbow_app_no=ars.ARS_APPNO AND a.addkbow_app_no =am.ak_appno
+AND solid =ars_solid AND ars_solid ='^' AND 
+am.ak_toflwpt ='9'  and ak_date=(select max(ak_date) from appmailbox_kpower a1 where a1.ak_appno=am.ak_appno  and a1.ak_toflwpt ='9') AND a.ADDKBOW_CBS_ID
+=PERAPP_CBSID AND (PERAPP_RENEW ='n' OR PERAPP_RENEW IS NULL) AND
+s.state_code =ADDKBOW_STATE AND c.city_code
+=ADDKBOW_CITY and c.STATE_ID=s.state_id AND d.district_code =ADDKBOW_DISTRICT and
+cbs_static_data_id = '2' AND cbs.cbs_static_data_code =
+perapp_constitutionnew AND a.ADDKBOW_sancdate BETWEEN
+(to_date('^','dd/mm/yyyy')-1) AND
+(to_date('^','dd/mm/yyyy')+1) ^
+	</query>
+	<query code="selexpiredsecurity">
+	select app_no,org_scode,org_code,org_name,
+	perapp_title ||'.' || perapp_fname as name,perapp_cbsid,cus_sec_id,
+sec_name,CUS_SEC_SECURITY_DESCRIPTION,CUS_SEC_NETSECURITY,CUS_SEC_VALUER_NAME,to_char(CUS_SEC_VALUATION_DATE,'dd/mm/yyyy') as CUS_SEC_VALUATION_DATE1
+,cus_sec_valuation_date from perapplicant,organisations,CUS_SECURITIES,security_master,app_securitydetails,applications,loandetails,
+PER_CUSCBSACCOUNTDATA where months_between (sysdate,to_date(CUS_SEC_VALUATION_DATE)) > (select loan_paramval from other_parameters where loan_paramslno='^') and
+(perapp_renew='n' or perapp_renew is null) and sec_id=cus_sec_type and
+ (CUS_RELEASEFLAG!='Y' or CUS_RELEASEFLAG is null) 
+ and org_scode=(case when app_orglevel='C' then LOAN_PERTAINS_BRANCH when app_orglevel='D' then LOAN_PERTAINS_BRANCH else LOANDISBBRANCH end) and  cus_sec_id=APP_SEC_SECID and APP_SEC_BORROWER_ID=perapp_oldid
+  and appno=app_No and app_no=APP_SEC_APPNO and app_no=loan_appno
+and app_sec_loantype='P' and app_loantype='P' and app_status='pa' and nvl(app_delflag,'N')='N' ^
+union all
+select app_no,org_scode,org_code,org_name,
+perapp_title ||'.' || perapp_fname as name,perapp_cbsid,cus_sec_id,
+sec_name,CUS_SEC_SECURITY_DESCRIPTION,CUS_SEC_NETSECURITY,CUS_SEC_VALUER_NAME,to_char(CUS_SEC_VALUATION_DATE,'dd/mm/yyyy') as CUS_SEC_VALUATION_DATE1,
+cus_sec_valuation_date from perapplicant,organisations,CUS_SECURITIES,security_master,app_securitydetails,applications,facilities f,COM_BRIEFBACKGROUND,
+PER_CUSCBSACCOUNTDATA c where months_between (sysdate,to_date(CUS_SEC_VALUATION_DATE)) > (select loan_paramval from other_parameters where loan_paramslno='^') and
+(perapp_renew='n' or perapp_renew is null) and sec_id=cus_sec_type and
+ (CUS_RELEASEFLAG!='Y' or CUS_RELEASEFLAG is null)  
+ and org_scode=(case when COM_PERTAINS_BRANCH is not null then (case when app_orglevel='C' then COM_PERTAINS_BRANCH when app_orglevel='D' then COM_PERTAINS_BRANCH else LOANDISBBRANCH end)
+ else LOANDISBBRANCH end) and  cus_sec_id=APP_SEC_SECID and APP_SEC_BORROWER_ID=perapp_oldid and appno=facility_appno and c.facility_sno=f.FACILITY_SNO and app_no=APP_SEC_APPNO and app_no=COM_APPNO
+and app_sec_loantype='P' and app_loantype in ('A','C') and facility_appno=APP_SEC_APPNO and f.facility_sno=APP_SEC_FACSNO
+and FACILITY_STATUS='pa' and nvl(app_delflag,'N')='N' ^
+order by cus_sec_id,cus_sec_valuation_date asc
+
+	</query>
+	<query code="selgoingtoexpiresecurity">
+	select app_no,org_scode,org_code,org_name,
+	perapp_title ||'.' || perapp_fname as name,perapp_cbsid,cus_sec_id,
+sec_name,CUS_SEC_SECURITY_DESCRIPTION,CUS_SEC_NETSECURITY,CUS_SEC_VALUER_NAME,to_char(CUS_SEC_VALUATION_DATE,'dd/mm/yyyy') as CUS_SEC_VALUATION_DATE1
+,cus_sec_valuation_date from perapplicant,organisations,CUS_SECURITIES,security_master,app_securitydetails,applications,loandetails,
+PER_CUSCBSACCOUNTDATA where months_between (sysdate,to_date(CUS_SEC_VALUATION_DATE)) > ((select loan_paramval from other_parameters where loan_paramslno='101') - (select loan_paramval from other_parameters where loan_paramslno='^'))
+ and (select loan_paramval from other_parameters where loan_paramslno='101')>
+  months_between (sysdate,to_date(CUS_SEC_VALUATION_DATE))
+ and (perapp_renew='n' or perapp_renew is null) and sec_id=cus_sec_type and
+(CUS_RELEASEFLAG!='Y' or CUS_RELEASEFLAG is null) and org_scode=(case when app_orglevel='C' then LOAN_PERTAINS_BRANCH when app_orglevel='D' then LOAN_PERTAINS_BRANCH else LOANDISBBRANCH end) and  cus_sec_id=APP_SEC_SECID 
+ and APP_SEC_BORROWER_ID=perapp_oldid and app_no=appno and app_no=APP_SEC_APPNO and app_no=loan_appno and app_sec_loantype='P' and app_loantype='P' and app_status='pa' 
+and nvl(app_delflag,'N')='N'  ^
+ union all 
+ select app_no,org_scode,org_code,org_name,
+ perapp_title ||'.' || perapp_fname as name,perapp_cbsid,cus_sec_id,
+sec_name,CUS_SEC_SECURITY_DESCRIPTION,CUS_SEC_NETSECURITY,CUS_SEC_VALUER_NAME,to_char(CUS_SEC_VALUATION_DATE,'dd/mm/yyyy') as CUS_SEC_VALUATION_DATE1
+,cus_sec_valuation_date from perapplicant,organisations,CUS_SECURITIES,security_master,app_securitydetails,applications,facilities f,COM_BRIEFBACKGROUND,
+PER_CUSCBSACCOUNTDATA c where months_between (sysdate,to_date(CUS_SEC_VALUATION_DATE)) > ((select loan_paramval from other_parameters where loan_paramslno='101') - (select loan_paramval from other_parameters where loan_paramslno='^'))
+ and (select loan_paramval from other_parameters where loan_paramslno='101')>
+  months_between (sysdate,to_date(CUS_SEC_VALUATION_DATE))
+ and (perapp_renew='n' or perapp_renew is null) and sec_id=cus_sec_type and
+(CUS_RELEASEFLAG!='Y' or CUS_RELEASEFLAG is null) and org_scode=(case when COM_PERTAINS_BRANCH is not null then (case when app_orglevel='C' then COM_PERTAINS_BRANCH when app_orglevel='D' then COM_PERTAINS_BRANCH else LOANDISBBRANCH end)
+ else LOANDISBBRANCH end) and  cus_sec_id=APP_SEC_SECID 
+ and APP_SEC_BORROWER_ID=perapp_oldid and appno=facility_appno and c.facility_sno=f.FACILITY_SNO and app_no=APP_SEC_APPNO and app_no=COM_APPNO and app_sec_loantype='P' and app_loantype in ('A','C') and facility_appno=APP_SEC_APPNO and f.facility_sno=APP_SEC_FACSNO and FACILITY_STATUS='pa' and nvl(app_delflag,'N')='N'  ^
+ order by cus_sec_id,cus_sec_valuation_date asc
+
+	</query>
+	<query code="sel_proposalReports">
+			Select * from (SELECT A.PERAPP_CBSID CBS, A.PERAPP_FNAME ACNM, DECODE(C.APP_LOANTYPE,'P','Retail') AS MODULE,
+			DECODE(B.DEMO_TYPE,'a','Borrower','c', 'Co-Borrower','o','Co-Obligant','g','Guarantor','s','Sole Proprietor') as Type,
+			C.APP_NO APPNO, TO_NUMBER('1') AS FAC_SNO, 'Main Limit' AS LIMITTYPE,'' as faccateogry,
+			DECODE(C.APP_RENEW_FLAG,'F','Fresh','R','Renew','S','Restructure') AS FACILITYTYPE, E.PRD_DESC PRDDE, D.LOAN_RECMDAMT AS LOANAMOUNT,
+			F.SANCTIONREFNO SANREF, to_char(C.APP_PROCESSDATE,'dd-mm-yyyy') APDT, C.CBS_ACCOUNTNO ACNUM FROM PERAPPLICANT A, PER_DEMOGRAPHICS B,
+			APPLICATIONS C, LOANDETAILS D, PRODUCTS E, APP_REFERNCENUMBER F
+			WHERE A.PERAPP_ID=B.DEMO_APPID AND C.APP_NO=B.DEMO_APPNO AND C.APP_NO=D.LOAN_APPNO AND C.APP_PRDCODE=E.PRD_CODE AND 
+			C.APP_NO=F.APP_NO AND C.APP_STATUS='pa' AND NVL(C.APP_RENEW_FLAG,'N')!='P' AND F.SANCREF_FLAG='n' AND A.PERAPP_CBSID = upper('^') 
+			union ALL SELECT A.PERAPP_CBSID, A.PERAPP_FNAME, DECODE(E.APP_LOANTYPE,'C','Corporate','A','Agriculture'), 'Borrower' , C.FACILITY_APPNO, 
+			C.FACILITY_SNO, DECODE(C.FACILITY_GROUP,'0','Main Limit','Sub Limit'),decode(FACILITY_CATEGORY,'R','Regular Limit','A','Adhoc Limit','O','One Time Limit','D','Additional Limit','') as faccateogry, DECODE(C.FACILITY_TYPEFOR, 'F', 'Fresh', 'R', 'Renew'),
+			D.COM_FACDESC, C.FACILITY_SANCAMT, F.SANCTIONREFNO, to_char(C.FAC_PROCESSDATE,'dd-mm-yyyy'), C.CBS_ACCOUNTNO FROM PERAPPLICANT A,
+			COM_DEMOGRAPHICS B, FACILITIES C, FACILITY_CORP D, APPLICATIONS E, APP_REFERNCENUMBER F WHERE A.PERAPP_ID=B.DEMO_COMAPPNEWID AND
+			B.DEMO_APPNO=C.FACILITY_APPNO AND C.FACILITY_CODE=D.COM_FACID AND C.FACILITY_APPNO=E.APP_NO AND E.APP_NO=F.APP_NO AND C.FACILITY_STATUS='pa' 
+			AND NVL(E.APP_RENEW_FLAG,'N')!='P' AND F.SANCREF_FLAG='n' AND  A.PERAPP_CBSID= upper('^') union ALL SELECT A.PERAPP_CBSID, A.PERAPP_FNAME,
+			DECODE(E.APP_LOANTYPE,'C','Corporate','A','Agriculture'),
+			DECODE(B.COM_COMPDTTYPE,'C','Co-Borrower','CO','Co-Obligant','G','Guarantor','SP','Sole Proprietor') , C.FACILITY_APPNO, C.FACILITY_SNO,
+			DECODE(C.FACILITY_GROUP,'0','Main Limit','Sub Limit'),decode(FACILITY_CATEGORY,'R','Regular Limit','A','Adhoc Limit','O','One Time Limit','D','Additional Limit','') as faccateogry,DECODE(C.FACILITY_TYPEFOR, 'F', 'Fresh', 'R', 'Renew'), D.COM_FACDESC, 
+			C.FACILITY_SANCAMT, F.SANCTIONREFNO, to_char(C.FAC_PROCESSDATE,'dd-mm-yyyy'), C.CBS_ACCOUNTNO FROM PERAPPLICANT A, COM_COMPANYDETAILS B,
+			FACILITIES C, FACILITY_CORP D, APPLICATIONS E, APP_REFERNCENUMBER F WHERE A.PERAPP_ID=B.COM_COMPDTAPPID AND
+			B.COM_COMPDTAPPNO=C.FACILITY_APPNO AND C.FACILITY_SNO=B.COM_FACILITY_SNO AND C.FACILITY_CODE=D.COM_FACID AND 
+			C.FACILITY_APPNO=E.APP_NO AND E.APP_NO=F.APP_NO AND C.FACILITY_STATUS='pa' AND NVL(E.APP_RENEW_FLAG,'N')!='P' AND
+			F.SANCREF_FLAG='n' AND A.PERAPP_CBSID= upper('^') )  order by Type,MODULE,appno 
+	</query>
+	<query code="sel_userproposalreport">
+			Select * from (SELECT C.APP_NO as App_no,A.PERAPP_CBSID as CBS_ID, A.PERAPP_FNAME as App_name,decode(APP_LOANTYPE,'P','Retail','C','Corporate','A','Agri') as Loan_type from PERAPPLICANT A,
+			PER_DEMOGRAPHICS B, APPLICATIONS C where A.PERAPP_ID=B.DEMO_APPID AND C.APP_NO=B.DEMO_APPNO  and app_applnholder= upper('^') and APP_STATUS='op' 
+			and app_delflag='N' and demo_type='a' union all SELECT C.APP_NO,A.PERAPP_CBSID, A.PERAPP_FNAME,
+			decode(APP_LOANTYPE,'P','Retail','C','Corporate','A','Agri') from PERAPPLICANT A,COM_DEMOGRAPHICS B, APPLICATIONS C 
+			where A.PERAPP_ID=B.DEMO_COMAPPID AND C.APP_NO=B.DEMO_APPNO  and app_applnholder= upper('^')  and APP_STATUS='op' and app_delflag='N' 
+			union all select p.DEV_APPNO,p.DEV_CBSID,pr.PG_APPLIANTNAME,'Permission' from APPL_DEVIATION p,DEV_PERMISSION_GIST pr where p.DEV_APPLHOLDER=upper('^') and p.DEV_APPNO=pr.DEV_APPNO  and p.DEV_APPSTATUS='op' and nvl(DEV_DELFLAG,'N')='N'
+			union all SELECT FIN_RATAPPNO,FIN_CBSID,FIN_APPNAME,'Rating' from FIN_RATING  where FIN_APPHOLDER= upper('^')  and fin_status='OP' 
+			union all SELECT sol_appl_no,sol_cbs_id,sol_applicant_name,'Solvency ' from SOLVENCY where SOL_APPLNHOLDER= upper('^')  and sol_status='OP' 
+			union all select ADDKBOW_APP_NO,addkbow_cbs_id,ADDKBOW_BORROWERNAME,'Kpower' from ADDKBOWERDETAILS where ADDKBOW_APPLNHOLDER= upper('^') and ADDKBOW_STATUS='OP') order by app_no
+	</query>
+	<query code="sel_pertainingbr">
+			select org_name,org_code,to_char(org_opendate,'dd/mm/yyyy') as org_opendate,org_scode from organisations,COM_BRIEFBACKGROUND where org_scode =COM_PERTAINS_BRANCH and COM_APPNO='^'
+	</query>
+	<query code="sel_pertainingbr_ret">
+			select org_name,org_code,org_scode from organisations,loandetails where org_scode =LOAN_PERTAINS_BRANCH and loan_APPNO='^'
+	</query>
+	<query code="sel_emandatereport">
+		select ^ from perapplicant,applications,loandetails,per_demographics,organisations,products,CUST_CONTACTINFO,APP_VERIFICATION_CHKBOX
+		where app_no=demo_appno 
+		and  org_code=app_orgcode
+		and  demo_appid=perapp_id
+		and  prd_code=app_prdcode 
+		and  CON_APPID=demo_appid
+		and  demo_type='a' 
+		and  app_no=loan_appno 
+		and PERAPP_ID=VERI_APPID
+		and  (upper(app_delflag) !='Y' or app_delflag is null)
+		and  APP_LOANSUBTYPE_DIGI='PR'
+		and prd_type='pC' and  (PERAPP_EMANDATE_FLAG='Y') and  ^ and  VERI_APPNO=APP_NO and  VERI_CHKBOX_VALUE not like '%EMAN%'
+	</query>
+	
+	
+	<query code="sel_kycpendingreport">
+		 select ^ from applications,perapplicant,loandetails,per_demographics,organisations,products,CUST_CONTACTINFO
+		where app_no=demo_appno 
+		and  org_code=app_orgcode
+		and  demo_appid=perapp_id
+		and  prd_code=app_prdcode 
+		and  CON_APPID=demo_appid
+		and  demo_type='a' 
+		and  app_no=loan_appno 
+		and  (upper(app_delflag) !='Y' or app_delflag is null)
+		and  APP_LOANSUBTYPE_DIGI='PR'
+		and prd_type='pC' and  ^  and  PERAPP_KYCPEND_FLAG='Y'  ORDER BY APP_CREATEDATE 
+	</query>
+	
+	
+	<query code="sel_fipendingreport">
+		select  ^ from applications,perapplicant,loandetails,per_demographics,organisations,products,CUST_CONTACTINFO
+		where app_no=demo_appno 
+		and org_code=app_orgcode
+		and demo_appid=perapp_id
+		and prd_code=app_prdcode 
+		and CON_APPID=demo_appid
+		and demo_type='a' 
+		and app_no=loan_appno 
+		and (upper(app_delflag) !='Y' or app_delflag is null)
+		and APP_LOANSUBTYPE_DIGI='PR'
+		and prd_type='pC' and  ^ and  PERAPP_FIPEND_FLAG='Y' ORDER BY APP_CREATEDATE
+	</query>
+	
+	<query code="sel_allkycfipending_report">
+		 select ^ from applications,perapplicant,loandetails,per_demographics,organisations,products,CUST_CONTACTINFO
+		where app_no=demo_appno 
+		and  org_code=app_orgcode
+		and  demo_appid=perapp_id
+		and  prd_code=app_prdcode 
+		and  CON_APPID=demo_appid
+		and  demo_type='a' 
+		and  app_no=loan_appno 
+ 		and  (upper(app_delflag) !='Y' or app_delflag is null)
+		and  APP_LOANSUBTYPE_DIGI='PR'
+		and prd_type='pC' and  ^  and  PERAPP_KYCPEND_FLAG='Y' 
+          
+          union
+          
+          select  ^ from applications,perapplicant,loandetails,per_demographics,organisations,products,CUST_CONTACTINFO
+		where app_no=demo_appno 
+		and org_code=app_orgcode
+		and demo_appid=perapp_id
+		and prd_code=app_prdcode 
+		and CON_APPID=demo_appid
+		and demo_type='a' 
+		and app_no=loan_appno 
+ 		and (upper(app_delflag) !='Y' or app_delflag is null)
+		and APP_LOANSUBTYPE_DIGI='PR'
+		and prd_type='pC' and  ^ and  PERAPP_FIPEND_FLAG='Y'   
+        
+
+		union
+		
+		select ^ from perapplicant,applications,loandetails,per_demographics,organisations,products,CUST_CONTACTINFO,APP_VERIFICATION_CHKBOX
+		where app_no=demo_appno 
+		and  org_code=app_orgcode
+		and  demo_appid=perapp_id
+		and  prd_code=app_prdcode 
+		and  CON_APPID=demo_appid
+		and  demo_type='a' 
+		and  app_no=loan_appno 
+		and PERAPP_ID=VERI_APPID
+		and  (upper(app_delflag) !='Y' or app_delflag is null)
+		and  APP_LOANSUBTYPE_DIGI='PR'
+		and prd_type='pC' and  (PERAPP_EMANDATE_FLAG='Y') and  ^ and  VERI_APPNO=APP_NO and  VERI_CHKBOX_VALUE not like '%EMAN%'
+
+	</query>
+	
+	<query code="sel_adhocReport">
+		select perapp_cbsid as CUSTOMER_ID,perapp_fname as CUSTOMER_NAME,facility_appno as ADHOC_PROPOSAL_NO,facility_sno as ADHOC_PROPOSAL_SNO,
+		facility_sancamt as SANCTION_LIMIT,f.cbs_accountno as CBS_ACCOUNT_NO,
+		to_char(facility_duedate,'dd/mm/yyyy') as ADHOC_DUEDATE,sanctionrefno as SANCTION_REF_NO,to_char(app_processdate,'dd/mm/yyyy') as SANCTION_DATE,
+		FAC_ADDAPPNO as PARENT_PROPOSAL_NO,FAC_ADDAPPSNO as PARENT_PROPOSAL_SNO
+		from facilities f,perapplicant,applications a,facility_additionaldetails,app_referncenumber ar,organisations
+		where facility_category='A' and facility_status='pa' and perapp_oldid=borrower_id and nvl(perapp_renew,'n')='n' and a.app_no=facility_appno
+		and app_status='pa' and FAC_APPNO=facility_appno and FAC_SNO=facility_sno and FAC_FACTYPE='A' 
+		and FAC_RENEWALFLAG='F' and ar.app_no=a.app_no and 
+		app_processdate	between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY') and 
+		org_code =a.app_orgcode and org_scode='^'
+	</query>
+	
+	<query code="sel_cgtmseregreport">
+		select a1.app_no,perapp_cbsid,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+		as Application_date,SCHEME_CODE,KYC_KYCactivity as Type_of_activity,cbs_accountno,'' as NF_accountno,(nvl(TXNDET_CRDT_AMT,0)+nvl(TXNDET_CRDT_FUNDBASED,0)+nvl(TXNDET_CRDT_NONFUNDBASED,0)) as Guarantee_amount,
+		TXNDET_APPL_REFNO,TXNDET_CGPAN_NO,TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+		TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+		to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,PERAPP_UDYOG_AADHAR,(select mis_static_data_desc from MIS_STATICDATA where
+	mis_static_data_id='12' and MIS_STATIC_DATA_CODE=app_agriculture) as app_agriculture,
+		(case when PERAPP_CONSTITUTION='01' then (case perapp_sex when 'F' then 'Yes' else 'No' end) else
+		(case PERAPP_STAKEHELD_WOMEN when 'Y' then 'Yes' else 'No' end) end ) as owned_by_women,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate from applications a1,loandetails,organisations o1,appinwardreg i,
+		organisations o2,per_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+		WORFLOW_CGTMSE_TXNDETAILS,mis_appclassification a,products p,PER_CUSCBSACCOUNTDATA mt
+		where loan_appno=a1.app_no and app_status='pa' and app_processdate 
+		between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and LOAN_CGTMSE_APPLICABLE='Y' and app_loantype='P' and a1.APP_ORGCODE like '^'
+		and o1.org_scode=(case when app_orglevel='C' then LOAN_PERTAINS_BRANCH when app_orglevel='D' 
+		then LOAN_PERTAINS_BRANCH else LOANDISBBRANCH end)
+		and inward_no=app_inwardno and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no and mt.appno=a1.app_no
+		and demo_type='a' and demo_appid=perapp_id and demo_appid=e.con_appid and demo_appid=ii.INDINFO_APPID
+		and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+		and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO and a1.app_no=a.app_no and prd_code=app_prdcode
+		union
+		select a1.app_no,perapp_cbsid,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+		as Application_date,com_facility_emischeme,KYC_KYCactivity as Type_of_activity,f.cbs_accountno,'' as NF_accountno,(nvl(TXNDET_CRDT_AMT,0)+nvl(TXNDET_CRDT_FUNDBASED,0)+nvl(TXNDET_CRDT_NONFUNDBASED,0)) as Guarantee_amount,
+		TXNDET_APPL_REFNO,TXNDET_CGPAN_NO,TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+		TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+		to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,PERAPP_UDYOG_AADHAR,(select mis_static_data_desc from MIS_STATICDATA where
+	mis_static_data_id='12' and MIS_STATIC_DATA_CODE=app_agriculture) as app_agriculture,(case when PERAPP_CONSTITUTION='01' then (case perapp_sex when 'F' 
+		then 'Yes' else 'No' end) else
+		(case PERAPP_STAKEHELD_WOMEN when 'Y' then 'Yes' else 'No' end) end ) as owned_by_women,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate from applications a1,facilities f,appinwardreg i,organisations o1,
+		COM_BRIEFBACKGROUND,organisations o2,com_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+		WORFLOW_CGTMSE_TXNDETAILS,mis_appclassification a,facility_corp f1,PER_CUSCBSACCOUNTDATA mt where facility_appno=a1.app_no and app_status='pa' and app_processdate
+		between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and FACILITY_WHT_CGTMSEAPPLY='Y' and a1.APP_ORGCODE like '^'
+		and app_loantype in ('A','C') and inward_no=app_inwardno and  f.facility_appno=mt.appno and f.facility_sno=mt.FACILITY_SNO
+		and o1.org_scode=(case when app_orglevel='C' then COM_PERTAINS_BRANCH when app_orglevel='D'
+		then COM_PERTAINS_BRANCH else LOANDISBBRANCH end) and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no 
+		and DEMO_COMAPPNEWID=perapp_id and DEMO_COMAPPNEWID=e.con_appid and DEMO_COMAPPNEWID=ii.INDINFO_APPID
+		and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+		and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO and a1.app_no=a.app_no and f.facility_sno=TXNDET_FAC_SNO and f.facility_sno=APP_FACILITY_SNO
+		 and COM_APPNO=a1.app_no and facility_code=COM_FACID
+	</query>
+	<query code="sel_cgtmseregreport_bkup">
+		select a1.app_no,perapp_cbsid,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+		as Application_date,SCHEME_CODE,stat_data_desc1 as Type_of_activity,cbs_accountno,'' as NF_accountno,(nvl(TXNDET_CRDT_AMT,0)+nvl(TXNDET_CRDT_FUNDBASED,0)+nvl(TXNDET_CRDT_NONFUNDBASED,0)) as Guarantee_amount,
+		TXNDET_APPL_REFNO,TXNDET_CGPAN_NO,TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+		TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+		to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,PERAPP_UDYOG_AADHAR,app_agriculture,
+		(case when PERAPP_CONSTITUTION='01' then (case perapp_sex when 'F' then 'Yes' else 'No' end) else
+		(case PERAPP_STAKEHELD_WOMEN when 'Y' then 'Yes' else 'No' end) end ) as owned_by_women,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate from applications a1,loandetails,organisations o1,appinwardreg i,
+		organisations o2,per_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+		WORFLOW_CGTMSE_TXNDETAILS,mis_appclassification a,products p
+		where loan_appno=a1.app_no and app_status='pa' and app_processdate 
+		between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and LOAN_CGTMSE_APPLICABLE='Y' and app_loantype='P' and a1.APP_ORGCODE like '^'
+		and o1.org_scode=(case when app_orglevel='C' then LOAN_PERTAINS_BRANCH when app_orglevel='D' 
+		then LOAN_PERTAINS_BRANCH else inward_orgscode end)
+		and inward_no=app_inwardno and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no 
+		and demo_type='a' and demo_appid=perapp_id and demo_appid=e.con_appid and demo_appid=ii.INDINFO_APPID
+		and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+		and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO and a1.app_no=a.app_no and prd_code=app_prdcode
+		union
+		select a1.app_no,perapp_cbsid,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+		as Application_date,com_facility_emischeme,stat_data_desc1 as Type_of_activity,f.cbs_accountno,'' as NF_accountno,(nvl(TXNDET_CRDT_AMT,0)+nvl(TXNDET_CRDT_FUNDBASED,0)+nvl(TXNDET_CRDT_NONFUNDBASED,0)) as Guarantee_amount,
+		TXNDET_APPL_REFNO,TXNDET_CGPAN_NO,TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+		TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+		to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,PERAPP_UDYOG_AADHAR,app_agriculture,(case when PERAPP_CONSTITUTION='01' then (case perapp_sex when 'F' 
+		then 'Yes' else 'No' end) else
+		(case PERAPP_STAKEHELD_WOMEN when 'Y' then 'Yes' else 'No' end) end ) as owned_by_women,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate from applications a1,facilities f,appinwardreg i,organisations o1,
+		COM_BRIEFBACKGROUND,organisations o2,com_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+		WORFLOW_CGTMSE_TXNDETAILS,mis_appclassification a,facility_corp f1 where facility_appno=a1.app_no and app_status='pa' and app_processdate
+		between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and FACILITY_WHT_CGTMSEAPPLY='Y' and a1.APP_ORGCODE like '^'
+		and app_loantype in ('A','C') and inward_no=app_inwardno
+		and o1.org_scode=(case when app_orglevel='C' then COM_PERTAINS_BRANCH when app_orglevel='D'
+		then COM_PERTAINS_BRANCH else inward_orgscode end) and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no 
+		and DEMO_COMAPPNEWID=perapp_id and DEMO_COMAPPNEWID=e.con_appid and DEMO_COMAPPNEWID=ii.INDINFO_APPID
+		and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+		and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO and a1.app_no=a.app_no and f.facility_sno=TXNDET_FAC_SNO and f.facility_sno=APP_FACILITY_SNO
+		 and COM_APPNO=a1.app_no and facility_code=COM_FACID
+	</query>
+	<query code="sel_cgtmseguar_rep">
+		select a1.app_no,perapp_cbsid,perapp_fname,a1.cbs_accountno,sanctionrefno,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,l1.LOAN_RECMDAMT,TXNDET_CGPAN_NO,'Yes' as CGTMSE_PERMITTED,
+		'' as collateralflag,decode(app_agriculture,'2','Yes','9','Yes','14','Yes','No') as app_agriculture,'1' as sno,DEMO_APPID from applications a1,loandetails l1,per_demographics,perapplicant p,WORFLOW_CGTMSE_TXNDETAILS,
+		app_referncenumber ar,mis_appclassification a,applications a2,loandetails l2 where l1.loan_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+		between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and l1.LOAN_CGTMSE_APPLICABLE='N' and a1.app_loantype='P' and
+		a1.APP_ORGCODE like '^'
+		and demo_appno=a1.app_no and demo_type='a' and demo_appid=perapp_id and a2.app_no=TXNDET_APPNO and ar.app_no=a1.app_no and a1.app_no=a.app_no and l2.loan_appno=a2.app_no
+		and a1.APP_PARENT_APPNO=a2.app_no and nvl(SANCREF_FLAG,'n')='n' 
+		union all
+		select a1.app_no,perapp_cbsid,perapp_fname,f2.cbs_accountno,sanctionrefno,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,f1.FACILITY_SANCAMT,TXNDET_CGPAN_NO,'Yes' as CGTMSE_PERMITTED,
+		'' as collateralflag,decode(app_agriculture,'2','Yes','9','Yes','14','Yes','No') as app_agriculture,to_char(f1.facility_sno),DEMO_COMAPPNEWID from applications a1,facilities f1,com_demographics,perapplicant p,WORFLOW_CGTMSE_TXNDETAILS,
+		app_referncenumber ar,mis_appclassification a,applications a2,facilities f2 where f1.facility_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+		between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and f1.FACILITY_WHT_CGTMSEAPPLY='N' and a1.app_loantype in ('A','C') 
+		and a1.APP_ORGCODE like '^'
+		and demo_appno=a1.app_no and DEMO_COMAPPNEWID=perapp_id and f2.facility_appno=TXNDET_APPNO and f2.facility_sno=TXNDET_FAC_SNO and ar.app_no=a1.app_no 
+		and a1.app_no=a.app_no and f1.facility_sno=a.APP_FACILITY_SNO and f2.facility_appno=a2.app_no
+		and f2.facility_appno=f1.FACILITY_OLDAPPNO and f2.facility_sno=f1.FACILITY_OLDAPPSNO 
+		and f1.FACILITY_RENEW_FLAG='Y' and f2.FACILITY_WHT_CGTMSEAPPLY='Y' and nvl(SANCREF_FLAG,'n')='n'
+	</query>
+	<query code="chk_collateralsecurity">
+		select APP_SEC_APPNO from app_securitydetails where APP_SEC_APPNO='^' and APP_SEC_FACSNO='^' and app_sec_securitytype='2' and app_sec_loantype='P' and APP_SEC_ATTACHED='A' 
+	</query>
+	<query code="chk_otherpromoters">
+		select perapp_id from per_demographics,perapplicant where demo_appno='^' and demo_type&lt;&gt;'a' and DEMO_APPID=perapp_id and 
+	perapp_cbsid not in (select COMAPP_CBSID from comapp_company_divisions where COMAPP_ID='^')
+	union
+	select perapp_id from com_companydetails,perapplicant where com_facility_sno='^' and com_compdtappno='^' and com_oldlapsid=perapp_oldid and 
+	perapp_cbsid not in (select COMAPP_CBSID from comapp_company_divisions where COMAPP_ID='^') 
+	</query>
+  <query code="sel_enhancement_det">
+     select a1.app_no,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+     as Application_date,KYC_KYCactivity as Type_of_activity,a1.cbs_accountno,TXNDET_CGPAN_NO,'F'  fundtype,
+     TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+     TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+     to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,to_char(a1.app_processdate,'dd/mm/yyyy') as app_processdate  
+    from applications a1,loandetails l1,organisations o1,appinwardreg i,
+     organisations o2,per_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+     WORFLOW_CGTMSE_TXNDETAILS,applications a2,loandetails l2,PER_CUSCBSACCOUNTDATA mt
+     where l1.loan_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and l1.LOAN_CGTMSE_APPLICABLE='Y' and a1.app_loantype='P' and a1.APP_ORGCODE like '^'
+     and o1.org_scode=(case when a1.app_orglevel='C' then l1.LOAN_PERTAINS_BRANCH when a1.app_orglevel='D' 
+     then l1.LOAN_PERTAINS_BRANCH else LOANDISBBRANCH end)
+     and inward_no=a1.app_inwardno and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no 
+     and demo_type='a' and demo_appid=perapp_id and demo_appid=e.con_appid and demo_appid=ii.INDINFO_APPID
+     and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+     and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO and a2.app_no=a1.APP_PARENT_APPNO and a2.app_no=l2.loan_appno
+     and l1.LOAN_RECMDAMT>l2.LOAN_RECMDAMT and l2.LOAN_CGTMSE_APPLICABLE='Y' and a1.app_renew_flag='R'
+     union
+     select a1.app_no,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+     as Application_date,KYC_KYCactivity as Type_of_activity,f.cbs_accountno,
+     TXNDET_CGPAN_NO,com_factype,TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+     TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+     to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,to_char(a1.app_processdate,'dd/mm/yyyy') as app_processdate 
+	 from applications a1,facilities f,appinwardreg i,organisations o1,
+     COM_BRIEFBACKGROUND,organisations o2,com_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+     WORFLOW_CGTMSE_TXNDETAILS,facility_corp f1,applications a2,facilities f2,PER_CUSCBSACCOUNTDATA mt
+     where f.facility_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+    between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and f.FACILITY_WHT_CGTMSEAPPLY='Y' and a1.APP_ORGCODE like '^'
+     and a1.app_loantype in ('A','C') and inward_no=a1.app_inwardno and mt.appno=a1.app_no
+     and o1.org_scode=(case when a1.app_orglevel='C' then COM_PERTAINS_BRANCH when a1.app_orglevel='D' 
+     then COM_PERTAINS_BRANCH else LOANDISBBRANCH end) and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no 
+     and DEMO_COMAPPNEWID=perapp_id and DEMO_COMAPPNEWID=e.con_appid and DEMO_COMAPPNEWID=ii.INDINFO_APPID
+     and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+     and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO  and f.facility_sno=TXNDET_FAC_SNO 
+     and COM_APPNO=a1.app_no and f.facility_code=COM_FACID and a2.app_no=f2.facility_appno and f.FACILITY_WHT_CGTMSEAPPLY='Y' and f.FACILITY_OLDAPPNO=f2.facility_appno
+ and f.FACILITY_OLDAPPSNO=f2.facility_sno and f.FACILITY_SANCAMT>f2.FACILITY_SANCAMT and f.FACILITY_RENEW_FLAG='Y'
+and  f.facility_appno=mt.appno and f.facility_sno=mt.FACILITY_SNO
+	</query>
+	<query code="sel_enhancement_det_bkup">
+     select a1.app_no,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+     as Application_date,stat_data_desc1 as Type_of_activity,a1.cbs_accountno,TXNDET_CGPAN_NO,'F'  fundtype,
+     TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+     TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+     to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,to_char(a1.app_processdate,'dd/mm/yyyy') as app_processdate  from applications a1,loandetails l1,organisations o1,appinwardreg i,
+     organisations o2,per_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+     WORFLOW_CGTMSE_TXNDETAILS,applications a2,loandetails l2
+     where l1.loan_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and l1.LOAN_CGTMSE_APPLICABLE='Y' and a1.app_loantype='P' and a1.APP_ORGCODE like '^'
+     and o1.org_scode=(case when a1.app_orglevel='C' then l1.LOAN_PERTAINS_BRANCH when a1.app_orglevel='D' 
+     then l1.LOAN_PERTAINS_BRANCH else inward_orgscode end)
+     and inward_no=a1.app_inwardno and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no 
+     and demo_type='a' and demo_appid=perapp_id and demo_appid=e.con_appid and demo_appid=ii.INDINFO_APPID
+     and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+     and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO and a2.app_no=a1.APP_PARENT_APPNO and a2.app_no=l2.loan_appno
+     and l1.LOAN_RECMDAMT>l2.LOAN_RECMDAMT and l2.LOAN_CGTMSE_APPLICABLE='Y' and a1.app_renew_flag='R'
+     union
+     select a1.app_no,o1.org_scode,o1.org_name,o2.org_name as region_name,perapp_fname,STATE_NAME,to_char(Inward_Createdon,'dd/mm/yyyy') 
+     as Application_date,stat_data_desc1 as Type_of_activity,f.cbs_accountno,
+     TXNDET_CGPAN_NO,com_factype,TXNDET_GUARANTEE_FEE_AMOUNT,TXNDET_TAXABLE_AMOUNT,TXNDET_IGST_RATE,TXNDET_IGST_AMOUNT,
+     TXNDET_CGST_RATE,TXNDET_CGST_AMOUNT,TXNDET_SGST_RATE,TXNDET_SGST_AMOUNT,to_char(TXNDET_GUA_STARTDATE,'dd/mm/yyyy')as TXNDET_GUA_STARTDATE,
+     to_char(TXNDET_GUA_ENDDATE,'dd/mm/yyyy')as TXNDET_GUA_ENDDATE,to_char(a1.app_processdate,'dd/mm/yyyy') as app_processdate from applications a1,facilities f,appinwardreg i,organisations o1,
+     COM_BRIEFBACKGROUND,organisations o2,com_demographics,perapplicant p,cust_contactinfo e,INDIVIDUAL_INFO ii,laps_states,applicant_kycnorms,static_data,
+     WORFLOW_CGTMSE_TXNDETAILS,facility_corp f1,applications a2,facilities f2 where f.facility_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and f.FACILITY_WHT_CGTMSEAPPLY='Y' and a1.APP_ORGCODE like '^'
+     and a1.app_loantype in ('A','C') and inward_no=a1.app_inwardno 
+     and o1.org_scode=(case when a1.app_orglevel='C' then COM_PERTAINS_BRANCH when a1.app_orglevel='D' 
+     then COM_PERTAINS_BRANCH else inward_orgscode end) and o2.org_code=substr(o1.org_code,1,6)||'000000000' and demo_appno=a1.app_no 
+     and DEMO_COMAPPNEWID=perapp_id and DEMO_COMAPPNEWID=e.con_appid and DEMO_COMAPPNEWID=ii.INDINFO_APPID
+     and STATE_CODE=(case when INDINFO_RESIDENT_STATUS='N' then CON_COMSTATE else  con_permstate end) and kyc_custid=perapp_id and stat_data_id='70'
+     and stat_data_desc=kyc_occupationcode and a1.app_no=TXNDET_APPNO  and f.facility_sno=TXNDET_FAC_SNO 
+     and COM_APPNO=a1.app_no and f.facility_code=COM_FACID and a2.app_no=f2.facility_appno and f.FACILITY_WHT_CGTMSEAPPLY='Y' and f.FACILITY_OLDAPPNO=f2.facility_appno
+ and f.FACILITY_OLDAPPSNO=f2.facility_sno and f.FACILITY_SANCAMT>f2.FACILITY_SANCAMT and f.FACILITY_RENEW_FLAG='Y'
+	</query>
+	
+	<query code="sel_od_details">
+	select a1.app_no,perapp_cbsid,perapp_fname,a1.cbs_accountno,sanctionrefno,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,to_char(a1.APP_CREATEDATE,'dd/mm/yyyy') as createdate,l1.LOAN_RECMDAMT as Newlimit,TXNDET_CGPAN_NO,l2.LOAN_RECMDAMT as oldlimit
+     from applications a1,loandetails l1,per_demographics,perapplicant p,WORFLOW_CGTMSE_TXNDETAILS,
+     app_referncenumber ar,applications a2,loandetails l2 where l1.loan_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and l1.LOAN_CGTMSE_APPLICABLE='Y' and a1.app_loantype='P' and a1.APP_ORGCODE like '^'
+     and demo_appno=a1.app_no and demo_type='a' and demo_appid=perapp_id and a1.app_no=TXNDET_APPNO and ar.app_no=a1.app_no and l2.loan_appno=a2.app_no
+     and a1.APP_PARENT_APPNO=a2.app_no and a1.app_renew_flag='R' and l2.LOAN_CGTMSE_APPLICABLE='Y' and l2.LOAN_RECMDAMT>l1.LOAN_RECMDAMT
+     union all
+     select a1.app_no,perapp_cbsid,perapp_fname,f2.cbs_accountno,sanctionrefno,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,to_char(a1.APP_CREATEDATE,'dd/mm/yyyy') 
+     as createdate,f1.FACILITY_SANCAMT as Newlimit,TXNDET_CGPAN_NO,f2.FACILITY_SANCAMT as oldlimit 
+     from applications a1,facilities f1,com_demographics,perapplicant p,WORFLOW_CGTMSE_TXNDETAILS,
+     app_referncenumber ar,applications a2,facilities f2 where f1.facility_appno=a1.app_no and a1.app_status='pa' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and f1.FACILITY_WHT_CGTMSEAPPLY='Y' and a1.app_loantype in ('A','C') 
+     and a1.APP_ORGCODE like '^'
+     and demo_appno=a1.app_no  and DEMO_COMAPPNEWID=perapp_id and f1.facility_appno=TXNDET_APPNO and f1.facility_sno=TXNDET_FAC_SNO and ar.app_no=a1.app_no 
+     and f2.facility_appno=a2.app_no and f1.FACILITY_OLDAPPNO=f2.facility_appno and f1.FACILITY_OLDAPPSNO=f2.facility_sno 
+     and f1.FACILITY_RENEW_FLAG='Y' and f2.FACILITY_WHT_CGTMSEAPPLY='Y' and f2.FACILITY_SANCAMT>f1.FACILITY_SANCAMT 
+	</query>
+	
+	<!--<query code="selfinancialReportyear">
+ 	select extract(year from add_months('^', -3))|| '-' || extract(year from add_months('^', 9))
+ 	as FinancialYear   from dual
+ 	</query>
+ 	
+ 	-->
+ 	<query code="selfinancialReportyear">
+ 	select extract(year from add_months(sysdate, -3))|| '-' || extract(year from add_months( sysdate, 9))
+ 	as FinancialYear   from dual
+ 	</query>
+ 	<query code="sel_cgtmse_enhancedlimits">
+ 	select f.facility_appno,f.facility_sancamt,to_char(f.FAC_PROCESSDATE,'dd/mm/yyyy') as processdate,f.FAC_PROCESSDATE from facilities f,applications a,facilities f1
+ where f.cbs_accountno='^' and f.FACILITY_RENEW_FLAG='Y' and app_status in ('pa','ca') and app_no=f.facility_appno 
+and f.FAC_PROCESSDATE &lt;= to_date('^','dd/mm/yyyy')+1  and f1.facility_appno=f.facility_oldappno
+and f1.facility_sno=f.facility_oldappsno and f.FACILITY_SANCAMT>f1.FACILITY_SANCAMT
+union all
+
+select a1.app_no,l1.loan_recmdamt,to_char(a1.app_PROCESSDATE,'dd/mm/yyyy') as processdate,a1.app_PROCESSDATE from loandetails l1,applications a1,loandetails l2,applications a2
+ where a1.cbs_accountno='^' and a1.app_renew_flag='R' and a1.app_status in ('pa','ca') and a1.app_no=l1.loan_appno
+and a1.app_PROCESSDATE &lt;= to_date('^','dd/mm/yyyy')+1  and a1.app_parent_appno=a2.app_no and a2.app_no=l2.loan_appno
+ and l1.loan_recmdamt>l2.loan_recmdamt order by FAC_PROCESSDATE
+ 	</query>
+ 	<query code="sel_cgtmse_existinglimit">
+ 	select facility_appno,facility_sancamt from facilities where cbs_accountno='^' and FACILITY_RENEW_FLAG='F'
+ 		union all
+ 	select loan_appno,loan_recmdamt from applications,loandetails where cbs_accountno='^' and app_no=loan_appno 
+ 	and nvl(app_renew_flag,'F')='F' and app_loantype='P'
+ 	</query><!--
+	<query code="sel_ca_details">
+	select cg_application_no,CG_CGPAN,CG_UDYOG_AADHAR,CG_ASISTBANK,CG_NATUREINDUSTRY,CG_INDUSTRYSECTOR,
+    CG_NOEMP,CG_PROJ_OPTI_SALES,CG_PROJ_OPTI_EXPORT,CG_INTERNAL_RATING,CG_NEW_UNIT,CG_NEW_UNIT_WO,CG_MSE_UNIT,CG_MSE_UNIT_WO,
+    CG_COLSEC,CG_THIRDPARTY,CG_FIRSTCHARGE,CG_JOINTFINANCE,CG_ARTISAN_CC,CG_GF_ASF,CG_HANDLOOMSCHEME,CG_TC_PROMOTERS,CG_TC_SUBSIDY,CG_TC_OTHERS,a1.app_PROCESSDATE 
+    from CORP_CGTMSE,applications a1 where a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and a1.APP_ORGCODE like '^'  
+	</query>
+	
+-->
+	<query code="sel_ca_details">select app_no,decode(prd_loantype,'TL','Term Loan','OD','Working Capital','DL','Term Loan','') loantype,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,o1.org_name,o1.org_scode,s2.state_name as orgstatename,
+    decode(CG_PRV_CGP,'Y','Yes','N','No','') CG_PRV_CGP,cg_cgtmse_coverage,cg_cgpan,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA where cbs_static_data_id='2' and cbs_static_data_code=p1.PERAPP_CONSTITUTION) as PERAPP_CONSTITUTION,
+    p1.perapp_title,p1.perapp_fname,
+    ci.con_comaddr1 || ', ' ||ci.con_comaddr2 || ', ' ||ci.con_comvillage AS address,d.district_desc as currdist,c.city_name as currentcity,s.state_name as currentstate,ci.CON_COMZIP as currzip,
+    ci.CON_PERMADDR1 || ', ' || ci.CON_PERMADDR2 || ', ' || ci.CON_PERMVILLAGE  AS permaddress,d1.district_desc as permdist,c1.city_name as permcity,s1.state_name as permstate,ci.CON_PERMZIP as permzip,
+    p1.PERAPP_PANNO,(select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='210' and  stat_data_desc=CG_NATUREINDUSTRY) as CG_NATUREINDUSTRY,(select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='283' and  stat_data_desc=CG_TYPEOFLOAN) as CG_TYPEOFLOAN,(select stat_data_desc1 from STATIC_DATA 
+    where STAT_DATA_ID='211'and stat_data_desc=CG_INDUSTRYSECTOR )as CG_INDUSTRYSECTOR,ky.kyc_kycactivity,CG_NOEMP, CG_PROJ_OPTI_SALES,CG_PROJ_OPTI_EXPORT,
+    p2.perapp_title as promotertitle,p2.perapp_fname as promoterfname,p2.perapp_lname as promoterlastname,p2.PERAPP_SEX,p2.PERAPP_PANNO as promoterpan,
+       decode(INDINFO_IS_MINOR,'Y','Yes','N','No','') INDINFO_IS_MINOR,decode(INDINFO_PHYSICALLY_CHALLANGED,'Y','Yes','N','No','') INDINFO_PHYSICALLY_CHALLANGED,
+      decode(COMAPP_CHF_PROMOTER,'Y','Yes','N','No','') COMAPP_CHF_PROMOTER,decode(cg_checkbx,'Y','Yes','N','No','') cg_checkbx,
+      decode(cg_firstCharge,'Y','Yes','N','No','') cg_firstCharge,decode(cg_gf_asf,'Y','Yes','N','No','') cg_gf_asf,
+      to_char(p2.PERAPP_DOB,'dd/mm/yyyy') as PERAPP_DOB,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA  where cbs_static_data_id='7' and cbs_static_data_code=indinfo_caste) as indinfo_caste,
+    p1.PERAPP_UDYOG_AADHAR,a1.cbs_Accountno,p2.perapp_aadhaar as perapp_aadhaar,decode(CG_NEW_UNIT,'Y','Yes','N','No','') CG_NEW_UNIT,decode(CG_NEW_UNIT_WO,'Y','Yes','N','No','') CG_NEW_UNIT_WO,
+    decode(CG_MSE_UNIT,'Y','Yes','N','No','') CG_MSE_UNIT,decode(CG_MSE_UNIT_WO,'Y','Yes','No','N','') CG_MSE_UNIT_WO,
+    decode(CG_ASISTBANK,'Y','Yes','N','No','') CG_ASISTBANK,
+    decode(CG_COLSEC,'Y','Yes','N','No','') CG_COLSEC,decode(CG_THIRDPARTY,'Y','Yes','N','No','') CG_THIRDPARTY,decode(CG_JOINTFINANCE,'Y','Yes','N','No','') CG_JOINTFINANCE,
+    p1.PERAPP_PANNO,decode(CG_ARTISAN_CC,'Y','Yes','N','No','') CG_ARTISAN_CC,
+    cg_identy_dc,to_char(cg_issuedate,'dd/mm/yyyy') as cg_issuedate,decode(CG_HANDLOOMSCHEME,'Y','Yes','N','No','')CG_HANDLOOMSCHEME,decode(CG_INTERNAL_RATING,'Y','Yes','No','N','') CG_INTERNAL_RATING,
+    l.LOAN_RECMDAMT,CG_TC_PROMOTERS,CG_TC_SUBSIDY,CG_TC_OTHERS,ct.TXNDET_CRDT_FUNDBASED,ct.TXNDET_CRDT_NONFUNDBASED,l.LOAN_INTTYPE as LOAN_INTTYPE,l.LOAN_INTRATE as LOAN_INTRATE,l.loan_baserate as loan_baserate,
+    to_char(ct.TXNDET_DT_FST_DISB,'dd/mm/yyyy') as TXNDET_DT_FST_DISB,to_char(ct.TXNDET_DT_LST_DISB,'dd/mm/yyyy') as TXNDET_DT_LST_DISB,
+    to_char(ct.TXNDET_FST_INS_DUE_DT,'dd/mm/yyyy') as TXNDET_FST_INS_DUE_DT,ct.TXNDET_OUTS_BAL_AMT,l.loan_baserate as loan_baserate,to_char(ct.TXNDET_OUTS_BAL_DT,'dd/mm/yyyy') as TXNDET_OUTS_BAL_DT,
+    to_char(ct.TXNDET_APPROVAL_DATE,'dd/mm/yyyy') as TXNDET_APPROVAL_DATE,to_char(l.loan_duedate,'dd/mm/yyyy') as loan_duedate,TXNDET_CRDT_AMT,
+    l.loan_reqterms,pl.LOAN_NOOFINSTALLMENT,pl.LOAN_PERIODICITY,(case when prd_loantype='OD' then 'F' else '' end)  fundtype,p1.PERAPP_ID,cg_namescheme,
+    ct.TXNDET_AMT_DISBURSED,ct.TXNDET_OUTSTD_FUND,ct.TXNDET_OUTFB_DT,p1.perapp_cbsid,comapp_div_phone,app_loantype,0 as facility_sno,ct.TXNDET_AMT_DISBURSEDWC,to_char(ct.TXNDET_DT_FST_DISBWC,'dd/mm/yyyy') as TXNDET_DT_FST_DISBWC,to_char(ct.TXNDET_DT_LST_DISBWC,'dd/mm/yyyy') as TXNDET_DT_LST_DISBWC,l.LOAN_INTRATE as LOAN_INTCOM,
+    '' as facility_sel_type,0 as FACILITY_EXISTING,0 as FACILITY_PROPOSED,'' as FACILITY_WHT_CGTMSEAPPLY,ci.CON_MOBILE,CG_NCGTC,CG_EDUCATION,'' as CG_UNIT_ENGAGED,
+    (select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='242' and  stat_data_desc=CG_SOCIALCATGRY) as CG_SOCIALCATGRY,p1.PERAPP_NETWORTH,l.LOAN_RECMDAMT,l.LOAN_AMTREQD,a1.APP_RENEW_FLAG
+    from CORP_CGTMSE,applications a1,loandetails l,per_demographics p,perapplicant p1  left join comapp_company_divisions on comapp_id=p1.perapp_id and COMAPP_CHF_PROMOTER='Y' 
+    left join  perapplicant p2 on p2.perapp_cbsid=comapp_cbsid and nvl(p2.perapp_renew,'n')='n' left join cust_contactinfo c1 on p2.perapp_id = c1.con_appid ,products,
+    laps_states s,laps_cities c,cust_contactinfo ci,organisations o1,applicant_kycnorms ky,
+    district_master d,INDIVIDUAL_INFO inf,WORFLOW_CGTMSE_TXNDETAILS ct,laps_cities c1,laps_states s1,district_master d1,appinwardreg,laps_states s2,per_loan_secure pl,
+    PER_CUSCBSACCOUNTDATA mt
+    where l.loan_Appno=a1.app_no and a1.app_status='pa' and L.Loan_Cgtmse_Applicable='Y' and a1.app_processdate
+    between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and a1.APP_ORGCODE like '^'
+    and CG_PROPOSALNO=l.loan_Appno and CG_SNO='1' and a1.app_loantype='P' and a1.app_no=p.demo_appno and p.demo_appid=p1.perapp_id and demo_type='a' and prd_Code=app_prdcode and
+    p1.perapp_id = ci.con_appid AND p1.perapp_id = inf.indinfo_appid and s.state_code =ci.con_comstate and s1.state_code=ci.CON_PERMSTATE AND c.city_code =ci.con_comcity 	and c1.city_code=ci.CON_PERMCITY
+    and c.STATE_ID=s.state_id and c1.STATE_ID=s1.state_id and d1.district_code=ci.CON_PERMDIST and d.district_code=ci.con_comdist and TXNDET_APPNO=l.loan_appno 
+    and o1.org_scode=(case when a1.app_orglevel='C' then LOAN_PERTAINS_BRANCH when a1.app_orglevel='D' 
+    then LOAN_PERTAINS_BRANCH else LOANDISBBRANCH end) and inward_no=a1.app_inwardno and KYC_CUSTID=p1.perapp_id and o1.ORG_STATE=s2.state_code and pl.loan_appno=l.loan_appno
+and mt.APPNO= app_no
+    
+    union
+    
+    select a1.app_no,decode(COM_FACNATURE,'2','Term Loan','1','Working Capital') loantype ,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,o1.org_name,o1.org_scode,s2.state_name as orgstatename,decode(CG_PRV_CGP,'Y','Yes','N','No','') CG_PRV_CGP,
+    cg_cgtmse_coverage,cg_cgpan,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA where cbs_static_data_id='2' and cbs_static_data_code=p1.PERAPP_CONSTITUTION) as PERAPP_CONSTITUTION,
+    p1.perapp_title,p1.perapp_fname,
+    ci.con_comaddr1 || ', ' ||ci.con_comaddr2 || ', ' ||ci.con_comvillage AS address,d.district_desc as currdist,c.city_name as currentcity,s.state_name as currentstate,ci.CON_COMZIP as currzip,
+    ci.CON_PERMADDR1 || ', ' || ci.CON_PERMADDR2 || ', ' || ci.CON_PERMVILLAGE  AS permaddress,d1.district_desc as permdist,c1.city_name as permcity,s1.state_name as permstate,ci.CON_PERMZIP as permzip,
+    p1.PERAPP_PANNO,(select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='210' and  stat_data_desc=CG_NATUREINDUSTRY) as CG_NATUREINDUSTRY,(select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='283' and  stat_data_desc=CG_TYPEOFLOAN) as CG_TYPEOFLOAN,
+    (select stat_data_desc1 from STATIC_DATA 
+    where STAT_DATA_ID='211'and stat_data_desc=CG_INDUSTRYSECTOR )as CG_INDUSTRYSECTOR,ky.kyc_kycactivity,CG_NOEMP,CG_PROJ_OPTI_SALES,CG_PROJ_OPTI_EXPORT,
+    p2.perapp_title as promotertitle,p2.perapp_fname as promotername,p2.perapp_lname as promoterlastname,p2.PERAPP_SEX,p2.PERAPP_PANNO as promoterpan,
+        decode(INDINFO_IS_MINOR,'Y','Yes','N','No','') INDINFO_IS_MINOR, decode(cg_firstCharge,'Y','Yes','N','No','') cg_firstCharge,decode(cg_gf_asf,'Y','Yes','N','No','') cg_gf_asf,
+         decode(INDINFO_PHYSICALLY_CHALLANGED,'Y','Yes','N','No','') INDINFO_PHYSICALLY_CHALLANGED,decode(cg_checkbx,'Y','Yes','N','No','') cg_checkbx,
+     decode(COMAPP_CHF_PROMOTER,'Y','Yes','N','No','') COMAPP_CHF_PROMOTER,to_char(p2.PERAPP_DOB,'dd/mm/yyyy') as PERAPP_DOB,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA  where cbs_static_data_id='7' and cbs_static_data_code=indinfo_caste) as indinfo_caste,
+    p1.PERAPP_UDYOG_AADHAR,f.cbs_Accountno,p2.perapp_aadhaar as perapp_aadhaar,
+    decode(CG_NEW_UNIT,'Y','Yes','N','No','') CG_NEW_UNIT,decode(CG_NEW_UNIT_WO,'Y','Yes','N','No','') CG_NEW_UNIT_WO,
+    decode(CG_MSE_UNIT,'Y','Yes','N','No','') CG_MSE_UNIT,decode(CG_MSE_UNIT_WO,'Y','Yes','N','No','') CG_MSE_UNIT_WO,
+    decode(CG_ASISTBANK,'Y','Yes','N','No','') CG_ASISTBANK,
+    decode(CG_COLSEC,'Y','Yes','N','No','') CG_COLSEC,decode(CG_THIRDPARTY,'Y','Yes','N','No','') CG_THIRDPARTY,decode(CG_JOINTFINANCE,'Y','Yes','N','No','') CG_JOINTFINANCE,
+    p1.PERAPP_PANNO,decode(CG_ARTISAN_CC,'Y','Yes','N','No','') CG_ARTISAN_CC,
+    cg_identy_dc,to_char(cg_issuedate,'dd/mm/yyyy') as cg_issuedate,decode(CG_HANDLOOMSCHEME,'Y','Yes','N','No','') CG_HANDLOOMSCHEME,decode(CG_INTERNAL_RATING,'Y','Yes','N','No','') CG_INTERNAL_RATING,
+    f.FACILITY_SANCAMT,CG_TC_PROMOTERS,CG_TC_SUBSIDY,CG_TC_OTHERS,ct.TXNDET_CRDT_FUNDBASED,ct.TXNDET_CRDT_NONFUNDBASED,decode(f.facility_inttype,'Fix','Fixed','Flo','Floating','') LOAN_INTTYPE,f.facility_baserate as loan_baserate,
+    f.FACILITY_SANCINTEREST as LOAN_INTRATE,
+    to_char(ct.TXNDET_DT_FST_DISB,'dd/mm/yyyy') as TXNDET_DT_FST_DISB,to_char(ct.TXNDET_DT_LST_DISB,'dd/mm/yyyy') as TXNDET_DT_LST_DISB,
+    to_char(ct.TXNDET_FST_INS_DUE_DT,'dd/mm/yyyy') as TXNDET_FST_INS_DUE_DT,ct.TXNDET_OUTS_BAL_AMT,f.facility_baserate,to_char(ct.TXNDET_OUTS_BAL_DT,'dd/mm/yyyy') as TXNDET_OUTS_BAL_DT,
+    to_char(ct.TXNDET_APPROVAL_DATE,'dd/mm/yyyy') as TXNDET_APPROVAL_DATE,to_char(f.facility_duedate,'dd/mm/yyyy') as facility_duedate,TXNDET_CRDT_AMT,
+    f.FACILITY_TENOR,'' as LOAN_NOOFINSTALLMENT,'' as LOAN_PERIODICITY,com_factype,p1.PERAPP_ID,cg_namescheme,
+    ct.TXNDET_AMT_DISBURSED,ct.TXNDET_OUTSTD_FUND,ct.TXNDET_OUTFB_DT,p1.perapp_cbsid,comapp_div_phone,app_loantype,f.facility_sno,ct.TXNDET_AMT_DISBURSEDWC,to_char(ct.TXNDET_DT_FST_DISBWC,'dd/mm/yyyy') as TXNDET_DT_FST_DISBWC,to_char(ct.TXNDET_DT_LST_DISBWC,'dd/mm/yyyy') as TXNDET_DT_LST_DISBWC,f.FACILITY_INTEREST as LOAN_INTCOM,
+    f.facility_sel_type,f.FACILITY_EXISTING,f.FACILITY_PROPOSED,f.FACILITY_WHT_CGTMSEAPPLY,ci.CON_MOBILE,CG_NCGTC,CG_EDUCATION,CG_UNIT_ENGAGED,
+    (select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='242' and  stat_data_desc=CG_SOCIALCATGRY) as CG_SOCIALCATGRY,p1.PERAPP_NETWORTH, 0 as LOAN_RECMDAMT,0 as LOAN_AMTREQD,a1.APP_RENEW_FLAG
+    from CORP_CGTMSE,applications a1,facilities f,com_demographics p,perapplicant p1  left join comapp_company_divisions on comapp_id=p1.perapp_id and COMAPP_CHF_PROMOTER='Y' 
+    left join  perapplicant p2 on p2.perapp_cbsid=comapp_cbsid and nvl(p2.perapp_renew,'n')='n' left join cust_contactinfo c1 on p2.perapp_id = c1.con_appid ,facility_corp,
+    laps_states s,laps_cities c,cust_contactinfo ci,organisations o1,applicant_kycnorms ky,
+    COM_BRIEFBACKGROUND,
+    district_master d,INDIVIDUAL_INFO inf,WORFLOW_CGTMSE_TXNDETAILS ct,laps_cities c1,laps_states s1,district_master d1,appinwardreg,laps_states s2,
+PER_CUSCBSACCOUNTDATA mt
+    where f.facility_Appno=a1.app_no and a1.app_status='pa' and f.FACILITY_WHT_CGTMSEAPPLY='Y' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and a1.APP_ORGCODE like '^'  
+    and CG_PROPOSALNO=f.facility_Appno and CG_SNO=f.facility_sno and a1.app_loantype in ('A','C') and a1.app_no=p.demo_appno and
+    p.DEMO_COMAPPNEWID=p1.perapp_id  and com_facid=facility_code and
+    p1.perapp_id = ci.con_appid AND p1.perapp_id = inf.indinfo_appid and s.state_code =ci.con_comstate and s1.state_code=ci.CON_PERMSTATE AND 
+    c.city_code =ci.con_comcity 	and c1.city_code=ci.CON_PERMCITY
+    and c.STATE_ID=s.state_id and c1.STATE_ID=s1.state_id and d1.district_code=ci.CON_PERMDIST and d.district_code=ci.con_comdist and 
+    TXNDET_APPNO=f.facility_appno and TXNDET_FAC_SNO=f.facility_sno
+    and o1.org_scode=(case when a1.app_orglevel='C' then COM_PERTAINS_BRANCH  when a1.app_orglevel='D' 
+    then COM_PERTAINS_BRANCH  else LOANDISBBRANCH end) and inward_no=a1.app_inwardno and KYC_CUSTID=p1.perapp_id and 
+    o1.ORG_STATE=s2.state_code and COM_APPNO=a1.app_no and mt.APPNO= f.facility_Appno and mt.FACILITY_SNO=f.facility_sno
+	</query>
+	
+	<query code="sel_ca_details_bkup">
+	select app_no,decode(prd_loantype,'TL','Term Loan','OD','Working Capital','DL','Term Loan','') loantype,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,o1.org_name,o1.org_scode,s2.state_name as orgstatename,
+    decode(CG_PRV_CGP,'Y','Yes','N','No','') CG_PRV_CGP,cg_cgtmse_coverage,cg_cgpan,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA where cbs_static_data_id='2' and cbs_static_data_code=p1.PERAPP_CONSTITUTION) as PERAPP_CONSTITUTION,
+    p1.perapp_title,p1.perapp_fname,
+    ci.con_comaddr1 || ', ' ||ci.con_comaddr2 || ', ' ||ci.con_comvillage AS address,d.district_desc as currdist,c.city_name as currentcity,s.state_name as currentstate,ci.CON_COMZIP as currzip,
+    ci.CON_PERMADDR1 || ', ' || ci.CON_PERMADDR2 || ', ' || ci.CON_PERMVILLAGE  AS permaddress,d1.district_desc as permdist,c1.city_name as permcity,s1.state_name as permstate,ci.CON_PERMZIP as permzip,
+    p1.PERAPP_PANNO,(select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='210' and  stat_data_desc=CG_NATUREINDUSTRY) as CG_NATUREINDUSTRY,(select stat_data_desc1 from STATIC_DATA 
+    where STAT_DATA_ID='211'and stat_data_desc=CG_INDUSTRYSECTOR )as CG_INDUSTRYSECTOR,ky.kyc_kycactivity,CG_NOEMP, CG_PROJ_OPTI_SALES,CG_PROJ_OPTI_EXPORT,
+    p2.perapp_title as promotertitle,p2.perapp_fname as promoterfname,p2.perapp_lname as promoterlastname,p2.PERAPP_SEX,p2.PERAPP_PANNO as promoterpan,
+       decode(INDINFO_IS_MINOR,'Y','Yes','N','No','') INDINFO_IS_MINOR,decode(INDINFO_PHYSICALLY_CHALLANGED,'Y','Yes','N','No','') INDINFO_PHYSICALLY_CHALLANGED,
+      decode(COMAPP_CHF_PROMOTER,'Y','Yes','N','No','') COMAPP_CHF_PROMOTER,decode(cg_checkbx,'Y','Yes','N','No','') cg_checkbx,
+      decode(cg_firstCharge,'Y','Yes','N','No','') cg_firstCharge,decode(cg_gf_asf,'Y','Yes','N','No','') cg_gf_asf,
+      to_char(p2.PERAPP_DOB,'dd/mm/yyyy') as PERAPP_DOB,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA  where cbs_static_data_id='7' and cbs_static_data_code=indinfo_caste) as indinfo_caste,
+    p1.PERAPP_UDYOG_AADHAR,a1.cbs_Accountno,p2.perapp_aadhaar as perapp_aadhaar,decode(CG_NEW_UNIT,'Y','Yes','N','No','') CG_NEW_UNIT,decode(CG_NEW_UNIT_WO,'Y','Yes','N','No','') CG_NEW_UNIT_WO,
+    decode(CG_MSE_UNIT,'Y','Yes','N','No','') CG_MSE_UNIT,decode(CG_MSE_UNIT_WO,'Y','Yes','No','N','') CG_MSE_UNIT_WO,
+    decode(CG_ASISTBANK,'Y','Yes','N','No','') CG_ASISTBANK,
+    decode(CG_COLSEC,'Y','Yes','N','No','') CG_COLSEC,decode(CG_THIRDPARTY,'Y','Yes','N','No','') CG_THIRDPARTY,decode(CG_JOINTFINANCE,'Y','Yes','N','No','') CG_JOINTFINANCE,
+    p1.PERAPP_PANNO,decode(CG_ARTISAN_CC,'Y','Yes','N','No','') CG_ARTISAN_CC,
+    cg_identy_dc,to_char(cg_issuedate,'dd/mm/yyyy') as cg_issuedate,decode(CG_HANDLOOMSCHEME,'Y','Yes','N','No','')CG_HANDLOOMSCHEME,decode(CG_INTERNAL_RATING,'Y','Yes','No','N','') CG_INTERNAL_RATING,
+    l.LOAN_RECMDAMT,CG_TC_PROMOTERS,CG_TC_SUBSIDY,CG_TC_OTHERS,ct.TXNDET_CRDT_FUNDBASED,ct.TXNDET_CRDT_NONFUNDBASED,l.loan_inttype,l.loan_MCLRTYPE,l.loan_modintrate,
+    to_char(ct.TXNDET_DT_FST_DISB,'dd/mm/yyyy') as TXNDET_DT_FST_DISB,to_char(ct.TXNDET_DT_LST_DISB,'dd/mm/yyyy') as TXNDET_DT_LST_DISB,
+    to_char(ct.TXNDET_FST_INS_DUE_DT,'dd/mm/yyyy') as TXNDET_FST_INS_DUE_DT,ct.TXNDET_OUTS_BAL_AMT,l.loan_baserate,to_char(ct.TXNDET_OUTS_BAL_DT,'dd/mm/yyyy') as TXNDET_OUTS_BAL_DT,
+    to_char(ct.TXNDET_APPROVAL_DATE,'dd/mm/yyyy') as TXNDET_APPROVAL_DATE,to_char(l.loan_duedate,'dd/mm/yyyy') as loan_duedate,TXNDET_CRDT_AMT,
+    l.loan_reqterms,pl.LOAN_NOOFINSTALLMENT,pl.LOAN_PERIODICITY,(case when prd_loantype='OD' then 'F' else '' end)  fundtype,p1.PERAPP_ID,cg_namescheme,
+    ct.TXNDET_AMT_DISBURSED,ct.TXNDET_OUTSTD_FUND,ct.TXNDET_OUTFB_DT,p1.perapp_cbsid,comapp_div_phone,app_loantype,0 as facility_sno
+    from CORP_CGTMSE,applications a1,loandetails l,per_demographics p,perapplicant p1  left join comapp_company_divisions on comapp_id=p1.perapp_id and COMAPP_CHF_PROMOTER='Y' 
+    left join  perapplicant p2 on p2.perapp_cbsid=comapp_cbsid and nvl(p2.perapp_renew,'n')='n' left join cust_contactinfo c1 on p2.perapp_id = c1.con_appid ,products,
+    laps_states s,laps_cities c,cust_contactinfo ci,organisations o1,applicant_kycnorms ky,
+    district_master d,INDIVIDUAL_INFO inf,WORFLOW_CGTMSE_TXNDETAILS ct,laps_cities c1,laps_states s1,district_master d1,appinwardreg,laps_states s2,per_loan_secure pl
+    where l.loan_Appno=a1.app_no and a1.app_status='pa' and L.Loan_Cgtmse_Applicable='Y' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and a1.APP_ORGCODE like '^'
+    and CG_PROPOSALNO=l.loan_Appno and CG_SNO='1' and a1.app_loantype='P' and a1.app_no=p.demo_appno and p.demo_appid=p1.perapp_id and demo_type='a' and prd_Code=app_prdcode and
+    p1.perapp_id = ci.con_appid AND p1.perapp_id = inf.indinfo_appid and s.state_code =ci.con_comstate and s1.state_code=ci.CON_PERMSTATE AND c.city_code =ci.con_comcity 	and c1.city_code=ci.CON_PERMCITY
+    and c.STATE_ID=s.state_id and c1.STATE_ID=s1.state_id and d1.district_code=ci.CON_PERMDIST and d.district_code=ci.con_comdist and TXNDET_APPNO=l.loan_appno 
+    and o1.org_scode=(case when a1.app_orglevel='C' then LOAN_PERTAINS_BRANCH when a1.app_orglevel='D' 
+    then LOAN_PERTAINS_BRANCH else inward_orgscode end) and inward_no=a1.app_inwardno and KYC_CUSTID=p1.perapp_id and o1.ORG_STATE=s2.state_code and pl.loan_appno=l.loan_appno 
+    
+    union
+    
+    select app_no,decode(COM_FACNATURE,'2','Term Loan','1','Working Capital') loantype ,to_char(a1.app_processdate,'dd/mm/yyyy') as processdate,o1.org_name,o1.org_scode,s2.state_name as orgstatename,decode(CG_PRV_CGP,'Y','Yes','N','No','') CG_PRV_CGP,
+    cg_cgtmse_coverage,cg_cgpan,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA where cbs_static_data_id='2' and cbs_static_data_code=p1.PERAPP_CONSTITUTION) as PERAPP_CONSTITUTION,
+    p1.perapp_title,p1.perapp_fname,
+    ci.con_comaddr1 || ', ' ||ci.con_comaddr2 || ', ' ||ci.con_comvillage AS address,d.district_desc as currdist,c.city_name as currentcity,s.state_name as currentstate,ci.CON_COMZIP as currzip,
+    ci.CON_PERMADDR1 || ', ' || ci.CON_PERMADDR2 || ', ' || ci.CON_PERMVILLAGE  AS permaddress,d1.district_desc as permdist,c1.city_name as permcity,s1.state_name as permstate,ci.CON_PERMZIP as permzip,
+    p1.PERAPP_PANNO,(select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='210' and  stat_data_desc=CG_NATUREINDUSTRY) as CG_NATUREINDUSTRY,
+    (select stat_data_desc1 from STATIC_DATA 
+    where STAT_DATA_ID='211'and stat_data_desc=CG_INDUSTRYSECTOR )as CG_INDUSTRYSECTOR,ky.kyc_kycactivity,CG_NOEMP,CG_PROJ_OPTI_SALES,CG_PROJ_OPTI_EXPORT,
+    p2.perapp_title as promotertitle,p2.perapp_fname as promotername,p2.perapp_lname as promoterlastname,p2.PERAPP_SEX,p2.PERAPP_PANNO as promoterpan,
+        decode(INDINFO_IS_MINOR,'Y','Yes','N','No','') INDINFO_IS_MINOR, decode(cg_firstCharge,'Y','Yes','N','No','') cg_firstCharge,decode(cg_gf_asf,'Y','Yes','N','No','') cg_gf_asf,
+         decode(INDINFO_PHYSICALLY_CHALLANGED,'Y','Yes','N','No','') INDINFO_PHYSICALLY_CHALLANGED,decode(cg_checkbx,'Y','Yes','N','No','') cg_checkbx,
+     decode(COMAPP_CHF_PROMOTER,'Y','Yes','N','No','') COMAPP_CHF_PROMOTER,to_char(p2.PERAPP_DOB,'dd/mm/yyyy') as PERAPP_DOB,(select CBS_STATIC_DATA_DESC from CBS_STATICDATA  where cbs_static_data_id='7' and cbs_static_data_code=indinfo_caste) as indinfo_caste,
+    p1.PERAPP_UDYOG_AADHAR,f.cbs_Accountno,p2.perapp_aadhaar as perapp_aadhaar,
+    decode(CG_NEW_UNIT,'Y','Yes','N','No','') CG_NEW_UNIT,decode(CG_NEW_UNIT_WO,'Y','Yes','N','No','') CG_NEW_UNIT_WO,
+    decode(CG_MSE_UNIT,'Y','Yes','N','No','') CG_MSE_UNIT,decode(CG_MSE_UNIT_WO,'Y','Yes','N','No','') CG_MSE_UNIT_WO,
+    decode(CG_ASISTBANK,'Y','Yes','N','No','') CG_ASISTBANK,
+    decode(CG_COLSEC,'Y','Yes','N','No','') CG_COLSEC,decode(CG_THIRDPARTY,'Y','Yes','N','No','') CG_THIRDPARTY,decode(CG_JOINTFINANCE,'Y','Yes','N','No','') CG_JOINTFINANCE,
+    p1.PERAPP_PANNO,decode(CG_ARTISAN_CC,'Y','Yes','N','No','') CG_ARTISAN_CC,
+    cg_identy_dc,to_char(cg_issuedate,'dd/mm/yyyy') as cg_issuedate,decode(CG_HANDLOOMSCHEME,'Y','Yes','N','No','') CG_HANDLOOMSCHEME,decode(CG_INTERNAL_RATING,'Y','Yes','N','No','') CG_INTERNAL_RATING,
+    f.FACILITY_SANCAMT,CG_TC_PROMOTERS,CG_TC_SUBSIDY,CG_TC_OTHERS,ct.TXNDET_CRDT_FUNDBASED,ct.TXNDET_CRDT_NONFUNDBASED,f.facility_inttype,'' loan_MCLRTYPE,
+    f.FACILITY_SANCINTEREST,
+    to_char(ct.TXNDET_DT_FST_DISB,'dd/mm/yyyy') as TXNDET_DT_FST_DISB,to_char(ct.TXNDET_DT_LST_DISB,'dd/mm/yyyy') as TXNDET_DT_LST_DISB,
+    to_char(ct.TXNDET_FST_INS_DUE_DT,'dd/mm/yyyy') as TXNDET_FST_INS_DUE_DT,ct.TXNDET_OUTS_BAL_AMT,f.facility_baserate,to_char(ct.TXNDET_OUTS_BAL_DT,'dd/mm/yyyy') as TXNDET_OUTS_BAL_DT,
+    to_char(ct.TXNDET_APPROVAL_DATE,'dd/mm/yyyy') as TXNDET_APPROVAL_DATE,to_char(f.facility_duedate,'dd/mm/yyyy') as facility_duedate,TXNDET_CRDT_AMT,
+    f.FACILITY_TENOR,'' as LOAN_NOOFINSTALLMENT,'' as LOAN_PERIODICITY,com_factype,p1.PERAPP_ID,cg_namescheme,
+    ct.TXNDET_AMT_DISBURSED,ct.TXNDET_OUTSTD_FUND,ct.TXNDET_OUTFB_DT,p1.perapp_cbsid,comapp_div_phone,app_loantype,facility_sno
+    from CORP_CGTMSE,applications a1,facilities f,com_demographics p,perapplicant p1  left join comapp_company_divisions on comapp_id=p1.perapp_id and COMAPP_CHF_PROMOTER='Y' 
+    left join  perapplicant p2 on p2.perapp_cbsid=comapp_cbsid and nvl(p2.perapp_renew,'n')='n' left join cust_contactinfo c1 on p2.perapp_id = c1.con_appid ,facility_corp,
+    laps_states s,laps_cities c,cust_contactinfo ci,organisations o1,applicant_kycnorms ky,
+    COM_BRIEFBACKGROUND,
+    district_master d,INDIVIDUAL_INFO inf,WORFLOW_CGTMSE_TXNDETAILS ct,laps_cities c1,laps_states s1,district_master d1,appinwardreg,laps_states s2
+    where f.facility_Appno=a1.app_no and a1.app_status='pa' and f.FACILITY_WHT_CGTMSEAPPLY='Y' and a1.app_processdate
+     between to_date('^','dd/mm/yyyy') and  to_date('^','dd/mm/yyyy')+1 and a1.APP_ORGCODE like '^'  
+    and CG_PROPOSALNO=f.facility_Appno and CG_SNO=facility_sno and a1.app_loantype in ('A','C') and a1.app_no=p.demo_appno and
+    p.DEMO_COMAPPID=p1.perapp_id  and com_facid=facility_code and
+    p1.perapp_id = ci.con_appid AND p1.perapp_id = inf.indinfo_appid and s.state_code =ci.con_comstate and s1.state_code=ci.CON_PERMSTATE AND 
+    c.city_code =ci.con_comcity 	and c1.city_code=ci.CON_PERMCITY
+    and c.STATE_ID=s.state_id and c1.STATE_ID=s1.state_id and d1.district_code=ci.CON_PERMDIST and d.district_code=ci.con_comdist and 
+    TXNDET_APPNO=f.facility_appno and TXNDET_FAC_SNO=f.facility_sno
+    and o1.org_scode=(case when a1.app_orglevel='C' then COM_PERTAINS_BRANCH  when a1.app_orglevel='D' 
+    then COM_PERTAINS_BRANCH  else inward_orgscode end) and inward_no=a1.app_inwardno and KYC_CUSTID=p1.perapp_id and 
+    o1.ORG_STATE=s2.state_code and COM_APPNO=a1.app_no
+
+	</query>
+	
+	<query code="ca_division_details_sel">
+	  select to_char(p.perapp_dob,'dd/mm/yyyy') as perapp_dob,
+	  perapp_fname,p.PERAPP_PANNO,PERAPP_ID from 
+COMAPP_COMPANY_DIVISIONS c,PERAPPLICANT p where comapp_div_appid=PERAPP_ID and
+ comapp_id='^' and COMAPP_DIVISIONTYPE in ('D','PT','O','SP','T','K')
+	</query>
+	<query code="sel_productspread_retail">
+	 select prd_code,prdint_sno,prd_catid,(case prd_type when 'pH' then decode(PRD_PURPOSE,'G','Purchase of Site','C','Construction of House','S','Purchase of Site and Construction of House','H','Purchase of Ready Built House/Flat'
+	 ,'R','Renovation','F','Home Comfort','T','Top up Loan',PRD_PURPOSE) when 'pA' then decode(PRD_PURPOSE,'T','Two Wheeler','A','Three Wheeler','N','Four Wheeler - New','U','Four Wheeler - Used',PRD_PURPOSE) when 'pE' then decode(PRD_PURPOSE,'I','Studies in India','A','Studies in Abroad',PRD_PURPOSE) else PRD_PURPOSE end)PRD_PURPOSE,prd_desc,(prd_type||'-'||decode(prd_type,'pH','Housing Loan','pP','Salaried Person','pA','Vehicle Loan','pM','Mortgage Loan','pG','Gold Loan','pR','Loan against Deposits','pU','Mahila Udyog'
+	 ,'pK','Ravi Kiran','pE','Education Loan','pL','Leased Loan','pI','Instacash Loan','pC','Clean Loan','pN','NSC Loan','pV','Suvidha','pJ','General Loan','pS','Loan Against Shares','pB','Business Quick Loan',prd_type)) as prd_type,prd_rng_from,prd_rng_to,prd_minterm,prd_term,prd_loantype,scheme_code,
+mis_static_data_desc,prd_interesttype,prdint_inttype,prd_amtrangefrom as intamtrangefrom,PRD_AMTRANGETO as intamtrangeto,
+decode(prd_roitype,'O','MCLR','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',prd_roitype) as ROITYPE,
+PRD_TENORFROM as inttenorfrom,PRD_TENORTO as inttenorto,
+decode(PRDINT_REFTYPE,'O','None','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',PRDINT_REFTYPE) as prd_reftype,
+PRD_TERMFROM as scorefrom,PRD_TERMTO as scoreto,PRD_CREDITRSKPREMIUM as CRP,PRD_BUSSTRATEGICPREMIUM as BSP,'' as RatingCode,'' as sector from
+products, table(cast(multiset(select level from dual 
+connect by  level &lt;= length (regexp_replace(PRD_INTERESTTYPE, '[^@]+'))) as sys.OdciNumberList)) c1,prdint_master,prd_interest_limit,MIS_STATICDATA 
+where prd_code=PRDINT_PRDCODE and PRDINT_SNO=PRD_INTID and prd_stop='n' and prd_renew='n' and prd_saveflag='c' 
+and prd_staffprd='N' and regexp_substr(PRD_INTERESTTYPE, '[^@]+', 1, c1.column_value)=(case prd_roitype when 'ST' then 'O' when 'TG' then 'O' else prd_roitype  end) and prdint_inttype='floating' and mis_static_data_id='1' and mis_static_data_code=prd_bankscheme
+
+union all
+
+select prd_code,prdint_sno,prd_catid,(case prd_type when 'pH' then decode(PRD_PURPOSE,'G','Purchase of Site','C','Construction of House','S','Purchase of Site and Construction of House','H','Purchase of Ready Built House/Flat'
+	 ,'R','Renovation','F','Home Comfort','T','Top up Loan',PRD_PURPOSE) when 'pA' then decode(PRD_PURPOSE,'T','Two Wheeler','A','Three Wheeler','N','Four Wheeler - New','U','Four Wheeler - Used',PRD_PURPOSE) when 'pE' then decode(PRD_PURPOSE,'I','Studies in India','A','Studies in Abroad',PRD_PURPOSE) else PRD_PURPOSE end),prd_desc,(prd_type||'-'||decode(prd_type,'pH','Housing Loan','pP','Salaried Person','pA','Vehicle Loan','pM','Mortgage Loan','pG','Gold Loan','pR','Loan against Deposits','pU','Mahila Udyog'
+	 ,'pK','Ravi Kiran','pE','Education Loan','pL','Leased Loan','pI','Instacash Loan','pC','Clean Loan','pN','NSC Loan','pV','Suvidha','pJ','General Loan','pS','Loan Against Shares','pB','Business Quick Loan',prd_type)) as prd_type,prd_rng_from,prd_rng_to,prd_minterm,prd_term,prd_loantype,scheme_code,
+mis_static_data_desc,prd_interesttype,prdint_inttype,prd_amtrangefrom as intamtrangefrom,PRD_AMTRANGETO as intamtrangeto,
+decode(prd_roitype,'O','MCLR','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',prd_roitype) as ROITYPE,
+PRD_TENORFROM as inttenorfrom,PRD_TENORTO as inttenorto,
+decode(PRDINT_REFTYPE,'O','RATING',PRDINT_REFTYPE) as prd_reftype,
+PRD_TERMFROM as scorefrom,PRD_TERMTO as scoreto,ROI_CRP as CRP,ROI_BSP as BSP,ROI_RATINGCODE,decode(ROI_SECTOR,'01','priority',
+'02','Non-priority','11','Commercial',ROI_SECTOR) as Sector
+from products,prdint_master,prd_interest_limit,retprd_ratingbasedroi,MIS_STATICDATA
+where prd_code=PRDINT_PRDCODE and PRDINT_SNO=PRD_INTID and prd_stop='n' and prd_renew='n' and prd_saveflag='c' 
+and prd_staffprd='N' and ROI_INTID=PRD_INTID and PRDINT_SNO=ROI_INTID and PRD_SNO=ROI_INTSNO  and PRD_INTERESTTYPE like '%RATING%' and prdint_inttype='floating'  and mis_static_data_id='1' and mis_static_data_code=prd_bankscheme order by  prd_code,intamtrangefrom,intamtrangeto,
+roitype,prd_reftype,inttenorfrom,inttenorto,scorefrom,scoreto
+
+	</query>
+	<query code="sel_facilityspread_agridetails">
+	select COM_FACID,CORPPRD_INTID,COM_HEADFAC,COM_SUBFAC,COM_FACDESC,COM_RANGEFROM,COM_RANGETO,COM_MINREPAYPERIOD,COM_MAXREPAYPERIOD,
+COM_FACILITY_EMISCHEME as scheme_code,
+mis_static_data_desc,FAC_INTERESTTYPE,corpprdint_inttype,CORPPRD_AMTRANGEFROM as intamtrangefrom,CORPPRD_AMTRANGETO as intamtrangeto,
+decode(CORPPRD_INTERESTTYPE,'O','MCLR','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',CORPPRD_INTERESTTYPE) as ROITYPE,
+CORPPRD_TENORFROM as inttenorfrom,CORPPRD_TENORTO as inttenorto,
+decode(CORPINT_REFTYPE,'O','None','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',CORPINT_REFTYPE) as CORPINT_REFTYPE,
+CORPPRD_TERMFROM as scorefrom,CORPPRD_TERMTO as scoreto,CORPPRD_CREDITRSKPREMIUM as CRP,CORPPRD_BUSSTRATEGICPREMIUM as BSP,'' as RATINGCODES,'' as sector
+from facility_corp, table(cast(multiset(select level from dual 
+connect by  level &lt;= length (regexp_replace(FAC_INTERESTTYPE, '[^@]+'))) as sys.OdciNumberList)) c1,corpprdint_master,corpprd_interest_limit,mis_staticdata
+where COM_FACID=corpprdint_prdcode and CORPPRDINT_SNO=CORPPRD_INTID and COM_FACILITY_STOP!=1 
+and COM_FACSTATUS='c' and regexp_substr(FAC_INTERESTTYPE, '[^@]+', 1, c1.column_value)=(case CORPPRD_INTERESTTYPE when 'ST' then 'O' when 'TG' then 'O' else CORPPRD_INTERESTTYPE  end)
+and (CORPPRD_TERMFROM&lt;>0 or CORPPRD_TERMTO&lt;>0) and corpprdint_inttype='floating' and com_module='a' and com_facintdef='S'  and mis_static_data_id='1' and mis_static_data_code=com_bankscheme
+
+union all
+
+select COM_FACID,CORPPRD_INTID,COM_HEADFAC,COM_SUBFAC,COM_FACDESC,COM_RANGEFROM,COM_RANGETO,COM_MINREPAYPERIOD,COM_MAXREPAYPERIOD,
+COM_FACILITY_EMISCHEME as scheme_code,
+mis_static_data_desc,FAC_INTERESTTYPE,corpprdint_inttype,CORPPRD_AMTRANGEFROM as intamtrangefrom,CORPPRD_AMTRANGETO as intamtrangeto,
+decode(CORPPRD_INTERESTTYPE,'O','MCLR','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',CORPPRD_INTERESTTYPE) as ROITYPE,
+CORPPRD_TENORFROM as inttenorfrom,CORPPRD_TENORTO as inttenorto,
+decode(CORPINT_REFTYPE,'O','RATING',CORPINT_REFTYPE) as CORPINT_REFTYPE,
+CORPPRD_TERMFROM as scorefrom,CORPPRD_TERMTO as scoreto,ROI_CRP as CRP,ROI_BSP as BSP,ROI_RATINGCODE,
+decode(ROI_SECTOR,'01','priority','02','Non-priority','11','Commercial',ROI_SECTOR) as sector
+from facility_corp,corpprdint_master,corpprd_interest_limit,corpprd_ratingbasedroi,mis_staticdata
+where COM_FACID=corpprdint_prdcode and CORPPRDINT_SNO=CORPPRD_INTID and COM_FACILITY_STOP!=1 and COM_FACSTATUS='c' 
+and ROI_INTID=CORPPRD_INTID and CORPPRDINT_SNO=ROI_INTID and ROI_INTSNO=CORPPRD_SNO and FAC_INTERESTTYPE like '%RATING%'  and mis_static_data_id='1' and mis_static_data_code=com_bankscheme  and (CORPPRD_TERMFROM&lt;>0 or CORPPRD_TERMTO&lt;>0 )
+and corpprdint_inttype='floating' and com_module='a'  and com_facintdef='S' order by com_facid,intamtrangefrom,intamtrangeto,
+roitype,corpint_reftype,inttenorfrom,inttenorto,scorefrom,scoreto
+	</query>
+	<query code="sel_facilityspread_corpdetails">
+	select COM_FACID,CORPPRD_INTID,COM_HEADFAC,COM_SUBFAC,COM_FACDESC,COM_RANGEFROM,COM_RANGETO,COM_MINREPAYPERIOD,COM_MAXREPAYPERIOD,
+COM_FACILITY_EMISCHEME as scheme_code,
+mis_static_data_desc,FAC_INTERESTTYPE,corpprdint_inttype,CORPPRD_AMTRANGEFROM as intamtrangefrom,CORPPRD_AMTRANGETO as intamtrangeto,
+decode(CORPPRD_INTERESTTYPE,'O','MCLR','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',CORPPRD_INTERESTTYPE) as ROITYPE,
+CORPPRD_TENORFROM as inttenorfrom,CORPPRD_TENORTO as inttenorto,
+decode(CORPINT_REFTYPE,'O','None','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',CORPINT_REFTYPE) as CORPINT_REFTYPE,
+CORPPRD_TERMFROM as scorefrom,CORPPRD_TERMTO as scoreto,CORPPRD_CREDITRSKPREMIUM as CRP,CORPPRD_BUSSTRATEGICPREMIUM as BSP,'' as RATINGCODES,'' as sector
+from facility_corp, table(cast(multiset(select level from dual 
+connect by  level &lt;= length (regexp_replace(FAC_INTERESTTYPE, '[^@]+'))) as sys.OdciNumberList)) c1,corpprdint_master,corpprd_interest_limit,mis_staticdata
+where COM_FACID=corpprdint_prdcode and CORPPRDINT_SNO=CORPPRD_INTID and COM_FACILITY_STOP!=1 
+and COM_FACSTATUS='c' and regexp_substr(FAC_INTERESTTYPE, '[^@]+', 1, c1.column_value)=(case CORPPRD_INTERESTTYPE when 'ST' then 'O' when 'TG' then 'O' else CORPPRD_INTERESTTYPE  end)
+and (CORPPRD_TERMFROM&lt;>0 or CORPPRD_TERMTO&lt;>0) and corpprdint_inttype='floating' and com_module='c'  and com_facintdef='S' and mis_static_data_id='1' and mis_static_data_code=com_bankscheme
+
+union all
+
+select COM_FACID,CORPPRD_INTID,COM_HEADFAC,COM_SUBFAC,COM_FACDESC,COM_RANGEFROM,COM_RANGETO,COM_MINREPAYPERIOD,COM_MAXREPAYPERIOD,
+COM_FACILITY_EMISCHEME as scheme_code,
+mis_static_data_desc,FAC_INTERESTTYPE,corpprdint_inttype,CORPPRD_AMTRANGEFROM as intamtrangefrom,CORPPRD_AMTRANGETO as intamtrangeto,
+decode(CORPPRD_INTERESTTYPE,'O','MCLR','ST','Six Month Tresury Bill','TG','Ten Years Govt Security',CORPPRD_INTERESTTYPE) as ROITYPE,
+CORPPRD_TENORFROM as inttenorfrom,CORPPRD_TENORTO as inttenorto,
+decode(CORPINT_REFTYPE,'O','RATING',CORPINT_REFTYPE) as CORPINT_REFTYPE,
+CORPPRD_TERMFROM as scorefrom,CORPPRD_TERMTO as scoreto,ROI_CRP as CRP,ROI_BSP as BSP,ROI_RATINGCODE,
+decode(ROI_SECTOR,'01','priority','02','Non-priority','11','Commercial',ROI_SECTOR) as sector
+from facility_corp,corpprdint_master,corpprd_interest_limit,corpprd_ratingbasedroi,mis_staticdata
+where COM_FACID=corpprdint_prdcode and CORPPRDINT_SNO=CORPPRD_INTID and COM_FACILITY_STOP!=1 and COM_FACSTATUS='c' 
+and ROI_INTID=CORPPRD_INTID and CORPPRDINT_SNO=ROI_INTID and ROI_INTSNO=CORPPRD_SNO and FAC_INTERESTTYPE like '%RATING%'  and mis_static_data_id='1' and mis_static_data_code=com_bankscheme and (CORPPRD_TERMFROM&lt;>0 or CORPPRD_TERMTO&lt;>0)
+and corpprdint_inttype='floating' and com_module='c'  and com_facintdef='S' order by com_facid,intamtrangefrom,intamtrangeto,
+roitype,corpint_reftype,inttenorfrom,inttenorto,scorefrom,scoreto
+	</query>
+	<query code="sel_dailyreportaudited">
+		select COM_SNO, COM_APPNO, COM_FINTYPE, COM_DIVISION, COM_FINYEAR, COM_FINYEAR_START from corp_fin_year
+		where COM_appno='^' and to_date(sysdate,'dd/mm/yyyy') >= to_date(COM_FINYEAR_START,'dd/mm/yyyy')  
+		and COM_FINTYPE='AUDITED'
+		order by to_char(COM_FINYEAR_START,'dd/mm/yyyy') desc
+	</query>
+	<query code="sel_dailyreportlatestyear">
+		select COM_SNO, COM_APPNO, COM_FINTYPE, COM_DIVISION, COM_FINYEAR, COM_FINYEAR_START from corp_fin_year
+		where COM_appno='^' and to_date(sysdate,'dd/mm/yyyy') >= to_date(COM_FINYEAR_START,'dd/mm/yyyy')  
+		order by to_char(COM_FINYEAR_START,'dd/mm/yyyy') desc
+	</query>
+	<query code="sel_dailyreportcgtsmefindata">
+		select CGTMSE_ROWID, CGTMSE_AUDIT, CGTMSE_UNAUDIT, CGTMSE_ESTIMATED, CGTMSE_PROJECTION
+		from ret_finappvalues where CGTMSE_APPNO='^' and CGTMSE_SNO='^'
+	</query>
+	
+	<query code="sel_corpfinancialcgtmse">
+	SELECT RETFIN_ROWID, RETFIN_ROWDESC, RETFIN_AMNTFROM, RETFIN_AMNTTO, RETFIN_FORMULADEF, RETFIN_CMANO,RETFIN_ROWTYPE
+	FROM ret_finmaster WHERE  RETFIN_AMNTFROM ^'^' and RETFIN_AMNTTO ^'^'  and  RETFIN_CMANO='^'
+	
+	</query>
+	<query code="selcgtmsefinvalues">
+	 select ^  as finvalues from
+		com_finappvalues where fin_appno='^' and com_division_id='0' and
+		to_char(fin_year,'dd/mm/yyyy')=to_char(to_date( '^',
+		'dd/mm/yyyy'),'dd/mm/yyyy')and fin_sno='^'  and FIN_ROWID='^'
+	</query>
+	<query code="ins_cgtmsefinvaluesaudit">
+   		insert into ret_finappvalues(CGTMSE_APPNO, CGTMSE_YEAR, CGTMSE_ROWID, CGTMSE_AUDIT,COM_DIVISION_ID, CGTMSE_SNO,CGTMSE_FACAPPNO) 
+   		values(?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?)
+   	</query>
+   <query code="ins_cgtmsefinvaluesunaudit">insert into ret_finappvalues(CGTMSE_APPNO, CGTMSE_YEAR, CGTMSE_ROWID, CGTMSE_UNAUDIT,COM_DIVISION_ID, CGTMSE_SNO,CGTMSE_FACAPPNO)
+    values(?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?)</query>
+   <query code="ins_cgtmsefinvaluesestimated">insert into ret_finappvalues(CGTMSE_APPNO, CGTMSE_YEAR, CGTMSE_ROWID, CGTMSE_ESTIMATED,COM_DIVISION_ID, 
+   CGTMSE_SNO,CGTMSE_FACAPPNO) values(?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?)</query>
+   <query code="ins_cgtmsefinvaluesprojection">insert into ret_finappvalues(CGTMSE_APPNO, CGTMSE_YEAR, CGTMSE_ROWID, CGTMSE_PROJECTION,COM_DIVISION_ID, CGTMSE_SNO,CGTMSE_FACAPPNO)
+    values(?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?)</query>
+   <query code="del_cgtmsefinvalues">
+   delete from ret_finappvalues where CGTMSE_APPNO=? 
+   </query>
+   <query code="sel_dailyreportcgtsmefindatacorp">
+		select CGTMSE_ROWID, CGTMSE_AUDIT, CGTMSE_UNAUDIT, CGTMSE_ESTIMATED, CGTMSE_PROJECTION
+		from ret_finappvalues where CGTMSE_APPNO='^' and CGTMSE_SNO='^' 
+	</query>
+	
+		<query code="sel_cgtmseanxFacupdate"> 
+ 	select FACILITY_SNO,FACILITY_ID,FACILITY_HOLIDAYPERIOD,facility_inttype,case FACILITY_PERINSTALL when 'm' then 'MONTHLY' when 'q'then 'Quarterly' when 
+ 	'h'then 'Half-Yearly' else ' ' end as FACILITY_PERINSTALL,FACILITY_APPNO,FACILITY_SNO,FACILITY_MONTHS,FACILITY_SANCAMT,
+ 	TO_CHAR(FACILITY_OSASON,'DD/MM/YYYY') AS FACILITY_OSASON,TO_CHAR(FAC_PROCESSDATE,'DD/MM/YYYY') AS APP_PROCESSDATE,
+ 	CBS_ACCOUNTNO,to_char(FACILITY_MCLR_RELDATE,'dd/mm/yyyy') as FACILITY_MCLR_RELDATE,FACILITY_SANCINTEREST,
+ 	TO_CHAR(FACILITY_DUEDATE,'DD/MM/YYYY') AS FACILITY_DUEDATE,FACILITY_REPAYTYPE from FACILITIES where FACILITY_APPNO='^' 
+   </query>
+   <query code="sel_retfinancialcgtmse">
+	SELECT RETFIN_ROWID, RETFIN_ROWDESC, RETFIN_AMNTFROM, RETFIN_AMNTTO, RETFIN_FORMULADEF, RETFIN_CMANO,RETFIN_ROWTYPE
+	FROM ret_finmaster WHERE  RETFIN_AMNTFROM ^'^' and RETFIN_AMNTTO ^'^'  and  RETFIN_CMANO is null order by RETFIN_ROWID
+	</query>
+	<query code="sel_retfinancialyearcgtmse">    
+		select RET_SNO, RET_APPNO, RET_FINTYPE, RET_DIVISION, TO_CHAR(RET_FINYEAR,'DD/MM/YYYY') AS  RET_FINYEAR,
+		 TO_CHAR(RET_FINYEAR_START,'DD/MM/YYYY') AS RET_FINYEAR_START,
+		 COM_DIVISION from RET_FIN_YEAR   where RET_APPNO='^' order by RET_SNO
+	</query>
+	<query code="sel_cgsmefindata">   
+		 select CGTMSE_APPNO, CGTMSE_YEAR, CGTMSE_ROWID, CGTMSE_AUDIT, CGTMSE_UNAUDIT, CGTMSE_ESTIMATED, CGTMSE_PROJECTION, COM_DIVISION_ID, 
+   	 CGTMSE_STRESS_PROJECTION, CGTMSE_STRESS_PERCENT, CGTMSE_SNO, CGTMSE_FACAPPNO from ret_finappvalues where CGTMSE_APPNO='^'  
+   	 and  CGTMSE_ROWID='^'  and to_char(CGTMSE_YEAR,'dd/mm/yyyy')=to_char(to_date( '^','dd/mm/yyyy'),'dd/mm/yyyy') order by CGTMSE_SNO
+    </query>
+    <query code="sel_inteestReport">
+    SELECT PRODUCT_CODE,PRDINTEREST_ID,PRDCATEGORY_ID,PRODUCT_PURPOSE,PRODUCT_DESCRIPTION,PRODUCT_TYPE,PRODUCT_RANGE_FROM,PRODUCT_RANGE_TO,PRODUCT_TERM_FROM,PRODUCT_TERM_TO,PRODUCT_LOAN_TYPE,SCHEME_CODE,BANK_SCHEME,ROI_REFERENCE_TYPES,INTEREST_TYPE,
+	INT_RANGE_FROM,INT_RANGE_TO,ROI_TYPE,INT_TENOR_FROM,INT_TENOR_TO,REFERENCE_TYPE,INT_SCORE_FROM,INT_SCORE_TO,CREDIT_RISK_PREMIUM,BUSINESS_STRATEGIC_PREMIUM,RATING_CODES,SECTOR,MODIFICATION,decode(MODULE,'P','Retail','A','Agriculture','C','Corporate',MODULE) as MODULE,EXCEL_SNO,to_char(UPLOADED_DATE,'dd/mm/yyyy') as UPLOADED_DATE
+	,EXCEL_UPLOADEDBY,to_char(EXECUTIONDATE,'dd/mm/yyyy') as EXECUTIONDATE,EXECUTION_NO,SNO,CIRCULAR_REFNO FROM PRDFAC_SPREADDETAILS_BACKUP WHERE EXECUTIONDATE between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+    </query>
+
+    <query code="sel_appspreadsheet_details">
+          select PRD_MODULETYPE,PRD_CODE,PRD_INTSNO,PRD_INTSUBSNO,PRD_INTAMTFROM,PRD_INTAMTTO,PRD_TENORFROM,PRD_TENORTO,
+          PRD_INTROITYPE,PRD_REFERENCETYPE,PRD_SCOREFROM,PRD_SCORETO,PRD_RATINGSCORE,PRD_SECTOR,
+          PRD_CREDITRSKVAL,PRD_BUSSSTATVAL,APP_EXECUTIONNO,to_char(APP_EXEDATE,'dd/mm/yyy') as APP_EXEDATE ,APP_EXEFLAG,APP_MODIFICATION,
+          PRD_CREDITRSKVAL_AFTER,PRD_BUSSSTATVAL_AFTER,PRODUCT_PURPOSE,PRODUCT_DESCRIPTION,
+          PRODUCT_TYPE,BANK_SCHEME from APP_PRDSPREADDETAILS where APP_EXEDATE between to_date('^','dd/mm/yyyy') and to_date('^','dd/mm/yyyy')
+    </query>
+
+      <query code="sel_appspreadReport">
+    SELECT   a.APP_NO,a.APP_SNO,a.APP_PRDCODE,a.APP_AMTREQ,a.APP_AMTRECMD,a.APP_APPTENOR,a.APP_INTTYPE,a.APP_DEFINTRATE,a.APP_MODINTRATE,a.APP_MCLRTYPE,
+        a.APP_REFERENCESPREAD,a.APP_CREDITRSKVAL,a.APP_BUSINESSRSKVAL,a.APP_ROITYPE,a.APP_ROISCORE,a.APP_SETUPCRP,a.APP_SETUPBSP,
+           a.APP_EXECUTIONNO,to_char(a.APP_EXEDATE,'dd/mm/yyyy')as APP_EXEDATE,a.APP_EXEFLAG,a.APP_CREDITRSKVAL_AFTER,a.APP_BUSINESSRSKVAL_AFTER,
+             a.APP_SETUPCRP_AFTER,a.APP_SETUPBSP_AFTER,a.APP_DEFINTRATE_AFTER,a.APP_MODINTRATE_AFTER,b.DEVIATION_OLDVALUE,b.DEVIATION_NEWVALUE,b.DEVIATION_OLDVALUE_AFTER,b.DEVIATION_NEWVALUE_AFTER,to_char(b.APP_UPDATEDATE,'dd/mm/yyyy')as APP_UPDATEDATE
+            FROM APP_SPREADDETAILS a left outer join APP_DEVIATIONSPREADDETAILS b on a.APP_NO=b.APP_NO
+          WHERE a.APP_EXEDATE 
+         between TO_DATE('^','DD/MM/YYYY') and TO_DATE('^','DD/MM/YYYY')
+     </query>
+     <query code="sel_msmereport">
+     select ma.msme_appno ,msme_proposalno ,msme_facsno ,msme_equipmentval ,
+			msme_plantval ,msme_salesturnover ,to_char(msme_salestnason,'dd/mm/yyyy') as msme_salestnason ,msme_salescriteria ,msme_effectivedate ,
+			msme_equipmentvalold ,msme_plantvalold ,msme_salesturnoverold ,to_char(msme_salestnasonold,'dd/mm/yyyy') as msme_salestnasonold ,APP_SECTOR ,APP_SUBSECTOR ,APP_SENSITIVESECTOR , APP_GOVTANNOUNCESCHEME ,APP_STANDUP_INDIA ,
+		APP_SECTOR_OLD ,APP_SUBSECTOR_OLD ,APP_SENSITIVESECTOR_OLD , APP_GOVTANNOUNCESCHEME_OLD ,APP_STANDUP_INDIA_OLD,app_activitycode,APP_AGRICULTURE ,app_activitycode_old,
+		APP_AGRICULTURE_OLD,perapp_fname,org_name,to_char(MSME_CREATED_ON,'dd/mm/yyyy') as MSME_CREATED_ON,to_char(MSME_APPROVEDDATE,'dd/mm/yyyy') as MSME_APPROVEDDATE,PERAPP_CBSID,
+		MSME_ORGSCODE,MSME_ORGDEPT,MSME_ApprovedOrg,MSME_ApprovedOrgdept,MSME_CREATED_BY,MSME_APPROVEDBY from msme_proposalupdate mp,PERAPPLICANT pr,MSME_APPDETAILS ma,organisations o where  o.org_scode=MSME_ORGSCODE and ma.MSME_APPNO=mp.MSME_APPNO
+		   and nvl(perapp_renew,'n')='n' and ma.MSME_CBSID=pr.PERAPP_CBSID ^
+	</query>
+	<query code="set_users_selusername">
+	select USR_FNAME,USR_MNAME,USR_LNAME,USR_ID,USR_FNAME ||'  ' || USR_MNAME||'  ' ||USR_LNAME as UserName from USERS where USR_ID='^'
+	</query>
+	<query code="sel_creditsalereport">
+	select  distinct(a.APP_NO), p.PERAPP_CBSID as CBSID,p.PERAPP_FNAME as CUSTOMOERNAME,to_char(a.APP_PROCESSDATE,'dd/mm/yyyy') as SANCTIONDATE,ai.INWARD_NO as INWARDNO 
+    ,ai.INWARD_SCHEME as SCHEME,ref.SANCTIONREFNO as SANCTIONREFNO,ac.APP_DIGIAPPNO as DIGIAPPNO,case AC.APP_ELIGCRITERIA when 'Y' then 'Yes' when 'N'then 'No'  else ' ' end  AS ELIGDIGI,AC.APP_REASON  as REASON,
+    pc.LOANDISBBRANCH as LOANDISBBRANCH,ac.APP_OTHERREASON as BREIFDISCRIPTION,(select ORG_NAME from ORGANISATIONS o1 where ORG_SCODE= pc.LOANDISBBRANCH) as ORG_NAME,o.ORG_REGION as REGIONALOFFICE,l.LOAN_RECMDAMT as SANCTIONAMOUNT
+    from   APPLICATIONS a,APP_CREDITSALES ac,PERAPPLICANT p,ORGANISATIONS o,appinwardreg ai,PER_DEMOGRAPHICS pd,APP_REFERNCENUMBER  ref,PER_CUSCBSACCOUNTDATA pc,LOANDETAILS l 
+	 where  A.APP_INWARDNO=ai.INWARD_NO and ai.INWARD_ORGSCODE=o.ORG_SCODE and pd.DEMO_APPID=p.PERAPP_ID and pd.DEMO_APPNO=a.APP_NO and a.APP_NO=ref.APP_NO  and l.LOAN_APPNO=a.APP_NO  and a.APP_NO=pc.APPNO and 
+	     a.APP_NO=ac.APP_APPNO and  a.APP_ORGCODE=o.ORG_CODE  ^ and  (a.app_delflag !='Y' or a.app_delflag is null)
+    and trunc(a.APP_PROCESSDATE) BETWEEN to_date('^','dd/mm/yyyy') AND to_date('^','dd/mm/yyyy') 
+    and pd.DEMO_TYPE='a'
+	</query>
+	<query code="sel_datavalreportcount">
+	select count(distinct(CUS_SEC_ID)) as CUS_SEC_ID ,VALUERS_NAME,ORG_SCODE,sum(CUS_SEC_NETSECURITY ) as CUS_SEC_NETSECURITY from (select (cs.CUS_SEC_ID) as CUS_SEC_ID  ,v.VALUERS_NAME,o.ORG_SCODE,(cs.CUS_SEC_NETSECURITY) as CUS_SEC_NETSECURITY from APPLICATIONS a,LOANDETAILS l,ORGANISATIONS o,APP_SECURITYDETAILS ap,CUS_SECURITIES cs, VALUERSMASTER v  where  o.ORG_CODE=( case when a.APP_ORGLEVEL='A' then a.APP_ORGCODE 
+	else( case when l.LOAN_PERTAINS_BRANCH is not null
+	 then (select  org_code from ORGANISATIONS where ORG_SCODE=l.LOAN_PERTAINS_BRANCH) else a.APP_ORGCODE end) end)  and a.APP_NO=l.LOAN_APPNO ^
+	 and a.APP_NO=ap.APP_SEC_APPNO and ap.APP_SEC_LOANTYPE='P' and a.APP_LOANTYPE='P' and ap.APP_SEC_SECID=cs.CUS_SEC_ID and cs.CUS_SEC_VALUATION_DATE BETWEEN to_date('^','dd/mm/yyyy') AND to_date('^','dd/mm/yyyy')
+	and v.VALUERS_CODE=cs.CUS_SEC_VALUERCODE 
+	union  all
+	select (cs.CUS_SEC_ID),v.VALUERS_NAME,o.ORG_SCODE,(cs.CUS_SEC_NETSECURITY) from APPLICATIONS a,facilities f,ORGANISATIONS o,APP_SECURITYDETAILS ap,CUS_SECURITIES cs, VALUERSMASTER v,COM_BRIEFBACKGROUND cm  where  o.ORG_CODE=( case when a.APP_ORGLEVEL='A' then a.APP_ORGCODE 
+	else( case when cm.COM_PERTAINS_BRANCH is not null
+	 then (select  org_code from ORGANISATIONS where ORG_SCODE=cm.COM_PERTAINS_BRANCH) else a.APP_ORGCODE end) end)  and a.APP_NO=f.FACILITY_APPNO and a.APP_NO=cm.COM_APPNO ^
+	 and a.APP_NO=ap.APP_SEC_APPNO and ap.APP_SEC_LOANTYPE='P' and a.APP_LOANTYPE='P' and ap.APP_SEC_SECID=cs.CUS_SEC_ID and cs.CUS_SEC_VALUATION_DATE BETWEEN to_date('^','dd/mm/yyyy') AND to_date('^','dd/mm/yyyy')
+	and v.VALUERS_CODE=cs.CUS_SEC_VALUERCODE and f.FACILITY_SNO=ap.APP_SEC_FACSNO) group by ORG_SCODE, VALUERS_NAME
+	</query>
+	<query code="sel_dcoereport">
+	select  distinct(a.APP_NO), p.PERAPP_CBSID as CBSID,p.PERAPP_FNAME as CUSTOMOERNAME,to_char(a.APP_PROCESSDATE,'dd/mm/yyyy') as SANCTIONDATE,ai.INWARD_NO as INWARDNO 
+    ,(select MIS_STATIC_DATA_DESC from MIS_STATICDATA where MIS_STATIC_DATA_CODE = ai.INWARD_BANKSCHEME and MIS_STATIC_DATA_ID = '1')  as SCHEME,ref.SANCTIONREFNO as SANCTIONREFNO,ac.APP_DIGIAPPNO as DIGIAPPNO,case AC.APP_ELIGCRITERIA when 'Y' then 'Yes' when 'N'then 'No'  else ' ' end  AS ELIGDIGI,AC.APP_REASON  as REASON,
+    pc.LOANDISBBRANCH as LOANDISBBRANCH,ac.APP_OTHERREASON as BREIFDISCRIPTION,(select ORG_NAME from ORGANISATIONS o1 where ORG_SCODE= pc.LOANDISBBRANCH) as ORG_NAME,(select ORG_NAME from ORGANISATIONS where ORG_CODE=concat(substr(o.ORG_CODE,0,6),'000000000')) as REGIONALOFFICE,l.LOAN_RECMDAMT as SANCTIONAMOUNT
+     ,to_char(ac.APP_COMMENTS) as percomments
+    from   APPLICATIONS a,APP_CREDITSALES ac,PERAPPLICANT p,ORGANISATIONS o,appinwardreg ai,PER_DEMOGRAPHICS pd,APP_REFERNCENUMBER  ref,PER_CUSCBSACCOUNTDATA pc,LOANDETAILS l 
+	 where  A.APP_INWARDNO=ai.INWARD_NO and ai.INWARD_ORGSCODE=o.ORG_SCODE and pd.DEMO_APPID=p.PERAPP_ID and pd.DEMO_APPNO=a.APP_NO and a.APP_NO=ref.APP_NO  and l.LOAN_APPNO=a.APP_NO  and a.APP_NO=pc.APPNO and 
+	     a.APP_NO=ac.APP_APPNO and  (a.app_delflag !='Y' or a.app_delflag is null)
+    and trunc(a.APP_PROCESSDATE) BETWEEN to_date('^','dd/mm/yyyy') AND to_date('^','dd/mm/yyyy') 
+    and pd.DEMO_TYPE='a' and a.APP_STATUS = 'pa' and a.APP_RENEW_FLAG IN ('F','R') and ref.sancref_flag='n'
+	</query>
+	<query code="sel_dcoereport_digi">
+	 select  distinct(a.APP_NO), p.PERAPP_CBSID as CBSID,p.PERAPP_FNAME as CUSTOMOERNAME,to_char(a.APP_PROCESSDATE,'dd/mm/yyyy') as SANCTIONDATE,ai.INWARD_NO as INWARDNO
+    ,(select MIS_STATIC_DATA_DESC from MIS_STATICDATA where MIS_STATIC_DATA_CODE = ai.INWARD_BANKSCHEME and MIS_STATIC_DATA_ID = '1')  as SCHEME,ref.SANCTIONREFNO as SANCTIONREFNO, pc.LOANDISBBRANCH as LOANDISBBRANCH,(select ORG_NAME from ORGANISATIONS o1 where ORG_SCODE= pc.LOANDISBBRANCH) as ORG_NAME,(select ORG_NAME from ORGANISATIONS where ORG_CODE=concat(substr(o.ORG_CODE,0,6),'000000000')) as REGIONALOFFICE,
+    l.LOAN_RECMDAMT as SANCTIONAMOUNT from   APPLICATIONS a,PERAPPLICANT p,ORGANISATIONS o,appinwardreg ai,PER_DEMOGRAPHICS pd,APP_REFERNCENUMBER  ref,PER_CUSCBSACCOUNTDATA pc,LOANDETAILS l 
+	 where  A.APP_INWARDNO=ai.INWARD_NO and ai.INWARD_ORGSCODE=o.ORG_SCODE and pd.DEMO_APPID=p.PERAPP_ID and pd.DEMO_APPNO=a.APP_NO and a.APP_NO=ref.APP_NO  and l.LOAN_APPNO=a.APP_NO  and a.APP_NO=pc.APPNO and (a.app_delflag !='Y' or a.app_delflag is null)
+    and trunc(a.APP_PROCESSDATE) BETWEEN to_date('^','dd/mm/yyyy') AND to_date('^','dd/mm/yyyy') 
+    and pd.DEMO_TYPE='a' and a.APP_STATUS = 'pa' and a.APP_RENEW_FLAG IN ('F','R') and ref.sancref_flag='n' and a.APP_LOANSUBTYPE_DIGI='PR'
+	</query>
+	<query code="sel_banker_report">
+		select b.BANKER_APPL_NO,b.TYPE_OF_BENEFICIARY,b.BANKER_CBS_ID,b.BANKER_APPLICANT_NAME,b.BANKER_AMOUNT,b.BANKER_BENF_NAME, TO_CHAR(b.tender_notification_date,'dd/mm/yyyy') AS tender_notification_date, b.banker_brief_workorder,
+ TO_CHAR( b.banker_date,'dd/mm/yyyy') AS banker_date, TO_CHAR( b.banker_approve_date,'dd/mm/yyyy') AS banker_approve_date ,a.ARS_SANCTIONREFNO,b.BANKER_COMMISSION_EARNED,b.BANK_CHARGE_APPLICABLE,c.COM_BANK_SANSTATUS from BANKERCERTIFICATE b,
+app_referncenumber_banker a,COM_BANKING_DET_HISTORY c where b.BANKER_APPL_NO=a.ARS_APPNO and b.BANKER_APPL_NO=c.COM_BANK_APPNO and b.BANKER_ORGCODE like '^' and trunc(b.BANKER_APPROVE_DATE) BETWEEN
+	to_date('^','dd/mm/yyyy') AND to_date('^','dd/mm/yyyy')
+
+	</query>
+	<query code="decodeof_TYPE_OF_BENEFICIARY">   
+		select STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='276' and STAT_DATA_SNO='^'
+    </query>
+    <query code="sel_banker_reportbasedoncusid">
+		select b.BANKER_APPL_NO,b.TYPE_OF_BENEFICIARY,b.BANKER_CBS_ID,b.BANKER_APPLICANT_NAME,b.BANKER_AMOUNT,b.BANKER_BENF_NAME, TO_CHAR(b.tender_notification_date,'dd/mm/yyyy') AS tender_notification_date, b.banker_brief_workorder,
+ TO_CHAR( b.banker_date,'dd/mm/yyyy') AS banker_date, TO_CHAR( b.banker_approve_date,'dd/mm/yyyy') AS banker_approve_date ,a.ARS_SANCTIONREFNO,b.BANKER_COMMISSION_EARNED,b.BANK_CHARGE_APPLICABLE,c.COM_BANK_SANSTATUS from BANKERCERTIFICATE b,
+app_referncenumber_banker a,COM_BANKING_DET_HISTORY c where b.BANKER_APPL_NO=a.ARS_APPNO and b.BANKER_APPL_NO=c.COM_BANK_APPNO and b.BANKER_CBS_ID='^'
+	</query>
+</sql>

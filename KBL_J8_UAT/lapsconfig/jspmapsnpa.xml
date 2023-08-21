@@ -1,0 +1,103 @@
+<JSPMaps>
+	<MapJsp Page="npacompromise_means.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nwortdet"></MapJsp>
+	<MapJsp Page="npastatusnote_ots.jsp" BeanId="npacommon"	Path="/jsp/npa/" PageId="notscmts"></MapJsp>
+	<MapJsp Page="npastatusnote_sarfaesia.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nsarcmts"></MapJsp>
+	<MapJsp Page="statusnote_means.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nwortdet"></MapJsp>
+	<MapJsp Page="npacompromise_presentposition.jsp" BeanId="npacommon"	Path="/jsp/npa/" PageId="nacntdet"></MapJsp>
+	<MapJsp Page="npacompromise_securities.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nsecdet"></MapJsp>
+	<MapJsp Page="Compromise_settlementprintReport.jsp" BeanId="npa" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_legalstatus.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposal_comments.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_waiversettlementPrint.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="statusnote_suitfield.jsp" Path="/jsp/npa/" PageId="nsuitcmt"></MapJsp>
+	<MapJsp Page="CompromiseProposal_evaluation.jsp" Path="/jsp/npa/" PageId="nevaln"></MapJsp>
+	<MapJsp Page="CompromiseProposal_recommendations.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposal_generalinfo.jsp" Path="/jsp/npa/" PageId="nbnkgdet"></MapJsp>
+	<MapJsp Page="CompromiseProposal_modulardues.jsp" Path="/jsp/npa/" PageId="nmoddues"></MapJsp>
+	<MapJsp Page="PresentPosition_npa.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nacntdet"></MapJsp>
+	<MapJsp Page="securities_npa.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nsecdet"></MapJsp>
+	<MapJsp Page="PresentPositionstatus.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nacntdet"></MapJsp>
+	<MapJsp Page="Securitiesstatus.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nsecdet"></MapJsp>
+	<MapJsp Page="npa_borrowerdetails.jsp" BeanId="npacommon" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="repnpadefault.jsp" BeanId="repnpadefault"	Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npaactions.jsp" BeanId="npaaction" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npamain.jsp" Path="/jsp/npa/"></MapJsp>
+	
+	<MapJsp Page="CompromiseProposal_page1.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposal_history.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposal_page3.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposal_page4.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposal_page5.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposal_print.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseProposallink.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="iframecompromiseevaluation.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="CompromiseReliefSought.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="SarfaeriProposal_page1.jsp" Path="/jsp/npa/" PageId="nbnkgdet"></MapJsp>
+	<MapJsp Page="SarfaeriProposal_page2.jsp" Path="/jsp/npa/" PageId="ncomplts"></MapJsp>
+	<MapJsp Page="SarfaeriProposal_page3.jsp" Path="/jsp/npa/" PageId="ndispsec"></MapJsp>
+	<MapJsp Page="SarfaeriProposal_page4.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="SarfaeriProposal_print.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="SarfaeriProposal_means.jsp" Path="/jsp/npa/" PageId="nwortdet"></MapJsp>
+	<MapJsp Page="Sarfaeri_documentation.jsp" Path="/jsp/npa/" PageId="ndocdet"></MapJsp>
+	<MapJsp Page="34PointsFormat_page1.jsp" Path="/jsp/npa/" PageId="nbnkgdet"></MapJsp>
+	<MapJsp Page="34PointsFormat_page2.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="34PointsFormat_page3.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="34PointsFormat_page4.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="34PointsFormat_page5.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="34PointsFormat_page6.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="34PointsFormat_presentpos.jsp" Path="/jsp/npa/" PageId="nacntdet"></MapJsp>
+	<MapJsp Page="34PointsFormat_print.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="filingofsuit_termloan.jsp" Path="/jsp/npa/" PageId="ntldet"></MapJsp>
+	<MapJsp Page="filingofsuitpresentrate.jsp" Path="/jsp/npa/" PageId="nroidet"></MapJsp>
+	<MapJsp Page="filingofsuit_limitsanctioned.jsp" Path="/jsp/npa/" PageId="nlmtdet"></MapJsp>
+	<MapJsp Page="filingofsuit_colletralsecurity.jsp" Path="/jsp/npa/" PageId="nsecdet"></MapJsp>
+	<MapJsp Page="filingofsuit_means.jsp" Path="/jsp/npa/" PageId="nwortdet"></MapJsp>
+	<MapJsp Page="filingofsuit_registered.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="filingofsuit_deposit.jsp" Path="/jsp/npa/" PageId="nrecdet"></MapJsp>
+	<MapJsp Page="prudential_general.jsp" Path="/jsp/npa/" PageId="nbnkgdet"></MapJsp>
+	<MapJsp Page="prudential_history.jsp" Path="/jsp/npa/" PageId="nhistory"></MapJsp>
+	<MapJsp Page="prudential_comments.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="prudential_auditirregularities.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="prudential_presentposition.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nacntdet"></MapJsp>
+	<MapJsp Page="prudential_securities.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nsecdet"></MapJsp>
+	<MapJsp Page="prudential_applntmeans.jsp" BeanId="npacommon" Path="/jsp/npa/" PageId="nwortdet"></MapJsp>
+	<MapJsp Page="Prudential_print.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="StatusNote_page1.jsp" Path="/jsp/npa/" PageId="nbnkgdet"></MapJsp>
+	<MapJsp Page="StatusNote_page2.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="StatusNote_page3.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="StatusNote_page4.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npareport.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="filing_auditor.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_monthlyborrowersearch.jsp" Path="/jsp/npa/"></MapJsp>
+ 	<MapJsp Page="npaiframeresult.jsp" Path="/jsp/npa/"></MapJsp>
+ 	<MapJsp Page="npa_workflowcomments.jsp" Path="/jsp/npa/"></MapJsp>
+ 	
+ 	<MapJsp Page="npa_otherfidues.jsp" Path="/jsp/npa/" PageId="nfininst"></MapJsp>
+ 	<MapJsp Page="npa_otherconsbankdues.jsp" Path="/jsp/npa/" PageId="nconbnkg"></MapJsp>
+ 	<MapJsp Page="npa_othermulbankdues.jsp" Path="/jsp/npa/" PageId="nmulbnkg"></MapJsp> 
+ 	<MapJsp Page="npa_otherconcernsbankdues.jsp" Path="/jsp/npa/" PageId="nsisbnkg"></MapJsp> 
+ 	<MapJsp Page="npa_otherdepositaccountdetails.jsp" Path="/jsp/npa/"></MapJsp> 
+ 	
+ 	<MapJsp Page="npa_reports.jsp" Path="/jsp/npa/"></MapJsp>
+
+	<MapJsp Page="npa_securities.jsp" Path="/jsp/npa/"></MapJsp>
+
+	<MapJsp Page="borrowerinformation.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_otstermscond.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_otscosignatories.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_pawosignatories.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_paworecommendations.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_sarfisignatories.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_sarfirecommendations.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_suitsignatories.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_suitrecommendations.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_suithistory.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npa_depositaccount.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npasearch.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="nparesult.jsp" BeanId="borrowersearch" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npaborrowersearch.jsp"  Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npaborrowersearchresult.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npaaccountdetails.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npaprovisioning.jsp" Path="/jsp/npa/"></MapJsp>
+	<MapJsp Page="npaprovisioning_old.jsp" Path="/jsp/npa/"></MapJsp>
+</JSPMaps>

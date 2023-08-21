@@ -1,0 +1,221 @@
+<JSPMaps>
+	<MapJsp Page="agrassesment1.jsp" BeanID="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="UGCmaster.jsp" Path="/jsp/agr/" PageId="setugcmr"></MapJsp>
+	<MapJsp Page="agr_plantation_techasp.jsp" Path="/jsp/agr/" PageId="plntech2"></MapJsp>
+	<MapJsp Page="agr_plantation_expenses.jsp" Path="/jsp/agr/" PageId="plnexpen"></MapJsp>
+	<MapJsp Page="agr_plantationIncome.jsp" Path="/jsp/agr/" PageId="plnincom"></MapJsp>
+	<MapJsp Page="agr_comm_tech_asp.jsp" Path="/jsp/agr/" PageId="commtech"></MapJsp>
+	<MapJsp Page="agr_sheep_irr.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="ifagr_common_income.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="ifagr_common_expense.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_common_income_expense_report.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_pre_sanction_report.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_fodder_livestock.jsp" Path="/jsp/agr/" PageId="foddstok"></MapJsp>
+	<MapJsp Page="iframeagrtabcheck.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_poultry_broilerinc.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dairycattlechart.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_Duediligence1.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_legal_opinion.jsp" Path="/jsp/agr/" PageId="legalop"></MapJsp>
+	<MapJsp Page="agr_farmmech.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_pre_sanction.jsp" Path="/jsp/agr/" PageId="agrpresn"></MapJsp>
+	<MapJsp Page="agr_cropsrc.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="ConsumptionLoans.jsp" Path="/jsp/agr/" PageId="consloan"></MapJsp>
+	<MapJsp Page="Farmmachineries.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_economics.jsp" BeanId="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_fishersinvest.jsp" Path="/jsp/agr/" PageId="fishinve"></MapJsp>
+	<MapJsp Page="agr_marketingfisheries.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_appraisalconfirmgovt.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_UBC_eligibility.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_livestockrep.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrcropinter.jsp" BeanID="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrcropproposed.jsp" BeanID="agrcrops" Path="/jsp/agr/" PageId="cropprop"></MapJsp>
+	<MapJsp Page="agrcropplantation.jsp" BeanID="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrcropcapital.jsp" BeanID="agrcrops" Path="/jsp/agr/" PageId="cropwc"></MapJsp>
+	<MapJsp Page="agrassesment.jsp" BeanID="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="coffeevaluationmaster.jsp" Path="/jsp/agr/" PageId="setcofmr"></MapJsp>
+	<MapJsp Page="agr_yearcostdetails.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="livestockdetails.jsp" BeanID="agrcrops" Path="/jsp/agr/" PageId="livestok"></MapJsp>
+	<MapJsp Page="agrMachBoatSurplus.jsp" BeanID="agriculture" Path="/jsp/agr/" PageId="boatsurp"></MapJsp>
+	<MapJsp Page="agrMachBoatOPExpenses.jsp" BeanID="agriculture" Path="/jsp/agr/" PageId="machboat"></MapJsp>
+	<MapJsp Page="agrlandholdings.jsp" BeanID="agriculture" Path="/jsp/agr/" PageId="landhold"></MapJsp>
+	<MapJsp Page="agr_techdetails.jsp" BeanID="agrcrops" Path="/jsp/agr/" PageId="croptech"></MapJsp>
+	<MapJsp Page="agr_sheddetails.jsp" BeanID="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrcoffeehypo.jsp" BeanID="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_economicdata.jsp" BeanID="agreconomic" Path="/jsp/agr/" PageId="econdata"></MapJsp>
+	<MapJsp Page="agr_croptermloan.jsp" Path="/jsp/agr/" PageId="cropterm"></MapJsp>
+	<MapJsp Page="dairyfarmingappraisal.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_diaryfindata.jsp" Path="/jsp/agr/" PageId="diaryfin"></MapJsp>
+	<MapJsp Page="agr_capldetails.jsp" Path="/jsp/agr/" PageId="capldet"></MapJsp>
+	<MapJsp Page="agr_LDCows.jsp" Path="/jsp/agr/" PageId="agrldcow"></MapJsp>
+	<MapJsp Page="agr_cashflow.jsp" Path="/jsp/agr/" PageId="agrcasfl"></MapJsp>
+	<MapJsp Page="agr_farmMechcashflow.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_apprtermloan.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dairyfarmingappraisal.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_farmMechParticulars.jsp" Path="/jsp/agr/" PageId="farmpart" ></MapJsp>
+	<MapJsp Page="agr_croppingpattern.jsp" BeanID="agrcrops" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_farmMechTechAspect.jsp" Path="/jsp/agr/" PageId="farmmech"></MapJsp>
+	<MapJsp Page="agr_coffeestate.jsp" BeanID="agrcoffee" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_coffeeprevious.jsp" BeanID="agrcoffee" Path="/jsp/agr/"></MapJsp> 
+	<MapJsp Page="agr_coffeesources.jsp" BeanID="agrcoffee" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_farmeligibility.jsp" BeanID="appraisal" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_capl.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_farmmechminorirrappr.jsp" BeanID="appraisal" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_bullockdata.jsp" Path="/jsp/agr/" PageId="abuldata"></MapJsp>
+	<MapJsp Page="agr_bullockfinancialdata.jsp" Path="/jsp/agr/" PageId="abulfin"></MapJsp>
+	<MapJsp Page="agr_farmmechMinorIrrig.jsp" Path="/jsp/agr/" PageId="aminirr"></MapJsp>
+	<MapJsp Page="agriEMICalculation.jsp" Path="/jsp/agr/" PageId="cropelig"></MapJsp>
+	<MapJsp Page="cropgenapp.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_coffeeassesment.jsp" BeanId="agrcoffee" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_intercropassesment.jsp" BeanId="agrcoffee" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_vehicleParticulars.jsp" Path="/jsp/agr/"></MapJsp>	
+	<MapJsp Page="agr_poultrynonrecurringexp.jsp" Path="/jsp/agr/" PageId="playnore"></MapJsp>
+	<MapJsp Page="agr_poultryrecurringexp.jsp" Path="/jsp/agr/" PageId="playrecr"></MapJsp>
+	<MapJsp Page="agr_layerflockrep.jsp" Path="/jsp/agr/" PageId="layerflk"></MapJsp>
+	<MapJsp Page="agr_poultry_flowchart.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_poultry_techaspect.jsp" Path="/jsp/agr/" PageId="techaspe"></MapJsp>
+	<MapJsp Page="agr_poultry_findata.jsp" Path="/jsp/agr/" PageId="poullayr"></MapJsp>
+	<MapJsp Page="agr_poultry_broilertech.jsp" Path="/jsp/agr/" PageId="poubroil"></MapJsp>
+	<MapJsp Page="agr_poultry_layerinc.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_bullock_eligibility.jsp" Path="/jsp/agr/"></MapJsp>	
+	<MapJsp Page="agr_poultrycashflow.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_coffee_termloan.jsp" Path="/jsp/agr/" PageId="plntech1"></MapJsp>	
+	<MapJsp Page="agr_gobartechdata.jsp" Path="/jsp/agr/" PageId="gobrtec"></MapJsp>
+	<MapJsp Page="agr_gg_eligibility.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_coffee_economics.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_coffeeterm_cashflow.jsp" Path="/jsp/agr/" PageId="plancash"> </MapJsp>
+	<MapJsp Page="agr_coffeeterm_eligibility.jsp" Path="/jsp/agr/"></MapJsp>	
+	<MapJsp Page="agr_coffeeterm_apprisal.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sheep_techdata.jsp" Path="/jsp/agr/" PageId="shptchdt"></MapJsp>
+	<MapJsp Page="agr_sheep_ecodata.jsp" Path="/jsp/agr/" PageId="sheepeco"></MapJsp>
+	<MapJsp Page="agr_sheep_expenses.jsp" Path="/jsp/agr/" PageId="sheepexp"></MapJsp>
+	<MapJsp Page="agr_sheep_income.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sheep_flockrep.jsp" Path="/jsp/agr/" PageId="flockrep"></MapJsp>
+	<MapJsp Page="agr_sheep_cashflow.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sheep_loanreq.jsp" Path="/jsp/agr/" PageId="sheeplrq"></MapJsp>
+	<MapJsp Page="agr_sheep_eligibility.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sheep_eligibility1.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrloanreqlettersheep.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_seri_techdata.jsp" Path="/jsp/agr/" PageId="seritech"></MapJsp>
+	<MapJsp Page="agr_seri_loanreq.jsp" Path="/jsp/agr/" PageId="agriseri"></MapJsp>
+	<MapJsp Page="agr_seri_economics.jsp" Path="/jsp/agr/" PageId="seriecon"></MapJsp>
+	<MapJsp Page="agr_seri_apprisal.jsp" Path="/jsp/agr/"></MapJsp>	
+	<MapJsp Page="agr_poultry_broilerfin.jsp" Path="/jsp/agr/" PageId="poubrfin"></MapJsp>
+	<MapJsp Page="agr_poultry_broinonrec.jsp" Path="/jsp/agr/" PageId="pounonre"></MapJsp>
+	<MapJsp Page="agr_poultry_broirec.jsp" Path="/jsp/agr/" PageId="broirec"></MapJsp>
+	<MapJsp Page="agr_poultry_broiflockrep.jsp" Path="/jsp/agr/" PageId="broflock"></MapJsp>
+	<MapJsp Page="agr_poultry_broiflowchart.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_common_loanrequirements.jsp" Path="/jsp/agr/" PageId="fishpart"></MapJsp>
+	<MapJsp Page="agr_gold_eligibility.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_fd_eligibility.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="iframeargcommonloanrequirements.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_common_income.jsp" Path="/jsp/agr/" PageId="comminc"></MapJsp>
+	<MapJsp Page="agr_common_expense.jsp" Path="/jsp/agr/" PageId="commexp"></MapJsp>
+	<MapJsp Page="agr_poultry_irr.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_ugcc_eligibility.jsp" BeanId="agreligibility" PageId="agrugcc" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrUGCEligibility.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrfarmmachinerydetails.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrfarmincomehire.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="Applurllinkagr.jsp" Path="/jsp/agr/"></MapJsp>
+
+	<MapJsp Page="agr_shgfinanceposition.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrSHGcorpusofgroup.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_income.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_expense.jsp" Path="/jsp/agr/"></MapJsp>
+	<!-- Added by Arsath for Plantation Scheme -->
+	<MapJsp Page="agr_horticultureplantdetails.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrnurseryscaleoffinancelist.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_horticulturecostofdevelopment.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_horticulturecostofdevelopment1.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_hortifinancialprogramme.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_hortiprojectedincome.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_repayment.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_hortifinancialanalysis.jsp" Path="/jsp/agr/"></MapJsp>
+    <MapJsp Page="agrscaleoffinancehoriculture.jsp" Path="/jsp/set/"></MapJsp>
+    
+	<MapJsp Page="agr_fishery_particulars.jsp" Path="/jsp/agr/"></MapJsp>
+	<!-- Added for Diary Farming By Karthikeyan.S -->
+	<MapJsp Page="agr_dairycostofinvestment.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dairyfinancialdata.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dairyherdproductionchart.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dairyincomestatement.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dairyrecurringexpenditure.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dairyfinancialanalysis.jsp" Path="/jsp/agr/"></MapJsp>
+	<!-- Added for ProjectDetails by Venkat Prasad on 07/12/2013 -->
+	<MapJsp Page="agr_sericultureprojcost.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sericultureincexp.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="iframesericultureincome_exp.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrtobaccodetails.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_gobartechdata.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_bullock_particulars.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_hortiincexp.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_minorirrigation.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sprinkler.jsp" Path="/jsp/agr/"></MapJsp>
+	<!-- Added for Agriculture by ganesan on 10/12/2013 -->
+	<MapJsp Page="agr_landdevelopmentdetails.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_onfarmdevelopment.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sandcasting.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_reclamationofsoil.jsp" Path="/jsp/agr/"></MapJsp>
+    <MapJsp Page="agr_dryingyard.jsp" Path="/jsp/agr/"></MapJsp>
+    <!-- Added by Anees for Financial Year inclusion in agriculture tab -->
+    <MapJsp Page="agrfinancialyears.jsp" Path="/jsp/agr/"></MapJsp>
+
+	<!-- Added by SaravanaRaj on 10/12/2013 -->
+	<MapJsp Page="agr_minorirrigation.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sprinkler.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_dripirrigation.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_sinknewell.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_constructpond.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_constructdam.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_repairwell.jsp" Path="/jsp/agr/"></MapJsp>
+	
+	<!-- Added by Guhan.T for Farm Budget on 13/12/2013 -->
+	<MapJsp Page="com_farmbudget.jsp" Path="/jsp/agr/"></MapJsp>
+
+	<!-- Added by Venkata Prasad Chowdary for Agri MPBF on 22/12/2013 -->
+	<MapJsp Page="agrAssessmentPrint.jsp" Path="/jsp/agr/"></MapJsp>
+	
+	<!-- Added by DINESH for Security Attach on 21/12/2013 -->
+	<MapJsp Page="attachSecurities.jsp" Path="/jsp/set/"></MapJsp>
+	<!-- Added by Venkat for DSS Assessment on 26/12/2013 -->
+	<MapJsp Page="com_dssassessment.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agr_agriprogram.jsp" Path="/jsp/agr/"></MapJsp>		
+	
+	<MapJsp Page="agrPhysicalStatement.jsp" Path="/jsp/agr/"></MapJsp>
+	<!-- Added by Arsath Ayub on 12/02/2014 -->
+	<MapJsp Page="agr_existingincomeotherthancrop.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="iframe_existingincexp.jsp" Path="/jsp/agr/"></MapJsp>
+	<!-- Added by Arsath Ayub on 25/02/2014 -->
+	<MapJsp Page="agr_fencing.jsp" Path="/jsp/agr/"></MapJsp>
+	
+	<!-- Added by bhaskar for shg assessment on 26 feb 2014 -->	
+	<MapJsp Page="com_shgassessment.jsp" Path="/jsp/agr/"></MapJsp>	
+	<MapJsp Page="agr_farmforestry.jsp" Path="/jsp/agr/"></MapJsp>
+
+	
+	<!-- Added for Sericulture - Income Statement by rajesh on 01/03/2014 -->
+	<MapJsp Page="agr_sericultureincstatement.jsp" Path="/jsp/agr/"></MapJsp>
+
+	<!-- added by Ganesan on 26/02/2014 -->
+	<MapJsp Page="agr_Physicalfinancialproass.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="Typepoultrymasters.jsp" Path="/jsp/set/"></MapJsp>
+
+	<!-- Added by Arsath Ayub on 05/03/2014 -->
+	<MapJsp Page="agr_netincome.jsp" Path="/jsp/agr/"></MapJsp>
+	
+	<!-- Added by Dinesh on 18/03/2014 -->
+	<MapJsp Page="agr_capl_goodsdetails.jsp" Path="/jsp/agr/"></MapJsp>
+	
+	<!-- Added by Dinesh on 27/03/2014 -->
+	<MapJsp Page="agr_intSubvention.jsp" Path="/jsp/agr/"></MapJsp>
+	
+	<!-- Added by Ganesan k on 22/05/2014 -->
+	<MapJsp Page="agr_targetmaster.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="iframeagrtargetmaster.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="searchbrandnamehelp.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="agrreplacementchart.jsp" Path="/jsp/agr/"></MapJsp>
+	<MapJsp Page="fvcmasters.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="com_restructureassessment.jsp" Path="/jsp/com/"></MapJsp>
+	<MapJsp Page="com_roiannexure.jsp" Path="/jsp/print/"></MapJsp>
+	<MapJsp Page="scalefinancemasterlistnew.jsp" Path="/jsp/set/"></MapJsp>
+	<MapJsp Page="com_OtherLimits.jsp" Path="/jsp/share/"></MapJsp>
+</JSPMaps>

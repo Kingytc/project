@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+	<query code="bstmailappno">
+		select BSTAPP_NO,BST_COMPANYNAME,BST_COMPANYID, org_name,
+		BSTAPP_STATUS, usr_fname ,TO_CHAR(BSTMAIL_DATE,'DD/MM/YYYY') as
+		maildate from combst_mailbox a,combst_applications b,com_bstcustinfo
+		c,organisations d,users e where a.bstmail_appno= b.bstapp_no and
+		e.usr_id= a.BSTMAIL_FROMUSRID and upper(b.bstapp_status) not
+		like 'C_' and c.bst_brlocation= d.org_scode and
+   		b.bstapp_comid= c.bst_companyid and
+		a.bstmail_tousrid ='^' and b.bstapp_delflag='N' and
+		a.bstmail_date =(select max(a1.bstmail_date) from combst_mailbox a1
+		where a.bstmail_appno= a1.bstmail_appno) order by a.bstmail_date
+		desc
+	</query>
+	
+	<query code="bstcheckapplnstatus">
+	 select bstapp_no from combst_applications a, com_bstcustinfo b
+    where a.bstapp_comid= b.bst_companyid and upper(a.bstapp_status) in (^)
+    and b.bst_companyid='^'
+	</query>
+	
+	<query code="sel_broadtermsfin">
+		select broadtermsfinappno, broadtermsfinslno,
+		broadtermsfinfirstyear, broadtermsfinsecondyear,
+		broadtermsfinthirdyear, broadtermsfinrowdesc from combst_financials where
+		broadtermsfinappno='^' order by to_number(broadtermsfinslno)
+	</query>
+
+	<query code="ins_broadtermsfin">
+		insert into combst_financials (broadtermsfinappno,
+		broadtermsfinslno, broadtermsfinfirstyear,
+		broadtermsfinsecondyear, broadtermsfinthirdyear, broadtermsfinrowdesc) values
+		(?,?,?,?,?,?)
+	</query>
+
+	<query code="del_broadtermsfin">
+		delete from combst_financials where broadtermsfinappno = ? 
+	</query>
+	
+	<query code="sel_broadtermscomments">
+		select com_broadtermsappno, com_broadtermstype,
+		com_broadtermscomments, com_broadtermsseltype from
+		combst_comments where com_broadtermsappno='^' and
+		com_broadtermstype in(^)
+	</query>
+
+	<query code="bstbrncomments">
+		select com_broadtermsappno, com_broadtermstype,
+		com_broadtermscomments, com_broadtermsseltype from
+		combst_comments where com_broadtermsappno='^' and
+		com_broadtermstype in(^) and com_broadtermsseltype in ('^')
+	</query>
+
+	<query code="del_broadtermscomments">
+		delete from combst_comments where com_broadtermsappno=?
+		and com_broadtermstype = ? and com_broadtermsseltype=?
+	</query>
+
+	<query code="ins_broadtermscomments">
+		insert into combst_comments (com_broadtermsappno,
+		com_broadtermstype, com_broadtermscomments,
+		com_broadtermsseltype) values (?,?,?,?)
+	</query>
+
+
+	<query code="sel_bstcustprofit">
+		select bstcp_appno, bstcp_billscommission, bstcp_processcharges,
+		bstcp_lgcommission, bstcp_sb, bstcp_cd, bstcp_ownsources,
+		bstcp_thirdparty from combst_custprofit where bstcp_appno='^'
+	</query>
+
+	<query code="ins_bstcustprofit">
+		insert into combst_custprofit(bstcp_appno, bstcp_billscommission,
+		bstcp_processcharges, bstcp_lgcommission, bstcp_sb, bstcp_cd,
+		bstcp_ownsources, bstcp_thirdparty) values (?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="del_bstcustprofit">
+		delete from combst_custprofit where bstcp_appno=?
+	</query>
+	
+	<query code="sel_bstcustinfo">
+		select bst_companyname, bst_companygroup, bst_brlocation,
+		to_char(bst_modifieddate,'dd/mm/yyyy') as bst_modifieddate,
+		bst_modifiedby, bst_companyid, bst_companycustid, org_name as
+		brnlocationdesc, exp_desc as groupdesc, bst_custype from
+		com_bstcustinfo, organisations, exposure where
+		org_scode(+)=bst_brlocation and exp_id(+)=bst_companygroup and
+		bst_companyid='^'
+	</query>
+
+	<query code="ins_bstcustinfo">
+		insert into com_bstcustinfo(bst_companyname, bst_companygroup,
+		bst_brlocation, bst_modifieddate, bst_modifiedby, bst_companyid,
+		bst_companycustid,bst_custype) values
+		(?,?,?,sysdate,?,?,?,?)
+	</query>
+
+	<query code="upd_bstcustinfo">
+		update com_bstcustinfo set bst_companyname=?,
+		bst_companygroup=?, bst_brlocation=?,
+		bst_modifieddate=sysdate, bst_modifiedby=?, bst_custype=?
+		where bst_companyid=?
+	</query>
+
+	<query code="del_bstcustinfo">
+		delete from com_bstcustinfo where bst_companycustid=?
+	</query>
+	
+	<query code="sel_maxbstcustid">
+		select bstcustinfoseq.nextval as companyid from dual
+	</query>
+	
+	<query code="sel_bstcustlist">
+		select bst_companyname, bst_companygroup, bst_brlocation,
+		to_char(bst_modifieddate,'dd/mm/yyyy') as bst_modifieddate,
+		bst_modifiedby, bst_companyid, bst_companycustid, org_name as bst_brlocationdesc from
+		com_bstcustinfo, organisations where upper(bst_companyname) like
+		upper('%^%') and bst_renew='N' and bst_brlocation= org_scode and org_code like '^%'
+	</query>
+	
+	<query code="sel_bstfacility">
+		select bstfacilities_appno, bstfacilities_headid,
+		(select upper(facility_catdesc) from facility_master
+		where facility_catid=bstfacilities_headid and
+		facility_parent=0) as facheaddesc, bstfacilities_id,
+		(select	upper(facility_catdesc) from facility_master where
+		facility_catid=bstfacilities_id and facility_parent!=0) as facdesc,
+		bstfacilities_existing, bstfacilities_proposed, bstfacilities_creditint,
+		bstfacilities_propint, bstfacilities_margin,
+		bstfacilities_tenor, bstfacilities_purpose,
+		bstfacilities_intreset, to_char(bstfacilities_createdate,'dd/mm/yyyy') as
+		bstfacilities_createdate, bstfacilities_facgroup, bstfacilities_sno
+		from combst_facilities where bstfacilities_appno='^'
+		and bstfacilities_facgroup='^'
+	</query>
+
+	<query code="ins_bstfacility">
+		insert into combst_facilities(bstfacilities_appno,bstfacilities_sno,
+		bstfacilities_headid, bstfacilities_id, bstfacilities_existing,
+		bstfacilities_proposed, bstfacilities_creditint,
+		bstfacilities_propint, bstfacilities_margin,
+		bstfacilities_tenor, bstfacilities_purpose,
+		bstfacilities_intreset, bstfacilities_createdate,bstfacilities_facgroup)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,sysdate,?)
+	</query>
+
+	<query code="upd_bstfacility">
+		update combst_facilities set 
+		bstfacilities_headid=?, bstfacilities_id=?,
+		bstfacilities_existing=?, bstfacilities_proposed=?,
+		bstfacilities_creditint=?, bstfacilities_propint=?,
+		bstfacilities_margin=?, bstfacilities_tenor=?,
+		bstfacilities_purpose=?, bstfacilities_intreset=?,
+		bstfacilities_createdate=sysdate,bstfacilities_facgroup=? where
+		bstfacilities_appno=? and bstfacilities_sno=?
+	</query>
+
+	<query code="del_bstfacility">
+		delete from combst_facilities where bstfacilities_appno=? and
+		bstfacilities_sno=?
+	</query>
+
+	<query code="sel_bstfacilityMaxid">
+		select NVL(max(bstfacilities_sno),0)+1 as facilityid from
+		combst_facilities where bstfacilities_appno='^'
+	</query>
+	
+	<query code="sel_bsttermfinancefac">
+		select bstfacilities_sno, facility_catdesc, bstfacilities_proposed from facility_master,
+		combst_facilities where facility_parent = 1 and
+		facility_catid=bstfacilities_id and bstfacilities_appno='^' 
+		order by facility_catdesc
+	</query>
+
+	<query code="sel_bsttremscomments">
+		select facility_catdesc, com_broadtermscomments,
+		com_broadtermstype, bstfacilities_proposed from facility_master, combst_comments,
+		combst_facilities where facility_catid=bstfacilities_id and
+		bstfacilities_sno=com_broadtermsseltype and
+		bstfacilities_appno=com_broadtermsappno and
+		com_broadtermsappno='^'
+	</query>
+
+	<query code="sel_BSTMaxAppno">
+		select NVL(SUBSTR(max(BSTAPP_NO),7,14),'0')  as appno from
+		combst_applications where SUBSTR(BSTAPP_NO,1,5) ='^'
+	</query>
+	
+	<query code="ins_bstapplication">
+		insert into combst_applications (bstapp_no, bstapp_usrid,
+		bstapp_orgscode, bstapp_applnholder, bstapp_createdate,
+		bstapp_processorgscode, bstapp_orglevel, bstapp_valuesin,
+		bstapp_status,bstapp_comid) values (?,?,?,?,sysdate,
+		?,?,?,'op',?)
+	</query>
+	
+	<query code="sel_bstapplication">
+		select bstapp_no, bstapp_usrid, bstapp_applnholder,
+		bstapp_approvedby, bstapp_sancauthcomments, bstapp_status from
+		combst_applications where bstapp_no= '^'
+	</query>
+
+	<query code="selmax_bstsecdetails">
+		select nvl(max(bstsec_srlno),0)+1 as snomax from combst_securitydetails
+		where bstsec_appno='^'
+	</query>
+	
+	<query code="ins_bstsecdetails">
+		insert into combst_securitydetails(bstsec_appno, bstsec_srlno, 
+		bstsec_desc_id, bstsec_desc_details, bstsec_desc_value,
+		bstsec_desc_as_on_date, bstsec_tenor, bstsec_type, bstsec_valuersname,
+		bstsec_insuranceamt, bstsec_insexpirydate, bstsec_remarks) values
+		(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,to_date(?,'dd/mm/yyyy'),?)
+	</query>
+	
+	<query code="upd_bstsecdetails">
+		update combst_securitydetails set bstsec_desc_id=?,
+		bstsec_desc_details=?, bstsec_desc_value=?,
+		bstsec_desc_as_on_date=to_date(?,'dd/mm/yyyy'), bstsec_tenor=?,
+		bstsec_type=?, bstsec_valuersname=?, bstsec_insuranceamt=?,
+		bstsec_insexpirydate=to_date(?,'dd/mm/yyyy'), bstsec_remarks=? where
+		bstsec_appno=? and bstsec_srlno=?
+	</query>
+	
+	<query code="del_bstsecdetails">
+		delete from combst_securitydetails where bstsec_appno=? and bstsec_srlno=?
+	</query>
+	
+	<query code="sel_bstsecdetails">
+		select bstsec_appno, bstsec_srlno, bstsec_desc_id, bstsec_desc_details,
+		bstsec_desc_value, to_char(bstsec_desc_as_on_date,'dd/mm/yyyy') as
+		as_on_date, stat_data_desc as sec_name, bstsec_tenor, bstsec_type,
+		bstsec_valuersname, bstsec_insuranceamt,
+		to_char(bstsec_insexpirydate,'dd/mm/yyyy') as sec_insexpirydate,
+		bstsec_remarks from combst_securitydetails, static_data where
+		stat_data_id(+)=12 and stat_data_desc1(+)=bstsec_desc_id and
+		bstsec_appno='^' order by bstsec_srlno
+	</query>
+	<query code="sel_bstsecdetailsbysno">
+		select bstsec_appno, bstsec_srlno, bstsec_desc_id, bstsec_desc_details,
+		bstsec_desc_value, to_char(bstsec_desc_as_on_date,'dd/mm/yyyy') as
+		as_on_date, stat_data_desc as sec_name, bstsec_tenor, bstsec_type,
+		bstsec_valuersname, bstsec_insuranceamt,
+		to_char(bstsec_insexpirydate,'dd/mm/yyyy') as sec_insexpirydate,
+		bstsec_remarks from combst_securitydetails, static_data where
+		stat_data_id(+)=12 and stat_data_desc1(+)=bstsec_desc_id and bstsec_srlno='^' and
+		bstsec_appno='^' 
+	</query>
+
+	<query code="sel_bstappdetails">
+		select
+		bstapp_status,bst_companyname,bstapp_applnholder,bstapp_valuesin,org_name
+		from combst_applications,com_bstcustinfo,organisations where
+		org_scode = bstapp_orgscode and bstapp_comid=bst_companyid and
+		bstapp_no='^'
+	</query>
+	
+	<query code="sel_bstappnolist">
+		select bstapp_no, bstapp_status, bstapp_applnholder,
+		usr_fname||' '||usr_lname as holdername from com_bstcustinfo,
+		combst_applications, organisations, users where
+		bstapp_comid=bst_companyid and bst_companycustid='^' and
+		bstapp_applnholder=usr_id and bstapp_orgscode=org_scode and
+		org_code like '^%'
+	</query>
+
+	<query code="renew_bstcust">
+		insert into com_bstcustinfo(BST_COMPANYNAME, BST_COMPANYGROUP,
+		BST_BRLOCATION, BST_MODIFIEDDATE, BST_MODIFIEDBY, BST_COMPANYID,
+		BST_COMPANYCUSTID,bst_custype) select BST_COMPANYNAME, BST_COMPANYGROUP,
+		BST_BRLOCATION, BST_MODIFIEDDATE, BST_MODIFIEDBY, ?,
+		BST_COMPANYCUSTID,bst_custype from com_bstcustinfo where BST_COMPANYID=?
+	</query>
+
+	<query code="upd_bstrenew">
+    update com_bstcustinfo set bst_renew='Y' where BST_COMPANYID=?
+    </query>
+    
+    <query code="bst_workflowsel">
+     	select bst_workid,bst_minclass,bst_duration,wrk_flowname,bst_flowpoint from
+     	bst_workflow,workflow where bst_workid=wrk_flowid and
+     	wrk_flowtype='^' order by bst_flowpoint
+     </query>
+     
+     <query code="bst_workflowdel">
+		delete bst_workflow where bst_workid in (select
+		wrk_flowid from workflow where wrk_flowtype=?)
+	</query>
+     
+     <query code="bst_workflowins">
+		insert into bst_workflow(bst_flowpoint, bst_workid, bst_minclass, bst_duration)
+		values(?,?,?,?)
+	</query>
+
+     <query code="bst_workflowpoint">
+     	select bstmail_toflowpoint,to_char(bstmail_date,'dd/mm/yyyy
+     	HH24:MI:SS') as bstmail_date from combst_mailbox where
+     	bstmail_date=(select max(bstmail_date) from combst_mailbox where
+     	bst_appno='^' )
+     </query>
+
+     <query code="bst_workflowcnt">
+		 select count(bstmail_fromflowpoint) from combst_mailbox where
+		bstmail_appno='^' and bstmail_fromflowpoint=^
+	</query>
+
+     <query code="bst_workflowhistory">
+     	select bstmail_fromusrid||'-'||usr1.usr_fname||'
+     	'||usr1.usr_lname as fromuser,
+     	bstmail_tousrid||'-'||usr2.usr_fname||' '||usr2.usr_lname as
+     	touser,bstmail_fromflowpoint,bstmail_toflowpoint,
+     	to_char(bstmail_date,'dd/mm/yyyy HH24:MI:SS') as maildate,
+     	bstmail_fromusrid, bstmail_tousrid from combst_mailbox, users
+     	usr1,users usr2 where bstmail_appno like '^' and
+     	bstmail_fromusrid=usr1.usr_id and bstmail_tousrid=usr2.usr_id
+     	order by bstmail_date
+     </query>
+
+     <query code="bst_insmailbox">
+     	insert into combst_mailbox(bstmail_appno, bstmail_fromusrid,
+     	bstmail_tousrid, bstmail_fromflowpoint, bstmail_toflowpoint,
+     	bstmail_date) values(?,?,?,?,?,sysdate)
+     </query>
+
+     <query code="upd_bstappholder">
+		update combst_applications set bstapp_applnholder=?
+		where bstapp_no=?
+	</query>
+
+     <query code="upd_bstappstatus">
+     	update combst_applications set bstapp_status=?,
+     	bstapp_approvedby=?, bstapp_processdate=sysdate,
+     	bstapp_processorgscode=?, bstapp_sancauthcomments=? where
+     	bstapp_no=?
+     </query>
+
+     <query code="sel_bstworkflow">
+	    select bstmail_toflowpoint, to_char(bstmail_date,'dd/mm/yyyy
+		hh24:mi:ss') as bstmail_date, to_char(bst_duration+bstmail_date,'dd/mm/yyyy') as duedate,
+		bst_minclass from combst_mailbox, bst_workflow where bstmail_appno='^'
+		and bstmail_date=(select max(bstmail_date) from combst_mailbox where
+		bstmail_appno='^') and bst_flowpoint=bstmail_toflowpoint 
+	</query>
+	
+	<query code="sel_bstappworkflow">
+		select bst_minclass, to_char(bstapp_createdate,'dd/mm/yyyy') as createdate,
+		to_char(bst_duration+bstapp_createdate,'dd/mm/yyyy') as duedate from
+		combst_applications, bst_workflow where bst_flowpoint=1 and
+		bstapp_no='^'
+	</query>
+
+	<query code="ins_bstmailcomments">
+		insert into combst_mailcomments (mail_appno, mail_comments,
+		mail_userid, mail_date, mail_touser, mail_pano) values
+		(?,?,?,sysdate,?,?)
+	</query>
+	
+	<query code="sel_bstmailcomments">
+		select mail_appno, mail_comments, mail_userid,
+		to_char(mail_date,'dd/mm/yyyy hh24:mi:ss') as mail_date,
+		mail_touser, user_designation, usr_fname, mail_pano from
+		combst_mailcomments, users where mail_appno='^' and
+		mail_userid=usr_id order by to_date(mail_date,'dd/mm/yyyy hh24:mi:ss') desc
+	</query>
+	
+	<query code="upd_workflowcloseapprove">
+		update combst_applications set bstapp_status =
+		concat('c',substr(bstapp_status,2,2)), bstapp_closedate=sysdate where
+		bstapp_no=?
+	</query>
+
+	<query code="sel_bstcustdetails">
+		select bst_companyname, org_name as brnlocationdesc, exp_desc as
+		groupdesc, bst_custype from com_bstcustinfo, organisations, exposure,
+		combst_applications where org_scode(+)=bst_brlocation and
+		exp_id(+)=bst_companygroup and bst_companyid=bstapp_comid and
+		bstapp_no='^'
+	</query>
+
+	<query code="sel_OrgDetails">
+		select org_name, org_add1, org_add2, org_zip, org_phone,
+		org_fax, state_name, city_name from combst_applications,
+		organisations, laps_states, laps_cities where bstapp_orgscode=
+		organisations.org_scode and city_code(+)=org_city and
+		state_code(+)=org_state and bstapp_no='^'
+	</query>
+	
+	<query code="bstmailboxcount">
+		select COUNT(bstapp_no) from combst_mailbox a,combst_applications
+		b,com_bstcustinfo c,organisations d,users e where
+		a.bstmail_appno= b.bstapp_no and e.usr_id= a.bstmail_tousrid and
+		upper(b.bstapp_status) not like 'C_' and
+		c.bst_brlocation=d.org_scode and b.bstapp_comid= c.bst_companyid
+		and a.bstmail_tousrid ='^' and b.bstapp_delflag='N' and
+		a.bstmail_date =(select max(a1.bstmail_date) from combst_mailbox a1
+		where a.bstmail_appno= a1.bstmail_appno)
+	</query>
+	
+	<query code="upd_bstvaluesin">
+		update combst_applications set bstapp_valuesin=? where bstapp_no=?
+	</query>
+	
+	<query code="get_bstmaxflowpoint">
+		select max(bst_flowpoint) as bst_flowpoint from bst_workflow,
+		workflow where bst_workid=wrk_flowid and wrk_flowtype='p'
+	</query>
+
+	<query code="ins_bstorgcomments">
+		insert into combst_orgrecmdations (combst_appno,
+		combst_orgrecmds, combst_orglevel) values(?,?,?)
+	</query>
+
+	<query code="upd_bstorgcomments">
+		update combst_orgrecmdations set combst_refno=?,
+		combst_refdate=to_date(?,'dd/mm/yyyy'), combst_orgsignatories=?
+		where combst_appno=?
+	</query>
+
+	<query code="del_bstorgcomments">
+		delete from combst_orgrecmdations where combst_appno=? and combst_orglevel=?
+	</query>
+	
+	<query code="sel_bstorgcomments">
+		select combst_refno, to_char(combst_refdate,'dd/mm/yyyy') as
+		combst_refdate, combst_orgsignatories, combst_orgrecmds,
+		combst_orglevel from combst_orgrecmdations where
+		combst_appno='^' and combst_orglevel='^'
+	</query>
+	
+	<query code="selbstorgcomments">
+		select combst_refno, to_char(combst_refdate,'dd/mm/yyyy') as
+		combst_refdate, combst_orgsignatories, combst_orgrecmds,
+		combst_orglevel from combst_orgrecmdations where
+		combst_appno='^'
+	</query>
+	<query code="combst_bankingDetails_insert">
+		insert into combst_bankingDetails (cb_appno,cb_banktype,cb_leadbank,
+		cb_fundexist,cb_fundproposed,cb_nonfundexist,cb_nonfundproposed)
+		values(?,?,?,?,?,?,?)
+	</query>
+	<query code="combst_bankingDetails_delete">
+		delete from combst_bankingDetails where cb_appno=?
+	</query>
+	<query code="combst_bankingDetails_select">
+		select cb_leadbank,cb_banktype,
+		cb_fundexist,cb_fundproposed,cb_nonfundexist,cb_nonfundproposed
+		from combst_bankingDetails where cb_appno='^'
+	</query>
+	<query code="combst_existcreditlimits_delete">
+		delete from combst_existcreditlimits where cf_appno=? and
+		cf_facsno=?
+	</query>
+	<query code="combst_existcreditlimits_insert">
+		insert into combst_existcreditlimits(cf_appno, cf_facsno,
+		cf_facgroup, cf_bankname, cf_facnature, cf_existlimit,
+		cf_approi, cf_presentroi) values(?,?,?,?,?,?,?,?)
+	</query>
+	<query code="combst_existcreditlimits_update">
+		update combst_existcreditlimits set cf_facgroup=?,
+		cf_bankname=?, cf_facnature=?, cf_existlimit=?, cf_approi=?,
+		cf_presentroi=? where cf_appno=? and cf_facsno=?
+	</query>
+	<query code="combst_existcreditlimits_selectmax">
+		select (nvl(max(cf_facsno),0)+1) as srno from
+		combst_existcreditlimits where cf_appno='^'
+	</query>
+	<query code="combst_existcreditlimits_select">
+		select cf_facsno,cf_facgroup, cf_bankname, cf_facnature, cf_existlimit,
+		cf_approi, cf_presentroi from combst_existcreditlimits where
+		cf_appno='^' and cf_facgroup='^' order by cf_bankname
+	</query>
+	<query code="combst_existcreditlimits_selectbysno">
+		select cf_facsno,cf_facgroup, cf_bankname, cf_facnature, cf_existlimit,
+		cf_approi, cf_presentroi from combst_existcreditlimits where cf_appno='^' 
+	</query>
+	<query code="combst_defaulterslist_select">
+		select cd_comments from combst_defaulterslist where cd_appno='^'
+	</query>
+	<query code="combst_defaulterslist_delete">
+		delete from combst_defaulterslist where cd_appno=?
+	</query>
+	<query code="combst_defaulterslist_insert">
+		insert into combst_defaulterslist(cd_appno,cd_comments)
+		values(?,?)
+	</query>
+	<query code="combst_existcreditlimits_deletecheck">
+		select cf_facsno from combst_existcreditlimits where
+		cf_appno='^' and cf_facgroup=^ and cf_facgroup !=0
+	</query>
+
+
+</sql>

@@ -1,0 +1,2221 @@
+<?xml version="1.0"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+ "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>lapsgroups</shortname>
+
+	<tag>
+		<name>groups</name>
+		<tagclass>com.sai.laps.taglib.GroupListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>RAMparameters</name>
+		<tagclass>com.sai.laps.taglib.RAMParametersTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	 <tag>
+		<name>users</name>
+		<tagclass>com.sai.laps.taglib.UserListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag> 
+	<tag>
+		<name>HeadUserListTag</name>
+		<tagclass>com.sai.laps.taglib.HeadUserListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag> 
+
+	<tag>
+		<name>usersID</name>
+		<tagclass>com.sai.laps.taglib.UserListTagId</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>organizations</name>
+		<tagclass>com.sai.laps.taglib.OrgListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>handleerror</name>
+		<tagclass>com.sai.laps.taglib.ErrorHandlerTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>choice</name>
+		<tagclass>com.sai.laps.taglib.choiceTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>choiceOrg</name>
+		<tagclass>com.sai.laps.taglib.choiceTagOrg</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dochelp</name>
+		<tagclass>com.sai.laps.taglib.TdocHelp</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>choiceOrg</name>
+		<tagclass>com.sai.laps.taglib.choiceTagOrg</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>choice</name>
+		<tagclass>com.sai.laps.taglib.choiceTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>mailusers</name>
+		<tagclass>com.sai.laps.taglib.MailTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>divlist</name>
+		<tagclass>com.sai.laps.taglib.DivListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>accountheld</name>
+		<tagclass>com.sai.laps.taglib.accountheldTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>combuttons</name>
+		<tagclass>com.sai.laps.taglib.commonbuttons</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apporgcode</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>strSource</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>divisionslistid</name>
+		<tagclass>com.sai.laps.taglib.DivisionsListIdTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>application</name>
+		<tagclass>com.sai.laps.taglib.ApplHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>inward</name>
+		<tagclass>com.sai.laps.taglib.InwardHeadtag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>Monitor</name>
+		<tagclass>com.sai.laps.taglib.MonitHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>strSource</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>MonitorReview</name>
+		<tagclass>com.sai.laps.taglib.MonitorReviewTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>MonthlyMonitor</name>
+		<tagclass>com.sai.laps.taglib.MonthMonHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>npaapplication</name>
+		<tagclass>com.sai.laps.taglib.NPAHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>commapplicantlist</name>
+		<tagclass>com.sai.laps.taglib.CommApplicantListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>banklisthelp</name>
+		<tagclass>com.sai.laps.taglib.BankListHelpTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>orglevel</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>appno</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>orgcode</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>pagename</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>wrkflowusers</name>
+		<tagclass>com.sai.laps.taglib.WrkflowUsersTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>comprincipals</name>
+		<tagclass>com.sai.laps.taglib.ComPrincipalListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>toplinks</name>
+		<tagclass>com.sai.laps.taglib.ApplURLTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>catagories</name>
+		<tagclass>com.sai.laps.taglib.CatgListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>products</name>
+		<tagclass>com.sai.laps.taglib.PrdHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>documents</name>
+		<tagclass>com.sai.laps.taglib.DocListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>workflows</name>
+		<tagclass>com.sai.laps.taglib.WorkflowListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>ramfacility</name>
+		<tagclass>com.sai.laps.taglib.RamFacilityListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		
+	</tag>
+
+	<tag>
+		<name>selecttag</name>
+		<tagclass>com.sai.laps.taglib.SelectTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>selecttag1</name>
+		<tagclass>com.sai.laps.taglib.selectTag1</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>prdlisthelp1</name>
+		<tagclass>com.sai.laps.taglib.ProductListHelpTag1</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>appidlisthelp</name>
+		<tagclass>com.sai.laps.taglib.ApplicantIDHelpTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>searchid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>termsintidhelp</name>
+		<tagclass>com.sai.laps.taglib.TermsIntIdHelpTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>reptag</name>
+		<tagclass>com.sai.laps.taglib.RepTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>beanid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>methodname</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>param</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>reporgleveltag</name>
+		<tagclass>com.sai.laps.taglib.RepOrglevelTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>reporttag</name>
+		<tagclass>com.sai.laps.taglib.ReportTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>commapplicantidlist</name>
+		<tagclass>com.sai.laps.taglib.CommApplicantIdTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>choiceIdGen</name>
+		<tagclass>com.sai.laps.taglib.choiceIdGenTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>strSource</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>settermcond</name>
+		<tagclass>com.sai.laps.taglib.TermsCondTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>prodtermcond</name>
+		<tagclass>com.sai.laps.taglib.ProdTermsTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>setpromotersname</name>
+		<tagclass>com.sai.laps.taglib.PromoterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>grouphelp</name>
+		<tagclass>com.sai.laps.taglib.GroupHelpTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>limitlist</name>
+		<tagclass>com.sai.laps.taglib.LimitListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>qistag</name>
+		<tagclass>com.sai.laps.taglib.QisTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>productcode</name>
+		<tagclass>com.sai.laps.taglib.ComProdSetTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>facilitiesdoc</name>
+		<tagclass>com.sai.laps.taglib.FacilitiesDocTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>setprincipalid</name>
+		<tagclass>com.sai.laps.taglib.PrincipalInfoIDTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>limitlist</name>
+		<tagclass>com.sai.laps.taglib.LimitListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>floatbasedisp</name>
+		<tagclass>com.sai.laps.taglib.floatratedisTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>fixedfloat</name>
+		<tagclass>com.sai.laps.taglib.FixedFloat</tagclass>
+		<bodycontent>empty</bodycontent>
+		 <attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>fixedrateselect</name>
+		<tagclass>com.sai.laps.taglib.FixedRateSelectTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>EditLocking</name>
+		<tagclass>com.sai.laps.taglib.EditLockingTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apppagename</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>industryhelp</name>
+		<tagclass>com.sai.laps.taglib.IndustryHelpTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>grouplimits</name>
+		<tagclass>com.sai.laps.taglib.GroupLimitListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>processchargetag</name>
+		<tagclass>com.sai.laps.taglib.ProcessChargeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>documentchargetag</name>
+		<tagclass>com.sai.laps.taglib.DocumentChargeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>compromoter</name>
+		<tagclass>com.sai.laps.taglib.compromoterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>industrymasterhelp</name>
+		<tagclass>com.sai.laps.taglib.IndustryMasterIDHelpTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>displayorgname</name>
+		<tagclass>com.sai.laps.taglib.DisplayOrgTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>finmaster</name>
+		<tagclass>com.sai.laps.taglib.FinMasterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>compromoter</name>
+		<tagclass>com.sai.laps.taglib.compromoterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>finmasthelp</name>
+		<tagclass>com.sai.laps.taglib.FinmastTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>comFormula</name>
+		<tagclass>com.sai.laps.taglib.comFormulaTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>comfinformula</name>
+		<tagclass>com.sai.laps.taglib.ComFinFormulaTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>comdynamicformula</name>
+		<tagclass>com.sai.laps.taglib.ComDynamicFormulaTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>notefinmaster</name>
+		<tagclass>com.sai.laps.taglib.NoteFinMasterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>comtermscond</name>
+		<tagclass>com.sai.laps.taglib.ComTermsCondTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>comtermscond1</name>
+		<tagclass>com.sai.laps.taglib.ComTermsCondTag1</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>qismaster</name>
+		<tagclass>com.sai.laps.taglib.QisMasterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>qisanalysis</name>
+		<tagclass>com.sai.laps.taglib.QisAnalysisTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>qisanalysisrange</name>
+		<tagclass>com.sai.laps.taglib.QisAnalysisRangeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>borrowersearch</name>
+		<tagclass>com.sai.laps.taglib.BorrowerSearchTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>borrowertype</name>
+		<tagclass>com.sai.laps.taglib.BorrowerTypeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>getprinNames</name>
+		<tagclass>com.sai.laps.taglib.getprinNamesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>coappguarantor</name>
+		<tagclass>com.sai.laps.taglib.CoAppGuarantorTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>fincoappguarantor</name>
+		<tagclass>com.sai.laps.taglib.FinCoAppGuarantorTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>SecurityAttachedtoProposal</name>
+		<tagclass>com.sai.laps.taglib.SecurityAttachedtoProposalTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appno</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>fincoappguarantor2</name>
+		<tagclass>com.sai.laps.taglib.FinCoAppGuarantorTag2</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>banknames</name>
+		<tagclass>com.sai.laps.taglib.BankNameTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>termfinancefac</name>
+		<tagclass>com.sai.laps.taglib.TermFinanceFacTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pagename</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>npafinmaster</name>
+		<tagclass>com.sai.laps.taglib.NpaFinTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>defaulter</name>
+		<tagclass>com.sai.laps.taglib.defaulterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>appltolbar</name>
+		<tagclass>com.sai.laps.taglib.ApplToolbarTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>strModule</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>StaticDataHeadsTag</name>
+		<tagclass>com.sai.laps.taglib.StaticDataHeadsTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>GetMonAccountNumberTag</name>
+		<tagclass>com.sai.laps.taglib.GetMonAccountNumberTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>StaticDataTag</name>
+		<tagclass>com.sai.laps.taglib.StaticDataTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>tagType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>StaticDataTagcg</name>
+		<tagclass>com.sai.laps.taglib.StaticDataTagcg</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>StaticDataNewTag</name>
+		<tagclass>com.sai.laps.taglib.StaticDataNewTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>statemaster</name>
+		<tagclass>com.sai.laps.taglib.statemasterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>statemaster1</name>
+		<tagclass>com.sai.laps.taglib.statemasterTag1</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>stateflexmaster</name>
+		<tagclass>com.sai.laps.taglib.stateflexmasterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>sancrefno</name>
+		<tagclass>com.sai.laps.taglib.sancrefnoTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appno</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>saral</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>OrgLocation</name>
+		<tagclass>com.sai.laps.taglib.OrgLocationTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>usersclass</name>
+		<tagclass>com.sai.laps.taglib.UserClassListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>usersclassdesc</name>
+		<tagclass>
+			com.sai.laps.taglib.UserClassListDescriptionTag
+		</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>margintag</name>
+		<tagclass>com.sai.laps.taglib.MarginTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		
+		
+	</tag>
+	
+	<tag>
+		<name>incometag</name>
+		<tagclass>com.sai.laps.taglib.IncomeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>DynamicTabs</name>
+		<tagclass>com.sai.laps.taglib.DynamicTabs</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>parentTab</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>childTab</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>monitortag</name>
+		<tagclass>com.sai.laps.taglib.MONHeadTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>reviewof</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>tlrtag</name>
+		<tagclass>com.sai.laps.taglib.TLRHeadTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>reviewof</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>valuesin</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>monthlymonitortag</name>
+		<tagclass>com.sai.laps.taglib.MONTHLYHeadTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>MonMSODTag</name>
+		<tagclass>com.sai.laps.taglib.MonMSODTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>msod</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>stock</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>bookdebts</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>MonQPRTag</name>
+		<tagclass>com.sai.laps.taglib.MonQPRTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>qpr</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>MonConsortiumTag</name>
+		<tagclass>com.sai.laps.taglib.MonConsortiumTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>MonitoringInfoTag</name>
+		<tagclass>com.sai.laps.taglib.MonitoringInfoTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>MMRtag</name>
+		<tagclass>com.sai.laps.taglib.MMRHeadTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>CurrencyTag</name>
+		<tagclass>com.sai.laps.taglib.CurrencyTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>precision</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>size</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>maxlength</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>maxvalue</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>minvalue</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>tabindex</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onKeyUp</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onKeyDown</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onBlur</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onKeyPress</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onChange</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>other</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>combutton</name>
+		<tagclass>com.sai.laps.taglib.commonbutton</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>btntype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>btnenable</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>reviewyear</name>
+		<tagclass>com.sai.laps.taglib.ReviewYearTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>tertiarypromoter</name>
+		<tagclass>com.sai.laps.taglib.tertiarypromoterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>Activitytab</name>
+		<tagclass>com.sai.laps.taglib.ComActivitytabTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>tabid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>ssitype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>Techfeasibilitytab</name>
+		<tagclass>
+			com.sai.laps.taglib.ComTechFeasibilitytabTag
+		</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>tabid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>typessi</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>ssiassestdetails</name>
+		<tagclass>com.sai.laps.taglib.ssiassestdetailstab</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>tabid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>TerPromoterTag</name>
+		<tagclass>com.sai.laps.taglib.TerPromoterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>TerApplicantTag</name>
+		<tagclass>com.sai.laps.taglib.TerApplicantTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>terfacility</name>
+		<tagclass>com.sai.laps.taglib.TerFacilityListTag</tagclass>
+		<bodycontent>empty</bodycontent>		
+	</tag>
+	
+	<tag>
+		<name>TerGovtSponsorTag</name>
+		<tagclass>com.sai.laps.taglib.TerGovtSponsorTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>govtsponsor</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>NatureCBSFacilities</name>
+		<tagclass>com.sai.laps.taglib.NatureCBSFacilitiesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>FinAnalysisTag</name>
+		<tagclass>com.sai.laps.taglib.comfinancialanalysisTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>tabid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>ComAssessmentTab</name>
+		<tagclass>com.sai.laps.taglib.ComAssessmentTabTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>subtabid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>assessmenttype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>creditreportname</name>
+		<tagclass>com.sai.laps.taglib.CreditReportNameTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>inwardno</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>saralreportTag</name>
+		<tagclass>
+			com.sai.laps.taglib.saralreportTag
+		</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>tabid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>sector</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>applied</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>proposal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>hiddentag</name>
+		<tagclass>com.sai.laps.taglib.hiddenTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>agrihiddentag</name>
+		<tagclass>com.sai.laps.taglib.agrhiddenTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>pageid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>comsecurities</name>
+		<tagclass>
+			com.sai.laps.taglib.ComsecuritiesTag
+		</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appno</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>	
+	
+	<tag>
+		<name>SecurityInsuranceMapTag</name>
+		<tagclass>com.sai.laps.taglib.SecurityInsuranceMap</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>accno</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>moninsurance</name>
+		<tagclass>com.sai.laps.taglib.moninsurance</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>accno</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>cbsid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>bsttermfinfac</name>
+		<tagclass>com.sai.laps.taglib.com_bst_termfinfac</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>BST</name>
+		<tagclass>com.sai.laps.taglib.BSTHeadtag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>MSTApplications</name>
+		<tagclass>com.sai.laps.taglib.MSTHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>mstfacility</name>
+		<tagclass>com.sai.laps.taglib.MSTFacilityListTag</tagclass>
+		<bodycontent>empty</bodycontent>		
+	</tag>
+
+	<tag>
+		<name>mstsecurity</name>
+		<tagclass>com.sai.laps.taglib.MSTSecuritylistTag</tagclass>
+		<bodycontent>empty</bodycontent>		
+	</tag>
+	
+	<tag>
+		<name>ADCApplications</name>
+		<tagclass>com.sai.laps.taglib.ADCHeadtag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>adcfacility</name>
+		<tagclass>com.sai.laps.taglib.ADCFacilityListTag</tagclass>
+		<bodycontent>empty</bodycontent>		
+	</tag>
+	
+	<tag>
+		<name>adhoctermscond</name>
+		<tagclass>com.sai.laps.taglib.ADCTermsCondTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>PostInspection</name>
+		<tagclass>com.sai.laps.taglib.PostInspectionTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>tlrfacilities</name>
+		<tagclass>com.sai.laps.taglib.TermLoanReviewFacilities</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>finindicatorcomments</name>
+		<tagclass>com.sai.laps.taglib.FinIndicatorCommentsTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>saralappinwardtag</name>
+		<tagclass>com.sai.laps.taglib.saralappinward</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>tabid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>sector</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>applied</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+	</tag>	
+	
+	<tag>
+		<name>combuttonnew</name>
+		<tagclass>com.sai.laps.taglib.CommonButtonNew</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>btnnames</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>btnenable</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>finalpageflag</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>rentinsurancetag</name>
+		<tagclass>com.sai.laps.taglib.RentInsuranceTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+
+	<tag>
+		<name>jewelappraisaltag</name>
+		<tagclass>com.sai.laps.taglib.JewelAppraisalTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<!--  Created By Venkat Prasad Chowdary for Securities on 26-APR-2013 -->
+	<tag>
+		<name>staticdatasecuritiestag</name>
+		<tagclass>com.sai.laps.taglib.StaticDataSecuritiesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>parenttype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- Added for Scheme Codes -->
+	<tag>
+		<name>SchemeStaticDataTag</name>
+		<tagclass>com.sai.laps.taglib.SchemeStaticDataTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- Added for Free Codes -->
+		<tag>
+		<name>choiceTagFreeCode</name>
+		<tagclass>com.sai.laps.taglib.ChoiceTagFreeCode</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	
+	<!--  Added by Arsath on 26/06/2013 for CBS Data Master -->
+	<tag>
+		<name>CBSStaticDataTag</name>
+		<tagclass>com.sai.laps.taglib.CBSStaticDataTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>CBSStaticDataNewTag</name>
+		<tagclass>com.sai.laps.taglib.CBSStaticDataNewTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>tagType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>Horticultureplantnames</name>
+		<tagclass>com.sai.laps.taglib.HorticultureplantnamesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>AgrHortiPlantNames</name>
+		<tagclass>com.sai.laps.taglib.AgrHortiPlantNamesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>schemetype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+	
+	<!-- Added by Venkat Prasad Chowdary on 23/07/2013 for MIS Data Master  -->
+	<tag>
+		<name>MISStaticDataTag</name>
+		<tagclass>com.sai.laps.taglib.MISStaticDataTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<!-- End -->
+	<!-- Added by Venkat Prasad Chowdary on 23/07/2013 for Products Bank's Scheme  -->
+	<tag>
+		<name>BanksSchemeStaticDataNewTag</name>
+		<tagclass>com.sai.laps.taglib.BanksSchemeStaticDataNewTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- Added By Karthikeyan.S for MIS on 25/07/2013 -->
+	<tag>
+		<name>MISDataTag</name>
+		<tagclass>com.sai.laps.taglib.MISDataTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+	<!-- Added By Karthikeyan.S for MIS on 26/07/2013 -->
+	<tag>
+		<name>BSRCodeTag</name>
+		<tagclass>com.sai.laps.taglib.BSRCodeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+	<!-- Added By Karthikeyan.S for MIS on 26/07/2013 -->
+	<tag>
+		<name>MISPurposeDataTag</name>
+		<tagclass>com.sai.laps.taglib.MISPurposeDataTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+	<!-- Added By Karthikeyan.S for MIS Activity Code on 28/09/2013 -->
+	<tag>
+		<name>MISActivityCodeTag</name>
+		<tagclass>com.sai.laps.taglib.MISActivityCodeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+	<!-- Added by Karthikeyan.S for Corporate & Agriculture Facility Header on 03/10/2013-->
+	<tag>
+		<name>facility</name>
+		<tagclass>com.sai.laps.taglib.FacilityHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<!-- End -->
+	<!-- Added by Karthikeyan.S for Static Data Question Master Tag on 04/10/2013 -->
+	<tag>
+		<name>StaticDataQuestionMastTag</name>
+		<tagclass>com.sai.laps.taglib.StaticDataQuestionMastTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>page</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+	<!-- Added by Karthikeyan.S for  Fixed/Floating on 04/10/2013-->
+	<tag>
+	  <name>corpfixedfloat</name>
+	  <tagclass>com.sai.laps.taglib.CorpFixedfloat</tagclass>
+	  <bodycontent>empty</bodycontent>
+	  <attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+	<!-- Added By Karthikeyan.S for Working Capital Facilities on 23/11/2013 -->
+	<tag>
+		<name>WCFacilitiesTag</name>
+		<tagclass>com.sai.laps.taglib.WCFacilitiesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		
+	</tag>
+	<!-- End -->
+ 
+	<!-- Added By Ahilandeswari.M -->
+	<tag>
+		<name>ComMisDetailsTag</name>
+		<tagclass>com.sai.laps.taglib.ComMisDetailsTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+			<attribute>
+			<name>page</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	<!-- End -->
+ 
+	<!-- Added By Karthikeyan.S for Group Concerns Facilities on 28/11/2013 -->
+	<tag>
+		<name>GCFacilitiesTag</name>
+		<tagclass>com.sai.laps.taglib.GCFacilitiesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<!-- End -->
+	<tag><!-- For Banking Arrangement by Amaravathi -->
+		<name>bafacility</name>
+		<tagclass>com.sai.laps.taglib.BAFacilityTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>bankflag</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+ 
+	<!-- Added by Anees for showing agri schemes in agriculture tab on 28/11/2013-->
+<tag>
+		<name>AgriSchemes</name>
+		<tagclass>com.sai.laps.taglib.AgriSchemes</tagclass>
+		<bodycontent>empty</bodycontent>
+				<attribute>
+		<name>appno</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+</tag>
+<!-- Added By Venkata Prasad Chowdary for Facilities on 03/12/2013 -->
+	<tag>
+		<name>FacilitiesTag</name>
+		<tagclass>com.sai.laps.taglib.FacilitiesTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+		<name>moduletype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+<!-- End -->
+	<!-- Added By SaravanaRaj.S for Term Loan Facilities on 26/11/2013 -->
+	<tag>
+	<name>TermLoanListTag</name>
+	<tagclass>com.sai.laps.taglib.TermLoanListTag</tagclass>
+	<bodycontent>empty</bodycontent>
+	<attribute>
+	 	<name>appno</name>
+	 	<required>true</required>
+ 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		 <name>page</name>
+		 <required>false</required>
+	 	 <rtexprvalue>true</rtexprvalue>
+	</attribute>
+	</tag>
+	<!-- End -->
+
+	<!-- Added By Sheik for securities on 07/12/2013-->
+	<tag>
+	<name>SchemeSecuritiesTag</name>
+	<tagclass>com.sai.laps.taglib.SchemeSecuritiesTag</tagclass>
+	<bodycontent>empty</bodycontent>	
+	<attribute>
+			<name>parenttype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+			<name>schemecode</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	</tag>	
+	
+	
+	<!-- Added By Anees for Financial Year -->
+	<tag>
+		<name>AgrFinancialYear</name>
+		<tagclass>com.sai.laps.taglib.AgrFinancialYearTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+		<name>appno</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+		<name>page</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+
+	
+	<!-- End -->
+	<!-- Added By Dinesh for Cash Flow Financial Year on 09/12/2013 -->
+	<tag>
+		<name>yearSelectTag</name>
+		<tagclass>com.sai.laps.taglib.yearSelectTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+		<name>moduletype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+<!-- End -->
+	<tag>
+		<name>CollateralSecurityTag</name>
+		<tagclass>com.sai.laps.taglib.CollateralSecurityTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<!-- Added by Bhaskar for Business Rule data  -->
+	<tag>
+		<name>BusinessRuleTag</name>
+		<tagclass>com.sai.laps.taglib.BusinessRuleTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>page</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- end -->
+	
+	<!-- Added By Arsath on 12/02/2014 -->
+	<tag>
+		<name>FinYearTenorTag</name>
+		<tagclass>com.sai.laps.taglib.FinYearTenorTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<!-- End -->
+		
+	<tag>
+		<name>Setcorpcollateralsecurity</name>
+		<tagclass>com.sai.laps.taglib.Setcorpcollateralsecurity</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<!-- Added By Arsath on 28/02/2014 -->
+	<tag>
+		<name>ActivitySearchTag</name>
+		<tagclass>com.sai.laps.taglib.ActivitySearchTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<!-- End -->
+	
+	<!-- Added By Arsath on 25/03/2014 -->
+	<tag>
+		<name>CustProfBankArrangeTag</name>
+		<tagclass>com.sai.laps.taglib.CustProfBankArrangeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+		<name>pagevalue</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- End -->
+
+	<tag>
+		<name>customerfacilityTag</name>
+		<tagclass>com.sai.laps.taglib.customerfacilityTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+		<name>apptype</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+	<name>TermLoanFund</name>
+	<tagclass>com.sai.laps.taglib.TermLoanFund</tagclass>
+	<bodycontent>empty</bodycontent>
+	<attribute>
+	 	<name>appno</name>
+	 	<required>true</required>
+ 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		 <name>page</name>
+		 <required>false</required>
+	 	 <rtexprvalue>true</rtexprvalue>
+	</attribute>
+	</tag>
+	
+	<tag>
+		<name>staticfacdescTag</name>
+		<tagclass>com.sai.laps.taglib.staticfacdescTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>restraccSelect</name>
+		<tagclass>com.sai.laps.taglib.restraccSelect</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+		 	<name>appno</name>
+		 	<required>true</required>
+	 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	</tag>
+	
+	<tag>
+		<name>defermentAcc</name>
+		<tagclass>com.sai.laps.taglib.intdefermentacc</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+		 	<name>appid</name>
+		 	<required>true</required>
+	 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	</tag>
+	<!-- Added by BhanuPrasath for Comments On Interest Rate 13/04/2014  -->
+	<tag>
+	<name>CommentsonInterestRate</name>
+	<tagclass>com.sai.laps.taglib.CommentsonInterestRate</tagclass>
+	<bodycontent>empty</bodycontent>
+	<attribute>
+	 	<name>appno</name>
+	 	<required>true</required>
+ 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		 <name>page</name>
+		 <required>false</required>
+	 	 <rtexprvalue>true</rtexprvalue>
+	</attribute>
+	</tag>
+	
+	<!-- For Banking Arrangement by Amaravathi -->
+	<tag>
+		<name>BALimitofTag</name>
+		<tagclass>com.sai.laps.taglib.BALimitofTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>BALimitofTLTag</name>
+		<tagclass>com.sai.laps.taglib.BALimitofTLTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>BAConsortiumTag</name>
+		<tagclass>com.sai.laps.taglib.BAConsortiumTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+	 	<name>contype</name>
+	 	<required>false</required>
+ 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	</tag>
+	<!-- End -->
+		<!-- For Borrower tag by tharani -->
+	<tag>
+		<name>finapptype</name>
+		<tagclass>com.sai.laps.taglib.FinAppTypeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		
+		<attribute>
+	 	<name>appid</name>
+	 	<required>true</required>
+ 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+	 	<name>financeid</name>
+	 	<required>true</required>
+ 	 	<rtexprvalue>true</rtexprvalue>
+	</attribute>
+
+	</tag>
+		<tag>
+		<name>interestratekpower</name>
+		<tagclass>com.sai.laps.taglib.interestratekpower</tagclass>
+		<bodycontent>empty</bodycontent>
+		
+	</tag>
+	
+
+	<!-- End -->
+	
+	<tag>
+		<name>ComApprovedFacility</name>
+		<tagclass>com.sai.laps.taglib.ComApprovedFacilityTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>Previousyeardating</name>
+		<tagclass>com.sai.laps.taglib.Previousyeardating</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>selrating</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>ApplSolHeaderTag</name>
+		<tagclass>com.sai.laps.taglib.ApplSolHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+			<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	<tag>
+		<name>ApplKpowHeaderTag</name>
+		<tagclass>com.sai.laps.taglib.ApplKpowHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+			<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	
+		<tag>
+		<name>coappguarantorsec</name>
+		<tagclass>com.sai.laps.taglib.CoAppGuarantorsecTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>pagetype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- Added by Gobi on 13/11/2014 for Rating business Rule ID  -->
+	<tag>
+		<name>BusinessRule_RatingTag</name>
+		<tagclass>com.sai.laps.taglib.BusinessRule_RatingTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>fvctenortag</name>
+		<tagclass>com.sai.laps.taglib.FVCTenorTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		
+		<attribute>
+			<name>pageid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		
+		
+	</tag>
+	<tag>
+		<name>ComPromotors</name>
+		<tagclass>com.sai.laps.taglib.ComPromotorsTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appno</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	<tag>
+		<name>loanaccountdetails</name>
+		<tagclass>com.sai.laps.taglib.LoanAccountDetailsTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	<tag>
+		<name>branchlist</name>
+		<tagclass>com.sai.laps.taglib.BranchListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>afouserslist</name>
+		<tagclass>com.sai.laps.taglib.AFOUsersListTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>afoclusterbranch</name>
+		<tagclass>com.sai.laps.taglib.AFOClusterBranchTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	<tag>
+		<name>adhocfacility</name>
+		<tagclass>com.sai.laps.taglib.AdhocFacilityTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>facGroup</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>appid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>appno</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	<tag>
+		<name>MCLRTag</name>
+		<tagclass>com.sai.laps.taglib.MCLRTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>MCLRMaster</name>
+		<tagclass>com.sai.laps.taglib.MCLRMasterTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>ApplDevHeaderTag</name>
+		<tagclass>com.sai.laps.taglib.ApplDevHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+			<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	<tag>
+		<name>DevAssessmentTag</name>
+		<tagclass>com.sai.laps.taglib.DevAssessmentTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>PermInterestConTag</name>
+		<tagclass>com.sai.laps.taglib.PermInterestConTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>PermPmayMaster</name>
+		<tagclass>com.sai.laps.taglib.PermPmayMaster</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		
+	</tag>
+	<tag>
+		<name>LeadGeneratedRegion</name>
+		<tagclass>com.sai.laps.taglib.LeadGeneratedRegion</tagclass>
+		<bodycontent>empty</bodycontent>
+		
+	</tag>
+	<tag>
+		<name>qryuserslist</name>
+		<tagclass>com.sai.laps.taglib.QueryUsersLisTag</tagclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>interesttype</name>
+		<tagclass>com.sai.laps.taglib.InteresttypeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appmodule</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>appvalue</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>SolProcessChargeTag</name>
+		<tagclass>com.sai.laps.taglib.SolProcessChargeTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>appvalue</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>ApplBankerHeaderTag</name>
+		<tagclass>com.sai.laps.taglib.ApplBankerHeaderTag</tagclass>
+		<bodycontent>empty</bodycontent>
+			<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+<tag>
+		<name>MCLRTagForfbill</name>
+		<tagclass>com.sai.laps.taglib.MCLRTagforfbil</tagclass>
+		<bodycontent>empty</bodycontent>
+			<attribute>
+			<name>fibilldate</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>	
+	
+	
+	<tag>
+		<name>stateagrimaster</name>
+		<tagclass>com.sai.laps.taglib.stateagrimaster</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>appval</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	
+	
+	<tag>
+		<name>StaticDataAgriUnitCostMastTag</name>
+		<tagclass>com.sai.laps.taglib.StaticDataAgriUnitCostMastTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>apptype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>page</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+
+	
+
+	<!-- End -->
+	<!-- Vindhya -->
+	<tag>
+		<name>ProductdescriptionTag</name>
+		<tagclass>com.sai.laps.taglib.ProductdescriptionTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>prod_code</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>prodtype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!-- Vindhya -->
+</taglib>

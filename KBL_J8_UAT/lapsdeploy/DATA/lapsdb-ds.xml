@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+
+
+<local-tx-datasource>
+		<jndi-name>lapsDS0</jndi-name>
+		<connection-url>jdbc:oracle:thin:@192.168.0.5:1521:orcl
+		</connection-url>
+		<driver-class>oracle.jdbc.driver.OracleDriver
+		</driver-class>
+		<user-name>KBL_LAPS_RET_UT_1230</user-name>
+		<password>laps</password>
+		<prepared-statement-cache-size>3</prepared-statement-cache-size>
+		<min-pool-size>1</min-pool-size>
+		<max-pool-size>2</max-pool-size>
+		<set-tx-query-timeout />
+		<query-timeout>60</query-timeout>
+		<idle-timeout-minutes>20</idle-timeout-minutes>
+		<track-statements>false</track-statements>
+	</local-tx-datasource>
+	
+	
+	<local-tx-datasource>
+		<jndi-name>CBSDS0</jndi-name>
+		<connection-url>jdbc:oracle:thin:@192.168.0.5:1521:orcl
+		</connection-url>
+		<driver-class>oracle.jdbc.driver.OracleDriver
+		</driver-class>
+		<user-name>KBL_LAPS_MSME_UT_1230</user-name>
+		<password>laps</password>
+		<prepared-statement-cache-size>3</prepared-statement-cache-size>
+		<min-pool-size>1</min-pool-size>
+		<max-pool-size>2</max-pool-size>
+		<set-tx-query-timeout />
+		<query-timeout>60</query-timeout>
+		<idle-timeout-minutes>20</idle-timeout-minutes>
+		<track-statements>false</track-statements>
+	</local-tx-datasource>
+	
+	
+	<local-tx-datasource>
+		<jndi-name>lapsDS3</jndi-name>
+		<connection-url>jdbc:oracle:thin:@192.168.0.148:1521:orcl19c
+		</connection-url>
+		<driver-class>oracle.jdbc.driver.OracleDriver
+		</driver-class>
+		<user-name>KBL_LAPS_ONL_UT_1230
+</user-name>
+		<password>laps</password>
+		<prepared-statement-cache-size>3</prepared-statement-cache-size>
+		<min-pool-size>1</min-pool-size>
+		<max-pool-size>2</max-pool-size>
+		<set-tx-query-timeout />
+		<query-timeout>60</query-timeout>
+		<idle-timeout-minutes>20</idle-timeout-minutes>
+		<track-statements>false</track-statements>
+	</local-tx-datasource>
+	
+	
+
+
+	
+	<local-tx-datasource>
+    <jndi-name>lapsDS4</jndi-name>
+    <connection-url>jdbc:oracle:thin:@192.168.0.5:1521:ORCL</connection-url>
+    <user-name>KBL_LIVE_05092014</user-name>
+    <password>laps</password>
+    <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+    <prepared-statement-cache-size>3</prepared-statement-cache-size>
+    <min-pool-size>1</min-pool-size>
+    <max-pool-size>2</max-pool-size>
+    <set-tx-query-timeout/>
+    <query-timeout>20</query-timeout> 
+    <idle-timeout-minutes>10</idle-timeout-minutes>
+    <track-statements>false</track-statements>
+   </local-tx-datasource>
+
+	
+
+
+
+	
+
+		<local-tx-datasource> <jndi-name>lapsDS2</jndi-name>
+		<connection-url>jdbc:oracle:thin:@192.168.0.26:1521:DBORCL12C
+		</connection-url> <driver-class>oracle.jdbc.driver.OracleDriver
+		</driver-class> <user-name>KBL_MONITORING</user-name>
+		<password>laps</password>
+		<prepared-statement-cache-size>3</prepared-statement-cache-size>
+		<min-pool-size>1</min-pool-size> <max-pool-size>2</max-pool-size>
+		<set-tx-query-timeout /> <query-timeout>60</query-timeout>
+		<idle-timeout-minutes>20</idle-timeout-minutes>
+		<track-statements>false</track-statements> </local-tx-datasource>
+		
+		<local-tx-datasource>
+    	<jndi-name>lapsDS5</jndi-name>
+    	<connection-url>jdbc:oracle:thin:@192.168.0.5:1521:ORCL</connection-url>
+    	<user-name>KBL_LIVE_05092014</user-name>
+    	<password>laps</password>
+    	<driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+    	<prepared-statement-cache-size>3</prepared-statement-cache-size>
+    	<min-pool-size>1</min-pool-size>
+    	<max-pool-size>2</max-pool-size>
+    	<set-tx-query-timeout/>
+    	<query-timeout>20</query-timeout> 
+    	<idle-timeout-minutes>10</idle-timeout-minutes>
+    	<track-statements>false</track-statements>
+   		</local-tx-datasource>
+	
+</datasources>

@@ -1,0 +1,2960 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+	<query code="getStandarddefaulterfordoc">
+		select doc_cbsid, doc_accountnumber,per.personal_custname,
+		DOC_ACCFLAG from MON_DOCUMENTREGISTER doc, mon_limitregister
+		limitreg,MON_PERSONALINFO per, organisations org where
+		(to_date(to_char(doc_expirydate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 0 and
+		(to_date(to_char(doc_expirydate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 90 and doc.DOC_DELFLAG='N' and doc_expirydate is not null and
+		doc.doc_accountnumber=limitreg.limit_cutaccno and
+		per.personal_classification='001' and
+		per.personal_cbsid=limitreg.limit_custid and limitreg.limit_status='O' and 
+		limitreg.limit_solid=org.solid and org.org_code='^' order by
+		DOC_ACCFLAG desc
+	</query>
+
+	<query code="getotherdefaultsforstd">
+		select MONSEC_ACCOUNTNUMBER,limit_custid,
+		per.personal_custname, LIMIT_ACCFLAG from MON_SECURITYREGISTER
+		sec, mon_limitregister lim , organisations org,MON_PERSONALINFO
+		per where sec.MONSEC_ACCOUNTNUMBER=lim.limit_cutaccno and
+		MONSEC_SAMEADDRESS='2' and per.personal_classification='001' and
+		per.personal_cbsid=lim.limit_custid and lim.LIMIT_STATUS='O' and
+		lim.limit_solid=org.solid and org.org_code='^' order by
+		LIMIT_ACCFLAG desc
+	</query>
+
+
+	<query code="getStandarddefaulterforins">
+		select ins_cbsid, ins_accountno, per.personal_custname,
+		INS_ACCFLAG, ins_srlno from INSURANCE_REGISTER ins,
+		MON_PERSONALINFO per, mon_limitregister lim, organisations org
+		where
+		(to_date(to_char(INS_EXPIRYDATE,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 0 and
+		(to_date(to_char(INS_EXPIRYDATE,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 90 and ins.ins_delflag='N' and INS_EXPIRYDATE is not null and
+		ins.ins_accountno=lim.limit_cutaccno and
+		per.personal_classification='001' and
+		per.personal_cbsid=lim.limit_custid and
+		lim.limit_status='O' and
+		lim.limit_solid=org.solid and org.org_code='^' order by
+		INS_ACCFLAG desc
+	</query>
+
+
+	<query code="getbillspaymentdueunderLC">
+		select lc_cbsid, lc_bills_no, per.personal_custname from mon_lc lc, MON_PERSONALINFO
+		per, organisations org where LC_STATUS ='D' and
+		LC_BILLS_NOTIONAL_DATE is not null and
+		(to_date(to_char(LC_BILLS_NOTIONAL_DATE,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 0 and
+		(to_date(to_char(LC_BILLS_NOTIONAL_DATE,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 10 and lc.LC_CBSID=per.personal_cbsid and
+		org.solid=per.personal_solid and org.org_code='^'
+	</query>
+	
+	<query code="getloandefaultstandard">
+		select FUND_OVERDUEAMT, fund_custid, fund_accno,
+		FUND_SCHEMECODE, FUND_OVERDUETYPE, fund_sancamt,
+		FUND_DRAWINGPOWER, per.personal_custname from MON_FUNDBASED fun, MON_PERSONALINFO per,
+		organisations org,MON_ASSETCLASSIFICATION mon where
+		FUND_ACCSTATUS !='C' and FUND_OVERDUESINCE is not null and
+		trim(alertfor)='^' and mon.assetclassification='^' and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysupto and fun.FUND_SCHEMECODE not in ('DL003', 'DL002', 'DL004', 'DL011', 'DL012') and per.personal_classification='001' and
+		per.PERSONAL_CBSID=fun.fund_custid and
+		fun.fund_solid=org.solid and org.org_code='^' order by FUND_OVERDUETYPE desc
+	</query>
+
+
+	<query code="getloandefaultsfordormant">
+		select fund_custid, fund_accno, per.personal_custname,
+		FUND_OVERDUETYPE,fund_overdueamt,fund_sancamt from MON_FUNDBASED fun, MON_ASSETCLASSIFICATION
+		mon, MON_PERSONALINFO per, organisations org where alertfor='^'
+		and mon.assetclassification='^' and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(fund_dormantsince,'dd/mm/yyyy'),'dd/mm/yyyy')^
+		daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(fund_dormantsince,'dd/mm/yyyy'),'dd/mm/yyyy')^
+		daysupto and FUND_ACCSTATUS ='D' and FUND_OVERDUESINCE is not
+		null and per.personal_classification='001' and per.PERSONAL_CBSID=fun.fund_custid and
+		fun.fund_solid=org.solid and org.org_code='^' order by
+		FUND_OVERDUETYPE desc
+	</query>
+
+	<query code="getloandefaultforbills">
+		select BILLS_CBSID, bills_accno, per.personal_custname,
+		bills_billno, to_char(BILLS_BILLDUEDATE,'dd/mm/yyyy') as
+		billduedate, BILLS_BILLAMT, bills_accflag,limit_sanctamt,bills_overdueamt from mon_personalinfo
+		per, mon_limitregister limit, mon_bills a, organisations org,
+		mon_assetclassification mon where
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(BILLS_BILLDUEDATE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(BILLS_BILLDUEDATE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysupto and BILLS_BILLDUEDATE is not null and alertfor='^'
+		and mon.assetclassification='^' and BILLS_OVERDUEAMT>0 and
+		per.personal_classification='001' and
+		per.personal_cbsid= limit.limit_custid and a.bills_accno=
+		limit.limit_cutaccno and a.bills_cbsid= limit.limit_custid and
+		limit.limit_solid=org.solid and org.org_code='^' order by
+		a.bills_accflag desc
+	</query>
+
+	<query code="getloandefaultsforpc">
+		select fund_accno, fund_custid, per.personal_custname, FUND_OVERDUETYPE from MON_FUNDBASED fun,MON_ASSETCLASSIFICATION mon,MON_PERSONALINFO per,organisations org where FUND_ACCSTATUS !='C' 
+        and FUND_OVERDUESINCE is not null and alertfor='^' and mon.assetclassification='^' and FUND_SCHEMECODE is not null and 
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy') ^ daysfrom and  
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy') ^ daysupto and  
+		fun.FUND_SCHEMECODE in ('DL021','DL022')and 
+		per.PERSONAL_CBSID=fun.fund_custid and fun.fund_solid=org.solid and
+		org.org_code='^' order by FUND_OVERDUETYPE desc
+	</query>
+	
+	<query code="getloandefaultforExcessinWC">
+		select fund_custid, fund_accno, per.personal_custname,FUND_OVERDUETYPE from MON_FUNDBASED fun,
+		MON_ASSETCLASSIFICATION mon, MON_PERSONALINFO per, organisations
+		org where FUND_ACCSTATUS !='C' and FUND_OVERDUESINCE is not null
+		and alertfor='^' and mon.assetclassification='^' and
+		FUND_OVERDUEAMT ^ 0 and FUND_OSAMT > FUND_SANCAMT and
+		fund_schemecode
+		in('ODGCC','ODGEN','ODMOR','ODSTF','CCAGR','CCCYC','CCGEN','CCPLG','CCSME','CCUTR','CCWCD','IB001',
+		'IB002','IB003','IB004','IB005','IB006','IB007','IB008','IB009','IB010','IB011')and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysupto and per.PERSONAL_CBSID=fun.fund_custid and
+		fun.fund_solid=org.solid and org.org_code='^' order by FUND_OVERDUETYPE desc
+	</query>
+
+	<query code="getloandefaultforExcessinWCoverdue">
+		select fund_custid, fund_accno, per.personal_custname, FUND_OVERDUETYPE from MON_FUNDBASED fun,
+		MON_ASSETCLASSIFICATION mon, MON_PERSONALINFO per, organisations
+		org where FUND_ACCSTATUS !='C' and FUND_OVERDUESINCE is not null
+		and alertfor='^' and mon.assetclassification='^' and
+		FUND_OVERDUEAMT ^ 0 and FUND_OSAMT > FUND_SANCAMT and
+		fund_schemecode not
+		in('ODGCC','ODGEN','ODMOR','ODSTF','CCAGR','CCCYC','CCGEN','CCPLG','CCSME','CCUTR','CCWCD','IB001',
+		'IB002','IB003','IB004','IB005','IB006','IB007','IB008','IB009','IB010','IB011')and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysupto and per.PERSONAL_CBSID=fun.fund_custid and
+		fun.fund_solid=org.solid and org.org_code='^' order by FUND_OVERDUETYPE desc
+	</query>
+
+	<query code="getloandefaultforNFB">
+		select fund_accno, fund_custid, per.personal_custname,
+		FUND_OVERDUETYPE, FUND_SCHEMECODE,fund_overdueamt,fund_sancamt from MON_FUNDBASED fun,MON_ASSETCLASSIFICATION
+		mon,MON_PERSONALINFO per,organisations org where FUND_ACCSTATUS
+		!='C' and FUND_OVERDUESINCE is not null and alertfor='^' and
+		mon.assetclassification='^' and FUND_OVERDUETYPE is not null and
+		FUND_SCHEMECODE is not null and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysupto and fun.FUND_SCHEMECODE in
+		('DL011','DL012','DL002','DL003', 'DL004')and
+		per.personal_classification='001' and
+		per.PERSONAL_CBSID=fun.fund_custid and
+		fun.fund_solid=org.solid and org.org_code='^' order by
+		FUND_OVERDUETYPE desc
+	</query>
+	
+	<query code="getloandefaultforGua">
+		select fund_accno,fund_custid, per.personal_custname, FUND_OVERDUETYPE from MON_FUNDBASED fun,MON_ASSETCLASSIFICATION mon,MON_PERSONALINFO per,organisations org where FUND_ACCSTATUS !='C' 
+        and FUND_OVERDUESINCE is not null 
+		and alertfor='^' and mon.assetclassification='^' and FUND_OVERDUETYPE is not null and FUND_SCHEMECODE is not null and 
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy') ^ daysfrom and  
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy') ^ daysupto and  
+		fun.FUND_SCHEMECODE ='DL004' and 
+		fun.fund_custid=per.PERSONAL_CBSID and org.solid=fun.fund_solid and
+		org.org_code='^' order by FUND_OVERDUETYPE desc
+	</query>
+	
+	<query code="getStandarddefaulterforlimit">
+		select limit_custid,limit_cutaccno, per.personal_custname,
+		mon.LIMIT_ACCFLAG from mon_limitregister mon,MON_PERSONALINFO
+		per,organisations org where per.personal_cbsid=mon.limit_custid
+		and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(limit_reviewdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 0 and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(limit_reviewdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 30 and limit_reviewdate is not null and mon.LIMIT_STATUS
+		!='C' and mon.limit_solid=org.solid and org.org_code='^' order
+		by mon.LIMIT_ACCFLAG DESC
+	</query>
+
+	<query code="getloandefault">
+		select distinct FUND_OVERDUEAMT, fund_custid, fund_accno,
+		FUND_SCHEMECODE, FUND_OVERDUETYPE, fund_sancamt,
+		FUND_DRAWINGPOWER, per.personal_custname from MON_FUNDBASED fun,MON_ASSETCLASSIFICATION
+		mon,MON_PERSONALINFO per,organisations org where FUND_ACCSTATUS='A' 
+		and FUND_OVERDUESINCE is not null and alertfor='^' and
+		mon.assetclassification='^' and FUND_OVERDUEAMT>0 and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(FUND_OVERDUESINCE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysupto and fun.FUND_SCHEMECODE not in ('DL003', 'DL002', 'DL004', 'DL011', 'DL012') 
+		and per.personal_classification='001' and per.PERSONAL_CBSID=fun.fund_custid and
+		fun.fund_solid=org.solid and org.org_code='^' order by FUND_OVERDUETYPE desc
+	</query>
+
+	<query code="getalertfornonrenewal">
+		select limit_custid,limit_cutaccno, per.personal_custname, mon.LIMIT_ACCFLAG from
+		mon_limitregister mon,mon_assetclassification,MON_PERSONALINFO per,organisations org
+		where limit_reviewdate is not null and alertfor='^' and assetclassification='^' and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(limit_reviewdate,'dd/mm/yyyy'),'dd/mm/yyyy') ^ daysfrom and  
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(limit_reviewdate,'dd/mm/yyyy'),'dd/mm/yyyy') ^ daysupto and  
+		per.personal_classification='001' and
+		mon.limit_custid=per.PERSONAL_CBSID and mon.limit_solid=org.solid and mon.LIMIT_STATUS ='O' and
+		org.org_code='^' order by  mon.LIMIT_ACCFLAG DESC
+	</query>
+
+	
+	<query code="getalertfornoninspectsecurities">
+		select limit_custid mmr_cbsid , limit_cutaccno, per.personal_custname,
+		a.limit_accflag, a.limit_sanctamt from mon_limitregister a
+		,mon_assetclassification ,mon_personalinfo per,
+		organisations org, postinspectionreport b where postins_visitdate is not null and
+		alertfor='^' and assetclassification='^'
+		and a.limit_custid=b.postins_cbsid and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(postins_visitdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysfrom and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(postins_visitdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ daysupto and
+		per.personal_classification='001' and
+		a.limit_custid=per.PERSONAL_CBSID and b.postins_cbsid=a.limit_custid and org.solid=a.limit_solid and
+		a.LIMIT_STATUS='O' and
+		org.org_code='^' and per.personal_cbsid=b.postins_cbsid and postins_visitdate=(select
+		max(postins_visitdate)from postinspectionreport where
+		postins_cbsid=per.personal_cbsid) order by a.limit_accflag desc
+	</query>
+	
+	<query code="getdefdocumentforinsexpiredate">
+		select ins_cbsid ,ins_accountno, per.personal_custname,
+		ins.ins_accflag, ins.ins_srlno,limreg.limit_sanctamt from INSURANCE_REGISTER ins,
+		MON_PERSONALINFO per, mon_limitregister limreg, organisations
+		org where per.personal_classification='001' and
+		per.personal_cbsid=ins.ins_cbsid and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-
+		(to_date(to_char(INS_EXPIRYDATE,'dd/mm/yyyy'),'dd/mm/yyyy')) >0
+		and INS_EXPIRYDATE is not null and ins.ins_delflag='N' and
+		ins.ins_accountno= limreg.limit_cutaccno and
+		limreg.limit_status='O' and limreg.limit_solid=org.solid and
+		org.org_code='^' order by ins.ins_accflag desc
+	</query>
+
+
+	<query code="getdefdocumentforinsasset">
+		select ins_cbsid, monsec_accountnumber, INS_COVERAMT,
+		per.personal_custname, c.ins_accflag, c.ins_srlno from
+		MON_SECURITYREGISTER b ,INSURANCE_REGISTER c, MON_PERSONALINFO
+		per, mon_limitregister limitreg, organisations org where
+		c.INS_COVERAMT ^ b.MONSEC_VALUATAMOUNT and
+		b.monsec_insuranceno=c.ins_policyno and
+		 c.ins_delflag='N' and
+		b.monsec_accountnumber=c.ins_accountno and c.ins_accountno=
+		limitreg.limit_cutaccno and per.personal_cbsid=
+		limitreg.limit_custid and limitreg.limit_solid=org.solid and
+		org.org_code='^' order by c.ins_accflag
+	</query>
+
+	<query code="getdocumentsvetteddetails">
+		select doc_accountnumber, doc_cbsid, per.personal_custname,
+		doc.DOC_ACCFLAG,limitreg.limit_sanctamt from MON_DOCUMENTREGISTER doc, MON_PERSONALINFO
+		per, mon_limitregister limitreg, organisations org where
+		per.personal_classification='001' and
+		per.personal_cbsid= doc.doc_cbsid and
+		(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(DOC_EXECUTEDDATE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		> 30 and DOC_DATEVETTED is null and DOC_EXECUTEDDATE is not null
+		and doc.DOC_DELFLAG='N' and doc.doc_accountnumber=
+		limitreg.limit_cutaccno and limitreg.limit_status='O' and limitreg.limit_solid=org.solid and
+		org.org_code='^' order by doc.DOC_ACCFLAG desc
+	</query>
+
+
+	<query code="getDBCdetails">
+		select limit_custid, cbs_accno, b.personal_custname, lr.limit_accflag,lr.limit_sanctamt from mon_checklist a,
+		MON_PERSONALINFO b, organisations org, mon_limitregister lr
+		where mon_dbcdate is not null and mon_dbcamount is not null and
+		months_between(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'),to_date(to_char(mon_dbcdate,'dd/mm/yyyy'),'dd/mm/yyyy'))>12
+		and b.personal_classification='001'
+		and lr.limit_custid=b.PERSONAL_CBSID and
+		lr.limit_solid=org.solid and lr.limit_cutaccno=a.cbs_accno and lr.LIMIT_STATUS='O' and
+		org.org_code='^' order by lr.limit_accflag desc
+	</query>
+
+	
+	<!-- <query code="getotherdefaultsforstock">
+		select MON_ACCWISEACCOUNTNO,ACCTWISE_CBSID, to_char(mon_nextbookdebtsdue,'dd/mm/yyyy')as bookdebtsdue,
+	to_char(mon_nextstockdue,'dd/mm/yyyy')as stockdue, per.personal_custname from
+		MON_ACCOUNTWISEDETAILS acc, MON_PERSONALINFO per,organisations
+		org where MON_NEXTSTOCKDUE is not null and
+		to_date(sysdate,'dd/mm/yyyy')-to_date(MON_NEXTSTOCKDUE,'dd/mm/yyyy')^
+		and
+		to_date(sysdate,'dd/mm/yyyy')-to_date(MON_NEXTSTOCKDUE,'dd/mm/yyyy')
+		^ and org.solid=per.personal_solid and org.org_code='^' and
+		mon_year=(select max(to_number(mon_year))from MON_ACCOUNTWISEDETAILS where
+		ACCTWISE_CBSID=per.personal_CBSID) and mon_month=(select
+		max(to_number(mon_month))from MON_ACCOUNTWISEDETAILS where
+		ACCTWISE_CBSID=per.personal_CBSID) and
+		acc.ACCTWISE_CBSID=per.personal_CBSID
+	</query>-->
+	
+	<query code="getotherdefaultsforbook">
+		select MON_ACCWISEACCOUNTNO,ACCTWISE_CBSID, to_char(mon_nextbookdebtsdue,'dd/mm/yyyy')as bookdebtsdue,
+	to_char(mon_nextstockdue,'dd/mm/yyyy')as stockdue, per.personal_custname from
+		MON_ACCOUNTWISEDETAILS, MON_PERSONALINFO per,organisations org
+		where MON_NEXTBOOKDEBTSDUE is not null and
+		to_date(sysdate,'dd/mm/yyyy')-to_date(MON_NEXTBOOKDEBTSDUE,'dd/mm/yyyy')
+		^ and
+		to_date(sysdate,'dd/mm/yyyy')-to_date(MON_NEXTBOOKDEBTSDUE,'dd/mm/yyyy')
+		^ and org.solid=per.personal_solid and org.org_code='^' and
+		mon_year=(select max(to_number(mon_year))from MON_ACCOUNTWISEDETAILS where
+		ACCTWISE_CBSID=per.personal_CBSID) and mon_month=(select
+		max(to_number(mon_month))from MON_ACCOUNTWISEDETAILS where
+		ACCTWISE_CBSID=per.personal_CBSID) and
+		ACCTWISE_CBSID=per.personal_CBSID
+	</query>
+	
+	<query code="getequitymortgagedetails">
+		select CBS_ACCNO,limit_custid, c.personal_custname, b.limit_accflag,b.limit_sanctamt from MON_CHECKLIST a,
+		mon_limitregister b, MON_PERSONALINFO c, organisations org where
+		MON_EQUITABLE is not null and MON_EQUITPERFECT is not null and
+		upper(MON_EQUITABLE)='Y' and upper(MON_EQUITPERFECT)='N' and
+		a.CBS_ACCNO=b.LIMIT_CUTACCNO and b.limit_custid=c.PERSONAL_CBSID and c.personal_classification='001'
+		and org.solid=b.limit_solid and b.LIMIT_STATUS !='C' and org.org_code='^' order by b.limit_accflag desc
+	</query>
+	
+	<query code="getrocdetails">
+		select limit_custid, limit_cutaccno, c.personal_custname, b.limit_accflag, b.limit_sanctamt from MON_CHECKLIST a,
+		mon_limitregister b, MON_PERSONALINFO c, organisations org where
+		(mon_roc is null or mon_roc='n') and
+		a.CBS_ACCNO(+)=b.LIMIT_CUTACCNO and c.personal_classification='001' and
+		b.limit_custid=c.PERSONAL_CBSID and org.solid=b.limit_solid 
+		and b.LIMIT_STATUS !='C' and org.org_code='^' and c.PERSONAL_CONSTITUTION in
+		('005','006') order by b.limit_accflag desc
+	</query>
+	
+	<query code="getguarantordetails">
+		select DOC_ACCOUNTNUMBER,limit_custid,
+		c.personal_custname, a.doc_accflag, b.limit_sanctamt from
+		MON_DOCUMENTREGISTER a, mon_limitregister b,MON_PERSONALINFO c,
+		organisations org where
+		DOC_APPLICANTYPE is not null and DOC_SIGNED is
+		not null and upper(DOC_APPLICANTYPE) =
+		'GUA' and
+		upper(DOC_SIGNED)='N'
+		and a.DOC_ACCOUNTNUMBER=b.LIMIT_CUTACCNO and
+		c.personal_classification='001' and
+		b.limit_custid=c.PERSONAL_CBSID and
+		a.DOC_CBSID=c.PERSONAL_CBSID and org.solid=b.limit_solid and
+		b.LIMIT_STATUS !='C' and a.DOC_DELFLAG='N'
+		and org.org_code='^' order by
+		a.doc_accflag desc
+	</query>
+	
+	<query code="getmonborrowerbyname">
+		select distinct personal_cbsid, personal_custname, org_name,
+		org_scode, personal_solid, personal_classification from MON_PERSONALINFO,
+		mon_limitregister, organisations where
+		limit_custid=personal_cbsid and limit_solid=solid and
+		upper(personal_custname) like upper('%^%') ^
+	</query>
+
+	<query code="getmonborrowerbyid">
+		select distinct personal_cbsid, personal_custname, org_name,
+		org_scode, personal_solid, personal_classification from MON_PERSONALINFO,
+		mon_limitregister, organisations where solid=limit_solid and
+		limit_custid=personal_cbsid and personal_cbsid='^' ^
+	</query>
+
+	<query code="getmonitoraccounts">
+		select limit_custid,limit_cutaccno,limit_facility, limit_status from
+		mon_limitregister where limit_custid='^'
+	</query>
+	
+	<query code="getmonfacility">
+		select stat_data_sno, stat_data_desc, stat_data_id,
+		stat_data_desc1 from static_data where stat_data_id='36' and
+		stat_data_desc='^'order by stat_data_sno
+	</query>
+	
+	<query code="sel_monlimitregister">
+		select limit_custid, limit_sanctamt,
+		to_char(limit_sanctdate,'dd/mm/yyyy') as limit_sanctdate,
+		limit_margin,limit_roi,limit_facility,
+		to_char(limit_reviewdate,'dd/mm/yyyy') as limit_reviewdate,
+		limit_sancrefno, limit_sancauth,
+		to_char(limit_expirydate,'dd/mm/yyyy') as limit_expirydate,
+		limit_type, limit_remarks, limit_modifiedby,
+		to_char(limit_modifieddate,'dd/mm/yyyy') as limit_modifieddate,mon_reviewof,
+		mon_marginbookdebt, limit_sanctionlevel
+		from mon_limitregister where limit_cutaccno='^'
+	</query>
+	
+	<query code="upd_monlimitregister">
+		update mon_limitregister set limit_remarks=?, LIMIT_MARGIN=?,
+		limit_modifiedby=?,
+		limit_modifieddate=sysdate,
+		mon_reviewof=?, mon_marginbookdebt=? where
+		limit_cutaccno=?
+	</query>
+
+	<query code="getsancode">
+		select stat_data_sno, stat_data_desc, stat_data_id,
+		stat_data_desc1 from static_data where stat_data_id='21' and
+		stat_data_desc='^'order by stat_data_sno
+	</query>
+	
+	<query code="get_insurance_register">
+		select ins_srlno,ins_seqid, ins_cbsid, ins_security, ins_company,
+		ins_policyno, ins_clause, ins_coveramt, ins_premiumamt,
+		ins_paid_by, ins_beneficiary, to_char(ins_duedate,'dd/mm/yyyy')
+		as duedate, ins_risk, ins_details, ins_covernote,
+		to_char(ins_policydate,'dd/mm/yyyy') as policydate,
+		to_char(ins_expirydate,'dd/mm/yyyy') as ins_expirydate,
+		ins_riskfactor,ins_insuredaddr1, ins_insuredaddr2,
+		ins_insuredaddr3, ins_insuredcity,
+		ins_insuredstate,ins_insuredpincode,ins_accountno from
+		insurance_register where ins_accountno='^' and ins_cbsid='^' and ins_delflag='N'
+	</query>
+	
+	<query code="get_insurance_register_map_select">
+		select ins_srlno,ins_seqid, ins_cbsid, ins_security, ins_company,
+		ins_policyno, ins_clause, ins_coveramt, ins_premiumamt,
+		ins_paid_by, ins_beneficiary, to_char(ins_duedate,'dd/mm/yyyy')
+		as duedate, ins_risk, ins_details, ins_covernote,
+		to_char(ins_policydate,'dd/mm/yyyy') as policydate,
+		to_char(ins_expirydate,'dd/mm/yyyy') as ins_expirydate,
+		ins_riskfactor,ins_insuredaddr1, ins_insuredaddr2,
+		ins_insuredaddr3, ins_insuredcity,
+		ins_insuredstate,ins_insuredpincode,ins_accountno from
+		insurance_register where ins_accountno='^' and ins_cbsid='^'
+		and ins_srlno='^' and ins_delflag='N'
+	</query>
+	
+	<query code="get_insurance_register_map_select1">
+		select ins_srlno,ins_seqid, ins_cbsid, ins_security, ins_company,
+		ins_policyno, ins_clause, ins_coveramt, ins_premiumamt,
+		ins_paid_by, ins_beneficiary, to_char(ins_duedate,'dd/mm/yyyy')
+		as duedate, ins_risk, ins_details, ins_covernote,
+		to_char(ins_policydate,'dd/mm/yyyy') as policydate,
+		to_char(ins_expirydate,'dd/mm/yyyy') as ins_expirydate,
+		ins_riskfactor,ins_insuredaddr1, ins_insuredaddr2,
+		ins_insuredaddr3, ins_insuredcity,
+		ins_insuredstate,ins_insuredpincode,ins_accountno from
+		insurance_register,mon_secuinsumap where ins_accountno='^' and ins_cbsid='^'
+		and ins_srlno=mon_insuslrno and ins_delflag='N'
+	</query>
+	
+	<query code="getmontag">
+		select limit_facility,personal_cbsid,personal_custname,
+		stat_data_desc1,MON_REVIEWOF from MON_PERSONALINFO, mon_limitregister,
+		static_data where personal_cbsid=limit_custid and
+		limit_cutaccno='^' and stat_data_id='36' and
+		stat_data_desc=limit_facility
+	</query>
+
+	<query code="selsecurityreg">
+		select monsec_sno, monsec_accountnumber,
+		monsec_securitytype,monsec_securitynature,monsec_otherdetails,
+		monsec_add1,monsec_add2,monsec_city,monsec_state,
+		monsec_pincode, monsec_insuranceno, monsec_valuatamount,
+		to_char(monsec_valuatdate,'dd/mm/yyyy') as
+		monsec_valuatdate,monsec_valutdoneby, monsec_inspectedby,
+		to_char(monsec_inspectedon,'dd/mm/yyyy') as monsec_inspectedon,
+		monsec_sameaddress, stat_data_desc1, stat_data_sno, monsec_shortfallnoticed, monsec_maskflag from
+		mon_securityregister, static_data where stat_data_desc(+)=monsec_securitynature and
+		stat_data_id(+)='46' and monsec_maskflag='N' and monsec_accountnumber='^' order by monsec_sno
+	</query>
+	
+	<query code="updsecurityreg">
+		update mon_securityregister set monsec_securitytype=?,
+		monsec_securitynature=?, monsec_otherdetails=?, monsec_add1=?,
+		monsec_add2=?, monsec_city=?, monsec_state=?, monsec_pincode=?,
+		monsec_insuranceno=?, monsec_valuatamount=?,
+		monsec_valuatdate=to_date(?,'dd/mm/yyyy'), monsec_valutdoneby=?,
+		monsec_inspectedon=to_date(?,'dd/mm/yyyy'),
+		monsec_inspectedby=?, monsec_sameaddress=?, user_id=?,
+		monsec_datemodified=sysdate, monsec_shortfallnoticed=?, monsec_maskflag=? where monsec_sno=?
+		and monsec_accountnumber=?
+	</query>
+	
+	<query code="inssecurityreg">
+		insert into mon_securityregister (monsec_sno,
+		monsec_accountnumber, monsec_securitytype,
+		monsec_securitynature, monsec_otherdetails, monsec_add1,
+		monsec_add2, monsec_city, monsec_state, monsec_pincode,
+		monsec_insuranceno, monsec_valuatamount, monsec_valuatdate,
+		monsec_valutdoneby, monsec_inspectedon, monsec_inspectedby,
+		monsec_sameaddress, user_id, monsec_datemodified, monsec_shortfallnoticed, monsec_maskflag)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,?,?,sysdate,?,?)
+	</query>
+	
+	<query code="mon_securityregister_updatemaskflag">
+		update mon_securityregister set monsec_maskflag=? where monsec_sno=?
+		and monsec_accountnumber=?
+	</query>
+
+	<query code="delsecurityreg">
+		delete from mon_securityregister where monsec_sno=? and
+		monsec_accountnumber=?
+	</query>
+
+	<query code="selmaxsecurityreg">
+		select NVL(max(MONSEC_SNO),0)+1 as snorelmax from
+		MON_SECURITYREGISTER where trim(MONSEC_ACCOUNTNUMBER)='^'
+	</query>
+
+	<query code="seldocumentregister">
+		select doc_sno, doc_accountnumber, doc_documentname,
+		to_char(doc_executeddate,'dd/mm/yyyy')as doc_executeddate,
+		doc_executedby, doc_signatoryname,
+		to_char(doc_expirydate,'dd/mm/yyyy') as doc_expirydate,
+		doc_vettedby, to_char(doc_datevetted,'dd/mm/yyyy')as
+		doc_datevetted, doc_modifiedby,
+		to_char(doc_datemodified,'dd/mm/yyyy') as doc_datemodified,
+		doc_applicantype, doc_signed from mon_documentregister where
+		doc_accountnumber='^' and DOC_DELFLAG='N'
+	</query>
+	
+	<query code="sel_monchecklist">
+		select cbs_accno, mon_roc, to_char(mon_rocdate,'dd/mm/yyyy')as
+		mon_rocdate, to_char(mon_resolutiondate,'dd/mm/yyyy')as
+		mon_resolutiondate, mon_dbc, to_char(mon_dbcdate,'dd/mm/yyyy')as
+		mon_dbcdate, mon_dbcamount, mon_guarantor, mon_guarantorsigned,
+		mon_equitable, mon_equitperfect, mon_checkmsod, mon_checkstock,
+		mon_checkbkdebts, mon_checkqpr, mon_inspection from
+		mon_checklist where cbs_accno='^'
+	</query>
+	
+	
+	
+	<query code="del_monchecklist">
+		delete from mon_checklist where cbs_accno=?
+	</query>
+	
+	<query code="ins_monchecklist">
+		insert into mon_checklist(cbs_accno, mon_roc, mon_rocdate,
+		mon_resolutiondate, mon_dbc,mon_dbcdate, mon_dbcamount,
+		mon_guarantor, mon_guarantorsigned, mon_equitable,
+		mon_equitperfect, mon_modifiedby, mon_modifieddate,
+		mon_checkmsod, mon_checkstock, mon_checkbkdebts, mon_checkqpr,
+		mon_inspection) values
+		(?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY'),?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?)
+	</query>
+
+	<query code="selMonPersonalInfo">
+		select to_char(personal_bankingsince, 'DD/MM/YYYY') as
+		personal_bankingsince from
+		mon_personalinfo where
+		personal_cbsid = '^'
+	</query>
+	
+	<query code="selMonLimitRegister">
+		select to_char(LIMIT_REVIEWDATE, 'DD/MM/YYYY') as
+		LIMIT_REVIEWDATE, LIMIT_SANCTAMT,stat_data_desc1 as
+		limit_facility from mon_limitregister,static_data where
+		stat_data_desc=limit_facility and stat_data_id='36' and
+		limit_custid = '^' and trim(limit_cutaccno) = '^'
+	</query>
+	
+	<query code="sel_nextreviewdate">
+		select
+		to_char(add_months(to_date('^','dd/mm/yyyy'),'12'),'Month-yyyy')
+		as nextreview from mon_limitregister where limit_custid ='^' and
+		trim(limit_cutaccno) = '^'
+	</query>
+	
+	<query code="selMonDBC">
+		select to_char(dbc_date, 'DD/MM/YYYY') as dbc_date from mon_dbc
+		where dbc_cbsid='^' and trim(dbc_accno) = '^'
+	</query>
+	
+	<query code="sel_overdefaults">
+		select FUND_OVERDUEAMT, to_char(fund_overduesince,'dd/mm/yyyy')
+		as fund_overduesince, FUND_OSAMT from MON_FUNDBASED where
+		fund_custid='^' and trim(fund_accno)='^'
+	</query>
+
+	<query code="selReviewNoteForTermLoan">
+		select cbsid, cbsAccountNo, seqno, natureValSecurity,
+		presentStatusPrj, operationCDAcc, maxDebit, maxCredit, minDebit,
+		minCredit, daysDebit, operTermLoanACC, repaySchedule,
+		installment, interest, compliance, completionMort, registCharge,
+		documents, collSecurityDet, to_char(inspectionDate,'DD/MM/YYYY')
+		as inspectionDate, secAdequtely, inspectingOfficial,
+		auditObserv, recommendation, activity,
+		to_char(banksince,'DD/MM/YYYY') as banksince,
+		to_char(reviewdate,'DD/MM/YYYY') as reviewdate, osamt, overdue,
+		to_char(dbcdate,'DD/MM/YYYY') as dbcdate, reviewyear,
+		REVIEW_STATUS,
+		review_comments,daysCredit,to_char(DISBURSEMENTDATE,'DD/MM/YYYY')
+		as DISBURSEMENTDATE,assetclasification, a.stat_data_desc1 as
+		assetclasificationdesc,reveiw_loanpurpose, reveiw_datecredit ,
+		reveiw_installremarks ,reveiw_interestremarks
+		,REVIEW_FACILITYNAME , REVIEW_FACILITYLIMIT ,
+		to_char(review_nextreviewdate,'DD/MM/YYYY') as
+		review_nextreviewdate,to_char(review_processdate,'DD/MM/YYYY')
+		as review_processdate from
+		reviewnotetermloan,static_data a where
+		a.stat_data_desc(+) =assetclasification and
+		a.stat_data_id(+)='31' and 
+		 trim(cbsid) = '^' and
+		trim(cbsAccountNo) = '^' and reviewyear = '^'
+	</query>
+
+	<query code="sel_termloanreviewprocessedby">
+		select MON_TERMLOANREVIEW_TOUSRID from
+		MON_TERMLOANREVIEW_MAILBOX where trim(MON_TERMLOANREVIEW_CBSID)='^'
+		and trim(MON_TERMLOANREVIEW_CBSACCNO)='^'and
+		MON_TERMLOANREVIEW_YEAR='^'
+	</query>
+		
+	<query code="updReviewNoteForTermLoan">
+		update reviewnotetermloan set natureValSecurity=?,
+		presentStatusPrj=?, operationCDAcc=?, maxDebit=?, maxCredit=?,
+		minDebit=?, minCredit=?, daysDebit=?, operTermLoanACC=?,
+		repaySchedule=?, installment=?, interest=?, compliance=?,
+		completionMort=?, registCharge=?, documents=?,
+		collSecurityDet=?, inspectionDate=to_date(?,'DD/MM/YYYY'),
+		secAdequtely=?, inspectingOfficial=?, auditObserv=?,
+		recommendation=?, activity=?, banksince=to_date(?,'DD/MM/YYYY'),
+		reviewdate = to_date(?,'DD/MM/YYYY'), osamt=?, overdue=?,
+		dbcdate=to_date(?,'DD/MM/YYYY'),daysCredit=?,DISBURSEMENTDATE=to_date(?,'DD/MM/YYYY'),
+		assetclasification = ?, reveiw_loanpurpose=?, reveiw_datecredit= ? ,
+		reveiw_installremarks = ? , reveiw_interestremarks = ? , 
+		review_facilityname = ? , review_facilitylimit = ? , review_nextreviewdate = to_date(?,'DD/MM/YYYY') 
+		where cbsid=? and cbsAccountNo=? and reviewyear=?
+	</query>
+	
+	<query code="delReviewNoteForTermLoan">
+		delete from reviewnotetermloan where cbsid=? and cbsAccountNo=?
+		and reviewyear=?
+	</query>
+	
+	
+	<query code="getvalueddategreaterthanthree">
+		select MONSEC_ACCOUNTNUMBER, limit_custid, b.personal_custname, lr.limit_accflag,lr.limit_sanctamt from
+		MON_SECURITYREGISTER a, MON_PERSONALINFO b, organisations org,
+		mon_limitregister lr where MONSEC_VALUATDATE is not null and
+		months_between(to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy'),to_date(to_char(MONSEC_VALUATDATE,'dd/mm/yyyy'),'dd/mm/yyyy'))>36
+		and b.personal_classification='001'
+		and lr.limit_custid=b.PERSONAL_CBSID and
+		org.solid=lr.limit_solid and
+		a.MONSEC_ACCOUNTNUMBER=lr.limit_cutaccno and lr.LIMIT_STATUS !='C' and MONSEC_MASKFLAG='N' and MONSEC_VALUATDATE
+		in (select min(MONSEC_VALUATDATE) from
+		MON_SECURITYREGISTER,mon_limitregister where
+		MONSEC_MASKFLAG='N' and
+		MONSEC_ACCOUNTNUMBER=limit_cutaccno group by
+		MONSEC_ACCOUNTNUMBER) and org.org_code='^' order by lr.limit_accflag desc
+	</query>
+
+	<query code="sel_monitoring_security">
+		select monsec_securitytype, MONSEC_OTHERDETAILS,
+		monsec_insuranceno, limit_cutaccno,
+		stat_data_desc1,monsec_valuatamount from MON_SECURITYREGISTER a,
+		mon_limitregister b, static_data where a.monsec_accountnumber
+		(+) =b.limit_cutaccno and stat_data_desc(+)
+		=monsec_securitynature and stat_data_id='46' and
+		trim(limit_custid)='^'
+	</query>
+	
+	<query code="sel_personalinfo">
+		select personal_cbsid, personal_custname, personal_solid,
+		personal_natofactivity, personal_bankarrangement,
+		personal_address, personal_address1, c.city_name as city,
+		s.state_name as state, personal_pincode, personal_phone,
+		personal_mobile, stat_data_desc1 as personal_constitution,
+		to_char(personal_bankingsince,'dd/mm/yyyy')as
+		personal_bankingsince, personal_contactname,
+		personal_contperdesign, personal_contperphone,
+		personal_contpermobile, personal_constitution as
+		new_personal_constitution,personal_leadbankvetted,personal_stipdocuments
+		from mon_personalinfo, laps_cities c,
+		laps_states s, static_data where personal_cbsid='^' and
+		upper(c.city_code(+))=upper(trim(personal_city)) and
+		upper(s.state_code(+))=upper(trim(personal_state)) and
+		stat_data_id(+)='14' and stat_data_desc(+)=personal_constitution
+	</query>
+
+	<query code="sel_org_name">
+		select org_name from organisations where solid='^'
+	</query>
+
+	<query code="getmmrsearch">
+		select mmr_month, mmr_year, mmr_orgscode,
+		mmr_status,mmr_rptholder,org_name from
+		mon_monthlyreport,organisations where org_scode=mmr_orgscode and
+		trim(mmr_cbsid)='^' order by mmr_year, mmr_month
+	</query>
+
+	<query code="ins_mmrfundbased">
+		insert into mon_mmrfundbased(MMRFUND_CUSTID, MMRFUND_ACCNO,
+		MMRFUND_FACILITY, MMRFUND_SANCAMT, MMRFUND_DRAWINGPOWER,
+		MMRFUND_OSAMT, MMRFUND_OVERDUEAMT, MMRFUND_OVERDUESINCE,
+		MMRFUND_DEBITCURRMONTH, MMRFUND_CREDITCURRMONTH,
+		MMRFUND_CREDITURNOVER, MMRFUND_INSTALMENT, MMRFUND_MODIFIEDBY,
+		MMRFUND_MODIFIEDDATE, MMRFUND_MONTH, MMRFUND_YEAR, mmrfund_mmrno)
+		VALUES(?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?)
+	</query>
+
+	<query code="getmmrfundbased">
+		select MMRFUND_CUSTID, MMRFUND_ACCNO, MMRFUND_FACILITY,
+		MMRFUND_SANCAMT, MMRFUND_DRAWINGPOWER, MMRFUND_OSAMT,
+		MMRFUND_OVERDUEAMT, to_char(MMRFUND_OVERDUESINCE,'dd/mm/yyyy')
+		as MMRFUND_OVERDUESINCE, MMRFUND_DEBITCURRMONTH,
+		MMRFUND_CREDITCURRMONTH, MMRFUND_CREDITURNOVER,
+		MMRFUND_INSTALMENT, to_char(MMRFUND_MODIFIEDDATE,'dd/mm/yyyy')
+		as MMRFUND_MODIFIEDDATE from mon_mmrfundbased where
+		mmrfund_mmrno='^'
+	</query>
+
+	<query code="sel_branchheadcomments">
+		select mon_operation, mon_operationdetails, mon_sanction,
+		mon_sanctiondetails, mon_irregular, mon_irregulardetails,
+		mon_observation, mon_observationdetails,mon_limits,mon_limitsreason
+		,mon_noname,mon_nodesgn,mon_ainame,mon_aidesgn,mon_bhname,mon_bhdesgn
+		from mon_branchheadcomments where mon_commentsmmrno='^'
+	</query>
+	<query code="ins_branchheadcomments">
+		insert into mon_branchheadcomments(cbs_id, mon_operation,
+		mon_operationdetails, mon_sanction, mon_sanctiondetails,
+		mon_irregular, mon_irregulardetails, mon_observation,
+		mon_observationdetails, mon_commentsyear,mon_commentsmonth,
+		mon_modifiedby, mon_modifieddate, mon_commentsmmrno,
+		mon_limits,mon_limitsreason,mon_noname,mon_nodesgn,mon_ainame,mon_aidesgn,mon_bhname,mon_bhdesgn) values
+		(?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="del_branchheadcomments">
+		delete from mon_branchheadcomments where mon_commentsmmrno=?
+	</query>
+	
+	<query code="sel_monborrowerinfo">
+		select mon_commentsyear, mon_commentsmonth from
+		mon_branchheadcomments where trim(cbs_id)='^'
+	</query>
+
+	<query code="sel_monborrowerinfo1">
+		select mon_commentsyear, mon_commentsmonth from
+		mon_branchheadcomments where trim(cbs_id)='^' and mon_commentsyear='^'
+	</query>
+	
+	<query code="del_monauditcomments">
+		delete from mon_auditcomments where mon_audittype=? and
+		mon_mmrno=?
+	</query>
+
+	<query code="ins_monauditcomments">
+		insert into mon_auditcomments (mon_custid, mon_audittype,
+		mon_auditorcomments, mon_officerscomments, mon_auditdate,
+		mon_year, mon_month, mon_mmrno) values
+		(?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?)
+	</query>
+
+	<query code="sel_monauditcomments">
+		select mon_custid,mon_auditorcomments, mon_officerscomments,
+		to_char(mon_auditdate, 'dd/mm/yyyy') as mon_auditdate,
+		mon_audittype from mon_auditcomments where mon_audittype='^' and
+		mon_mmrno='^'
+	</query>
+
+	<query code="delmonitoringinfo">
+		delete from mmr_monitoringinfo where mmrinfo_mmrno=?
+	</query>
+
+	<query code="insmonitoringinfo">
+		insert into mmr_monitoringinfo (mmr_cbsid,
+		mmr_infoinspectiondate, mmr_infotermscond, mmr_infoprofitabilty,
+		mmr_infocolenders, mmr_infomanageperson, mmr_infotermreason,
+		mmr_infoadversedreason, mmr_infoprofitabiltyreason,
+		mmr_infocolendersreason, mmr_infomanagepersonreason,
+		mmr_infomonth, mmr_infoyear, mon_salesquarter, mon_salesamount,
+		mmrinfo_mmrno)
+		values(?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selmonitoringinfo">
+		select mmr_cbsid, to_char(mmr_infoinspectiondate,'dd/mm/yyyy')
+		as mmr_infoinspectiondate, mmr_infotermscond,
+		mmr_infoprofitabilty, mmr_infocolenders, mmr_infomanageperson,
+		mmr_infotermreason, mmr_infoadversedreason,
+		mmr_infoprofitabiltyreason, mmr_infocolendersreason,
+		mmr_infomanagepersonreason, mmr_infomonth, mmr_infoyear,
+		mon_salesquarter, mon_salesamount from mmr_monitoringinfo where
+		mmrinfo_mmrno='^'
+	</query>
+
+	<query code="delmonitoringinformatiom">
+		delete from mon_monitorinformation where mon_monitmmrno=?
+	</query>
+
+	<query code="insmonitoringinformatiom">
+		insert into mon_monitorinformation (mon_monitinfcbsid,
+		mon_monitinfgovtpolicy, mon_monitinfqpr,
+		mon_monitinfpenalinterst, mon_monitinfledger,
+		mon_monitinfrectification, mon_monitinfgovtpolicyrson,
+		mon_monitinfpenalinterstrson, mon_monitinfrectificationrson,
+		mon_monitinfnonsecrutiniserson, mon_monitinfmonth,
+		mon_monitinfyear, mon_turnover, mon_turnoverreasons,
+		mon_monitmmrno) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selmonitoringinformatiom">
+		select mon_monitinfcbsid, mon_monitinfgovtpolicy,
+		mon_monitinfqpr, mon_monitinfpenalinterst, mon_monitinfledger,
+		mon_monitinfrectification, mon_monitinfgovtpolicyrson,
+		mon_monitinfpenalinterstrson, mon_monitinfrectificationrson,
+		mon_monitinfnonsecrutiniserson, mon_monitinfmonth,
+		mon_monitinfyear,mon_turnover,mon_turnoverreasons from
+		mon_monitorinformation where mon_monitmmrno='^'
+	</query>
+
+	<query code="delinspectionreport">
+		delete from mmr_inspectionreport where mmr_cbsid=? and
+		mmr_month=? and mmr_year=?
+	</query>
+
+	<query code="insinspectionreport">
+		insert into mmr_inspectionreport (mmr_cbsid, mmr_insvisitdate,
+		mmr_insname1, mmr_insname2, mmr_insname3, mmr_insdesign1,
+		mmr_insdesign2, mmr_insdesign3, mmr_insnorth, mmr_inseast,
+		mmr_inswest, mmr_inssouth, mmr_insprimarysecurity,
+		mmr_inscollsecurity, mmr_inspresentstatus, mmr_inscomments,
+		mmr_insdocument, mmr_insfeatures, mmr_insbanknameboard,
+		mmr_insborrowernamebord, mmr_insmaintanance, mmr_month,
+		mmr_year, mmr_security,mmr_shorfalldeficiency)
+		values(?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selinspectionreport">
+		select mmr_cbsid,to_char(mmr_insvisitdate,'dd/mm/yyyy') as
+		mmr_insvisitdate, mmr_insname1, mmr_insname2, mmr_insname3,
+		mmr_insdesign1, mmr_insdesign2, mmr_insdesign3, mmr_insnorth,
+		mmr_inseast, mmr_inswest, mmr_inssouth, mmr_insprimarysecurity,
+		mmr_inscollsecurity, mmr_inspresentstatus,mmr_inscomments,
+		mmr_insdocument, mmr_insfeatures, mmr_insbanknameboard,
+		mmr_insborrowernamebord, mmr_insmaintanance, mmr_month,
+		mmr_year, mmr_security, mmr_shorfalldeficiency
+		 from mmr_inspectionreport where
+		trim(mmr_cbsid)='^' and mmr_month='^' and mmr_year='^'
+	</query>
+	
+	<query code="sel_monhedgeddetails">
+		select slno, mon_hedgeddetailscbsid,
+		mon_hedgeddetailscbsaccountno, mon_hedgeddetailsmonth,
+		mon_hedgeddetailsyear, mon_hedgeddetailssalesquarter,
+		mon_hedgeddetailssalesamount, mon_hedgeddetailsnature,
+		mon_hedgeddetailsamount, mon_hedgeddetailswhetherhedged,
+		mon_hedgeddetailsexcessmonth, mon_hedgeddetailsexcesscurrent
+		from mon_hedgeddetails where mon_hedgeddetailsmmrno='^'
+	</query>
+
+	<query code="selmaxhedgedapplication">
+		select NVL(max(slno),0)+1 as slno from mon_hedgeddetails where
+		mon_hedgeddetailsmmrno='^'
+	</query>
+
+	<query code="ins_monhedgeddetails">
+		insert into mon_hedgeddetails (slno, mon_hedgeddetailscbsid,
+		mon_hedgeddetailscbsaccountno, mon_hedgeddetailsmonth,
+		mon_hedgeddetailsyear, mon_hedgeddetailssalesquarter,
+		mon_hedgeddetailssalesamount, mon_hedgeddetailsnature,
+		mon_hedgeddetailsamount, mon_hedgeddetailswhetherhedged,
+		mon_hedgeddetailsexcessmonth, mon_hedgeddetailsexcesscurrent, mon_hedgeddetailsmmrno)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="del_monhedgeddetails">
+		delete from mon_hedgeddetails where slno=? and
+		mon_hedgeddetailsmmrno=?
+	</query>
+	
+	<query code="sel_recoveredstatement">
+		select to_char(mon_recworkmonth,'dd/mm/yyyy') as
+		mon_recworkmonth, mon_recworkvalue,
+		to_char(mon_rectermmonth,'dd/mm/yyyy') as mon_rectermmonth,
+		mon_rectermvalue, to_char(mon_rectermins,'dd/mm/yyyy') as
+		mon_rectermins, mon_recterminsvalue, mon_recage,mon_seviceMonth,
+		mon_recoverarrears,mon_inlandthreemonth, mon_foreignthreemonth,
+		mon_inlandsixmonth, mon_foreignsixmonth,
+		mon_inlandmorethansixmonth, mon_foreignmorethansixmonth,
+		mon_inlandtotal, mon_foreigntotal from mon_recovered where
+		monrec_mmrno='^'
+	</query>
+
+	<query code="del_recoveredstatement">
+		delete from mon_recovered where monrec_mmrno=?
+	</query>
+
+	<query code="ins_recoveredstatement">
+		insert into mon_recovered(mon_reccbsid, mon_recmonth,
+		mon_recyear, mon_recworkmonth, mon_recworkvalue,
+		mon_rectermmonth, mon_rectermvalue, mon_rectermins,
+		mon_recterminsvalue, mon_recage, mon_seviceMonth,
+		mon_recoverarrears, mon_inlandthreemonth, mon_foreignthreemonth,
+		mon_inlandsixmonth, mon_foreignsixmonth,
+		mon_inlandmorethansixmonth, mon_foreignmorethansixmonth,
+		mon_inlandtotal, mon_foreigntotal, monrec_mmrno) values(?, ?,
+		?,to_date(?,'dd/mm/yyyy'),
+		?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="ins_personalinfo">
+		insert into mon_personalinfo(personal_cbsid, personal_custname,
+		personal_solid, personal_natofactivity,
+		personal_bankarrangement, personal_address, personal_phone,
+		personal_constitution, personal_bankingsince,
+		personal_lastreviewdate)
+		values(?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY'))
+	</query>
+
+	<query code="del_personalinfo">
+		delete from mon_personalinfo where personal_cbsid=?
+	</query>
+
+	<query code="upd_personalinfo">
+		update mon_personalinfo set personal_bankarrangement=?,
+		personal_contactname=?, personal_contperdesign=?,
+		personal_contperphone=?, personal_contpermobile=? where
+		personal_cbsid=?
+	</query>
+	
+	<query code="sel_Mon_register_expYear">
+		select to_char(ins_expirydate,'dd/mm/yyyy') as ins_expirydate,
+		ins_coveramt from insurance_register where
+		ins_accountno='^' and ins_cbsid='^' and
+		ins_policyno='^' and ins_delflag='N'
+	</query>
+
+	<query code="sel_facilty_mon_limit_register">
+		select LIMIT_CUTACCNO, LIMIT_FACILITY, stat_data_desc1 from
+		mon_limitregister, static_data where stat_data_desc =
+		LIMIT_FACILITY and stat_data_id='36' and limit_custid='^' and
+		limit_status='O'
+	</query>
+
+	<query code="sel_monauditcomments_all_type">
+		select mon_custid,mon_auditorcomments, mon_officerscomments,
+		to_char(mon_auditdate, 'dd/mm/yyyy') as mon_auditdate,
+		mon_audittype from mon_auditcomments where mon_mmrno='^'
+	</query>	
+	
+	<query code="ins_mon_generalinfo">
+		insert into mon_generalinfo( gen_custid, gen_month, gen_year,
+		gen_acc_clasification, gen_accStressY, gen_accstress_reason,
+		gen_accrestructY, gen_termscompiledY, gen_termscompiledreasons,
+		gen_presentyearrating, gen_prevyearrating, gen_downgradereason,
+		gen_docobtained, gen_creditauditdate, gen_docvetted,
+		gen_docvettedreasons, gen_docdeficiencies, gen_borrowerdate,
+		roc_reasons, mon_deviation, mon_compliance, gen_mmrno, gen_lawyername)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,to_date(?,'dd/mm/yyyy'),?,?,
+		to_date(?,'dd/mm/yyyy'),?,?)
+	</query>
+
+	<query code="del_mon_generalinfo">
+		delete from mon_generalinfo where gen_mmrno=?
+	</query>
+
+	<query code="sel_mon_generalinfo">
+		select gen_acc_clasification, gen_accStressY,
+		gen_accstress_reason, gen_accrestructY, gen_termscompiledY,
+		gen_termscompiledreasons, gen_presentyearrating,
+		gen_prevyearrating, gen_downgradereason, gen_docobtained,
+		to_char(gen_creditauditdate,'dd/mm/yyyy') as
+		gen_creditauditdate, gen_docvetted, gen_docvettedreasons,
+		gen_docdeficiencies, to_char(gen_borrowerdate,'dd/mm/yyyy') as
+		gen_borrowerdate, roc_reasons, mon_deviation,
+		to_char(mon_compliance,'dd/mm/yyyy') as mon_compliance,gen_lawyername
+		from mon_generalinfo where gen_mmrno='^'
+	</query>
+
+	<query code="sel_Mon_Checklist_MaximumDbc">
+		select to_char(max(mon_dbcdate), 'dd/mm/yyyy') as mon_dbcdate from mon_checklist where cbs_accno in (^)
+	</query>
+	
+	<query code="sel_Mon_Checklist_MaximumRoc">
+		SELECT  to_char(mon_rocdate, 'dd/mm/yyyy') as mon_rocdate , mon_roc  from mon_checklist where cbs_accno in (^)  order by mon_dbcdate desc
+	</query>
+	
+	<query code="sel_ReviewDate_sanction_auth">
+		select distinct(to_char(limit_reviewdate,'dd/mm/yyyy')) as
+		limit_reviewdate, s.stat_data_desc1 as
+		limit_sancauth,p.stat_data_desc1 as limit_sanctionlevel from
+		mon_limitregister, static_data s , static_data p where
+		s.stat_data_desc=limit_sancauth and p.stat_data_desc(+) =
+		limit_sanctionlevel and limit_custid='^' and limit_status='O'
+		and s.stat_data_id='21' and p.stat_data_id(+)='20'
+	</query>
+
+	<query code="ins_mon_excess_reason">
+		insert into MON_EXCESS_REASON(gen_custid, gen_reasons,
+		gen_commencements, gen_month, gen_year, renewalcompiled,
+		ren_submitted, ren_submitted_reasons, roc_reasons, gen_mmrno)
+		values(?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?)
+	</query>
+
+	<query code="sel_mon_excess_reason">
+		select gen_custid, gen_reasons, gen_commencements,
+		renewalcompiled, to_char(ren_submitted,'dd/mm/yyyy') as
+		ren_submitted, ren_submitted_reasons, roc_reasons from
+		MON_EXCESS_REASON where gen_mmrno='^'
+	</query>
+
+	<query code="del_mon_excess_reason">
+		delete from MON_EXCESS_REASON where gen_mmrno=?
+	</query>
+	
+	<query code="get_insu_staticdesc">
+			select stat_data_desc1 from static_data where
+			stat_data_id='38' and stat_data_desc='^'
+	</query>
+	
+	<query code="sel_monchecklist_reason">
+		select cbs_accno, mon_roc, to_char(mon_rocdate,'dd/mm/yyyy')as
+		mon_rocdate, to_char(mon_resolutiondate,'dd/mm/yyyy')as
+		mon_resolutiondate, mon_dbc, to_char(mon_dbcdate,'dd/mm/yyyy')as
+		mon_dbcdate, mon_dbcamount, mon_guarantor, mon_guarantorsigned,
+		mon_equitable, mon_equitperfect, mon_checkmsod, mon_checkstock,
+		mon_checkbkdebts, mon_checkqpr, mon_inspection from
+		mon_checklist where cbs_accno in (^)
+	</query>
+	
+	<query code="upd_insurance_register">
+		update INSURANCE_REGISTER set INS_DETAILS=?, ins_insuredaddr1=?,
+		ins_insuredaddr2=?, ins_insuredaddr3=?, ins_insuredcity=?,
+		ins_insuredstate=?, ins_insuredpincode=?, ins_covernote=?,
+		ins_premiumamt=?, ins_beneficiary=?, INS_CLAUSE=?,
+		ins_paid_by=?, INS_RISK=?, ins_riskfactor=?, modified_by=?,
+		modified_date=to_date(?,'dd/mm/yyyy') where
+		trim(INS_ACCOUNTNO)=? and ins_srlno=?
+	</query>
+
+	<query code="del_insurance_register">
+		delete from insurance_register where ins_srlno=?
+	</query>
+	
+	<query code="upddocumentregister">
+		update mon_documentregister set doc_accountnumber=?,
+		doc_executeddate=to_date(?,'DD/MM/YYYY'),
+		doc_executedby=?, doc_signatoryname=?,
+		doc_expirydate=to_date(?,'DD/MM/YYYY'), doc_vettedby=?,
+		doc_datevetted=to_date(?,'DD/MM/YYYY'), doc_applicantype=?,
+		doc_signed=? where doc_sno=? and doc_accountnumber=?
+	</query>
+	
+	<query code="getfundbased">
+		select FUND_CUSTID, FUND_ACCNO, FUND_SCHEMECODE, FUND_SANCAMT,
+		FUND_DRAWINGPOWER, FUND_OSAMT, FUND_OVERDUEAMT,
+		to_char(FUND_OVERDUESINCE,'dd/mm/yyyy') as FUND_OVERDUESINCE,
+		FUND_DEBITCURRMONTH, FUND_CREDITCURRMONTH, FUND_CREDITURNOVER,
+		FUND_INSTALMENT, stat_data_desc1 from MON_FUNDBASED, static_data
+		where stat_data_desc(+)=FUND_SCHEMECODE and stat_data_id(+)='36'
+		and FUND_CUSTID='^'
+	</query>
+
+	<query code="insconsortium">
+		insert into mmr_consortium (mmr_sno, mmr_cbsid,
+		mmr_cbsaccountno, mmr_bankname, mmr_branch, mmr_sharepercent,
+		mmr_assetclasification, mmr_fundbasedname, mmr_fundbasedamount,
+		mmr_nonfundbasedname, mmr_nonfundbasedamount, mmr_overdue,
+		mmr_remarks, mmr_leadbank, mmr_month, mmr_year,
+		mmr_nonfundsharepercent, mmr_fundsharepercent, cons_mmrno)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selconsortium">
+		select mmr_sno, mmr_cbsid, mmr_cbsaccountno, mmr_bankname,
+		mmr_branch, mmr_sharepercent, mmr_assetclasification,
+		mmr_fundbasedname, mmr_fundbasedamount, mmr_nonfundbasedname,
+		mmr_nonfundbasedamount, mmr_overdue, mmr_remarks, mmr_leadbank,
+		mmr_month, mmr_year, stat_data_desc1, mmr_nonfundsharepercent,
+		mmr_fundsharepercent from mmr_consortium, STATIC_DATA where
+		cons_mmrno='^' and stat_data_id(+)='31' and
+		stat_data_desc(+)=mmr_assetclasification
+	</query>
+
+	<query code="updconsortium">
+		update mmr_consortium set mmr_bankname=?,mmr_branch=?,
+		mmr_sharepercent=?, mmr_assetclasification=?,
+		mmr_fundbasedname=?, mmr_fundbasedamount=?,
+		mmr_nonfundbasedname=?, mmr_nonfundbasedamount=?, mmr_overdue=?,
+		mmr_remarks=?, mmr_leadbank=?, mmr_nonfundsharepercent=?,
+		mmr_fundsharepercent=? where mmr_sno=? and cons_mmrno=?
+	</query>
+	<query code="sel_monitoraccno">
+		select limit_cutaccno from MON_LIMITREGISTER where
+		limit_custid='^' and limit_status='O'
+	</query>
+	<query code="upd_mon_limitregister_review">
+		update mon_limitregister set mon_reviewof=? where
+			trim(limit_cutaccno)=?
+	</query>
+
+	<query code="ins_reviewtermloanfinancial">
+		insert into reviewtermloanfinancial(sno,reviwyear,
+		cbsid,cbsaccountno,review_firstyear,review_secondyear,review_thirdyear,review_fourthyear,reviewofflag)
+		values(?,?,?,?,?,?,?,?,?)
+	</query>
+	<query code="sel_reviewtermloanfinancial">
+		select
+		sno,reviwyear,cbsid,cbsaccountno,review_firstyear,review_secondyear,review_thirdyear,review_fourthyear
+		from reviewtermloanfinancial where reviwyear='^' and cbsid='^' and
+		cbsaccountno='^' and reviewofflag='^' order by sno
+	</query>	
+	<query code="del_reviewtermloanfinancial">
+		delete from reviewtermloanfinancial where reviwyear=? and cbsid=? and cbsaccountno=? and reviewofflag=?
+	</query>
+	
+	<query code="selMOnLimitregisterSan">
+		select to_char(limit_reviewdate,'dd/mm/yyyy') as
+		limit_reviewdate, stat_data_desc1 as limit_sancauth,
+		to_char(limit_sanctdate,'dd/mm/yyyy') as limit_sanctdate from
+		mon_limitregister, static_data where trim(limit_cutaccno) in (^)
+		and stat_data_id='21' and stat_data_desc=limit_sancauth
+	</query>
+
+	<query code="ins_reviewcorporate_company_details">
+		insert into mon_revnotecorporatecompany (mon_group, mon_banking,
+		mon_review, mon_accountclassification, mon_creditrating,
+		mon_status_account, mon_partner1, mon_partner2, mon_partner3,
+		mon_partner4, mon_partner5, mon_partner6, mon_partner7,
+		mon_partner8, mon_partner9, mon_partner10, CBSID, CBSACCOUNTNO,
+		REVIWYEAR,MON_LEADBANK,MON_SHAREPERCENT,dateproposal) 
+		values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'))
+	</query>
+
+	<query code="del_reviewcorporate_company_details">	
+		delete from mon_revnotecorporatecompany  where CBSID=?
+   		and CBSACCOUNTNO =? and REVIWYEAR =?
+	</query>
+	
+	<query code="sel_reviewcorporate_company_details">
+		select mon_group, mon_banking, mon_review,
+		mon_accountclassification, mon_creditrating, mon_status_account,
+		mon_partner1, mon_partner2, mon_partner3, mon_partner4,
+		mon_partner5, mon_partner6, mon_partner7, mon_partner8,
+		mon_partner9, mon_partner10, MON_SHAREPERCENT, mon_leadbank,
+		to_char(dateproposal,'dd/mm/yyyy') as dateproposal
+		 from mon_revnotecorporatecompany
+		where CBSID='^' and CBSACCOUNTNO ='^' and REVIWYEAR ='^'
+	</query>
+
+	<query code="ins_reviewnotetermloanyear">
+		insert into reviewnotetermloan (CBSID, CBSACCOUNTNO, REVIEWYEAR,
+		review_status,review_createdate,review_holderusrid,review_usrid) values(?,?,?,?,sysdate,?,?)
+	</query>
+
+	<query code="sel_monitoringtermloanreview">
+		select MON_TERMLOANREVIEW_TOUSRID from
+		mon_termloanreview_mailbox,tlr_applications where
+		mon_termloanreview_cbsaccno=tlr_appno and
+		mon_termloanreview_maildate=( select
+		max(mon_termloanreview_maildate) from mon_termloanreview_mailbox
+		where mon_termloanreview_cbsid='^' and
+		mon_termloanreview_cbsaccno='^' and mon_termloanreview_year='^')
+	</query>
+
+	<query code="del_acountwisedetails">
+		delete from mon_accountwisedetails where mon_accwiseaccountno=?
+		and mon_mmrno=?
+	</query>
+	
+	<query code="ins_acountwisedetails">
+		insert into mon_accountwisedetails(mon_accwisesno,
+		mon_accwiseaccountno, mon_bookdebtsdate, mon_stockdate,
+		mon_year, mon_month, acctwise_cbsid, mon_nextbookdebtsdue,
+		mon_nextstockdue, mon_qprdate, mon_nextqprdue, mon_mmrno)
+		values(?,?,to_date(?,'dd/mm/yyyy'),
+		to_date(?,'dd/mm/yyyy'),?,?,?,
+		to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),
+		to_date(?,'dd/mm/yyyy'), to_date(?,'dd/mm/yyyy'),?)
+	</query>
+
+	<query code="sel_acountwisedetails">
+		select mon_accwiseaccountno,
+		to_char(mon_bookdebtsdate,'dd/mm/yyyy') as bookdebtsdate,
+		to_char(mon_stockdate,'dd/mm/yyyy')as stockdate,
+		to_char(mon_nextbookdebtsdue,'dd/mm/yyyy')as bookdebtsdue,
+		to_char(mon_nextstockdue,'dd/mm/yyyy')as stockdue,
+		to_char(mon_qprdate,'dd/mm/yyyy')as qprdate,
+		to_char(mon_nextqprdue,'dd/mm/yyyy')as nextqprdue from
+		mon_accountwisedetails where mon_accwiseaccountno='^' and
+		mon_mmrno='^'
+	</query>
+
+	<query code="delstockeligble">
+		delete from mmr_stockseligible where mmr_cbsaccountno=? and
+		mmr_stockmmrno=?
+	</query>
+
+	<query code="insstockeligible">
+		insert into mmr_stockseligible (mmr_cbsid, mmr_cbsaccountno,
+		mmr_stocklc, mmr_stockcreditor, mmr_totalunpaidstock,
+		mmr_stocknotdp, mmr_otherasset, mmr_packingcredit,
+		mmr_stockearmarked, mmr_totalstock, mmr_stockeligible, mmrdays,
+		stock_selpackingcredit, mmr_month, mmr_year, mmr_stockmmrno)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selstockeligible">
+		select mmr_cbsid, mmr_cbsaccountno, mmr_stocklc,
+		mmr_stockcreditor, mmr_totalunpaidstock, mmr_stocknotdp,
+		mmr_otherasset, mmr_packingcredit, mmr_stockearmarked,
+		mmr_totalstock, mmr_stockeligible, mmrdays,
+		stock_selpackingcredit, mmr_month, mmr_year from
+		mmr_stockseligible where mmr_cbsaccountno='^'
+		and mmr_stockmmrno='^'
+	</query>
+	
+	<query code="ins_msodestimate">
+		insert into MON_MSODESTIMATES(mon_msodcbsid,
+		mon_msodcbsaccountno, mon_msodmonth, mon_msodyear,
+		mon_msodaccountingyear, mon_msodproduction, mon_msodgrosssales,
+		mon_msodnetsales, mon_msodprodqty,mon_msodprodcurrent,
+		mon_msodsalesmonth, mon_msodsalescurrent, mon_msodtradingstock,
+		mon_msodtradingpurchase, mon_msodtradingsale,
+		mon_msodtradingendstock, mon_msodmmrno) values (?,?,?,?,
+		TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="del_msodestimate">
+		delete from MON_MSODESTIMATES where mon_msodcbsaccountno=? and mon_msodmmrno=?
+	</query>
+	
+	<query code="sel_msodestimate">
+		select mon_msodcbsid, mon_msodcbsaccountno, mon_msodmonth,
+		mon_msodyear, to_char(mon_msodaccountingyear,'dd/mm/yyyy') as
+		mon_msodaccountingyear, mon_msodproduction, mon_msodgrosssales,
+		mon_msodnetsales, mon_msodprodqty, mon_msodprodcurrent,
+		mon_msodsalesmonth, mon_msodsalescurrent, mon_msodtradingstock,
+		mon_msodtradingpurchase, mon_msodtradingsale,
+		mon_msodtradingendstock from MON_MSODESTIMATES where
+		 mon_msodcbsaccountno='^' and mon_msodmmrno='^' 
+	</query>
+	
+	<query code="sel_stockstatement">
+		select stock_sno, stock_accno, stock_type, stock_desc,
+		stock_storplace, stock_noofpackage, stock_quantity, stock_rate,
+		stock_value from mon_stockstatement where 
+		stock_accno='^' and stock_mmrno='^'
+	</query>
+
+	<query code="upd_stockstatement">
+		update mon_stockstatement set stock_type=?, stock_desc=?,
+		stock_storplace=?, stock_noofpackage=?, stock_quantity=?,
+		stock_rate=?, stock_value=? where stock_sno=?
+	</query>
+
+	<query code="ins_stockstatement">
+		insert into mon_stockstatement(stock_accno, stock_custid,
+		stock_sno, stock_type, stock_desc, stock_storplace,
+		stock_noofpackage, stock_quantity, stock_rate, stock_value,
+		stock_month, stock_year, stock_modifiedby, stock_modifieddate,
+		stock_mmrno)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?)
+	</query>
+
+	<query code="del_stockstatement">
+		delete from mon_stockstatement where stock_sno=?
+	</query>
+	
+	<query code="sel_maxstockID">
+		select nvl(max(stock_sno+1),1) as stock_sno from
+		mon_stockstatement where stock_mmrno='^'
+	</query>
+	
+	<query code="selstockgrandtotal">
+		select sum(stock_value) as grand_total from mon_stockstatement
+		where  stock_accno='^' and stock_mmrno='^'
+	</query>
+	
+	<query code="sel_printstatement">
+		select stat_data_desc1 from static_data where stat_data_id='^'
+		and stat_data_desc in(select stock_type from MON_STOCKSTATEMENT
+		where STOCK_ACCNO='^' and stock_mmrno='^' and stock_type='^')
+	</query>
+
+	<query code="del_monstatement">
+		delete from mon_msodBorrowing where mon_msodsno=? and
+		MON_MSODCBSACCNO=? and mon_msodmmrno=?
+	</query>
+
+	<query code="upd_monstatement">
+		update mon_msodBorrowing set MON_MSODSOURCE=?, MON_MSODNATURE=?,
+		MON_MSODLIMIT=?, MON_MSODBALANCE=?,
+		mon_balancedate=to_date(?,'dd/mm/yyyy') where mon_msodsno=?
+	</query>
+
+	<query code="ins_monstatement">
+		insert into mon_msodBorrowing(MON_MSODCBSACCNO, MON_MSODCBSID,
+		mon_msodsno, MON_MSODSOURCE, MON_MSODNATURE, MON_MSODLIMIT,
+		MON_MSODBALANCE, mon_balancedate, mon_msodmonth,
+		mon_msodyear, mon_msodmmrno)values(?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?,?,?)
+	</query>
+
+	<query code="sel_maxmoniID">
+		select nvl(max(mon_msodsno+1),1) as mon_msodsno from
+		mon_msodBorrowing where mon_msodmmrno='^'
+	</query>
+	
+	<query code="sel_monstatement">
+		select mon_msodsno, MON_MSODSOURCE, MON_MSODNATURE,
+		MON_MSODLIMIT, MON_MSODBALANCE,
+		to_char(mon_balancedate,'dd/mm/yyyy')as mon_balancedate from
+		mon_msodBorrowing where MON_MSODCBSACCNO='^' and mon_msodmmrno='^'
+	</query>
+	
+	<query code="sel_mettingstatement">
+		select mon_sno, to_char(mon_dateofmet,'dd/mm/yyyy')as
+		mon_dateofmet, mon_minutesmet, mon_received, mon_noofmeetingheld
+		from mon_consortiumMeeting where mon_mmrno='^'
+	</query>
+
+	<query code="del_mettingstatement">
+		delete from mon_consortiumMeeting where mon_mmrno=?
+	</query>
+
+	<query code="ins_mettingstatement">
+		insert into mon_consortiumMeeting(mon_mettingcbsid,
+		mon_dateofmet, mon_minutesmet, mon_received, mon_mettingmonth,
+		mon_mettingyear, mon_noofmeetingheld,
+		mon_mmrno)values(?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?)
+	</query>
+
+	<query code="sel_maxmettingID">
+		select nvl(max(mon_sno+1),1) as mon_sno from
+		mon_consortiumMeeting
+	</query>
+
+	<query code="sel_currentassetfinanced">
+		select current_cbsid, current_accountno, current_banklast,
+		current_bankquater, current_bankestimate, current_sundrylast,
+		current_sundryquater, current_sundryestimate, current_otherlast,
+		current_otherquater, current_otherestimate, current_nwclast,
+		current_nwcquater, current_nwcestimate, current_totallast,
+		current_totalquater, current_totalestimate, current_month,
+		current_year from mon_currentassetfinanced where
+		current_accountno='^'and current_mmrno='^'
+	</query>
+
+	<query code="ins_currentassetfinanced">
+		insert into mon_currentassetfinanced(current_cbsid,
+		current_accountno, current_banklast, current_bankquater,
+		current_bankestimate, current_sundrylast, current_sundryquater,
+		current_sundryestimate, current_otherlast, current_otherquater,
+		current_otherestimate, current_nwclast, current_nwcquater,
+		current_nwcestimate, current_totallast, current_totalquater,
+		current_totalestimate, current_month,
+		current_year, current_mmrno)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="del_currentassetfinanced">
+		delete from mon_currentassetfinanced where
+		current_accountno=? and current_mmrno=?
+	</query>
+
+	<query code="sel_qprstatement">
+		select mon_qprproann, mon_qprprocurrent, mon_qprprocum,
+		mon_qprproachieve, mon_qprdomann, mon_qprdomcurrent,
+		mon_qprdomcum, mon_qprdomachieve, mon_qprexpann,
+		mon_qprexpcurrent,mon_qprexpcum,mon_qprexpachieve from
+		mon_qprperformance where mon_qpraccno='^'and
+		mon_qprmmrno='^'
+	</query>
+
+	<query code="del_qprstatement">
+		delete from mon_qprperformance where
+		mon_qpraccno=? and mon_qprmmrno=?
+	</query>
+
+	<query code="ins_qprstatement">
+		insert into mon_qprperformance(mon_qprcbsid, mon_qpraccno,
+		mon_qprmonth, mon_qpryear, mon_qprproann, mon_qprprocurrent,
+		mon_qprprocum, mon_qprproachieve, mon_qprdomann,
+		mon_qprdomcurrent, mon_qprdomcum, mon_qprdomachieve,
+		mon_qprexpann, mon_qprexpcurrent, mon_qprexpcum,
+		mon_qprexpachieve,
+		mon_qprmmrno)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="sel_workingcapitalfunds">
+		select mon_workyear1, mon_workyear2, mon_workyearsub,
+		mon_workyear4 from mon_workingcapitalfunds where
+		mon_workaccno='^'and mon_workmmrno='^'
+	</query>
+
+	<query code="delworkingcapitalfunds">
+		delete from mon_workingcapitalfunds where
+		mon_workaccno=? and mon_workmmrno=?
+	</query>
+
+	<query code="ins_workingcapitalfunds">
+		insert into mon_workingcapitalfunds(mon_workcbsid,
+		mon_workaccno, mon_workmonth, mon_workyear, mon_workyear1,
+		mon_workyear2, mon_workyearsub, mon_workyear4, mon_workmmrno)
+		values(?,?,?,?,?,?,?,?,?)
+	</query>
+	
+	<query code="sel_securitycovered">
+		select stat_data_desc1 from static_data where stat_data_id='^'
+		and stat_data_desc in(select stock_type from MON_STOCKSTATEMENT
+		where STOCK_ACCNO='^' and stock_mmrno='^')
+	</query>
+
+	<query code="sel_insurancecovered">
+		select mon_insucbsid, mon_insucbsaccountno, mon_insumonth,
+		mon_insuyear, mon_insuamount,
+		to_char(mon_insuexpirydate,'dd/mm/yyyy') as mon_insuexpirydate,
+		mon_insuendorsed, mon_insupolicies, mon_insuremarks,
+		mon_insuremarks, mon_securitycover, mon_insunumber from
+		MON_INSURANCECOVERED where mon_insucbsaccountno='^' and mon_insmmrno='^'
+	</query>
+	
+	<query code="sel_sumofinsurancecovered">
+		select sum(mon_insuamount) as insuamount from
+		MON_INSURANCECOVERED where mon_insucbsaccountno='^' and mon_insmmrno='^'
+	</query>
+
+	<query code="del_insurancecovered">
+		delete from MON_INSURANCECOVERED where mon_insucbsaccountno=? and mon_insmmrno=?
+	</query>
+
+	<query code="ins_insurancecovered">
+		insert into MON_INSURANCECOVERED (mon_insucbsid,
+		mon_insucbsaccountno, mon_insumonth, mon_insuyear,
+		mon_insuamount, mon_insuexpirydate, mon_insuendorsed,
+		mon_insupolicies, mon_insuremarks, mon_securitycover,
+		mon_insunumber, mon_insmmrno)
+		values(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?)
+	</query>
+
+	<query code="upd_insurancecovered">
+		update MON_INSURANCECOVERED set mon_insuamount=?,
+		mon_insuexpirydate=?, mon_insuendorsed=?, mon_insupolicies=?,
+		mon_insuremarks=?, mon_insunumber=? where mon_insucbsaccountno=? and mon_insmmrno=?
+	</query>
+	
+	<query code="selbookdebitseligible">
+		select mmr_cbsid, mmr_cbsaccountno, mmr_bkdbtolderamount,
+		mmr_bkdbdiscountamount, mmr_bkdbfactoramount,
+		mmr_bkdbdoubtfulamount, mmr_bkdbassociateamount,
+		mmr_bkdbfinanceamount, mmr_bkdbtotaleligibleamount, mmr_month,
+		mmr_year from mmr_bookdebitseligible where mmr_cbsaccountno='^'
+		and mmr_bkdbmmrno='^'
+	</query>
+	
+	<query code="delbookdebitseligble">
+		delete from mmr_bookdebitseligible where mmr_cbsaccountno=? and mmr_bkdbmmrno=?
+	</query>
+	
+	<query code="insbookdebitseligible">
+		insert into mmr_bookdebitseligible (mmr_cbsid, mmr_cbsaccountno,
+		mmr_bkdbtolderamount, mmr_bkdbdiscountamount,
+		mmr_bkdbfactoramount, mmr_bkdbdoubtfulamount,
+		mmr_bkdbassociateamount, mmr_bkdbfinanceamount,
+		mmr_bkdbtotaleligibleamount, mmr_month, mmr_year, mmr_bkdbmmrno)
+		values(?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selmaxbookdebits">
+		select NVL(max(mmr_sno),0)+1 as snorelmax from
+		mmr_bookdebits where mmr_no='^'
+	</query>
+	
+	<query code="delbookdebits">
+		delete from mmr_bookdebits where mmr_sno=? and mmr_no=?
+	</query>
+	
+	<query code="insbookdebits">
+		insert into mmr_bookdebits (mmr_sno, mmr_cbsid,
+		mmr_cbsaccountno, mmr_propertyname, mmr_invoicedate,
+		mmr_uptoninetyamount, mmr_uptooneeightyamount,
+		mmr_abvoneeightyamount, mmr_totalamount, mmr_month, mmr_year, mmr_no)
+		values(?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selbookdebits">
+		select mmr_sno, mmr_cbsid, mmr_cbsaccountno, mmr_propertyname,
+		to_char(mmr_invoicedate,'dd/mm/yyyy') as mmr_invoicedate,
+		mmr_uptoninetyamount, mmr_uptooneeightyamount,
+		mmr_abvoneeightyamount, mmr_totalamount, mmr_month, mmr_year
+		from mmr_bookdebits where mmr_cbsaccountno='^' and mmr_no='^'
+	</query>
+	
+	<query code="updbookdebits">
+		update mmr_bookdebits set mmr_propertyname=?,
+		mmr_invoicedate=to_date(?,'dd/mm/yyyy'), mmr_uptoninetyamount=?,
+		mmr_uptooneeightyamount=?, mmr_abvoneeightyamount=?,
+		mmr_totalamount=? where mmr_sno=? and mmr_no=?
+	</query>
+
+	<query code="sel_inventory">
+		select mon_invencbsid, mon_invenaccno, mon_inlastyear,
+		mon_inquarter, mon_incuryear, mon_reclastyear, mon_recquarter,
+		mon_reccuryear, mon_sunlastyear, mon_sunquarter, mon_suncuryear,
+		mon_invenmonth, mon_invenyear from mon_inventory where
+		mon_invenaccno ='^'and mon_invenmmrno ='^'
+	</query>
+
+	<query code="del_inventory">
+		delete from mon_inventory where 
+		mon_invenaccno=? and mon_invenmmrno=?
+	</query>
+
+	<query code="ins_inventory">
+		insert into mon_inventory(mon_invencbsid, mon_invenaccno,
+		mon_inlastyear, mon_inquarter, mon_incuryear, mon_reclastyear,
+		mon_recquarter, mon_reccuryear, mon_sunlastyear, mon_sunquarter,
+		mon_suncuryear, mon_invenmonth, mon_invenyear, mon_invenmmrno)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selstocktotal">
+		select stock_value,mmr_totalstock from
+		mon_stockstatement,mmr_stockseligible where
+		stock_accno=mmr_cbsaccountno and
+		stock_mmrno=mmr_stockmmrno and mmr_cbsaccountno='^'and mmr_stockmmrno='^'
+	</query>
+	
+	<query code="selmonaccountexcess">
+		select mon_facility, mon_duringmonth, mon_currentmonth from
+		mon_accountexcess where mon_mmrno='^' order by sno
+	</query>
+
+	<query code="insmonaccountexcess">
+		insert into mon_accountexcess (sno,mon_excesscbsid,
+		mon_excessmonth, mon_excessyear, mon_facility, mon_duringmonth,
+		mon_currentmonth, mon_mmrno) values(?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="delmonaccountexcess">
+		delete from mon_accountexcess where mon_mmrno=?
+	</query>
+
+	<query code="delnonfundbasedwithscheme">
+		delete from mon_mmrfundbased where mmrfund_facility in ('LC','LG') and mmrfund_mmrno=?
+	</query>	
+	
+	<query code="delnonfundbasedfacilities">
+		delete from mon_mmrfundbased where mmrfund_mmrno=?
+	</query>	
+	
+	<!-- previous data copy for existing month monitoring report -->
+	
+	<query code="copyreasonforexcess">
+		insert into MON_EXCESS_REASON(gen_custid,
+		gen_commencements,gen_month, gen_year,renewalcompiled,
+		ren_submitted, ren_submitted_reasons, roc_reasons, GEN_MMRNO)
+		select gen_custid, gen_commencements, ?, ?, renewalcompiled,
+		ren_submitted, ren_submitted_reasons, roc_reasons, ? from
+		MON_EXCESS_REASON where gen_mmrno=?
+	</query>
+	
+	<query code="copyborrowerinfo">
+		insert into mon_borrowerinfo (borrower_bankarrangement,
+		borrower_contactname, borrower_contperdesign, borrower_landline,
+		borrower_contpermobile, borrower_leadbankvetted,
+		borrower_stipdocuments, borrower_cbsid, borrower_year,
+		borrower_month, borrower_mmrno) select borrower_bankarrangement,
+		borrower_contactname, borrower_contperdesign, borrower_landline,
+		borrower_contpermobile, borrower_leadbankvetted,
+		borrower_stipdocuments, borrower_cbsid,?,?,? from
+		mon_borrowerinfo where borrower_mmrno=?
+	</query>
+
+	<query code="copygeneralinfo">
+		insert into mon_generalinfo( gen_custid, gen_month, gen_year,
+		gen_acc_clasification, gen_accStressY, gen_accstress_reason,
+		gen_accrestructY, gen_termscompiledY, gen_termscompiledreasons,
+		gen_presentyearrating, gen_prevyearrating, gen_downgradereason,
+		gen_docobtained, gen_creditauditdate, gen_docvetted,
+		gen_docvettedreasons, gen_docdeficiencies, gen_borrowerdate,
+		roc_reasons, mon_deviation, mon_compliance, gen_lawyername,
+		gen_mmrno) select gen_custid, ?, ?, gen_acc_clasification,
+		gen_accStressY, gen_accstress_reason, gen_accrestructY,
+		gen_termscompiledY, gen_termscompiledreasons,
+		gen_presentyearrating, gen_prevyearrating, gen_downgradereason,
+		gen_docobtained, gen_creditauditdate, gen_docvetted,
+		gen_docvettedreasons, gen_docdeficiencies, gen_borrowerdate,
+		roc_reasons, mon_deviation, mon_compliance,gen_lawyername, ?
+		from mon_generalinfo where gen_mmrno=?
+	</query>
+
+
+	<query code="copymonrecovered">
+		insert into mon_recovered(mon_reccbsid, mon_recmonth,
+		mon_recyear, mon_recworkmonth, mon_recworkvalue,
+		mon_rectermmonth, mon_rectermvalue, mon_rectermins,
+		mon_recterminsvalue, mon_recage,mon_seviceMonth,
+		mon_recoverarrears) select mon_reccbsid, ?, ?, mon_recworkmonth,
+		mon_recworkvalue, mon_rectermmonth, mon_rectermvalue,
+		mon_rectermins, mon_recterminsvalue, mon_recage,mon_seviceMonth,
+		mon_recoverarrears from mon_recovered where mon_reccbsid =? and
+		mon_recmonth=? and mon_recyear=?
+	</query>
+	
+	<query code="copymonhedgeddetails">
+		insert into mon_hedgeddetails (slno, mon_hedgeddetailscbsid,
+		mon_hedgeddetailscbsaccountno, mon_hedgeddetailsmonth,
+		mon_hedgeddetailsyear, mon_hedgeddetailssalesquarter,
+		mon_hedgeddetailssalesamount, mon_hedgeddetailsnature,
+		mon_hedgeddetailsamount, mon_hedgeddetailswhetherhedged,
+		mon_hedgeddetailsexcessmonth, mon_hedgeddetailsexcesscurrent,
+		mon_hedgeddetailsmmrno) select slno, mon_hedgeddetailscbsid,
+		mon_hedgeddetailscbsaccountno,?, ?,
+		mon_hedgeddetailssalesquarter, mon_hedgeddetailssalesamount,
+		mon_hedgeddetailsnature, mon_hedgeddetailsamount,
+		mon_hedgeddetailswhetherhedged, mon_hedgeddetailsexcessmonth,
+		mon_hedgeddetailsexcesscurrent,? from mon_hedgeddetails where
+		mon_hedgeddetailsmmrno=?
+	</query>
+
+	<query code="copymonmonitoringinfo">
+		insert into mmr_monitoringinfo (mmr_cbsid,
+		mmr_infoinspectiondate, mmr_infotermscond, mmr_infoprofitabilty,
+		mmr_infocolenders, mmr_infomanageperson, mmr_infotermreason,
+		mmr_infoadversedreason, mmr_infoprofitabiltyreason,
+		mmr_infocolendersreason, mmr_infomanagepersonreason,
+		mmr_infomonth, mmr_infoyear,mon_salesquarter,mon_salesamount,
+		mmrinfo_mmrno) select mmr_cbsid, mmr_infoinspectiondate,
+		mmr_infotermscond, mmr_infoprofitabilty, mmr_infocolenders,
+		mmr_infomanageperson, mmr_infotermreason,
+		mmr_infoadversedreason, mmr_infoprofitabiltyreason,
+		mmr_infocolendersreason, mmr_infomanagepersonreason,?,
+		?,mon_salesquarter, mon_salesamount,? from mmr_monitoringinfo
+		where mmrinfo_mmrno=?
+	</query>
+
+	<query code="copymonmonitorinformation">
+		insert into mon_monitorinformation (mon_monitinfcbsid,
+		mon_monitinfgovtpolicy, mon_monitinfqpr,
+		mon_monitinfpenalinterst, mon_monitinfledger,
+		mon_monitinfrectification, mon_monitinfgovtpolicyrson,
+		mon_monitinfpenalinterstrson, mon_monitinfrectificationrson,
+		mon_monitinfnonsecrutiniserson, mon_monitinfmonth,
+		mon_monitinfyear,mon_turnover,mon_turnoverreasons,
+		mon_monitmmrno) select mon_monitinfcbsid,
+		mon_monitinfgovtpolicy, mon_monitinfqpr,
+		mon_monitinfpenalinterst, mon_monitinfledger,
+		mon_monitinfrectification, mon_monitinfgovtpolicyrson,
+		mon_monitinfpenalinterstrson, mon_monitinfrectificationrson,
+		mon_monitinfnonsecrutiniserson,?, ?, mon_turnover,
+		mon_turnoverreasons,? from mon_monitorinformation where
+		mon_monitmmrno=?
+	</query>
+
+	<query code="copyreasonexcessaccount">
+		insert into mon_accountexcess
+		(sno,mon_excesscbsid,mon_excessmonth,mon_excessyear,mon_facility,mon_duringmonth,mon_currentmonth)
+		select
+		sno,mon_excesscbsid,?,?,mon_facility,mon_duringmonth,mon_currentmonth
+		from mon_accountexcess where mon_excesscbsid = ? and mon_excessmonth
+		= ? and mon_excessyear =?
+	</query>
+
+
+	<query code="copyauditorinspection">
+		insert into mon_auditcomments (mon_custid, mon_audittype,
+		mon_auditorcomments, mon_officerscomments,
+		mon_auditdate,mon_month,mon_year, mon_mmrno) select mon_custid,
+		mon_audittype, mon_auditorcomments, mon_officerscomments,
+		mon_auditdate,?,?,? from mon_auditcomments where mon_mmrno=?
+	</query>
+
+
+	<query code="copyconsortiumdetails">
+		insert into mmr_consortium (mmr_sno, mmr_cbsid,
+		mmr_cbsaccountno, mmr_bankname, mmr_branch, mmr_sharepercent,
+		mmr_assetclasification, mmr_fundbasedname, mmr_fundbasedamount,
+		mmr_nonfundbasedname, mmr_nonfundbasedamount, mmr_overdue,
+		mmr_remarks, mmr_leadbank, mmr_month, mmr_year,
+		mmr_nonfundsharepercent, mmr_fundsharepercent, cons_mmrno)
+		select mmr_sno, mmr_cbsid, mmr_cbsaccountno,
+		mmr_bankname,mmr_branch, mmr_sharepercent,
+		mmr_assetclasification, mmr_fundbasedname, mmr_fundbasedamount,
+		mmr_nonfundbasedname, mmr_nonfundbasedamount, mmr_overdue,
+		mmr_remarks, mmr_leadbank,?,?, mmr_nonfundsharepercent,
+		mmr_fundsharepercent,? from mmr_consortium where cons_mmrno=?
+	</query>
+
+	<query code="copyconsortiummeetings">
+		insert into mon_consortiumMeeting(mon_mettingcbsid,
+		mon_dateofmet, mon_minutesmet, mon_received, MON_METTINGMONTH,
+		MON_METTINGYEAR, mon_noofmeetingheld, mon_mmrno) select
+		mon_mettingcbsid, mon_dateofmet, mon_minutesmet, mon_received,
+		?, ?,mon_noofmeetingheld,? from mon_consortiumMeeting where
+		mon_mmrno=?
+	</query>
+
+	<query code="copycurrentassets">	
+		insert into mon_currentassetfinanced(current_cbsid,
+		current_accountno, current_banklast, current_bankestimate,
+		current_sundrylast, current_sundryestimate, current_otherlast,
+		current_otherestimate, current_nwclast, current_nwcestimate,
+		current_totallast, current_totalestimate, current_month,
+		current_year, current_mmrno) select current_cbsid, current_accountno,
+		current_banklast, current_bankestimate, current_sundrylast,
+		current_sundryestimate, current_otherlast, current_otherestimate,
+		current_nwclast, current_nwcestimate, current_totallast,
+		current_totalestimate,?,?,? from mon_currentassetfinanced WHERE
+		current_mmrno=?
+	</query>
+
+	<query code="copyinventory">
+		insert into mon_inventory(mon_invencbsid, mon_invenaccno,
+		mon_inlastyear, mon_incuryear, mon_reclastyear, mon_reccuryear,
+		mon_sunlastyear, mon_suncuryear, mon_invenmonth, mon_invenyear,
+		mon_invenmmrno) select mon_invencbsid, mon_invenaccno,
+		mon_inlastyear, mon_incuryear, mon_reclastyear, mon_reccuryear,
+		mon_sunlastyear, mon_suncuryear,?,?,? from mon_inventory where
+		mon_invenmmrno=?
+	</query>
+
+	<query code="copymsodestimates">
+		insert into MON_MSODESTIMATES(mon_msodcbsid,
+		mon_msodcbsaccountno, mon_msodmonth,
+		mon_msodyear,mon_msodaccountingyear, mon_msodproduction,
+		mon_msodgrosssales, mon_msodnetsales, mon_msodmmrno) select
+		mon_msodcbsid,mon_msodcbsaccountno,?,
+		?,mon_msodaccountingyear,mon_msodproduction,mon_msodgrosssales,
+		mon_msodnetsales,? from MON_MSODESTIMATES where mon_msodmmrno=?
+	</query>
+
+	<query code="copymsodborrowing">
+		insert into mon_msodBorrowing(MON_MSODCBSACCNO, MON_MSODCBSID,
+		mon_msodsno, MON_MSODSOURCE, MON_MSODNATURE, MON_MSODLIMIT,
+		MON_MSODBALANCE, mon_balancedate, mon_msodmonth, mon_msodyear,
+		mon_msodmmrno) select MON_MSODCBSACCNO, MON_MSODCBSID,
+		mon_msodsno, MON_MSODSOURCE, MON_MSODNATURE, MON_MSODLIMIT,
+		MON_MSODBALANCE, mon_balancedate,?,?,? from mon_msodBorrowing
+		where mon_msodmmrno=?
+	</query>
+
+	<query code="copymsodworkingcapital">
+		insert into mon_workingcapitalfunds (mon_workcbsid, mon_workaccno,
+		mon_workmonth, mon_workyear, mon_workyear1, mon_workyear4,mon_workmmrno)
+		 select mon_workcbsid, mon_workaccno,
+		?, ?, mon_workyear1,  mon_workyear4,?
+		from mon_workingcapitalfunds where mon_workmmrno=?
+	</query>
+	
+	<query code="copyannexurefacilities">
+		insert into mmr_facilitiesannex(cbsid, fac_month, fac_year,
+		fac_sno, fac_parent, fac_facility, fac_group, fac_category,
+		fac_sancamt, fac_os, fac_overdue, fac_dp, fac_validupto,
+		fac_reasons, FAC_MMRNO) select cbsid,?,?, fac_sno, fac_parent,
+		fac_facility, fac_group, fac_category, fac_sancamt,fac_os,
+		fac_overdue, fac_dp, fac_validupto, fac_reasons,? from
+		mmr_facilitiesannex where FAC_MMRNO=?
+	</query>
+
+	<!-- END -->	
+	
+	
+	<query code="ins_borrowerinfo_detail">
+		insert into mon_borrowerinfo (borrower_bankarrangement,
+		borrower_contactname, borrower_contperdesign, borrower_landline,
+		borrower_contpermobile, borrower_leadbankvetted,
+		borrower_stipdocuments, borrower_mmrno, borrower_cbsid) values(?,?,?,?,?,?,?,?,?)
+	</query>
+
+
+	<query code="sel_borrowerinfo_detail">
+		select borrower_bankarrangement, borrower_contactname,
+		borrower_contperdesign, borrower_landline,
+		borrower_contpermobile, borrower_leadbankvetted,
+		borrower_stipdocuments from mon_borrowerinfo where
+		borrower_mmrno='^'
+	</query>
+	
+
+<query code="del_borrowerinfo_detail">
+		delete from mon_borrowerinfo  where
+		borrower_mmrno=?
+	</query>
+
+	<query code="getaccountexcessfacilitydata">	
+		select MMRFUND_CUSTID, MMRFUND_ACCNO, MMRFUND_FACILITY,
+		MMRFUND_SANCAMT, MMRFUND_DRAWINGPOWER, MMRFUND_OSAMT,
+		MMRFUND_OVERDUEAMT, to_char(MMRFUND_OVERDUESINCE,'dd/mm/yyyy')
+		as MMRFUND_OVERDUESINCE, MMRFUND_DEBITCURRMONTH,
+		MMRFUND_CREDITCURRMONTH, MMRFUND_CREDITURNOVER,
+		MMRFUND_INSTALMENT, to_char(MMRFUND_MODIFIEDDATE,'dd/mm/yyyy')
+		as MMRFUND_MODIFIEDDATE from mon_mmrfundbased where
+		MMRFUND_FACILITY !='LC' and mmrfund_facility !='LG' and mmrfund_facility!='BL' and mmrfund_mmrno='^'
+	</query>
+	
+	<query code="maxannexurefacility">	
+		select NVL(max(fac_sno),0)+1 from mmr_facilitiesannex where
+		fac_mmrno='^'
+	</query>
+	
+	<query code="ins_annexurefacility">
+		insert into mmr_facilitiesannex(cbsid,fac_month,
+		fac_year,fac_sno, fac_parent, fac_facility, fac_group,
+		fac_category, fac_sancamt,fac_os, fac_overdue, fac_dp,
+		fac_validupto, fac_reasons, fac_mmrno) values
+		(?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?,?)
+	</query>
+
+	<query code="sel_annexurefacility">
+		select fac_sno,f.facility_catdesc as
+		facility_headid,g.facility_catdesc as facility,
+		fac_parent,fac_facility,fac_group,fac_category,
+		fac_sancamt,fac_os,
+		fac_overdue,fac_dp,to_char(fac_validupto,'dd/mm/yyyy') as
+		fac_validupto,fac_reasons from mmr_facilitiesannex,
+		facility_master f, facility_master g where
+		f.facility_catid=fac_parent AND f.facility_parent=0 and
+		g.facility_catid=fac_facility AND g.facility_parent!=0 and
+		fac_mmrno='^' order by fac_category desc, fac_group, fac_sno
+	</query>
+
+	<query code="del_annexurefacility">
+		delete from mmr_facilitiesannex where fac_mmrno=? and fac_sno=?
+	</query>
+
+	<query code="upd_annexurefacility">
+		update mmr_facilitiesannex set fac_category=? where
+		fac_mmrno=? and fac_group=?
+	</query>
+
+	<query code="ins_mon_mail_comments">
+		insert into mon_mail_comments (MAIL_COMMENTS, mail_userid, mail_date,
+		mail_touser, monmail_mmrno) values (?,?,sysdate,?,?)
+	</query>
+
+	<query code="sel_mon_mail_comments">
+		select mail_comments, mail_userid, to_char(mail_date,'dd/mm/yyyy
+		HH24:MI:SS') as mail_date, mail_touser, user_designation,
+		usr_fname, mail_pano from mon_mail_comments, users where
+		usr_id=mail_userid and monmail_mmrno='^' order by mail_date DESC
+	</query>
+	
+	
+	<query code="upd_mmrssearchstatus">
+		update mon_monthlyreport set mmr_status=?,
+		mmr_closeddate=sysdate where mmr_cbsid=? and mmr_orgscode =? and
+		mmr_no!=? and mmr_status !='C'
+	</query>
+
+	<query code="sel_msoddpforlr">
+		select mon_msodcbsid,mon_msodcbsaccountno,
+		(mon_msodproduction+mon_msodgrosssales+mon_msodnetsales+mon_msodprodqty+mon_msodprodcurrent)as
+		dp , mon_msodmonth from MON_MSODESTIMATES where
+		mon_msodcbsid='^' and mon_msodcbsaccountno='^'
+	</query>
+
+	<query code="sel_osfromfundbased">
+		select FUND_OSAMT from MON_FUNDBASED where FUND_ACCNO='^' 
+	</query>
+	
+	<query code="sel_defaultforbills">
+		select to_char(LC_LCopendate,'dd/mm/yyyy')as LC_LCOPENDATE,
+		to_char(LC_BILLS_NOTIONAL_DATE,'dd/mm/yyyy')as LC_BILLS_NOTIONAL_DATE from MON_lc
+		where lc_bills_no='^'	
+	</query>
+	
+	<query code="sel_loandefaultsforgua">
+		select GUARANTEE_NUMBER, GUARANTEE_INVOKEDATE,
+		GUARANTEE_BENEFICIARYNAME from MON_GUARANTEE where
+		GUARANTEE_CBSID='^'
+	</query>
+	
+	<query code="sel_nonrenewalforlimits">
+		select to_char(LIMIT_REVIEWDATE,'dd/mm/yyyy')as LIMIT_REVIEWDATE
+		from MON_LIMITREGISTER where LIMIT_CUSTID='^' and trim(limit_cutaccno)='^'
+	</query>
+
+	<query code="sel_ltrinsurance">
+		select to_char(INS_EXPIRYDATE,'dd/mm/yyyy')as INS_EXPIRYDATE,
+		INS_COVERAMT, stock_value from mon_stockstatement,
+		INSURANCE_REGISTER where stock_accno(+)=INS_ACCOUNTNO and
+		INS_ACCOUNTNO='^'
+	</query>
+
+	<query code="ins_mmrsearch">
+		insert into mon_monthlyreport(mmr_MONTH, mmr_YEAR, mmr_CBSID,
+		mmr_STATUS, mmr_ORGsCODE, MMR_NO, mmr_usrid, mmr_rptholder,
+		mmr_createdate)values(?,?,?,?,?,?,?,?,sysdate)
+	</query>
+	
+	<query code="insmonmailbox">
+		insert into monmailbox(monmail_fromusrid,
+		monmail_tousrid, monmail_fromflowpoint, monmail_toflowpoint,
+		monmail_date, monmail_cbsname, monmail_mmrno, mon_type)
+		values(?,?,?,?,sysdate,?,?,?)
+	</query>
+	
+	<query code="mmr_mailbox_totcount">
+		select count(*) as cnt from mon_monthlyreport
+		where mmr_rptholder='^' and upper(mmr_status)!='C' 
+	</query>
+	
+	<query code="monmailboxcount">
+		select count(*) from monmailbox a,mon_monthlyreport mmr where
+		a.monmail_tousrid= mmr.mmr_rptholder and a.monmail_date=(select
+		max(b.monmail_date) from monmailbox b where b.monmail_mmrno
+		=a.monmail_mmrno) and a.monmail_mmrno=mmr.mmr_no and
+		mmr.mmr_rptholder='^' and mmr.mmr_status!='C'
+	</query>
+
+	<query code="getSearchData">
+		select personal_cbsid, personal_custname, personal_solid,
+		personal_natofactivity, personal_bankarrangement,
+		personal_address, personal_address1, c.city_name as city,
+		s.state_name as state, personal_pincode, personal_phone,
+		personal_mobile, stat_data_desc1 as personal_constitution,
+		to_char(personal_bankingsince,'dd/mm/yyyy')as
+		personal_bankingsince, personal_contactname,
+		personal_contperdesign, personal_contperphone,
+		personal_contpermobile, personal_constitution as
+		new_personal_constitution,personal_leadbankvetted,personal_stipdocuments,mmr_cbsid,
+		mmr_orgscode from mon_personalinfo, laps_cities c, laps_states
+		s, static_data, mon_monthlyreport where personal_cbsid=mmr_cbsid
+		and upper(c.city_code(+))=upper(trim(personal_city)) and
+		upper(s.state_code(+))=upper(trim(personal_state)) and
+		stat_data_id(+)='14' and stat_data_desc(+)=personal_constitution
+		and mmr_cbsid='^' and mmr_month='^' and mmr_year ='^'
+	</query>
+
+	<query code="getmmrsearchbyyearmonth">
+		select mmr_MONTH, mmr_YEAR, mmr_orgscode, mmr_status,
+		mmr_no,mmr_rptholder,org_name from
+		mon_monthlyreport,organisations where org_scode=mmr_orgscode and
+		mmr_CBSID='^' and mmr_MONTH='^' and mmr_YEAR='^' order by
+		to_number(mmr_MONTH) desc
+	</query>
+
+	<query code="getmmrsearchbyyear">
+		select mmr_MONTH, mmr_YEAR, mmr_orgscode, mmr_status,
+		mmr_no,mmr_rptholder,org_name from
+		mon_monthlyreport,organisations where org_scode=mmr_orgscode and
+		mmr_CBSID='^' and mmr_YEAR='^' order by to_number(mmr_MONTH)
+		desc
+	</query>
+	
+	<query code="getpendingmmrreport">
+		select mmr_month, mmr_year, mmr_status, mmr_cbsid, mmr_no from mon_monthlyreport where 
+		mmr_cbsid='^' and mmr_no!='^' and mmr_status!='C'
+	</query>
+
+	<query code="upd_monmmrstatus">
+		update mon_monthlyreport set mmr_status=?, mmr_rptholder=? where mmr_no=?
+	</query>
+
+	<query code="sel_mmrcurrrentuser">
+		select monmail_tousrid from monmailbox a where
+		a.monmail_cbsid='^' and a.monmail_month='^' and
+		a.monmail_year='^' and monmail_date=(SELECT max(monmail_date)
+		from monmailbox b where b.monmail_cbsid='^' and
+		b.monmail_month='^' and b.monmail_year='^')
+	</query>
+
+	<query code="getmaxconseqid">
+		select max(con_seqid)+1 as maxid from mon_consortium where
+		con_cbsid='^'
+	</query>
+	
+	<query code="ins_mon_consortium">
+		insert into MON_CONSORTIUM (CON_CBSID, CON_BANKDATE, CON_LEAD,
+		CON_FACILITY, CON_SHARES, CON_ASSET, CON_OUTSTANDING,
+		CON_DRAWING, CON_SANCTION, CON_REMARKS,CON_SEQID)
+		values(?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?,?,?)
+	</query>
+	
+	<query code="get_mon_consortium">
+		select CON_SEQID, CON_CBSID, TO_CHAR(CON_BANKDATE,'DD/MM/YYYY')
+		as CON_BANKDATE,CON_LEAD, CON_FACILITY,
+		CON_SHARES,CON_ASSET,CON_OUTSTANDING,CON_DRAWING,
+		CON_SANCTION,CON_REMARKS from mon_consortium where CON_CBSID='^'
+	</query>
+	
+	<query code="del_mon_consortium">
+		delete from mon_consortium where con_cbsid=? and con_seqid=?
+	</query>
+	
+	<query code="selmaxsdocument">
+		select NVL(max(doc_sno+1),1) as snorelmax from
+		mon_documentregister
+	</query>
+	
+	<query code="insdocumentregister">
+		insert into mon_documentregister (doc_sno, doc_accountnumber,
+		doc_documentname, doc_executeddate, doc_executedby,
+		doc_signatoryname, doc_expirydate, doc_vettedby, doc_datevetted,
+		doc_modifiedby, doc_datemodified,doc_applicantype,doc_signed) values(?, ?, ?,
+		to_date(?,'dd/mm/yyyy'), ?, ?, to_date(?,'dd/mm/yyyy'), ?,
+		to_date(?,'dd/mm/yyyy'), ?, to_date(?,'dd/mm/yyyy'),?,?)
+	</query>
+	
+	<query code="deldocumentregister">
+			update mon_documentregister set doc_executedby=?, doc_signatoryname=?,
+		 doc_vettedby=?,doc_datevetted=to_date(?,'DD/MM/YYYY'), doc_applicantype=?,
+		doc_signed=? where doc_sno=? and doc_accountnumber=?
+	</query>
+	
+	<query code="updlimitregisterstatus">
+		update mon_limitregister set limit_status=?,
+		limit_dateclosed=to_date(?,'dd/mm/yyyy') where limit_custid=?
+		and trim(limit_cutaccno)=?
+	</query>
+
+	<query code="getotherdefaultsforstockandbookdebts">
+		select stkstm.MSU_ACCTNO, stkstm.MSU_CUSTID,
+		TO_CHAR(stkstm.msu_secu_date,'DD/MM/YYYY') as msu_secu_date,
+		stkstm.msu_scm_code, stkstm.msu_secu_code, stkstm.msu_solid,
+		per.personal_custname, stkstm.MSU_ACCFLAG from mon_sdr_upl
+		stkstm, MON_PERSONALINFO per,organisations org where
+		per.personal_classification='001' and
+		per.personal_CBSID=stkstm.MSU_CUSTID and
+		to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')-to_date(to_char(MSU_SECU_DATE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ and
+		to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')-to_date(to_char(MSU_SECU_DATE,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ and MSU_SECU_DATE is not null and stkstm.msu_solid=org.solid
+		and org.org_code='^' order by stkstm.MSU_ACCFLAG desc
+	</query>
+
+	<query code="sel_max_accwisesno">
+		select NVL(max(mon_accwisesno+1),1) as accwisesno from
+		mon_accountwisedetails where mon_mmrno='^'
+	</query>
+	
+	<query code="sel_bookoldernintyvalue">
+		select sum(mmr_uptooneeightyamount+mmr_abvoneeightyamount) as
+		oldernintyvalue,sum(mmr_uptooneeightyamount+mmr_abvoneeightyamount+mmr_uptoninetyamount)
+		as grant_total from mmr_bookdebits where  mmr_cbsaccountno='^' and mmr_no='^'
+	</query>
+	
+	<query code="selinsregforletter">
+		select ins_srlno ins_seqid, ins_cbsid, ins_security, ins_company,
+		ins_policyno, ins_clause, ins_coveramt, ins_premiumamt,
+		ins_paid_by, ins_beneficiary, to_char(ins_duedate,'dd/mm/yyyy')
+		as duedate, ins_risk, ins_details, ins_covernote,
+		to_char(ins_policydate,'dd/mm/yyyy') as policydate,
+		to_char(ins_expirydate,'dd/mm/yyyy') as ins_expirydate,
+		ins_riskfactor,ins_insuredaddr1, ins_insuredaddr2,
+		ins_insuredaddr3, ins_insuredcity,
+		ins_insuredstate,ins_insuredpincode,ins_accountno from
+		insurance_register where ins_accountno='^' and ins_cbsid='^' and ins_srlno='^'
+	</query>
+	
+	<query code="termloan_mailbox_count">
+		select count(*) as cnt from tlr_applications
+		where tlr_holder='^' and upper(tlr_status) not like
+		'C_'
+	</query>
+
+	<query code="mon_TLreviewcount">
+		select count(mon_termloanreview_cbsid) from
+		mon_termloanreview_mailbox a, tlr_applications where
+		mon_termloanreview_tousrid='^' and upper(tlr_status) not like 'C_' and
+		mon_termloanreview_cbsid=tlr_cbsid and MON_TERMLOANREVIEW_CBSACCNO =
+		tlr_appno and mon_termloanreview_maildate=(select
+		max(mon_termloanreview_maildate) from mon_termloanreview_mailbox
+		b where
+		a.MON_TERMLOANREVIEW_CBSACCNO=b.MON_TERMLOANREVIEW_CBSACCNO)
+	</query>
+
+	<query code="mon_TLReviewMail">
+		select
+		tlr_appno,personal_custname,tlr_cbsid,org_name,tlr_status,
+		mon_termloanreview_fromusrid,mon_termloanreview_tousrid,
+		to_char(mon_termloanreview_maildate, 'dd/mm/yyyy') as
+		mon_termloanreview_maildate, tlr_year from
+		mon_termloanreview_mailbox a, mon_personalinfo,
+		tlr_applications,organisations where
+		mon_termloanreview_maildate=(select
+		max(mon_termloanreview_maildate) from mon_termloanreview_mailbox
+		b where
+		a.mon_termloanreview_cbsaccno=b.mon_termloanreview_cbsaccno) and
+		org_scode=tlr_orgcode and mon_termloanreview_tousrid = '^' and
+		personal_cbsid=tlr_cbsid and
+		mon_termloanreview_cbsaccno=tlr_appno and upper(tlr_status)
+		not like 'C_' order by mon_termloanreview_maildate
+	</query>
+
+	<query code="mask_insurance_register">
+		update insurance_register set ins_delflag=? where
+		trim(INS_ACCOUNTNO)=? and ins_srlno=? and ins_policyno=?
+	</query>
+	<query code="mask_document_register">
+		update mon_documentregister set doc_delflag=? where doc_sno=? and doc_accountnumber=?
+	</query>
+	
+	<query code="monworkflowpoint">
+		select monmail_toflowpoint,to_char(monmail_date,'dd/mm/yyyy
+		hh24:mi:ss'), monmail_tousrid from monmailbox a where 
+		monmail_date=(select max(monmail_date) from monmailbox b where b.mon_type='C' and
+		b.monmail_mmrno=a.monmail_mmrno) and a.monmail_mmrno='^' 
+	</query>
+	
+	
+	<query code="ins_termloanreviewmailbox">
+		insert into mon_termloanreview_mailbox(mon_termloanreview_cbsid,
+		mon_termloanreview_cbsaccno, mon_termloanreview_tousrid,
+		mon_termloanreview_fromusrid, mon_termloanreview_maildate,
+		mon_termloanreview_year)values(?,?,?,?,sysdate,?)
+	</query>
+	
+	<query code="reviwnoteworkflowhistory">
+		select MON_TERMLOANREVIEW_TOUSRID||'-'||usr1.usr_fname||' '||usr1.usr_lname as touserid,
+		mon_termloanreview_fromusrid||'-'||usr2.usr_fname||''||usr2.usr_lname fromuserid,
+		to_char(mon_termloanreview_maildate,'dd/mm/yyyyHH24:MI:SS') as mon_termloanreview_maildate
+		from mon_termloanreview_mailbox,users usr1,users usr2
+		where mon_termloanreview_cbsaccno='^' and MON_TERMLOANREVIEW_TOUSRID = usr1.usr_id
+		and mon_termloanreview_fromusrid = usr2.usr_id order by  mon_termloanreview_maildate
+	</query>
+	
+	
+	<query code="selmmrholderhead">
+		select org_head from mon_monthlyreport, users, organisations
+		where org_code=usr_orgcode and usr_id=mmr_rptholder and
+		mmr_cbsid='^' and mmr_month='^' and mmr_year='^'
+	</query>
+	
+	<query code="getnonrenewalgeneral">
+		select distinct limit_custid, per.personal_custname,
+		to_char(LIMIT_REVIEWDATE,'Month DD YYYY') as revdate,
+		to_date(LIMIT_REVIEWDATE,'dd/mm/yyyy') as reviewdate,
+		to_char(LIMIT_REVIEWDATE,'dd/mm/yyyy') as daterev,
+		mon.LIMIT_ACCFLAG from mon_limitregister mon,MON_PERSONALINFO
+		per,organisations org where
+		(to_date(to_char(LIMIT_REVIEWDATE,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 0 and
+		(to_date(to_char(LIMIT_REVIEWDATE,'dd/mm/yyyy'),'dd/mm/yyyy'))-to_date(to_char(sysdate,'dd/mm/yyyy'),'dd/mm/yyyy')
+		^ 90 and LIMIT_REVIEWDATE is not null and
+		per.personal_classification='001' and
+		per.personal_cbsid=mon.limit_custid and mon.LIMIT_STATUS ='O'
+		and mon.limit_solid=org.solid and org.org_code='^' order by
+		reviewdate, mon.LIMIT_ACCFLAG
+	</query>
+
+	<query code="tlr_financialcomments_select">
+		select tlr_comments from tlr_financialcomments where tlr_appno='^'
+	</query>
+
+	<query code="tlr_financialcomments_insert">
+		insert into tlr_financialcomments (tlr_appno,tlr_comments) values
+		(?,?)
+	</query>
+
+    <query code="tlr_financialcomments_delete">
+		delete from tlr_financialcomments where tlr_appno=? 
+	</query>
+
+    <query code="selrenewalaccounts">
+    	select stat_data_desc1 as facility, limit_sanctamt from
+    	mon_limitregister, static_data where
+    	limit_facility=stat_data_desc and stat_data_id='36' and
+    	to_char(limit_reviewdate,'dd/mm/yyyy')='^'
+    	and limit_custid='^' and limit_status='O'
+    </query>
+
+    <query code="selmaxmonth">
+    	select mmr_MONTH as max_month, mmr_YEAR as max_year from
+    	mon_monthlyreport where mmr_CBSID='^' and mmr_status!='C'
+    </query>
+
+    <query code="sel_monsecurity">
+    	select
+    	decode(MONSEC_SECURITYTYPE,'1','Primary','2','Collateral') as
+    	SECURITYTYPE , STAT_DATA_DESC1, MONSEC_VALUATAMOUNT,MONSEC_SNO
+    	from MON_SECURITYREGISTER, STATIC_DATA where
+    	STAT_DATA_DESC(+)=MONSEC_SECURITYNATURE and stat_data_id(+)='46'
+    	and monsec_maskflag='N' and MONSEC_ACCOUNTNUMBER='^' ORDER BY
+    	MONSEC_SNO
+    </query>
+    
+    <query code="sel_monsecurity_sno_select">
+    	select
+    	decode(MONSEC_SECURITYTYPE,'1','Primary','2','Collateral') as
+    	SECURITYTYPE , STAT_DATA_DESC1, MONSEC_VALUATAMOUNT,MONSEC_SNO
+    	from MON_SECURITYREGISTER, STATIC_DATA where
+    	STAT_DATA_DESC(+)=MONSEC_SECURITYNATURE and stat_data_id(+)='46'
+    	and monsec_maskflag='N' and MONSEC_ACCOUNTNUMBER='^' and MONSEC_SNO='^' ORDER BY
+    	MONSEC_SNO
+    </query>
+
+    <query code="ins_secuinsumap">
+    	insert into mon_secuinsumap(mon_secuslrno,mon_secuamt,mon_secuinsumapaccno
+    	,mon_secuinsumapcbsid, mon_insuslrno,mon_insuamt,mon_secuinsuexp,MON_SECINSMMRNO,MON_SECINSMONTH,MON_SECINSYEAR) values(?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?)
+    </query>
+    <query code="sel_secuinsumap">
+    	select mon_secuslrno ,mon_secuinsumapaccno ,mon_secuinsumapcbsid
+    	, mon_insuslrno ,mon_insuamt,mon_secuamt from mon_secuinsumap where
+    	mon_secuinsumapaccno='^' and mon_secuinsumapcbsid='^' and mon_secuslrno='^' and MON_SECINSMMRNO='^'
+    </query>
+
+    <query code="del_secuinsumap">
+    	delete from mon_secuinsumap where MON_SECINSMMRNO =? and mon_secuinsumapcbsid=? and 
+    	mon_secuinsumapaccno=? and  mon_secuslrno=?
+    </query>
+    
+   <query code="sel_cbscustname">
+   	select personal_cbsid,
+   	personal_custname,tlr_holder,tlr_status,tlr_year,tlr_valuesin,org_name from
+   	mon_personalinfo,tlr_applications, organisations where personal_cbsid=tlr_cbsid and 
+   	org_scode=tlr_orgcode and tlr_appno='^'
+   </query>
+
+   <query code="sel_reviewcurtholder">
+	   	select MON_TERMLOANREVIEW_TOUSRID from mon_termloanreview_mailbox
+	   	where mon_termloanreview_cbsid='^' and
+	   	mon_termloanreview_cbsaccno='^' and mon_termloanreview_year='^'
+	   	and mon_termloanreview_maildate=(select max
+	   	(mon_termloanreview_maildate) from mon_termloanreview_mailbox b
+	   	where b.mon_termloanreview_cbsid='^' and
+	   	mon_termloanreview_cbsaccno='^' and mon_termloanreview_year='^')
+   </query>
+
+   <query code="sel_insurancenostatement">
+		select ins_policyno from insurance_register where ins_policyno
+		like '%^%'and ins_accountno='^' and ins_delflag='N'
+	</query>
+<query code="selmmrappdetails">
+	select mmr_cbsid, mmr_year, mmr_month, mmr_no, mmr_status,
+	mmr_rptholder, mmr_orgscode,org_name from
+	mon_monthlyreport,organisations where org_scode=mmr_orgscode and
+	mmr_cbsid='^' and mmr_year='^' and mmr_month='^'
+</query>
+
+   <!-- kamal Post Inspection -->
+ <!--<query code="getpostinspecsearchbyyear">
+		select postins_date, postins_month, postins_year, postins_orgscode,
+		postins_status, postins_no, postins_type, postins_cbsid,
+		postins_usrid from postinspection where postins_cbsid ='^' and
+		postins_year ='^' order by to_number(postins_month) desc
+	</query>-->
+	<!-- Modified by bala for report -->
+	<query code="getpostinspecsearchbyyear">
+		select postins_date, postins_month, postins_year, postins_orgscode,
+		(postins_date||'/'||postins_month||'/'||postins_year) as post_year,
+		postins_status, postins_no, postins_type, postins_cbsid,
+		postins_usrid from postinspection where postins_cbsid ='^' and
+		postins_year ='^' order by post_year desc
+	</query>
+	
+	<query code="getpostinspection">
+		select postins_month, postins_year, postins_orgscode,
+		postins_status, postins_no, postins_type, postins_cbsid,
+		postins_usrid, postins_holder, postins_sancauthcomments,
+		to_char(postins_approvedate,'dd/mm/yyyy') as
+		postins_approvedate, org_name from postinspection, organisations
+		where org_scode=POSTINS_ORGSCODE and postins_no ='^'
+	</query>
+
+	<query code="update_postinspection">
+		update postinspection set postins_type=? where postins_no=?
+	</query>
+
+	 <query code="getpostinspecfacility">
+		select postins_facsno, postins_facscheme, postins_facname,
+		postins_faclimit, postins_facos, postins_facoverdueamt,
+		postins_purpose from postinspection_facilities where
+		postins_no='^' order by postins_facsno
+	</query>
+
+	<query code="del_postinspectionreport">
+		delete from postinspectionreport where postins_no=?
+	</query>
+
+<query code="del_postinspection_facilities">
+		delete from postinspection_facilities where postins_no=?
+	</query>
+
+	<query code="del_postinspection">
+		delete from postinspection where postins_no=?
+	</query>
+
+	
+	<query code="getpostinspectionretreport">
+		select postins_cbsid, to_char(postins_visitdate,'dd/mm/yyyy') as
+		postins_visitdate, to_char(postins_previsitdate,'dd/mm/yyyy') as
+		postins_previsitdate, postins_inspectofficial1,
+		postins_inspectofficial2, postins_inspectofficial3,
+		postins_insofficialdesn1, postins_insofficialdesn2,
+		postins_insofficialdesn3, postins_north, postins_east,
+		postins_west, postins_south, postins_prisecurity,
+		postins_collsecurity, postins_presentstatus, postins_comments,
+		postins_document, postins_features, postins_banknameboard,
+		postins_borrowernamebord, postins_bookmaintanance,
+		postins_documentvalidity, postins_shorfalldeficiency,
+		postins_developmentpurpose, postins_sinkingloan,
+		postins_machinerypurchase, postins_seasonaloperation,
+		postins_mediumtermloan, postins_place,
+		to_char(postins_date,'dd/mm/yyyy') as postins_date,
+		postins_name, postins_designation, postins_month, postins_year,
+		postins_reviewdue from postinspectionreport where postins_no='^'
+	</query>
+
+
+	<query code="upd_postinspection">
+		update postinspection set postins_status=?,
+		postins_approvedby=?, postins_approvedate=sysdate where
+		postins_cbsid =? and postins_orgscode =? and postins_status!='C'
+	</query>
+
+	<query code="ins_postinspection">
+		insert into postinspection (postins_no, postins_date, postins_month,
+		postins_year, postins_orgscode, postins_status, postins_cbsid,
+		postins_type, postins_usrid, postins_createdate, postins_holder, postins_mailchkstatus) values(?,?,?,?,?,?,?,?,?,sysdate,?,?)
+	</query>
+
+	
+		<query code="ins_postinspectionreport">
+		insert into postinspectionreport(postins_cbsid,
+		postins_visitdate, postins_previsitdate,
+		postins_inspectofficial1, postins_inspectofficial2,
+		postins_inspectofficial3, postins_insofficialdesn1,
+		postins_insofficialdesn2, postins_insofficialdesn3,
+		postins_north, postins_east, postins_west, postins_south,
+		postins_prisecurity, postins_collsecurity,
+		postins_presentstatus, postins_comments, postins_document,
+		postins_features, postins_banknameboard,
+		postins_borrowernamebord, postins_bookmaintanance,
+		postins_documentvalidity, postins_shorfalldeficiency,
+		postins_developmentpurpose, postins_sinkingloan,
+		postins_machinerypurchase, postins_seasonaloperation,
+		postins_mediumtermloan, postins_place, postins_date,
+		postins_name, postins_designation, postins_reviewdue,
+		postins_month, postins_year, postins_no)
+		values(?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
+		?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?)
+	</query>
+<query code="getpostfundbased">
+		select distinct fund_custid, fund_accno, fund_schemecode,
+		fund_sancamt, fund_drawingpower, fund_osamt, fund_overdueamt,
+		to_char(fund_overduesince,'dd/mm/yyyy') as fund_overduesince,
+		fund_debitcurrmonth, fund_creditcurrmonth, fund_crediturnover,
+		fund_instalment, sd1.stat_data_desc1 as facility
+		,sd2.stat_data_desc1 as purpose from mon_fundbased, static_data
+		sd1,static_data sd2,mon_limitregister where
+		sd2.stat_data_desc(+)=limit_advancepurpose and
+		sd2.stat_data_id(+)='22' and limit_status!='C' and limit_cutaccno=fund_accno and
+		sd1.stat_data_desc(+)=fund_schemecode and
+		sd1.stat_data_id(+)='36' and limit_custid = fund_custid and
+		fund_custid='^'
+	</query>
+
+
+	<query code="getnewpostinspectionreport">
+		select to_char(max(postins_visitdate),'dd/mm/yyyy') as
+		postins_visitdate from postinspectionreport where postins_no
+		like('%^')
+	</query>
+	<query code="ins_postinspection_facilities">
+		insert into postinspection_facilities (postins_no,
+		postins_facsno, postins_facscheme, postins_facname,
+		postins_faclimit, postins_facos, postins_facoverdueamt,
+		postins_purpose) values(?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="getpostinspectionmonth">
+		select postins_date, postins_month, postins_year, postins_type from
+		postinspection where postins_no like('%^') order by
+		postins_year,postins_month desc
+	</query>
+<query code="maxinsannexfacility">
+		select (nvl(max(fac_sno),0)+1) as cnt from postinspection_facannex where fac_postinsno='^'
+	</query>
+<query code="getpostinsfacannex">
+		select fac_sno, fac_headid, fachead.facility_catdesc as
+		fac_parent, fac_facid, fac.facility_catdesc as facility,
+		fac_group, fac_category, fac_reasons, fac_os, fac_sancamt,
+		fac_overdue from postinspection_facannex, facility_master fac,
+		facility_master fachead where fac.facility_catid=fac_facid and
+		fachead.facility_catid=fac_headid and fac_postinsno='^' order by
+		fac_group, fac_sno
+	</query>
+	<query code="postinsworkflowhistory">
+	   select postins_fromusrid||'-'||usr1.usr_fname||' '||usr1.usr_lname,
+		postins_tousrid||'-'||usr2.usr_fname||' '||usr2.usr_lname,
+		to_char(postins_date,'dd/mm/yyyy HH24:MI:SS'),
+		postins_fromusrid, postins_tousrid from postinspection_mailbox,users usr1,users
+		usr2 where postins_fromusrid=usr1.usr_id
+		and postins_tousrid=usr2.usr_id and postins_no='^' order by postins_date
+	</query>
+	
+		<query code="inspostinsmailbox">
+		insert into postinspection_mailbox(postins_fromusrid,
+		postins_tousrid, postins_date, postins_no)
+		values(?,?,sysdate,?)
+	</query>
+	<query code="updpostinsapprove">
+		update postinspection set postins_status=?,
+		postins_approvedby=?, postins_approvedate=sysdate,
+		postins_mailchkstatus='Y', postins_sancauthcomments=? where
+		postins_no=?
+	</query>
+	
+	<query code="updpostinspectionholder">
+		update postinspection set postins_holder=?,
+		postins_mailchkstatus='Y' where postins_no=?
+	</query>
+<query code="inspostinsfacannex">
+		insert into postinspection_facannex(fac_postinsno, fac_sno,
+		fac_headid, fac_facid, fac_group, fac_category, fac_reasons,
+		fac_os, fac_sancamt, fac_overdue) values(?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="updpostinsfacannex">
+		update postinspection_facannex set fac_headid=?, fac_facid=?,
+		fac_group=?, fac_category=?, fac_reasons=?, fac_os=?,
+		fac_sancamt=?, fac_overdue=? where fac_sno=? and fac_postinsno=?
+	</query>
+
+	<query code="getpostinspectionaddress">
+		select
+		PERSONAL_CBSID,PERSONAL_CUSTNAME,PERSONAL_ADDRESS,PERSONAL_ADDRESS1,city_name,
+		personal_city,state_name,PERSONAL_STATE,PERSONAL_PINCODE from
+		MON_PERSONALINFO,LAPS_CITIES,LAPS_STATES where
+		personal_cbsid='^' and city_code(+)=trim(personal_city) and
+		state_code(+)=trim(PERSONAL_STATE)
+	</query>
+
+	<query code="getbranchaddress">
+		select
+		org_name,org_add1,org_add2,ORG_STATE,org_city,org_zip,city_name,state_name
+		from ORGANISATIONS,LAPS_CITIES,LAPS_STATES where org_scode='^'
+		and city_code(+)=trim(org_city) and
+		state_code(+)=trim(ORG_STATE)
+	</query>
+
+	
+	<query code="selsecurityreg1">
+	    select MONSEC_SNO, MONSEC_ACCOUNTNUMBER,
+	MONSEC_SECURITYTYPE,MONSEC_SECURITYNATURE,MONSEC_OTHERDETAILS,
+	MONSEC_ADD1,MONSEC_ADD2,MONSEC_CITY,MONSEC_STATE,
+	MONSEC_PINCODE, MONSEC_VALUATAMOUNT,
+	to_char(MONSEC_VALUATDATE,'dd/mm/yyyy') as
+	MONSEC_VALUATDATE,MONSEC_VALUTDONEBY, MONSEC_INSPECTEDBY,
+	to_char(MONSEC_INSPECTEDON,'dd/mm/yyyy') as MONSEC_INSPECTEDON,
+	MONSEC_SAMEADDRESS, monsec_shortfallnoticed,MON_INSUSLRNO,to_char(MON_SECUINSUEXP,'dd/mm/yyyy') as MON_SECUINSUEXP,
+	MON_INSUAMT,STAT_DATA_DESC1, STAT_DATA_SNO, monsec_maskflag from MON_SECURITYREGISTER,mon_secuinsumap,static_data
+        where MONSEC_SNO=MON_SECUSLRNO(+) and MONSEC_ACCOUNTNUMBER=MON_SECUINSUMAPACCNO(+) and
+        MONSEC_ACCOUNTNUMBER(+)='^' and STAT_DATA_DESC(+)=MONSEC_SECURITYNATURE
+        and stat_data_id='46' and MON_SECINSMMRNO(+)='^'
+       </query>
+       
+       <!-- TERM LOAN REVIEW -->
+       <query code="tlr_facilities_insert">
+       	insert into
+       	tlr_facilities(tlr_no,tlr_facno,tlr_facscheme,tlr_facname,tlr_existlimit,tlr_proposed,tlr_oslimit,
+       	tlr_intrecomm,tlr_intremarks,tlr_overdue,tlr_loanpurpose,tlr_cbsaccno)
+       	values(?,?,?,?,?,?,?,?,?,?,?,?)
+       </query>
+       <query code="tlr_facilities_update">
+       	update tlr_facilities set
+       	tlr_proposed=?,tlr_loanpurpose=?,tlr_intrecomm=?,tlr_intremarks=?
+       	where tlr_no=? and tlr_facno=?
+       </query>
+	<query code="tlr_facilities_select">
+	select
+	tlr_no, tlr_facno, tlr_facscheme, tlr_facname, tlr_existlimit, tlr_proposed,
+	tlr_oslimit,
+	tlr_intrecomm, tlr_intremarks, tlr_overdue, tlr_loanpurpose, tlr_cbsaccno from
+	tlr_facilities where tlr_no ='^' order by tlr_facno
+       </query>
+        <query code="tlr_facilities_delete">
+          delete from tlr_facilities where tlr_no=?
+       </query>
+         <query code="tlr_generaldetails_insert">
+	       	insert into
+	       	tlr_generaldetails(tlr_appno,tlr_proposaltype,tlr_activity,tlr_banksince,tlr_assetclassify,tlr_renewal,tlr_facilitysince,
+	       	tlr_nextreview,tlr_indcode)
+	       	values(?,?,?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?)
+       </query>
+        <query code="tlr_generaldetails_update">
+        	update tlr_generaldetails set
+        	tlr_proposaltype=?,tlr_activity=?,tlr_banksince=to_date(?,'dd/mm/yyyy'),tlr_assetclassify=?,tlr_renewal=to_date(?,'dd/mm/yyyy'),tlr_facilitysince=?,
+        	tlr_nextreview=to_date(?,'dd/mm/yyyy'),tlr_indcode=? where
+        	tlr_appno=?
+        </query>
+       <query code="tlr_generaldetails_select">
+	       	select
+	       	tlr_proposaltype,tlr_activity,to_char(tlr_banksince,'dd/mm/yyyy')
+	       	as
+	       	tlr_banksince,tlr_assetclassify,to_char(tlr_renewal,'dd/mm/yyyy')
+	       	as tlr_renewal,tlr_facilitysince,
+	       	to_char(tlr_nextreview,'dd/mm/yyyy') as
+	       	tlr_nextreview,tlr_indcode, sd.stat_data_desc1 as
+	       	assetstatdesc from tlr_generaldetails,static_data sd where
+	       	sd.stat_data_desc(+)=tlr_assetclassify and
+	       	sd.stat_data_id(+)='31' and tlr_appno='^'
+       </query>
+       <query code="tlr_generaldetails_delete">
+         	 delete from tlr_generaldetails where tlr_appno=?
+       </query>
+       <query code="tlr_briefbackgroud_insert">
+	       	insert into tlr_briefbackgroud(tlr_appno,tlr_comments)
+	       	values(?,?)
+       </query>
+       <query code="tlr_briefbackgroud_delete">
+         	 delete from tlr_briefbackgroud where tlr_appno=?
+       </query>
+        <query code="tlr_briefbackgroud_select">
+         	select tlr_comments from tlr_briefbackgroud where tlr_appno='^'
+       </query>
+       
+       <query code="tlr_presentstatus_insert">
+	       	insert into tlr_presentstatus(tlr_appno,tlr_comments)
+	       	values(?,?)
+       </query>
+       <query code="tlr_presentstatus_delete">
+         	 delete from tlr_presentstatus where tlr_appno=?
+       </query>
+        <query code="tlr_presentstatus_select">
+         	select tlr_comments from tlr_presentstatus where tlr_appno='^'
+       </query>
+       
+       <query code="tlr_others_insert">
+	       	insert into tlr_others(tlr_appno,tlr_comments)
+	       	values(?,?)
+       </query>
+       <query code="tlr_others_delete">
+         	 delete from tlr_others where tlr_appno=?
+       </query>
+        <query code="tlr_others_select">
+         	select tlr_comments from tlr_others where tlr_appno='^'
+       </query>
+       
+       <query code="tlr_cdaccount_insert">
+	       	insert into
+	       	tlr_cdaccount(tlr_appno,tlr_maxdebit,tlr_mindebit,tlr_maxcredit,tlr_mincredit,tlr_noofdaysdebit,tlr_noofdayscredit)
+	       	values(?,?,?,?,?,?,?)
+       </query>
+       <query code="tlr_cdaccount_delete">
+         	 delete from tlr_cdaccount where tlr_appno=?
+       </query>
+        <query code="tlr_cdaccount_select">
+        	select
+        	tlr_maxdebit,tlr_mindebit,tlr_maxcredit,tlr_mincredit,tlr_noofdaysdebit,tlr_noofdayscredit
+        	from tlr_cdaccount where tlr_appno='^'
+        </query>
+        
+        <query code="tlr_tlaccount_insert">
+	       	insert into
+	       	tlr_tlaccount(tlr_appno,tlr_disbursaldate,tlr_repay,tlr_instalmentpaid,tlr_intserviced)
+	       	values(?,to_date(?,'dd/mm/yyyy'),?,?,?)
+       </query>
+       <query code="tlr_tlaccount_delete">
+         	 delete from tlr_tlaccount where tlr_appno=?
+       </query>
+        <query code="tlr_tlaccount_select">
+        	select tlr_appno,to_char(tlr_disbursaldate,'dd/mm/yyyy') as
+        	tlr_disbursaldate,tlr_repay,tlr_instalmentpaid,tlr_intserviced
+        	from tlr_tlaccount where tlr_appno='^'
+        </query>
+         <query code="tlr_proposaldetails_insert">
+         	insert into
+         	tlr_proposaldetails(tlr_appno,tlr_proposaldate,tlr_sancauthority,tlr_agendano,tlr_mcmdate,tlr_signatories,
+         	tlr_mcmresolution,tlr_gridmeeting,tlr_meetingdate,tlr_refno)
+         	values(?,to_date(?,'dd/mm/yyyy'),?,?,to_date(?,'dd/mm/yyyy'),?,?,?,to_date(?,'dd/mm/yyyy'),?)
+         </query>
+       <query code="tlr_proposaldetails_delete">
+         	 delete from tlr_proposaldetails where tlr_appno=?
+       </query>
+        <query code="tlr_proposaldetails_select">
+        	select tlr_appno,to_char(tlr_proposaldate,'dd/mm/yyyy') as
+        	tlr_proposaldate,tlr_sancauthority,tlr_agendano,to_char(tlr_mcmdate,'dd/mm/yyyy')
+        	as tlr_mcmdate,tlr_signatories,
+        	tlr_mcmresolution,tlr_gridmeeting,to_char(tlr_meetingdate,'dd/mm/yyyy')
+        	as tlr_meetingdate,tlr_refno from tlr_proposaldetails where
+        	tlr_appno='^'
+        </query>
+        
+          <query code="tlr_compliance_insert">
+          	insert into
+          	tlr_compliance(tlr_appno,tlr_formalities,tlr_registrationcharge,tlr_doccheck,
+          	tlr_dbcdate,tlr_inspectiondate,tlr_secdesc,tlr_observ)
+          	values(?,?,?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,?)
+          </query>
+       <query code="tlr_compliance_delete">
+         	 delete from tlr_compliance where tlr_appno=?
+       </query>
+        <query code="tlr_compliance_select">
+        	select tlr_formalities,tlr_registrationcharge,tlr_doccheck,
+        	to_char(tlr_dbcdate,'dd/mm/yyyy') as
+        	tlr_dbcdate,to_char(tlr_inspectiondate,'dd/mm/yyyy') as
+        	tlr_inspectiondate,tlr_secdesc,tlr_observ from
+        	tlr_compliance where tlr_appno='^'
+        </query>
+          <query code="tlr_termsdetails_insert">
+          	insert into tlr_termsdetails(tlr_appno,tlr_condtions)
+          	values(?,?)
+          </query>
+       <query code="tlr_termsdetails_delete">
+         	 delete from tlr_termsdetails where tlr_appno=?
+       </query>
+        <query code="tlr_termsdetails_select">
+        	select tlr_condtions from tlr_termsdetails where
+        	tlr_appno='^'
+        </query>
+        
+         <query code="tlr_bankingdetails_insert">
+         	insert into
+         	tlr_bankingdetails(tlr_appno,tlr_group,tlr_status,tlr_reviewdate,tlr_bankarrangement,
+         	tlr_leadbank,tlr_ourshare,tlr_agencyname,tlr_lastrating,tlr_currating)
+         	values(?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?)
+         </query>
+       <query code="tlr_bankingdetails_delete">
+         	 delete from tlr_bankingdetails where tlr_appno=?
+       </query>
+        <query code="tlr_bankingdetails_select">
+        	select
+        	tlr_group,tlr_status,to_char(tlr_reviewdate,'dd/mm/yyyy') as tlr_reviewdate,tlr_bankarrangement,
+        	tlr_leadbank,tlr_ourshare,tlr_agencyname,tlr_lastrating,tlr_currating,to_char(tlr_reviewdate,'MON-YYYY') as tlr_reviewdate1 from
+        	tlr_bankingdetails where tlr_appno='^'
+        </query>
+     <query code="tlr_auditobservations_selectone">
+     	select tlr_appno, tlr_audittype, tlr_auditorcomments,
+     	tlr_officercomments,to_char(tlr_auditdate,'dd/mm/yyyy') as
+     	tlr_auditdate, tlr_auditsno from tlr_auditobservations where
+     	tlr_appno='^' and tlr_audittype='^'
+     </query>
+	
+	<query code="tlr_auditobservations_max">
+		select (nvl(max(tlr_auditsno),0)+1) as maxcnt from
+		tlr_auditobservations where tlr_appno='^' and tlr_audittype='^'
+	</query>
+
+	<query code="tlr_auditobservations_selectall">
+		select tlr_auditsno,tlr_audittype,tlr_auditorcomments,
+		tlr_officercomments,to_char(tlr_auditdate,'dd/mm/yyyy') as
+     	tlr_auditdate from tlr_auditobservations
+		where tlr_appno='^' order by tlr_audittype,tlr_auditsno
+	</query>
+
+	<query code="tlr_auditobservations_delete">
+		delete from tlr_auditobservations where tlr_appno=? and
+		tlr_audittype=? and tlr_auditsno=?
+	</query>
+
+	<query code="tlr_auditobservations_insert">
+		insert into tlr_auditobservations (tlr_appno, tlr_auditsno,
+		tlr_audittype, tlr_auditorcomments, tlr_officercomments,
+		tlr_auditdate) values (?,?,?,?,?,to_date(?,'dd/mm/yyyy'))
+	</query>
+
+	<query code="tlr_auditobservations_update">
+		update tlr_auditobservations set tlr_auditorcomments=?,
+		tlr_officercomments=?,tlr_auditdate=to_date(?,'dd/mm/yyyy')
+		where tlr_auditsno=? and tlr_audittype=? and tlr_appno=?
+	</query>
+	
+	<query code="tlr_securities_insert">
+		insert into tlr_securities(tlr_appno,tlr_secno,tlr_sectype,
+		tlr_facno, tlr_secdetails, tlr_secremarks, tlr_secvalue,
+		tlr_secdate,tlr_margin) values (?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?)
+	</query>
+
+	<query code="tlr_securities_update">
+		update tlr_securities set tlr_sectype=?,
+		tlr_facno=?, tlr_secdetails=?,
+		tlr_secremarks=?, tlr_secvalue=?,
+		tlr_secdate=to_date(?,'dd/mm/yyyy'),tlr_margin=? where tlr_appno=? and tlr_secno=?
+	</query>
+
+	<query code="tlr_securities_max">
+		select nvl(max(tlr_secno),0)+1 as snomax from tlr_securities
+		where tlr_appno='^'
+	</query>
+	<query code="tlr_securities_delete">
+		delete from tlr_securities where tlr_appno=? and tlr_secno=?
+	</query>
+		<query code="tlr_securities_select">
+			select tlr_secno, tlr_sectype, tlr_facno,
+			tlr_secdetails,tlr_secremarks,tlr_secvalue,
+			to_char(tlr_secdate,'dd/mm/yyyy') as tlr_secdate,tlr_margin from
+			tlr_securities where tlr_appno='^' order by tlr_secno
+	</query>
+	
+	<query code="tlr_promoterdetails_insert">
+		insert into tlr_promoterdetails(tlr_appno,tlr_prom_sno,tlr_prom_name,
+		tlr_prom_desig) values (?,?,?,?)
+	</query>
+
+	<query code="tlr_promoterdetails_update">
+		update tlr_promoterdetails set tlr_prom_name=?,
+		tlr_prom_desig=? where tlr_appno=? and tlr_prom_sno=?
+	</query>
+
+	<query code="tlr_promoterdetails_max">
+		select nvl(max(tlr_prom_sno),0)+1 as snomax from tlr_promoterdetails
+		where tlr_appno='^'
+	</query>
+	<query code="tlr_promoterdetails_delete">
+		delete from tlr_promoterdetails where tlr_appno=? and tlr_prom_sno=?
+	</query>
+		<query code="tlr_promoterdetails_select">
+			select tlr_prom_sno, tlr_prom_name, tlr_prom_desig from
+			tlr_promoterdetails where tlr_appno='^' order by tlr_prom_sno
+	</query>
+	
+	<query code="tlr_groupconcerns_insert">
+		insert into
+		tlr_groupconcerns(TLR_GCAPPNO,TLR_GCSNO,TLR_GCCONNAME,TLR_GCBRANCH,TLR_GCCOA,TLR_GCCOMLIMIT,TLR_GCCOMOS,TLR_GCFBWCLT,
+		TLR_GCFBWCDP,TLR_GCFBWCOS,TLR_GCTLLT,TLR_GCTLOS,TLR_GCINS,TLR_GCMOR,TLR_GCIRREG)
+		values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="tlr_groupconcerns_update">
+		update tlr_groupconcerns set
+		TLR_GCCONNAME=?,TLR_GCBRANCH=?,TLR_GCCOA=?,TLR_GCCOMLIMIT=?,TLR_GCCOMOS=?,TLR_GCFBWCLT=?,
+		TLR_GCFBWCDP=?,TLR_GCFBWCOS=?,TLR_GCTLLT=?,TLR_GCTLOS=?,TLR_GCINS=?,TLR_GCMOR=?,TLR_GCIRREG=?
+		where TLR_GCAPPNO=? and TLR_GCSNO=?
+	</query>
+
+	<query code="tlr_groupconcerns_max">
+		select nvl(max(TLR_GCSNO),0)+1 as snomax from tlr_groupconcerns
+		where TLR_GCAPPNO='^'
+	</query>
+	<query code="tlr_groupconcerns_delete">
+		delete from tlr_groupconcerns where TLR_GCAPPNO=? and TLR_GCSNO=?
+	</query>
+	
+	<query code="tlr_groupconcerns_select">
+		select
+		TLR_GCCONNAME,TLR_GCBRANCH,TLR_GCCOA,TLR_GCCOMLIMIT,TLR_GCCOMOS,TLR_GCFBWCLT,
+		TLR_GCFBWCDP,TLR_GCFBWCOS,TLR_GCTLLT,TLR_GCTLOS,TLR_GCINS,TLR_GCMOR,TLR_GCIRREG,TLR_GCSNO
+		from tlr_groupconcerns where TLR_GCAPPNO='^' order by
+		TLR_GCSNO
+	</query>
+	
+	 <query code="tlr_applications_insert">
+	 	insert into
+	 	tlr_applications(tlr_appno, tlr_year, tlr_cbsid, tlr_createdate, tlr_createdby, tlr_orgcode, tlr_status,
+	 	tlr_holder, tlr_valuesin) values(?,?,?,sysdate,?,?,'op',?,?)
+	 </query>
+	 
+	<query code="tlr_applications_selectall">
+		select
+		tlr_appno,tlr_year,tlr_cbsid,tlr_status,to_char(tlr_createdate,'dd/mm/yyyy')
+		as tlr_createdate from tlr_applications where tlr_cbsid='^' and TLR_ORGCODE='^'
+	</query>
+	<query code="tlr_mailboxcomments_insert">
+		insert into tlr_mailboxcomments (mail_appno, mail_comments,
+		mail_userid, mail_date, mail_touser, mail_tousrid, mail_pano) values
+		(?,?,?,sysdate,?,?,?)
+	</query>
+	
+	<query code="tlr_mailboxcomments_select">
+		select mail_appno, mail_comments, mail_userid,
+		to_char(mail_date,'dd/mm/yyyy HH24:MI:SS') as mail_date,
+		mail_touser, user_designation, usr_fname, mail_pano from
+		tlr_mailboxcomments, users where mail_appno='^' and
+		mail_userid=usr_id order by to_date(mail_date,'dd/mm/yyyy HH24:MI:SS') DESC
+	</query>
+	<query code="tlr_auditobservations_selectall">
+		select tlr_appno, tlr_audittype, tlr_auditorcomments,
+		tlr_officercomments, to_char(tlr_auditdate,'dd/mm/yyyy') as
+     	tlr_auditdate,tlr_auditsno from tlr_auditobservations where tlr_appno='^'
+		order by tlr_audittype, tlr_auditsno
+	</query>
+	<query code="tlr_securities_select_sectype">
+		select tlr_secno, tlr_sectype, tlr_facno,
+		tlr_secdetails,tlr_secremarks,tlr_secvalue,
+		to_char(tlr_secdate,'dd/mm/yyyy') as tlr_secdate from
+		tlr_securities where tlr_appno='^' and tlr_sectype='^' order by tlr_secno
+	</query>
+	<query code="tlr_securities_select_facilitywise">
+		select tlr_secno, tlr_sectype, tlr_facno,
+		tlr_secdetails,tlr_secremarks,tlr_secvalue,
+		to_char(tlr_secdate,'dd/mm/yyyy') as tlr_secdate,tlr_margin from
+		tlr_securities where tlr_appno='^' and tlr_facno='^' order by tlr_secno
+	</query>
+	<query code="tlr_facilities_totamount">
+		select sum(tlr_existlimit) as existlimit,sum(tlr_proposed) as proposedlimit from tlr_facilities
+		where tlr_no ='^'
+	</query>
+	<query code="tlr_applications_select">
+		select
+		tlr_appno,tlr_year,tlr_cbsid,tlr_createdate,tlr_createdby,tlr_orgcode,tlr_status,
+		tlr_holder,tlr_comments,tlr_processedby,tlr_valuesin,org_name,to_char(tlr_processdate,'dd/mm/yyyy') as tlr_processdate
+		from tlr_applications,organisations where org_scode=tlr_orgcode
+		and tlr_appno ='^'
+	</query>
+	<query code="tlr_applications_update_valuesin">
+	 	update tlr_applications set tlr_valuesin=? where tlr_appno=?
+ 	</query>
+	<query code="tlr_applications_update_reviewholder">
+	 	update tlr_applications set tlr_holder=? where tlr_appno=?
+ 	</query>
+ 	<query code="tlr_applications_update_approvestaus">
+		update tlr_applications set tlr_status=?, tlr_comments=?,
+		tlr_processdate = sysdate,tlr_processedby=? where tlr_appno=?
+	</query>
+	<query code="tlr_applications_update_closedstatus">
+		update tlr_applications set tlr_status=?,tlr_closeddate =
+		sysdate,tlr_closedby=? where tlr_appno=?
+	</query>
+	<query code="tlr_applications_reviewyear">
+		select tlr_year,tlr_status from tlr_applications where
+		tlr_cbsid = '^'
+	</query>
+	<query code="tlr_applications_maxreviewyear">
+		select max(tlr_year) as tlr_maxyear from tlr_applications where
+		tlr_cbsid = '^' and TLR_ORGCODE = '^'
+	</query>
+	<query code="tlr_internalrating_insert">
+		insert into tlr_internalrating(tlr_appno,tlr_prevyearscore,
+		tlr_currentyearscore,tlr_prevyeargrade , tlr_currentyeargrade,
+		tlr_prevyearrisk, tlr_currentyearrisk) values(?,?,?,?,?,?,?)
+	</query>
+	<query code="tlr_internalrating_delete">
+		delete from tlr_internalrating where tlr_appno=?
+	</query>
+	<query code="tlr_internalrating_select">
+		select tlr_appno,tlr_prevyearscore,
+		tlr_currentyearscore,tlr_prevyeargrade,tlr_currentyeargrade,
+		tlr_prevyearrisk,tlr_currentyearrisk  from tlr_internalrating where
+		tlr_appno = '^'
+	</query>
+	<query code="tlr_internalratingparameter_insert">
+		insert into
+		tlr_internalratingparameter(tlr_appno,tlr_paramno,tlr_paramdesc,
+		tlr_prevyear,tlr_currentyear) values(?,?,?,?,?)
+	</query>
+	<query code="tlr_internalratingparameter_delete">
+		delete from tlr_internalratingparameter where tlr_appno=?
+	</query>
+	<query code="tlr_internalratingparameter_select">
+		select tlr_paramdesc, tlr_prevyear,tlr_currentyear from
+		tlr_internalratingparameter where tlr_appno = '^' order by tlr_paramno
+	</query>
+	<!-- BALA FOR AUDIT TRIAL -->
+	<query code="gettlrfacilitydet">
+	SELECT TLR_FACNAME,TLR_EXISTLIMIT,TLR_PROPOSED,TLR_OSLIMIT,TLR_OVERDUE,TLR_LOANPURPOSE,TLR_INTRECOMM
+	FROM TLR_FACILITIES
+	WHERE TLR_NO = '^' AND TLR_FACNO = '^'
+	</query>
+	<query code="gettlrpromoterdet">
+	SELECT TLR_PROM_NAME,TLR_PROM_DESIG
+	FROM TLR_PROMOTERDETAILS
+	WHERE TLR_APPNO = '^' AND TLR_PROM_SNO = '^'
+	</query>
+	<query code="getpromgroupcondet">
+	SELECT TLR_GCCONNAME,TLR_GCBRANCH,TLR_GCCOA,TLR_GCCOMLIMIT,TLR_GCCOMOS,TLR_GCFBWCLT,TLR_GCFBWCDP,TLR_GCFBWCOS,TLR_GCTLLT,TLR_GCTLOS,
+       TLR_GCINS,TLR_GCMOR,TLR_GCIRREG 
+	FROM TLR_GROUPCONCERNS
+	WHERE TLR_GCAPPNO = '^' AND TLR_GCSNO = '^'
+	</query>
+
+	<query code="sel_insurancereg_audittrial">
+		select ins_srlno,ins_seqid, ins_cbsid, ins_security, ins_company,
+		ins_policyno, ins_clause, ins_coveramt, ins_premiumamt,
+		ins_paid_by, ins_beneficiary, to_char(ins_duedate,'dd/mm/yyyy')
+		as duedate, ins_risk, ins_details, ins_covernote,
+		to_char(ins_policydate,'dd/mm/yyyy') as policydate,
+		to_char(ins_expirydate,'dd/mm/yyyy') as ins_expirydate,
+		ins_riskfactor,ins_insuredaddr1, ins_insuredaddr2,
+		ins_insuredaddr3, ins_insuredcity,
+		ins_insuredstate,ins_insuredpincode,ins_accountno from
+		insurance_register where ins_accountno='^' and ins_cbsid='^' and ins_srlno='^' and ins_delflag='N'
+	</query>
+
+	<query code="gettlrsecuritydet">
+	select TLR_SECTYPE,sec.TLR_FACNO,TLR_MARGIN,TLR_SECVALUE,to_char(TLR_SECDATE,'DD/MM/YYYY')as TLR_SECDATE,fac.TLR_FACNAME,fac.TLR_CBSACCNO
+	from tlr_securities sec, tlr_facilities fac
+	where 
+	fac.tlr_facno(+)=sec.tlr_facno and 
+	fac.tlr_no(+)=sec.tlr_appno and 
+	sec.tlr_secno='^' and 
+	sec.tlr_appno='^'
+	</query>
+	
+	<query code="sel_monSecurity_audittrial">
+		 select MONSEC_SNO, MONSEC_ACCOUNTNUMBER,
+		MONSEC_SECURITYTYPE,MONSEC_SECURITYNATURE,MONSEC_OTHERDETAILS,
+		MONSEC_ADD1,MONSEC_ADD2,MONSEC_CITY,MONSEC_STATE,
+		MONSEC_PINCODE, MONSEC_VALUATAMOUNT,
+		to_char(MONSEC_VALUATDATE,'dd/mm/yyyy') as
+		MONSEC_VALUATDATE,MONSEC_VALUTDONEBY, MONSEC_INSPECTEDBY,
+		to_char(MONSEC_INSPECTEDON,'dd/mm/yyyy') as MONSEC_INSPECTEDON,
+		MONSEC_SAMEADDRESS, monsec_shortfallnoticed,MON_INSUSLRNO,to_char(MON_SECUINSUEXP,'dd/mm/yyyy') as MON_SECUINSUEXP,
+		MON_INSUAMT,STAT_DATA_DESC1, STAT_DATA_SNO, monsec_maskflag,MON_SECINSMMRNO from MON_SECURITYREGISTER,mon_secuinsumap,static_data
+        where MONSEC_SNO=MON_SECUSLRNO(+) and MONSEC_ACCOUNTNUMBER=MON_SECUINSUMAPACCNO(+) and
+        MONSEC_ACCOUNTNUMBER(+)='^' and STAT_DATA_DESC(+)=MONSEC_SECURITYNATURE
+        and stat_data_id='46' and MONSEC_SNO(+)='^'
+	</query>
+	
+	<query code="delpostinsfacannex">
+		delete from POSTINSPECTION_FACANNEX where FAC_POSTINSNO = ? and FAC_SNO = ?
+	</query>
+	
+	<query code="ins_setusers_monitoring">
+		insert into users (usr_id, usr_grpid, usr_orgcode, usr_fname,
+		usr_mname, usr_lname, usr_password, usr_class, usr_supid,
+		usr_supstatus, usr_avail, usr_function, usr_sanction_limit,
+		user_designation, user_first_flag)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+	
+	<query code="upd_setusers_monitoring">
+		update users set usr_grpid=?, usr_orgcode=?, usr_fname=?,
+		usr_mname=?, usr_lname=?, usr_class=?, usr_supid=?,
+		usr_supstatus=?, usr_avail=?, usr_function=?,
+		usr_sanction_limit=?, usr_designation=?
+		where usr_id=?
+	</query>
+	
+	<query code="setusersupd_monitoring">
+		update users set usr_grpid=?, usr_orgcode=?, usr_fname=?,
+		usr_mname=?, usr_lname=?, usr_class=?, usr_supid=?,
+		usr_supstatus=?, usr_avail=?, usr_function=?,
+		usr_sanction_limit=?, user_designation=?, usr_emailid=?,usr_department=?,usr_rmdflag=?,usr_rlpftype=?
+		where usr_id=?
+	</query>
+	
+	<query code="setusersdel_monitoring">delete users where usr_id=?</query>
+	
+	<query code="upd_setuserspassword_monitoring">
+		update users set usr_password=?,user_first_flag=? where usr_id=?
+	</query>
+	
+	<query code="setorginsert_mon">
+		insert into organisations(org_code, org_level, org_scode,
+		org_name, org_add1, org_add2, org_city, org_zip, org_state,
+		org_phone, org_fax, org_taxid, org_trasitid, org_url, org_micr,
+		org_head, org_branchType, org_branchIn, org_region,
+		org_saaBranch, org_village, solid, org_issaral, org_saralhead
+		,org_internet_centre,org_centrename,org_opendate,org_district,org_excelupload_flag,org_ifsccode,org_abmid,org_abmmobile)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?)
+	</query>
+	
+	<query code="setorgupdate_mon">
+		update organisations set org_level=?, org_scode=?, org_name=?,
+		org_add1=?, org_add2=?, org_city=?, org_zip=?, org_state=?,
+		org_phone=?, org_fax=?, org_taxid=?, org_trasitid=?, org_url=?,
+		org_micr=?, org_head=?, org_branchType=?, org_branchIn=?,
+		org_region=?, org_saaBranch=?, org_village=?, solid=?,
+		org_issaral=?, org_saralhead=?, org_internet_centre=?, org_centrename=?, 
+		org_opendate=to_date(?,'dd/mm/yyyy'),org_district=?,org_excelupload_flag=?,org_ifsccode=?,org_abmid=?,org_abmmobile=? where org_code =?
+	</query>
+	
+	<query code="setorgdel_monitoring">
+		delete from organisations where org_code = ?
+	</query>
+	
+	<query code="setgroupsins_mon">
+		insert into groups(grp_id, grp_name, grp_rights, grp_discreteid,
+		grouplimitslist) values(?,?,?,?,?)
+	</query>
+	<query code="setgroupsupd_mon">
+		update groups set grp_name=?,grp_rights=?, grp_discreteid=?, grouplimitslist=? where grp_id=?
+	</query>
+	<query code="setdelcheckgroup_mon">
+		select count(*) from users where usr_grpid='^'
+	</query>
+	<query code="setgroupsdel_mon">delete groups where grp_id=?</query>
+
+       <!-- -END -->
+</sql>

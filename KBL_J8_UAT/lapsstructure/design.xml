@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<laps>
+	<setup>
+		<screen name="">
+			<bean name="">
+				<getmethod></getmethod>
+				<updatemethod></updatemethod>
+			</bean>
+		</screen>
+	</setup>
+	<retail>
+		<screen name="">
+			<bean name="">
+				<getmethod></getmethod>
+				<updatemethod></updatemethod>
+			</bean>
+		</screen>
+	</retail>
+	<agriculture>
+		<screen name="">
+			<bean name="">
+				<getmethod></getmethod>
+				<updatemethod></updatemethod>
+			</bean>
+		</screen>
+	</agriculture>
+	<corporate>
+		<screen name="">
+			<bean name="">
+				<getmethod></getmethod>
+				<updatemethod></updatemethod>
+			</bean>
+		</screen>
+		<table name="com_banking">
+			<querry code=""></querry>
+		</table>
+		<table name="com_totalwcloan">
+			<querry code=""></querry>
+		</table>
+		<table name="com_costofproject">
+			<querry code=""></querry>
+		</table>
+		<table name="facilities">
+			<querry code=""></querry>
+		</table>
+		<table name="com_loanrepayments">
+			<querry code=""></querry>
+		</table>
+		<table name="applications">
+			<querry code=""></querry>
+		</table>
+		<table name="com_proposalin">
+			<querry code=""></querry>
+		</table>
+		<table name="com_activities">
+			<querry code=""></querry>
+		</table>
+		<table name="com_products">
+			<querry code=""></querry>
+		</table>
+		<table name="com_rawmaterialinput">
+			<querry code=""></querry>
+		</table>
+		<table name="com_applntcomments">
+			<querry code=""></querry>
+		</table>
+		<table name="com_prdsegment">
+			<querry code=""></querry>
+		</table>
+		<table name="com_mktdistribution">
+			<querry code=""></querry>
+		</table>
+		<table name="com_mktcompetition">
+			<querry code=""></querry>
+		</table>
+		<table name="com_employees">
+			<querry code=""></querry>
+		</table>
+		<table name="com_otherinfo">
+			<querry code=""></querry>
+		</table>
+		<table name="fin_extra_projectinput">
+			<querry code=""></querry>
+		</table>
+		<table name="financial_baseyear">
+			<querry code=""></querry>
+		</table>
+		<table name="com_finappvalues">
+			<querry code=""></querry>
+		</table>
+		<table name="com_demographics">
+			<querry code=""></querry>
+		</table>
+		<table name="com_eqinvlitigations">
+			<querry code=""></querry>
+		</table>
+		<table name="com_compproposal">
+			<querry code=""></querry>
+		</table>
+		<table name="com_proposalcomments">
+			<querry code=""></querry>
+		</table>
+		<table name="exec_port_summary">
+			<querry code=""></querry>
+		</table>
+		<table name="com_propconfaction">
+			<querry code=""></querry>
+		</table>
+		<table name="com_takeover">
+			<querry code=""></querry>
+		</table>
+		<table name="com_takeoverterm">
+			<querry code=""></querry>
+		</table>
+		<table name="COM_TAKEOVERWORKING">
+			<querry code=""></querry>
+		</table>
+		<table name="comapproc">
+			<querry code=""></querry>
+		</table>
+		<table name="com_bussturnover">
+			<querry code=""></querry>
+		</table>
+		<table name="COM_CASHBUDGETMETHOD">
+			<querry code=""></querry>
+		</table>
+		<table name="com_mpbf">
+			<querry code=""></querry>
+		</table>
+		<table name="com_termscond">
+			<querry code=""></querry>
+		</table>
+		<table name="com_facdocuments">
+			<querry code=""></querry>
+		</table>
+		<table name="fac_security_master">
+			<querry code=""></querry>
+		</table>
+		<table name="fac_security_purpose">
+			<querry code=""></querry>
+		</table>
+		<table name="fac_repayment">
+			<querry code=""></querry>
+		</table>
+		<table name="exec_collateraldetails">
+			<querry code=""></querry>
+		</table>
+		<table name="com_projectedsales">
+			<querry code=""></querry>
+		</table>
+		<table name="com_holdinglevel">
+			<querry code=""></querry>
+		</table>
+		<table name="com_limitassessment">
+			<querry code=""></querry>
+		</table>
+		<table name="com_termloanassessmentcomments ">
+			<querry code=""></querry>
+		</table>
+		<table name="com_nonfundassessment">
+			<querry code=""></querry>
+		</table>
+		<table name="com_assessment_comments">
+			<querry code=""></querry>
+		</table>
+	</corporate>
+	<tertiary>
+		<screen name="">
+			<bean name="">
+				<getmethod></getmethod>
+				<updatemethod></updatemethod>
+			</bean>
+		</screen>
+	</tertiary>
+	<monitoring>
+		<screen name="">
+			<bean name="">
+				<getmethod></getmethod>
+				<updatemethod></updatemethod>
+			</bean>
+		</screen>
+	</monitoring>
+	<npa>
+		<screen name="">
+			<bean name="">
+				<getmethod></getmethod>
+				<updatemethod></updatemethod>
+			</bean>
+		</screen>
+	</npa>
+</laps>

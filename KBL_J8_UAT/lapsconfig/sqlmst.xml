@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+	<query code="commstapplist">
+		select mst_appno, comapp_companyname, mst_status, mst_holdusrid
+		from commst_applications, comapplicant, organisations where
+		mst_appid=comapp_id and org_code like '^' and
+		org_scode=comapp_org_scode and comapp_oldid='^'
+	</query>
+
+	<query code="selmstappno">
+		select nvl(substr(max(mst_appno),7,14),'0') as appno from
+		commst_applications where substr(mst_appno,1,5)='^'
+	</query>
+	
+	<query code="insmstapplication">
+		insert into commst_applications (mst_appno, mst_usrid,
+		mst_holdusrid, mst_status, mst_prdcode, mst_appid,
+		mst_applicationno, mst_orgscode, mst_createdate, mst_valuesin)
+		values(?,?,?,?,?,?,?,?,sysdate,?)
+	</query>
+
+	<query code="updmstapplication">
+		update commst_applications set mst_prdcode=? where mst_appno=?
+	</query>
+
+	<query code="selmstappdetails">
+		select mst_appno, mst_appid, comapp_companyname, mst_holdusrid,
+		mst_status, mst_applicationno, mst_valuesin,org_name from
+		commst_applications,comapplicant, organisations where
+		comapp_id=mst_appid and mst_orgscode=org_scode and mst_appno='^'
+	</query>
+
+	<query code="sel_mstfacility">
+		select mstfacilities_appno, mstfacilities_headid, (select
+		upper(facility_catdesc) from facility_master where
+		facility_catid=mstfacilities_headid and facility_parent=0) as
+		facheaddesc, mstfacilities_id, (select upper(facility_catdesc)
+		from facility_master where facility_catid=mstfacilities_id and
+		facility_parent!=0) as facdesc, mstfacilities_sanclimit,
+		mstfacilities_outstanding, mstfacilities_margin,
+		to_char(mstfacilities_outstandason,'dd/mm/yyyy') as
+		mstfacilities_outstandason , mstfacilities_cbsaccno,
+		mstfacilities_appint, mstfacilities_existint,
+		mstfacilities_propint, mstfacilities_roremd,
+		mstfacilities_coremd, mstfacilities_concession,
+		mstfacilities_irregularties, mstfacilities_createdate,
+		mstfacilities_sno, mstfacilities_facgroup,mstfacilities_zoremd from commst_facilities
+		where mstfacilities_appno='^' and mstfacilities_facgroup='^'
+	</query>
+
+	<query code="ins_mstfacility">
+		insert into commst_facilities(mstfacilities_appno,mstfacilities_sno,
+		mstfacilities_headid, mstfacilities_id, mstfacilities_sanclimit,
+		mstfacilities_outstanding, mstfacilities_margin,
+		mstfacilities_outstandason, mstfacilities_cbsaccno,
+		mstfacilities_appint, mstfacilities_existint,
+		mstfacilities_propint, mstfacilities_roremd,
+		mstfacilities_coremd, mstfacilities_concession,
+		mstfacilities_irregularties, mstfacilities_createdate,
+		mstfacilities_facgroup) values
+		(?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?,?,sysdate,?)
+	</query>
+	
+	<query code="del_mstfacility">
+		delete from commst_facilities where mstfacilities_appno=? and mstfacilities_sno=?
+	</query>
+	
+	<query code="sel_mstfacilityMaxid">
+		select nvl(max(mstfacilities_sno),0)+1 as facilityid from commst_facilities
+		where  mstfacilities_appno='^'
+	</query>
+	
+	<query code="upd_mstfacility">
+		update commst_facilities set mstfacilities_headid=?,
+		mstfacilities_id=?, mstfacilities_sanclimit=?,
+		mstfacilities_outstanding=?, mstfacilities_margin=?,
+		mstfacilities_outstandason=to_date(?,'dd/mm/yyyy'),
+		mstfacilities_cbsaccno=?, mstfacilities_appint=?,
+		mstfacilities_existint=?, mstfacilities_propint=?,
+		mstfacilities_roremd=?, mstfacilities_coremd=?,
+		mstfacilities_concession=?, mstfacilities_irregularties=?,
+		mstfacilities_zoremd=? where mstfacilities_appno=? and
+		mstfacilities_sno=?
+	</query>
+	
+	<query code="updmstfacility">
+		update commst_facilities set
+		mstfacilities_outstandason=to_date(?,'dd/mm/yyyy') where
+		mstfacilities_appno=?
+	</query>
+
+	<query code="sel_mstsecdetails">
+		select mstsec_appno, mstsec_srlno, mstsec_id, mstsec_details,
+		mstsec_value,to_char(mstsec_ason,'dd/mm/yyyy') as
+		mstsec_ason,mstsec_type, mstsec_tenor, mstsec_valuersname,
+		mstsec_insuranceamt,to_char(mstsec_insexpirydate,'dd/mm/yyyy')
+		as mstsec_insexpirydate, mstsec_remarks, stat_data_desc as
+		sec_name, mstsec_facsno from commst_securitydetails, static_data where
+		stat_data_id(+)=12 and stat_data_desc1(+)=mstsec_id and
+		mstsec_appno='^' order by mstsec_appno,mstsec_srlno
+	</query>
+	<query code="sel_mstsecdetailsbysno">
+		select mstsec_appno, mstsec_srlno, mstsec_id, mstsec_details,
+		mstsec_value,to_char(mstsec_ason,'dd/mm/yyyy') as
+		mstsec_ason,mstsec_type, mstsec_tenor, mstsec_valuersname,
+		mstsec_insuranceamt,to_char(mstsec_insexpirydate,'dd/mm/yyyy')
+		as mstsec_insexpirydate, mstsec_remarks, stat_data_desc as
+		sec_name, mstsec_facsno from commst_securitydetails, static_data where
+		stat_data_id(+)=12 and stat_data_desc1(+)=mstsec_id and mstsec_srlno='^' and 
+		mstsec_appno='^' 
+	</query>
+
+	<query code="ins_mstsecdetails">
+		insert into commst_securitydetails (mstsec_appno, mstsec_srlno,
+		mstsec_id, mstsec_details, mstsec_value,
+		mstsec_ason,mstsec_type, mstsec_tenor, mstsec_valuersname,
+		mstsec_insuranceamt,mstsec_insexpirydate, mstsec_remarks,
+		mstsec_facsno) values
+		(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?)
+	</query>
+
+	<query code="upd_mstsecdetails">
+		update commst_securitydetails set mstsec_id=?, mstsec_details=?,
+		mstsec_value=?, mstsec_ason=to_date(?,'dd/mm/yyyy'),
+		mstsec_type=?, mstsec_tenor=?, mstsec_valuersname=?,
+		mstsec_insuranceamt=?,
+		mstsec_insexpirydate=to_date(?,'dd/mm/yyyy'), mstsec_remarks=?,
+		mstsec_facsno=? where mstsec_appno=? and mstsec_srlno=?
+	</query>
+
+	<query code="del_mstsecdetails">
+		delete from commst_securitydetails where mstsec_appno=? and mstsec_srlno=?
+	</query>
+	
+	<query code="sel_secdetails">
+		select mstsec_srlno, mstsec_details,
+		mstsec_remarks, mstsec_facsno from commst_securitydetails  where
+		mstsec_facsno='^' and mstsec_appno='^'
+	</query>
+	
+	<query code="selmax_mstsecdetails">
+		select nvl(max(mstsec_srlno),0)+1 as snomax from commst_securitydetails
+		where mstsec_appno='^'
+	</query>
+	
+	<query code="sel_facilityformodification">
+		select mstfacilities_sno, facility_catdesc,
+		mstfacilities_sanclimit from facility_master a,
+		commst_facilities b where a.facility_catid= b.mstfacilities_id
+		and b.mstfacilities_appno='^'
+	</query>
+	
+	<query code="sel_otrsancterms">
+		select otrsancterms_appno ,otrsancterms_slrno,
+		otrsancterms_terms ,otrsancterms_modification
+		,otrsancterms_justification from commst_otrsancterms where
+		otrsancterms_appno='^' order by otrsancterms_terms
+	</query>
+
+	<query code="del_otrsancterms">
+        delete from commst_otrsancterms where otrsancterms_appno=? and otrsancterms_slrno=?
+    </query>
+
+    <query code="upd_otrsancterms">
+    	update commst_otrsancterms set otrsancterms_terms=?,
+    	otrsancterms_modification=?, otrsancterms_justification=? where
+    	otrsancterms_appno=? and otrsancterms_slrno=?
+    </query>
+    
+    <query code="selmax_otrsancterms">
+		select nvl(max(otrsancterms_slrno),0)+1 as snomax from
+		commst_otrsancterms where otrsancterms_appno='^'
+	</query>
+
+	<query code="ins_otrsancterms">
+		insert into commst_otrsancterms(otrsancterms_appno,
+		otrsancterms_slrno, otrsancterms_terms,
+		otrsancterms_modification, otrsancterms_justification ) values
+		(?,?,?,?,?)
+	</query>
+	
+	<query code="sel_valofacct">
+		select valofacct_appno, valofacct_slno, valofacct_previous,
+		valofacct_current from commst_valofacct where
+		valofacct_appno='^' order by valofacct_slno
+	</query>
+
+	<query code="ins_valofacct">
+		insert into commst_valofacct (valofacct_appno, valofacct_slno,
+		valofacct_previous, valofacct_current) values (?,?,?,?)
+	</query>
+
+	<query code="del_valofacct">
+		delete from commst_valofacct where valofacct_appno=?
+	</query>
+	
+	<query code="sel_remarks">
+		select remarks_appno, remarks_orglevel, remarks_comments,
+		remarks_signatures, remarks_refno, to_char(remarks_date,'dd/mm/yyyy')
+		as remarks_date from commst_remarks where remarks_appno='^'
+		and remarks_orglevel in (^)
+	</query>
+
+	<query code="ins_remarks">
+		insert into commst_remarks (remarks_appno, remarks_orglevel,
+		remarks_comments) values (?,?,?)
+	</query>
+
+	<query code="upd_remarks">
+		update commst_remarks set remarks_signatures=?, remarks_refno=?,
+		remarks_date=to_date(?,'dd/mm/yyyy') where remarks_appno=?
+	</query>
+
+	<query code="del_remarks">
+		delete from commst_remarks where remarks_appno=? and remarks_orglevel=?
+	</query>
+	
+	<query code="sel_recommendations">
+		select recmd_appno, recmd_srlno, recmd_sancterms,
+		recmd_stipulated, recmd_recommendRO, recmd_recommendCO from
+		commst_recommendations where recmd_appno='^' order by
+		recmd_srlno
+	</query>
+
+	<query code="ins_recommendations">
+		insert into commst_recommendations (recmd_appno, recmd_srlno,
+		recmd_sancterms, recmd_stipulated, recmd_recommendRO,
+		recmd_recommendCO) values (?,?,?,?,?,?)
+	</query>
+
+	<query code="del_recommendations">
+		delete from commst_recommendations where recmd_appno=? and
+		recmd_srlno=?
+	</query>
+
+	<query code="selmax_recommendations">
+		select nvl(max(recmd_srlno),0)+1 as snomax from
+		commst_recommendations where recmd_appno='^'
+	</query>
+
+	<query code="upd_recommendations">
+		update commst_recommendations set recmd_sancterms=?,
+		recmd_stipulated=?, recmd_recommendRO=?, recmd_recommendCO=?
+		where recmd_appno=? and recmd_srlno=?
+	</query>
+
+	<query code="mst_insmailbox">
+     	insert into commst_mailbox(mstmail_appno, mstmail_fromusrid,
+     	mstmail_tousrid, mstmail_fromflowpoint, mstmail_toflowpoint,
+     	mstmail_date) values(?,?,?,?,?,sysdate)
+     </query>
+     
+     <query code="upd_mstappholder">
+		update commst_applications set mst_holdusrid=?, mst_mailchkstatus='Y'
+		where mst_appno=?
+	</query>
+	
+	<query code="upd_mstappstatus">
+     	update commst_applications set mst_status=?,
+		mst_processedusrid=?, mst_processdate=to_date(?,'dd/mm/yyyy'),
+		mst_processorgscode=?, mst_sancauthcomments=? where
+		mst_appno=?
+     </query>
+     
+     <query code="upd_mstworkflowcloseappln">
+		update commst_applications set mst_status =
+		concat('c',substr(mst_status,2,2)), mst_closeddate=sysdate where
+		mst_appno=?
+	</query>
+
+     <query code="mst_workflowhistory">
+     	select mstmail_fromusrid||'-'||usr1.usr_fname||' '||usr1.usr_lname as fromuser,
+     	mstmail_tousrid||'-'||usr2.usr_fname||' '||usr2.usr_lname as
+     	touser,mstmail_fromflowpoint,mstmail_toflowpoint,
+     	to_char(mstmail_date,'dd/mm/yyyy hh24:mi:ss') as maildate,
+     	mstmail_fromusrid, mstmail_tousrid from commst_mailbox, users
+     	usr1,users usr2 where mstmail_appno like '^' and
+     	mstmail_fromusrid=usr1.usr_id and mstmail_tousrid=usr2.usr_id
+     	order by mstmail_date
+     </query>
+     
+     <query code="checkmstapplication">
+		select count(mst_prdcode)from commst_applications where mst_prdcode='^'
+	</query>
+     
+    <query code="sel_mstapplication">
+		select mst_appno, mst_usrid, mst_holdusrid,
+		mst_processedusrid, mst_sancauthcomments, mst_status from
+		commst_applications where mst_appno= '^'
+	</query> 
+     
+     <query code="sel_mstworkflowsel">
+		select prd_flowpoint, wrk_flowname, prd_maxclass, prd_function,stat_data_desc1
+		from prd_workflow, workflow, static_data where prd_code=(select mst_prdcode
+		from commst_applications where mst_appno='^') and prd_flowpoint ^ ^ and
+		prd_flowpoint ^ ^ and prd_workid=wrk_flowid and stat_data_id='7' and
+		stat_data_desc=prd_maxclass order by prd_flowpoint
+	</query>
+
+     <query code="mst_workflowcnt">
+     	select count(MSTMAIL_FROMFLOWPOINT) from commst_mailbox where
+     	MSTMAIL_APPNO='^' and MSTMAIL_FROMFLOWPOINT=^
+     </query>
+
+     <query code="sel_mstworkflow">
+     	select mstmail_toflowpoint, to_char(mstmail_date,'dd/mm/yyyy hh24:mi:ss') as mstmail_date,
+     	to_char(prd_duration+mstmail_date,'dd/mm/yyyy') as duedate,
+     	prd_maxclass from commst_mailbox, commst_applications,
+     	prd_workflow where mstmail_date=(select max(mstmail_date) from
+     	commst_mailbox where mstmail_appno='^') and
+     	mstmail_toflowpoint=prd_flowpoint and mstmail_appno=mst_appno
+     	and prd_code=mst_prdcode and mst_appno='^'
+     </query>
+
+     <query code="sel_mstappworkflow">
+     	select prd_maxclass, to_char(MST_CREATEDATE,'DD/MM/YYYY') as
+     	createdate, to_char(prd_duration+MST_CREATEDATE,'DD/MM/YYYY')
+     	as duedate from commst_applications, prd_workflow where
+     	prd_flowpoint=1 and prd_code=mst_prdcode and MST_APPNO='^'
+     </query>
+
+     <query code="ins_mstmailcomments">
+     	insert into commst_mailcomments (mail_appno, mail_comments,
+     	mail_userid, mail_date, mail_touser, mail_pano) values
+     	(?,?,?,sysdate,?,?)
+     </query>
+
+     <query code="sel_mstmailcomments">
+     	select mail_appno, mail_comments, mail_userid,
+     	to_char(mail_date,'dd/mm/yyyy hh24:mi:ss') as mail_date,
+     	mail_touser, user_designation, usr_fname, mail_pano from
+     	commst_mailcomments, users where mail_appno='^' and
+     	mail_userid=usr_id order by mail_date desc
+     </query>
+
+     <query code="sel_mstworkflowpoint">
+     	select prd_skip, prd_approval from prd_authority,
+     	commst_applications where prd_code=mst_prdcode and
+     	mst_appno='^'
+     </query>
+
+     <query code="sel_MSTOrgDetails">
+		select org_name, org_add1, org_add2, org_zip, org_phone,
+		org_fax, state_name, city_name from commst_applications,
+		organisations, laps_states, laps_cities where mst_orgscode=
+		organisations.org_scode and city_code(+)=org_city and
+		state_code(+)=org_state and mst_appno='^'
+	</query>
+
+	<query code="sel_mstcustinfo">
+		select comapp_companyname,org_name,comapp_businessnature from
+		comapplicant, organisations, commst_applications where
+		comapp_id=mst_appid and comapp_org_scode=org_scode and
+		mst_appno='^'
+	</query>
+	
+	<query code="sel_mstrating">
+		select currentrating_basemodel from ramtolaps105,
+		commst_applications where appno=mst_applicationno and
+		mst_appno='^'
+	</query>
+	
+	<query code="sel_mstasset">
+		select com_propassettype from com_compproposal,
+		commst_applications where com_propappno = mst_applicationno and
+		mst_appno='^'
+	</query>
+	
+	<query code="sel_mstfincomments">
+		select fin_comments from commst_fincomments where fin_appno='^' and
+		fin_pagetype='^' and fin_divid='^'
+	</query>
+	
+	<query code="del_mstfincomments">
+		delete from commst_fincomments where fin_appno=? and
+		fin_pagetype=? and fin_divid=?
+	</query>	
+	
+	<query code="ins_mstfincomments">
+		insert into commst_fincomments
+		(fin_appno,fin_pagetype,fin_divid,fin_comments) Values(?,?,?,?)
+	</query>
+	
+	<query code="mstmailboxcount">
+		select count(mst_appno) from commst_applications, organisations,
+		comapplicant where comapp_id=mst_appid and
+		org_scode=mst_orgscode and mst_holdusrid='^' and
+		upper(mst_status) not like 'C_' and mst_mailchkstatus='Y'
+	</query>
+	
+	<query code="mstmailbox">
+		select mst_appno, comapp_companyname, org_name, mst_status,
+		mstmail_fromusrid, to_char(mstmail_date,'dd/mm/yyyy') as
+		mstmail_date from commst_mailbox a, commst_applications,
+		comapplicant, organisations where a.mstmail_date=(select
+		max(b.mstmail_date) from commst_mailbox b where
+		b.mstmail_appno=a.mstmail_appno) and
+		a.mstmail_tousrid=mst_holdusrid and a.mstmail_appno=mst_appno
+		and comapp_id=mst_appid and org_scode=mst_orgscode and
+		mst_holdusrid='^' and upper(mst_status) not like 'C_' and
+		mst_mailchkstatus='Y' and mst_delflag='N'
+	</query>
+	
+	<query code="sel_mstcollsecdetails">
+		select mstsec_appno, mstsec_srlno, mstsec_id, mstsec_details,
+		mstsec_value,to_char(mstsec_ason,'dd/mm/yyyy') as
+		mstsec_ason,mstsec_type, mstsec_tenor, mstsec_valuersname,
+		mstsec_insuranceamt,to_char(mstsec_insexpirydate,'dd/mm/yyyy')
+		as mstsec_insexpirydate, mstsec_remarks, stat_data_desc as
+		sec_name from commst_securitydetails, static_data where
+		stat_data_id(+)=12 and stat_data_desc1(+)=mstsec_id and
+		mstsec_appno='^' and mstsec_type='Collateral' order by mstsec_appno,mstsec_srlno
+	</query>
+	
+	<query code="getapprovedappno">
+		select app_no, app_valuesin from applications a, com_demographics where
+		app_processdate=(select max(app_processdate) from applications b
+		where b.app_no=a.app_no) and upper(app_status) like '_A' and
+		upper(app_delflag)='N' and app_no=demo_appno and
+		demo_comappid in ^ order by app_no desc
+	</query>
+	
+	<query code="selpendingmstapplns">
+		select count(mst_appno) as appcount from commst_applications where mst_appid in ^ and upper(mst_status) not like 'C_'
+	</query>
+	
+	<query code="insmstfacility">
+		insert into commst_facilities(mstfacilities_appno,
+		mstfacilities_sno, mstfacilities_headid, mstfacilities_id,
+		mstfacilities_sanclimit, mstfacilities_cbsaccno,
+		mstfacilities_createdate, mstfacilities_facgroup) select ?,
+		facility_sno, facility_headid, facility_id, facility_proposed,
+		cbs_accountno, sysdate, facility_group from facilities where
+		facility_appno=?
+	</query>
+	<query code="insmstsecurity">
+		insert into commst_securitydetails(mstsec_appno,
+		mstsec_facsno,mstsec_srlno,mstsec_id,
+		mstsec_details,mstsec_value,
+		mstsec_ason,mstsec_type,mstsec_tenor,mstsec_valuersname,mstsec_insuranceamt,
+		mstsec_insexpirydate, mstsec_remarks) select ?,
+		sec_facsno,sec_srlno,sec_desc_id,
+		sec_desc_details,sec_desc_value,
+		sec_desc_as_on_date,sec_type,sec_tenor,sec_valuersname,sec_insuranceamt,
+		sec_insexpirydate, sec_remarks from fac_security_details where
+		sec_appno=?
+	</query>
+	<query code="getpropamount">
+     	select nvl(sum(FACILITY_PROPOSED),0) as proposed from
+     	FACILITIES where facility_appno='^' and facility_category
+     	in('R') and facility_group='0'
+     </query>
+
+	<query code="getmaxflowpoint">
+		select max(prd_flowpoint) as maxflowpoint from
+		prd_workflow,workflow,commst_applications where
+		prd_workid=wrk_flowid and prd_code=mst_prdcode and
+		wrk_flowtype='p' and mst_appno='^'
+	</query>
+	
+	<!-- 
+	<query code="ins_facsecurity">
+		insert into commst_facsecurity (facsecurity_appno,
+		facsecurity_facsno, facsecurity_secsno) values (?,?,?)
+	</query>
+
+	<query code="del_facsecurity">
+		delete from commst_facsecurity where  facsecurity_appno=? and facsecurity_facsno=?
+	</query>
+		
+	<query code="sel_mstfacdetails">
+		select facsecurity_appno
+		from commst_facsecurity where facsecurity_appno='^' and
+		facsecurity_secsno='^'
+	</query>
+	
+	<query code="sel_facsecurity">
+		select facsecurity_appno, facsecurity_facsno, facsecurity_secsno
+		from commst_facsecurity where facsecurity_appno='^' and
+		facsecurity_facsno='^'
+	</query>
+	
+	<query code="sel_facsecdetails">
+		select mstsec_details,stat_data_desc from commst_facsecurity
+		,static_data ,commst_securitydetails where facsecurity_appno='^'
+		and facsecurity_facsno='^' and mstsec_appno=facsecurity_appno
+		and stat_data_id(+)=12 and stat_data_desc1(+)=facsecurity_secsno
+		and mstsec_id=facsecurity_secsno
+	</query>
+	
+	<query code="sel_mstsecurity">
+		select mstsec_id,stat_data_desc as sec_name from
+		commst_securitydetails, static_data where stat_data_id(+)=12 and
+		stat_data_desc1(+)=mstsec_id and mstsec_appno='^' and mstsec_type='Primary' order by
+		mstsec_srlno
+	</query>
+	 -->
+</sql>

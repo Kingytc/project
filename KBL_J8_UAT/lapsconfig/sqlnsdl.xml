@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+<query code="sel_recv_nsdlapplication">
+	select  nsdl_ref_id,nsdl_appid,nsdl_orgcode,nsdl_group_id,nsdl_appname,nsdl_reallocation_flag,nsdl_reallocation_orgcode,
+	nsdl_reallocation_solid,nsdl_app_panno,nsdl_app_adharcard,nsdl_recv_flag,nsdl_recv_usrid,nsdl_reallocated_usrid,to_char(nsdl_reallocated_date,'dd/mm/yyyy') as nsdl_reallocated_date,NSDL_LAPS_INWARDAPPNO, 
+	to_char(cus_dob,'dd/mm/yyyy') as cus_dob from nsdl_application,nsdl_cust  where cus_applicanttype='a'  and cus_laps_refid=nsdl_ref_id and  nsdl_reallocation_orgcode='^' and  nsdl_laps_inwardappno is null ^
+	</query>
+	<query code="sel_recv_nsdlapplnsearch">
+	select  nsdl_ref_id,nsdl_appid,nsdl_orgcode,nsdl_group_id,nsdl_appname,nsdl_reallocation_flag,nsdl_reallocation_orgcode,
+	nsdl_reallocation_solid,nsdl_app_panno,nsdl_app_adharcard,nsdl_recv_flag,nsdl_recv_usrid,nsdl_reallocated_usrid,to_char(nsdl_reallocated_date,'dd/mm/yyyy') as nsdl_reallocated_date,NSDL_LAPS_INWARDAPPNO,
+	to_char(cus_dob,'dd/mm/yyyy') as cus_dob from nsdl_application,nsdl_cust  where cus_applicanttype='a'  and cus_laps_refid=nsdl_ref_id ^
+	</query>
+	
+	<query code="sel_reallocate_nsdlapplication">
+	select  nsdl_ref_id,nsdl_appid,nsdl_orgcode,nsdl_group_id,nsdl_appname,nsdl_reallocation_flag,nsdl_reallocation_orgcode,
+	nsdl_reallocation_solid,nsdl_app_panno,nsdl_app_adharcard,nsdl_recv_flag,nsdl_recv_usrid,to_char(nsdl_file_upload_date,'dd/mm/yyyy') as nsdl_file_upload_date,
+    ORG_SCODE,ORG_NAME,(select ORG_NAME from ORGANISATIONS where ORG_CODE=concat(substr(org.ORG_CODE,0,6),'000000000')) as region_name,NSDL_LAPS_INWARDAPPNO,NSDL_STATUS,NSDL_LAPSAPPNO,NSDL_REMARKS
+	from nsdl_application left join ORGANISATIONS org on NSDL_BANK_IFSCCODE=ORG_IFSCCODE where  (nsdl_reallocation_flag!='Y' or  nsdl_reallocation_flag is null) order by region_name 
+	</query>
+	
+	<query code="updNSDLApp_Reallocation">
+	update nsdl_application set NSDL_REALLOCATION_FLAG=?,NSDL_REALLOCATION_ORGCODE=?,NSDL_REALLOCATION_SOLID=?,
+	NSDL_REALLOCATED_USRID=?,NSDL_REALLOCATED_DATE=sysdate,NSDL_RECV_FLAG=? where NSDL_REF_ID=?
+	</query>
+	<query code="selnsdlappdetails">
+	 select NSDL_REF_ID,NSDL_APPID,NSDL_APPNAME,NSDL_APP_PANNO,org_name,
+	NSDL_REALLOCATION_ORGCODE,NSDL_LAPS_INWARDAPPNO
+	from nsdl_application,organisations,users
+	where org_code=usr_orgcode and NSDL_REALLOCATION_ORGCODE=usr_orgcode
+	and NSDL_RECV_USRID=usr_id and NSDL_REALLOCATION_ORGCODE='^' and usr_id='^' 
+	and NSDL_RECV_FLAG='Y' and NSDL_LAPS_INWARDAPPNO is null
+	</query>
+	
+	<query code="selnsdl_appdetails">
+	select CUS_APPLICANTTYPE,CUS_TITLE_CODE,CUS_FNAME||''||CUS_MNAME||''||CUS_LNAME as name,CUS_EMAIL,CUS_FATHERHUSBNAME,to_char(CUS_DOB,'dd/mm/yyyy') as cusdob,
+	CUS_GENDER,CUS_MARITALSTATUS,CUS_QUALIFICATION,CUS_OCCUPATION,CUS_PAN,CUS_AADHAAR,CUS_ADDRESS,
+	CUS_ADDRESS1,CUS_ADDRESS2,CUS_ADDRESSCITY,CUS_ADDRESSPIN,CUS_OCCUPATION,CUS_INCOMESOURCES,CUS_BANKNAME,CUS_BRANCHNAME,
+	CUS_MOBILE,CUS_ACCOUNTNUMBER,CUS_ACCTYPE,CUS_LIABILITY,CUS_BRANCHCODE,CUST_IFSCCODE from nsdl_cust where CUS_LAPS_REFID='^'
+	</query>
+	
+	<query code="sel_coursedetails">
+	select LN_INSTITUTIONNAME,LN_COURSENAME,LN_ADMISSIONQUOTA,LN_DURATION,to_char(LN_COMMENCEMENTDATE,'dd/mm/yyyy') as cuscourseDOJ,to_char(LN_COMPLETIONDATE,'dd/mm/yyyy') as cuscoursecompletion
+	from nsdl_course where LN_CAF_REFNO='^'
+	</query>
+	<query code="sel_nsdlloandetails">
+	select LN_STUDENT_ID,LN_STUD_APPID,to_char(LN_APPDATE,'dd/mm/yyyy') as appdate,LN_TENURE,
+	LN_EMI,LN_SCHEMECODE,LN_REMARKS,LN_PROJECTCOST,LN_REQUESTEDAMT,LN_ASSESSMENT_VALUE,LN_IFBANKER,
+	LN_RELATION,LN_SECURITY,LN_BANKCODE from nsdl_loandetails
+	where LN_REFNO='^'
+	</query>
+	<query code="sel_courseexp">
+	select CAF_YR_YEARVAL,CAF_YR_TUTIONFEE,CAF_YR_EXAMFEE,CAF_YR_BOOKSANDSTATIONARY,CAF_YR_EQUIPMENTCOMPUTER,
+	CAF_YR_HOSTELEXPENSES,CAF_YR_SUNDRIESTRAVEL,CAF_YR_OWNSOURCEAMOUNT,CAF_YR_SCHOLARSHIPAMOUNT,
+	CAF_YR_LOANREQUIRED from nsdl_yearwise_course where CAF_YR_REFNO='^'
+	</query>
+	<query code="updNSDLAppStatus">
+	update nsdl_application set nsdl_remarks=? where NSDL_REF_ID=?
+	</query>
+	<query code="selnsdlapp_comments">
+	select nsdl_remarks from 
+	nsdl_application where NSDL_REF_ID='^'
+	</query>
+	
+ 	<query code="select_download_response">
+   		select NSDL_LAPS_INWARDAPPNO,NSDL_APPID,NSDL_REF_ID,nsdl_remarks,nsdl_status as status,nsdl_disb_amt,to_char(nsdl_disb_date,'dd/mm/yyyy') as nsdl_disb_date from NSDL_APPLICATION
+   left outer join appinwardreg on NSDL_LAPS_INWARDAPPNO=inward_no
+   left outer join applications on inward_no=APP_INWARDNO 
+  WHERE ( NSDL_RESP_FILEDATE IS NULL or  NSDL_MODIFIED_DATE >= NSDL_RESP_FILEDATE) and nsdl_status is not null
+	</query>
+	 <query code="selectFileNameSeqID">
+		select NVL(MAX(NSD_SNO),0) AS MAXID from NSDL_DAY_SEQ WHERE TO_CHAR(NDS_DATE,'DDMMYYYY') = '^'
+    </query>
+    <query code="ins_NSDL_Response">	
+   	 insert into NSDL_DAY_SEQ (NSD_SNO,NDS_DATE) values (?,TO_DATE(?,'DDMMYYYY'))	
+    </query>
+     <query code="update_NSDL_Response">	
+   	    UPDATE NSDL_DAY_SEQ SET NSD_SNO =?,NDS_DATE = TO_DATE (?,'DDMMYYYY') WHERE TO_CHAR
+   	    (NDS_DATE,'DDMMYYYY') = ?
+    </query> 
+ <query code="sel_loanamount">
+ 	select  TO_CHAR(NSDL_RECVD_DATE,'DD/MM/YYYY') AS NSDL_RECVD_DATE,LN_PROJECTCOST,LN_REQUESTEDAMT from NSDL_APPLICATION,NSDL_LOANDETAILS where NSDL_REF_ID=LN_REFNO and LN_REFNO='^'
+ </query>
+ <query code="upd_nsdl_recv_status">
+	update nsdl_application set NSDL_RECV_FLAG=?, NSDL_RECV_USRID=?,NSDL_RECVD_DATE=sysdate,NSDL_REALLOCATION_ORGCODE=?,NSDL_REALLOCATION_SOLID=?,nsdl_laps_inwardappno=?   where NSDL_REF_ID=?
+	</query>
+	 <query code="upd_nsdl_recv_statusundo">
+	update nsdl_application set NSDL_RECV_FLAG=null, NSDL_RECV_USRID=null,NSDL_RECVD_DATE=null,nsdl_laps_inwardappno=null   where NSDL_REF_ID=?
+	</query>
+ <query code="upd_nsdl_sendtoho">
+	update nsdl_application set nsdl_reallocation_flag=null,NSDL_RECV_FLAG=null, NSDL_RECV_USRID=null,NSDL_RECVD_DATE=null,NSDL_REALLOCATION_ORGCODE=null,NSDL_REALLOCATION_SOLID=null   where NSDL_REF_ID=? and NSDL_APPID=?
+	</query>
+	<query code="upd_resfiledate">
+	update nsdl_application set nsdl_resp_filedate=sysdate  where nsdl_ref_id=?
+	</query>
+	<query code="sel_nsdldocumentlist">
+	select nd_ref_id,nd_sno,nd_doctype,nd_docname,nd_docinbytes,nd_docflag from nsdl_documents where nd_ref_id='^'
+	</query>
+	<query code="sel_nsdlviewdocument">
+		select nd_sno,nd_ref_id,nd_docname,nd_docinbytes  from nsdl_documents where nd_ref_id='^' and
+    	nd_sno='^'  
+	</query>
+	<query code="upd_modfiledate">
+	update nsdl_application set nsdl_modified_date=sysdate,nsdl_status=?,NSDL_REMARKS=?  where nsdl_ref_id=?
+	</query>
+	<query code="sel_nsdlapplication">
+	select nsdl_appname,to_char(cus_dob,'dd/mm/yyyy') as cus_dob,nsdl_remarks from nsdl_application,nsdl_cust 
+	 where cus_applicanttype='a' and cus_laps_refid=nsdl_ref_id and nsdl_ref_id='^'
+	</query>
+	<query code="updNSDLAppStatusRemarks">
+	update nsdl_application set nsdl_remarks=?,nsdl_status=?,NSDL_MODIFIED_DATE=sysdate where NSDL_REF_ID=?
+	</query>
+	<query code="updNSDLAppno">
+	update nsdl_application set nsdl_lapsappno=?,nsdl_status=?,NSDL_MODIFIED_DATE=sysdate,NSDL_REMARKS=? where NSDL_REF_ID=?
+	</query>
+	<query code="sel_nsdlremarks">
+	select nsdl_status,nsdl_remarks from nsdl_application where NSDL_REF_ID='^'
+	</query>
+	
+	<query code="sel_reallocate_nsdlapplication_details">
+	select  nsdl_ref_id,nsdl_appid,nsdl_orgcode,nsdl_group_id,nsdl_appname,nsdl_reallocation_flag,nsdl_reallocation_orgcode,
+	nsdl_reallocation_solid,nsdl_app_panno,nsdl_app_adharcard,nsdl_recv_flag,nsdl_recv_usrid,to_char(nsdl_file_upload_date,'dd/mm/yyyy') as nsdl_file_upload_date,
+    ORG_SCODE,ORG_NAME,(select ORG_NAME from ORGANISATIONS where ORG_CODE=concat(substr(org.ORG_CODE,0,6),'000000000')) as region_name,nsdl_file_upload_date as nsdl_file_upload_date1,NSDL_LAPS_INWARDAPPNO,NSDL_STATUS,NSDL_LAPSAPPNO,NSDL_REMARKS
+	from nsdl_application left join ORGANISATIONS org on NSDL_BANK_IFSCCODE=ORG_IFSCCODE order by nsdl_file_upload_date1  desc
+	</query>
+	
+</sql>

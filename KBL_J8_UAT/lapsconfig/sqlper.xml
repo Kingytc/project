@@ -1,0 +1,3322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+	<query code="perappexisearch">
+		select distinct(perapp_oldid), upper(perapp_fname) as
+		perappname, perapp_panno, org_name,
+		to_char(perapp_dob,'dd/mm/yyyy') as perapp_dob, perapp_oldid
+		from per_demographics, applications, perapplicant, organisations
+		where demo_appno=app_no and demo_appid=perapp_id and
+		demo_type='a' and perapp_branchcode=org_scode ^
+	</query>
+
+	<query code="UniqOrgAppgenerationa">
+		select demo_appno, app_status, app_prdcode, p2.cat_name as
+		cat_name, p1.cat_name as prdsubcat, mailchkstatus, app_usrid,
+		app_orglevel, app_applnholder, usr_fname||' '||usr_lname as
+		appholdername, demo_appid,prd_desc,app_renew_flag,APP_LOANSUBTYPE_DIGI from products, per_demographics, applications,
+		prd_category p1, prd_category p2, users,perapplicant where
+		usr_id(+)=app_applnholder and p2.cat_id= p1.cat_parent and
+		p1.cat_id=prd_catid and ^ and prd_code=app_prdcode and
+		app_no=demo_appno and perapp_id=demo_appid and perapp_oldid in (^) and demo_type='a' and
+		app_delflag='N' ^  order by demo_appno desc
+	</query>
+
+	<query code="UniqOrgAppgenerationa_digi">
+		select demo_appno, app_status, app_prdcode, p2.cat_name as
+		cat_name, p1.cat_name as prdsubcat, mailchkstatus, app_usrid,
+		app_orglevel, app_applnholder, usr_fname||' '||usr_lname as
+		appholdername, demo_appid,prd_desc,app_renew_flag,APP_LOANSUBTYPE_DIGI from products, per_demographics, applications,
+		prd_category p1, prd_category p2, users,perapplicant,appinwardreg where
+		usr_id(+)=app_applnholder and p2.cat_id= p1.cat_parent and
+		p1.cat_id=prd_catid and ^ and prd_code=app_prdcode and
+		app_no=demo_appno and perapp_id=demo_appid and perapp_oldid in (^) and demo_type='a' and
+		app_delflag='N' ^  and INWARD_NO = APP_INWARDNO order by demo_appno desc
+	</query>
+	
+	<query code="appgenerationa">
+		select demo_appno, app_status, app_prdcode, p2.cat_name as
+		cat_name, p1.cat_name as prdsubcat, mailchkstatus, app_usrid,
+		app_orglevel, app_applnholder, usr_fname||' '||usr_lname as
+		appholdername from products, per_demographics, applications,
+		prd_category p1, prd_category p2, users where
+		usr_id(+)=app_applnholder and p2.cat_id= p1.cat_parent and
+		p1.cat_id=prd_catid and app_prdcode=prd_code and
+		demo_appno=app_no and demo_appid='^' and demo_type='a' and
+		app_delflag='N' order by demo_appno desc
+	</query>
+
+	<query code="appgeneration1a">
+		select demo_appno, app_status, app_prdcode, (select cat_name
+		from prd_category where cat_id=(select cat_parent from
+		prd_category where cat_id=(select prd_catid from products where
+		prd_code =app_prdcode))) as cat_name, p2.cat_name as prdcat,
+		p1.cat_name as prdsubcat, mailchkstatus, app_usrid,
+		app_orglevel, app_applnholder, usr_fname||' '||usr_lname as
+		appholdername from products p, prd_category p1,prd_category p2,
+		per_demographics, applications, users where
+		usr_id(+)=app_applnholder and p.prd_catid=p1.cat_id and
+		p1.cat_parent=p2.cat_id and demo_appid='^' and demo_appno=app_no
+		and demo_type='a' and app_prdcode=prd_code and app_delflag='N'
+		and demo_appno like '%^%' order by demo_appno desc
+	</query>
+
+	<query code="getcoappguarantorcheck">
+		select demo_appno, demo_type from per_demographics, perapplicant
+		where demo_appid=perapp_id and perapp_oldid = (select perapp_oldid from
+        perapplicant where perapp_id = '^')
+	</query>
+
+	<query code="selCoappGuarandet">
+		select perapp_id, perapp_title,(perapp_fname)as Appname,
+		perapp_address1, perapp_address2, perapp_address3, perapp_city,
+		perapp_state, perapp_zip, perapp_phone, state_name, city_name,
+		perapp_constitution, perapp_eduothers, perinc_monsalary,
+		perinc_yearsalary from perapplicant, per_demographics,
+		perincexpenses, laps_cities, laps_states where
+		perapp_id=demo_appid and perinc_id=demo_appid and
+		state_code(+)=perapp_state and city_code(+)=perapp_city and
+		demo_appno='^' and demo_type='^' order by Appname
+	</query>
+
+	<query code="propdetailsel">
+		select prop_appid, prop_houseno, prop_area, prop_city, prop_pin,
+		prop_builtup, prop_housingaddress, prop_allotted,
+		prop_unexpiredlease, prop_purpose, prop_costofland,
+		prop_amountinvested, prop_costofconstruct, prop_savingbank,
+		prop_costofamenties, prop_disposal, prop_costrepair,
+		prop_pfrefundable, prop_pfnonrefundable, prop_costofflat,
+		prop_otherspy, prop_otheramt, prop_otherspy1, prop_otheramt1,
+		prop_otherspy2, prop_otheramt2, prop_stampduty,
+		prop_loanappliedfor, prop_totalcost, prop_totalfund,
+		prop_loanrepayment, prop_areaofplot, prop_proposedbuildup,
+		prop_purchaseprice, prop_Architectfee, prop_costofconstloan,
+		prop_areaundivided, prop_costundivided, prop_semifinished,
+		prop_costofcomplete, prop_registration, prop_totalcostloan,
+		prop_marketval, prop_type, prop_age, prop_structureval,
+		prop_mortgage, prop_institutename, prop_outstandingloan,
+		prop_repairdetails, prop_state, prop_housetype, prop_mar_land,
+		prop_mar_build, to_char(prop_lease_Expdate,'DD/MM/YYYY') as
+		prop_lease_Expdate, to_char(prop_agree_Date,'DD/MM/YYYY') as
+		prop_agree_Date, prop_agree_no, prop_own_status,
+		prop_dwelling_unit, prop_house_rent, prop_exp_rent,
+		prop_proj_details, prop_spy2, prop_cost, prop_sellername,
+		prop_sell_add, prop_completion,
+		TO_CHAR(prop_occucerti_issue,'DD/MM/YYYY') as
+		prop_occucerti_issue, prop_type1, prop_quality, prop_amenity,
+		prop_market, prop_cost, prop_constr, prop_floorno,
+		prop_location1, prop_location2, prop_location3, prop_location4,
+		prop_amenities1, prop_amenities2, prop_amenities3,
+		prop_amenities4, prop_charges,prop_nature, prop_first_mortgage,
+		city_name, state_name, prop_intermsecurity, prop_estimatecost,
+		prop_chargesany, TO_CHAR(prop_municipalupto,'DD/MM/YYYY') as
+		prop_municipalupto, TO_CHAR(prop_waterdate,'DD/MM/YYYY') as
+		prop_waterdate, prop_societypermission, prop_liensociety,
+		prop_outstandingsociety, prop_costofconstruction, prop_plotprice
+		from perpropertydet, laps_cities, laps_states where
+		prop_appid='^' and city_code(+)=prop_city and state_code(+)=prop_state
+	</query>
+
+	<query code="propdetaildel">
+		delete from perpropertydet where prop_appid=?
+	</query>
+
+	<query code="propdetailins">
+		insert into perpropertydet(prop_appid, prop_houseno, prop_area,
+		prop_city, prop_state, prop_pin, prop_builtup,
+		prop_housingaddress, prop_allotted, prop_unexpiredlease,
+		prop_purpose, prop_costofland, prop_amountinvested,
+		prop_costofconstruct, prop_savingbank, prop_costofamenties,
+		prop_disposal, prop_costrepair, prop_pfrefundable,
+		prop_pfnonrefundable, prop_costofflat, prop_otherspy,
+		prop_otheramt, prop_stampduty, prop_loanappliedfor,
+		prop_totalcost, prop_totalfund, prop_loanrepayment,
+		prop_areaofplot, prop_proposedbuildup, prop_purchaseprice,
+		prop_Architectfee, prop_costofconstloan, prop_areaundivided,
+		prop_costundivided, prop_semifinished, prop_costofcomplete,
+		prop_registration, prop_totalcostloan, prop_marketval,
+		prop_type, prop_age,prop_structureval, prop_mortgage,
+		prop_institutename, prop_outstandingloan,
+		prop_repairdetails,prop_housetype, prop_otherspy1,
+		prop_otheramt1, prop_otherspy2, prop_otheramt2, prop_mar_land,
+		prop_mar_build, prop_lease_Expdate,
+		prop_agree_Date,prop_agree_no, prop_own_status,
+		prop_dwelling_unit, prop_house_rent, prop_exp_rent,
+		prop_proj_details, prop_spy2, prop_sellername, prop_sell_add,
+		prop_completion,prop_occucerti_issue, prop_type1, prop_quality,
+		prop_amenity,prop_market, prop_cost, prop_constr, prop_floorno,
+		prop_location1,prop_location2,prop_location3,
+		prop_location4,prop_amenities1,prop_amenities2,prop_amenities3,prop_amenities4,prop_charges,
+		prop_nature,prop_first_mortgage,
+		prop_intermsecurity,prop_estimatecost,prop_chargesany,prop_municipalupto,
+		prop_waterdate,prop_societypermission,prop_liensociety,prop_outstandingsociety,prop_costofconstruction,prop_plotprice)
+		values
+		(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
+		?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
+		TO_DATE(?,'DD/MM/YYYY') , TO_DATE(?,'DD/MM/YYYY')
+		,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY')
+		,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY')
+		,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?)
+	</query>
+
+	<query code="selectdisbursemnet">
+		select appno, stage1amt, stage1dt, stage2amt, stage2dt,
+		stage3amt, stage3dt, stage4amt, stage4dt, stage5amt, stage5dt,
+		totalamt, totaldt from per_disbdetails where appno= '^'
+	</query>
+
+	<query code="disbursemnetinsert">
+		insert into per_disbdetails values(?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="disbursemnetupdate">
+		update per_disbdetails set STAGE1AMT=?, STAGE1DT=?, STAGE2AMT=?,
+		STAGE2DT=?, STAGE3AMT=?, STAGE3DT=?, STAGE4AMT=?, STAGE4DT=?,
+		STAGE5AMT=?, STAGE5DT=?, TOTALAMT=?, TOTALDT=? where APPNO=?
+	</query>
+
+	<query code="disbursemnetdelete">
+		delete from per_disbdetails where APPNO=?
+	</query>
+
+	<query code="propgendetailsel">
+		select appno,selfocc_status, selfocc_desc, spouse_status,
+		spouse_desc, legal_status, legal_desc, collateral_status,
+		collateral_desc, emploan_status, emploan_desc,
+		escalation_status, escalation_desc, guarantor_status,
+		guarantor_desc,TO_CHAR(registration_date,'DD/MM/YYYY')as registration_date from prop_generalinfo where appno='^'
+	</query>
+
+	<query code="propgendetaildel">
+		delete from prop_generalinfo where appno=?
+	</query>
+
+	<query code="propgendetailins">
+		insert into prop_generalinfo( appno, selfocc_status,
+		selfocc_desc, spouse_status, spouse_desc, legal_status,
+		legal_desc, collateral_status, collateral_desc, emploan_status,
+		emploan_desc, escalation_status, escalation_desc,
+		guarantor_status, guarantor_desc,registration_date) values
+		(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'))
+	</query>
+
+	<query code="takeoversel">
+		select app_no,loan_frombank, loan_fininst, loanamt_transbank,
+		installamt_transbank, repay_period,
+		to_char(avail_date,'DD/MM/YYYY') as avail_date,
+		to_char(fromdate,'DD/MM/YYYY') as fromdate, tot_liability,
+		no_installpaid, to_char(ason_date,'DD/MM/YYYY') as ason_date,
+		to_char(uptodate,'DD/MM/YYYY') as uptodate, regular_loan,
+		overdue_install, overdue_interest, tot_overdue,
+		takeover_amtpaid, sel_transbank,
+		to_char(Overason_date,'DD/MM/YYYY') as Overason_date,
+		shifting_reason,holiday_period,rate_of_interest,prev_bank_opinion,
+		to_char(stmt_from_date,'dd/mm/yyyy') as stmt_from_date,
+		to_char(stmt_to_date,'dd/mm/yyyy') as stmt_to_date,stmt_comments,
+		to_char(due_date,'dd/mm/yyyy') as due_date,loan_bankid from
+		perapp_takeover where app_no='^'
+	</query>
+
+	<query code="takeoverdel">
+		delete from perapp_takeover where app_no=?
+	</query>
+
+	<query code="takeoverins">
+		insert into PERAPP_TAKEOVER(app_no, loan_frombank, loan_fininst,
+		loanamt_transbank, installamt_transbank, repay_period,
+		avail_date, fromdate, tot_liability, no_installpaid,ason_date,
+		uptodate, regular_loan,overdue_install, overdue_interest,
+		tot_overdue, takeover_amtpaid, sel_transbank, overason_date,
+		shifting_reason,holiday_period,rate_of_interest,prev_bank_opinion,
+		stmt_from_date,stmt_to_date,stmt_comments,due_date,loan_bankid)
+		values(?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),
+		to_date(?,'dd/mm/yyyy'), ?,?,to_date( ?, 'dd/mm/yyyy'),
+		to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?, to_date(?,'dd/mm/yyyy'),
+		?,?,?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?)
+	</query>
+
+	<query code="selectvehicledetails1">
+		select auto_accessories, auto_delerstate, auto_applnt, auto_model,
+		remark_gen, auto_delerphone, src_verification, auto_articlename,
+		verf_doneby, ref_made, auto_deleraddress2, auto_category,
+		auto_deleraddress1, auto_dealer, auto_age, auth_dealer,
+		auto_delerpin, auto_appno, remark_app, auto_delercity,
+		auto_purpose, auto_make ,auto_articlename, estb_year,
+		auto_valuation, auto_appid, TO_CHAR(verf_doneon,'DD/MM/YYYY') as
+		verf_doneon, dealer_since, auto_valuationentry,
+		auto_registration, auto_chasis, auto_engine, auto_tax,
+		auto_insurance, auto_charges, auto_vehicles, auto_owner,
+		auto_remarks, auto_userid, auto_vehicletype, auto_originalcost,
+		auto_actualconsideration, auto_leastvalue, auto_discount,
+		driven_by_applicant, auto_fuel_used,AUTO_SALTOSB,AUTO_UNDERTKNGLETTER,AUTO_OLDVEHICLETYPE,
+		TO_CHAR(auto_datemanu,'DD/MM/YYYY') as auto_datemanu,
+		city_name,state_name, auto_take_over,TO_CHAR(registration_date,'DD/MM/YYYY') as registration_date,auto_natureofcharge,AUTO_SEC_SECID,auto_sno,AUTO_EDIT_APPLYFLAG,AUTO_PURCHASEVAL from per_auto, laps_cities lc, laps_states ls
+		where auto_applnt='^' and auto_appno='^' and auto_type is null
+		and auto_delercity=city_code and auto_delerstate=state_code  and lc.STATE_ID=ls.state_id order by auto_sno
+	</query>
+	
+	<query code="selVehicledet">
+		select auto_delerstate, auto_model, auto_articlename,
+		verf_doneby, auto_deleraddress2, auto_category,
+		auto_deleraddress1, auto_dealer, auth_dealer, auto_delercity,
+		auto_purpose, auto_make, auto_articlename, auto_valuation,
+		auto_valuationentry, auto_tax, auto_insurance, auto_charges,
+		auto_vehicletype, auto_originalcost, auto_actualconsideration,
+		auto_leastvalue, auto_registration from per_auto where
+		auto_appno='^' and (auto_category='1' or auto_category='2')
+	</query>
+	
+	<query code="sel_collsec_prop">
+		select auto_model, auto_make, auto_serialno from per_auto where
+		auto_appno='^' and (auto_category='used' or auto_category='new')
+	</query>
+
+	<query code="perdelcollateralauto">
+		delete from per_auto where auto_appno=? and auto_applnt=? and
+		auto_type is null and auto_sno=?
+	</query>
+
+	<query code="vehicledetailsinsert1">
+		insert into per_auto( auto_appno, auto_applnt, auto_purpose,
+		auto_vehicletype, auto_make, auto_model, auto_articlename,
+		auto_accessories, auto_valuation, auto_age, auto_dealer,
+		auto_deleraddress1, auto_deleraddress2, auto_delercity,
+		auto_delerstate, auto_delerpin, auto_delerphone, auth_dealer,
+		estb_year, dealer_since, auto_valuationentry, auto_registration, auto_chasis,
+		auto_engine, auto_tax, auto_insurance, auto_charges,
+		auto_discount, driven_by_applicant,
+		auto_fuel_used,auto_vehicles,auto_owner,auto_remarks,
+		auto_userid,auto_appid, auto_category, auto_originalcost,
+		auto_actualconsideration, auto_leastvalue, auto_datemanu, auto_take_over,registration_date,AUTO_SALTOSB,AUTO_UNDERTKNGLETTER,auto_natureofcharge,auto_sec_secid,AUTO_OLDVEHICLETYPE,auto_sno,AUTO_EDIT_APPLYFLAG)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?)
+
+	</query>
+	
+	<query code="vehicledetails_update">
+		update per_auto set auto_applnt=?, auto_purpose=?,
+		auto_vehicletype=?, auto_make=?, auto_model=?, auto_articlename=?,
+		auto_accessories=?, auto_valuation=?, auto_age=?, auto_dealer=?,
+		auto_deleraddress1=?, auto_deleraddress2=?, auto_delercity=?,
+		auto_delerstate=?, auto_delerpin=?, auto_delerphone=?, auth_dealer=?,
+		estb_year=?, dealer_since=?, auto_valuationentry=?, auto_registration=?, auto_chasis=?,
+		auto_engine=?, auto_tax=?, auto_insurance=?, auto_charges=?,
+		auto_discount=?, driven_by_applicant=?,
+		auto_fuel_used=?,auto_vehicles=?,auto_owner=?,auto_remarks=?,
+		auto_userid=?,auto_appid=?, auto_category=?, auto_originalcost=?,
+		auto_actualconsideration=?, auto_leastvalue=?, auto_datemanu=to_date(?,'dd/mm/yyyy'), auto_take_over=?,registration_date=to_date(?,'dd/mm/yyyy'),AUTO_SALTOSB=?,AUTO_UNDERTKNGLETTER=?,auto_natureofcharge=?,auto_sec_secid=?,AUTO_OLDVEHICLETYPE=?,
+		AUTO_EDIT_APPLYFLAG=? where  auto_appno=? and auto_sno=? 
+
+	</query>
+	<query code="perdelcollateralautocoll">
+		delete from per_auto where auto_appno=? and auto_applnt=? and
+		auto_type=? and auto_appid=? and auto_sno=?
+	</query>
+
+	<query code="perotherassetselect">
+		select asset_assdetails, asset_dealer, asset_puchaseprice,
+		asset_invoice, to_char(asset_invoicedate,'dd/mm/yyyy')as asset_invoicedate, asset_incincome, asset_need
+		from per_otherassets where asset_appno='^' and agr_facsno='^'
+	</query>
+
+	<query code="perassetdelete">
+		delete from per_otherassets where asset_appno = ? and agr_facsno = ?
+		
+	</query>
+
+	<query code="perotherassetinsert">
+		insert into per_otherassets (asset_appno, asset_id,
+		asset_assdetails, asset_dealer,
+		asset_puchaseprice,asset_invoice, asset_invoicedate,
+		asset_incincome, asset_need,agr_facsno) values(?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?)
+	</query>
+
+	<query code="selverification">
+		select verify_doneby, usr_fname as verify_donebyname,
+		to_char(verify_doneon,'dd/mm/yyyy')as verify_doneon,
+		verify_source, verify_reference, verify_applicantremark,
+		verify_documentrerk from per_verification, users where
+		usr_id=verify_doneby and verify_appno='^'
+	</query>
+
+	<query code="delverification">
+		delete from per_verification where verify_appno=?
+	</query>
+
+	<query code="insverification">
+		insert into per_verification(verify_appno, verify_doneby,
+		verify_doneon, verify_source, verify_reference,
+		verify_applicantremark, verify_documentrerk)
+		values(?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?)
+	</query>
+
+	<query code="legalopinionSel">
+		select app_no,legop_sno, to_char(entry_date,'dd/mm/yyyy') as
+		entry_date, ref_no, to_char(ref_date,'dd/mm/yyyy') as ref_date,
+		lawyer_code, legop_flag, mortage_flag, conditions, remarks,
+		to_char(send_date,'dd/mm/yyyy') as send_date,
+		to_char(recd_date,'dd/mm/yyyy') as recd_date, branch_panel,
+		to_char(search_date,'dd/mm/yyyy') as search_date, past_details,
+		lawyer_name, lawyer_designation from legalopinion where
+		app_no='^' order by legop_sno
+	</query>
+	
+	<query code="legalopinionSelbysno">
+		select app_no,legop_sno, to_char(entry_date,'dd/mm/yyyy') as
+		entry_date, ref_no, to_char(ref_date,'dd/mm/yyyy') as ref_date,
+		lawyer_code, legop_flag, mortage_flag, conditions, remarks,
+		to_char(send_date,'dd/mm/yyyy') as send_date,
+		to_char(recd_date,'dd/mm/yyyy') as recd_date, branch_panel,
+		to_char(search_date,'dd/mm/yyyy') as search_date, past_details,
+		lawyer_name, lawyer_designation from legalopinion where legop_sno='^' and 
+		app_no='^'  
+	</query>
+
+	<query code="legalopinionUpd">
+		update legalopinion set org_code=?,
+		entry_date=to_date(?,'dd/mm/yyyy'), ref_no=?,
+		ref_date=to_date(?,'dd/mm/yyyy'), lawyer_code=?, legop_flag=?,
+		mortage_flag=?, conditions=?, remarks=?,
+		send_date=to_date(?,'dd/mm/yyyy'),
+		recd_date=to_date(?,'dd/mm/yyyy'), branch_panel=?,
+		search_date=to_date(?,'dd/mm/yyyy'), past_details=?,
+		lawyer_name=?, lawyer_designation=? where app_no=? and
+		legop_sno=?
+	</query>
+
+	<query code="legalMax">
+		select nvl(max(legop_sno)+1,1) as maxslno from legalopinion
+		where app_no='^'
+	</query>
+
+	<query code="legalopinionIns">
+		insert into legalopinion(app_no, org_code, legop_sno,
+		entry_date, ref_no, ref_date, lawyer_code, legop_flag,
+		mortage_flag, conditions, remarks, send_date, recd_date,
+		branch_panel, search_date, past_details, lawyer_name,
+		lawyer_designation) values
+		(?,?,?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,?,?)
+	</query>
+
+	<query code="legalopinionDel">
+		delete legalopinion where app_no=? and legop_sno=?
+	</query>
+
+	<!-- query code="Sel_valuationentry1">
+		select b.app_no, b.valu_sno, to_char(b.entry_date,'dd/mm/yyyy') as
+		entry_date, b.valuers_code, b.let_cer_no,
+		to_char(b.let_cer_date,'dd/mm/yyyy') as let_cer_date,
+		b.mark_val_land, b.mark_val_build, b.esti_val_force, b.remark_note,
+		to_char(b.valuation_dt,'dd/mm/yyyy') as valuation_dt,
+		b.reference_rt, b.guidance_rt, to_char( send_date, 'dd/mm/yyyy') as
+		send_date, a.valuers_seqno, a.valuers_name, a.valuers_address1,
+		a.valuers_address2, a.valuers_address3, a.valuers_city,
+		a.valuers_state, a.valuers_pincode, a.valuers_country,
+		a.valuers_off_phoneno, a.valuers_off_faxno, to_char(
+		a.valuers_empaneleddt, 'dd/mm/yyyy') as valuers_empaneleddt,
+		valuers_email, city_name, state_name,branchpanel from valuersmaster a,
+		valuationentry b, laps_cities, laps_states where a.valuers_seqno=
+		b.valuers_code and app_no='^' and state_code=a.valuers_state
+		and city_code=a.valuers_city
+		</query-->
+
+	<query code="Sel_valuationentry1">
+		select b.app_no, b.valu_sno, to_char(b.entry_date,'dd/mm/yyyy')
+		as entry_date, b.valuers_code, b.let_cer_no,
+		to_char(b.let_cer_date,'dd/mm/yyyy') as let_cer_date,
+		b.mark_val_land, b.mark_val_build, b.esti_val_force,
+		b.remark_note, to_char(b.valuation_dt,'dd/mm/yyyy') as
+		valuation_dt, b.reference_rt, b.guidance_rt, to_char( send_date,
+		'dd/mm/yyyy') as send_date, branchpanel,valuername,v.VALUER_CATEGORYCODE,SEC_SECURITYID, to_char(b.RECD_DATE,'dd/mm/yyyy') as RECD_DATE from
+		valuationentry b left outer join VALUERSMASTER v on b.VALUERS_CODE=v.VALUERS_CODE and valappflag='V' where app_no='^'  
+
+	</query>
+	<query code="Sel_valuationentry11">
+		select b.app_no, b.valu_sno, to_char(b.entry_date,'dd/mm/yyyy')
+		as entry_date, b.valuers_code as valuers_code , b.let_cer_no,
+		to_char(b.let_cer_date,'dd/mm/yyyy') as let_cer_date,
+		b.mark_val_land, b.mark_val_build, b.esti_val_force,
+		b.remark_note, to_char(b.valuation_dt,'dd/mm/yyyy') as
+		valuation_dt, b.reference_rt, b.guidance_rt, to_char( send_date,
+		'dd/mm/yyyy') as send_date, branchpanel,valuername,v.VALUER_CATEGORYCODE,SEC_SECURITYID, to_char(b.RECD_DATE,'dd/mm/yyyy') as RECD_DATE from
+		valuationentry b left outer join VALUERSMASTER v on b.VALUERS_CODE=v.VALUERS_CODE and valappflag='V' where app_no='^'  and SEC_SECURITYID='^'
+
+	</query>
+	
+	<query code="Sel_valuationentry1bysno">
+		select b.app_no, b.valu_sno, to_char(b.entry_date,'dd/mm/yyyy')
+		as entry_date, b.valuers_code, b.let_cer_no,
+		to_char(b.let_cer_date,'dd/mm/yyyy') as let_cer_date,
+		b.mark_val_land, b.mark_val_build, b.esti_val_force,
+		b.remark_note, to_char(b.valuation_dt,'dd/mm/yyyy') as
+		valuation_dt, b.reference_rt, b.guidance_rt, to_char( send_date,
+		'dd/mm/yyyy') as send_date, branchpanel,valuername from
+		valuationentry b where valu_sno='^' and app_no='^'
+	</query>
+
+	<query code="sel_sec_test1">
+		select bank_slno, bank_secname, bank_standname, bank_dempar,
+		bank_regfoliono, bank_facevalue, bank_qty, bank_mktmetvalue,
+		bank_total from per_security where bank_appno ='^' and
+		bank_slno='^'
+	</query>
+
+	<query code="Sel_MaxId_sec_test">
+		select nvl(max(bank_slno),0)+1 as maxid from per_security where
+		bank_appno ='^'
+	</query>
+
+	<query code="Ins_sec_test">
+		insert into per_security (bank_slno, bank_appno, bank_secname,
+		bank_standname, bank_dempar, bank_regfoliono, bank_facevalue,
+		bank_qty, bank_mktmetvalue, bank_total) values
+		(?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="Upd_sec_test">
+		update per_security set bank_secname=?, bank_standname=?,
+		bank_dempar=?, bank_regfoliono=?, bank_facevalue=?, bank_qty=?,
+		bank_mktmetvalue=?, bank_total=? where bank_appno=? and
+		bank_slno=?
+	</query>
+
+	<query code="Del_sec_test">
+		delete from per_security where bank_appno=? and bank_slno=?
+	</query>
+
+	<!-- start   of  personal financial  -->
+
+	<query code="pergetfinancialbnk">
+		select bank_appno, bank_apptype, bank_serialno, bank_name,
+		bank_accntno, bank_accnttype, bank_balance, bank_iscoll,
+		bank_yrsacchold, remarks from per_bank where bank_appno='^'
+		order by bank_serialno
+	</query>
+
+	<query code="perdelfinancialbnk">
+		delete from per_bank where bank_appno=?
+	</query>
+
+	<query code="perinsfinancialbnk">
+		insert into per_bank(bank_appno, bank_apptype, bank_serialno,
+		bank_name, bank_yrsacchold, bank_accntno, bank_accnttype,
+		bank_balance, bank_iscoll, remarks) values (?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="pergetfinancialinv">
+		select stoc_appno, stoc_applnt, stoc_serialno, stoc_desc,
+		stoc_shareval, stoc_iscoll,
+		to_char(stoc_dateofissue,'DD/MM/YYYY') as stoc_dateofissue,
+		to_char(stoc_dateofmaturity,'DD/MM/YYYY') as
+		stoc_dateofmaturity, stoc_amount, stoc_issusing from per_stocks
+		where stoc_applnt='^' and stoc_appno='^' order by stoc_serialno
+	</query>
+	
+	<query code="pergetfinancialinvbysno">
+		select stoc_appno, stoc_applnt, stoc_serialno, stoc_desc,
+		stoc_shareval, stoc_iscoll,
+		to_char(stoc_dateofissue,'DD/MM/YYYY') as stoc_dateofissue,
+		to_char(stoc_dateofmaturity,'DD/MM/YYYY') as
+		stoc_dateofmaturity, stoc_amount, stoc_issusing from per_stocks
+		where stoc_serialno='^' and stoc_applnt='^' and stoc_appno='^' 
+	</query>	
+
+	<query code="perdelfinancialinv">
+		delete from per_stocks where stoc_serialno=? and stoc_appno=?
+	</query>
+
+	<query code="permaxfinancialinv">
+		select nvl(max(stoc_serialno),0)+1 as cnt from per_stocks where
+		stoc_appno='^'
+	</query>
+
+	<query code="getInvesmentColcheck">
+		select stoc_appno from PER_STOCKS where stoc_desc='^'
+	</query>
+
+	<query code="getInsuranceColcheck">
+		select insu_appno from per_insurance where insu_policyno='^'
+	</query>
+
+	<query code="perinsfinancialinv">
+		insert into per_stocks( stoc_appno, stoc_serialno, stoc_applnt,
+		stoc_desc, stoc_shareval, stoc_iscoll, stoc_dateofissue,
+		stoc_dateofmaturity, stoc_amount, stoc_issusing ) values
+		(?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY'),?,?)
+	</query>
+
+	<query code="perupdfinancialinv">
+		update per_stocks set stoc_applnt=?, stoc_desc=?,
+		stoc_shareval=?, stoc_iscoll=?,
+		stoc_dateofissue=to_date(?,'dd/mm/yyyy'),
+		stoc_dateofmaturity=to_date(?,'dd/mm/yyyy'), stoc_amount=?,
+		stoc_issusing=? where stoc_serialno=? and stoc_appno=?
+	</query>
+
+	<query code="pergetfinancialpol">
+		select insu_appno, insu_applnt, insu_serialno, insu_policyno,
+		insu_surrenderval, insu_agencyname, insu_agencyphone,
+		insu_iscoll, to_char(insu_matdate,'DD/MM/YYYY') as insu_matdate,
+		to_char(insu_prepaid,'DD/MM/YYYY') as insu_prepaid  from per_insurance where insu_applnt='^' and insu_appno='^' order by
+		insu_serialno
+	</query>
+	
+	<query code="pergetfinancialpolbysno">
+		select insu_appno, insu_applnt, insu_serialno, insu_policyno,
+		insu_surrenderval, insu_agencyname, insu_agencyphone,
+		insu_iscoll, to_char(insu_matdate,'DD/MM/YYYY') as insu_matdate,
+		to_char(insu_matdate,'DD/MM/YYYY') as insu_prepaid from per_insurance where insu_serialno='^' and insu_applnt='^' and insu_appno='^' 
+	</query>
+
+	<query code="perdelfinancialpol">
+		delete from per_insurance where insu_serialno=? and insu_appno=?
+	</query>
+
+	<query code="perupdfinancialpol">
+		update per_insurance set insu_applnt=?, insu_policyno=?,
+		insu_surrenderval=?, insu_agencyname=?, insu_agencyphone=?,
+		insu_iscoll=?, insu_matdate=to_date(?,'dd/mm/yyyy'),
+		insu_prepaid=to_date(?,'DD/MM/YYYY') where insu_serialno=? and
+		insu_appno=?
+	</query>
+
+	<query code="perinsfinancialpol">
+		insert into per_insurance ( insu_appno, insu_applnt,
+		insu_serialno, insu_policyno, insu_surrenderval,
+		insu_agencyname, insu_agencyphone, insu_iscoll, insu_matdate,
+		insu_prepaid )values(?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY'))
+	</query>
+
+	<query code="permaxfinancialins">
+		select nvl(max(insu_serialno),0)+1 as cnt from per_insurance where
+		insu_appno='^'
+	</query>
+
+	<query code="pergetfinancialprop">
+		select prop_appno, prop_applnt, prop_serialno, prop_desc,
+		prop_purchaseval, prop_marketval, prop_iscoll,
+		to_char(prop_valuation_date,'DD/MM/YYYY') as
+		prop_valuation_date, prop_valuation_by ,
+		prop_charged,prop_assettype, pro_whether_leased from
+		per_properties where prop_appno='^' order by prop_serialno
+	</query>
+
+	<query code="perdelfinancialprop">
+		delete from per_properties where prop_appno=?
+	</query>
+
+	<query code="perinsfinancialprop">
+		insert into per_properties(
+		prop_appno,prop_applnt,prop_serialno,prop_desc,prop_purchaseval,prop_marketval,prop_iscoll,prop_valuation_date,
+		prop_valuation_by,prop_charged,prop_assettype,pro_whether_leased)
+		values (?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?)
+	</query>
+
+	<!-- End  of  personal financial  -->
+
+	<query code="sellifestyle">
+		select lifestyle_car, lifestyle_scooter, lifestyle_fridge,
+		lifestyle_telephone, lifestyle_computer, lifestyle_mobile,
+		lifestyle_washing_machine, lifestyle_television,
+		to_char(lifestyle_car_date,'DD/MM/YYYY') as lifestyle_car_date,
+		to_char(lifestyle_scooter_date,'DD/MM/YYYY') as
+		lifestyle_scooter_date,
+		to_char(lifestyle_fridge_date,'DD/MM/YYYY') as
+		lifestyle_fridge_date,
+		to_char(lifestyle_telephone_date,'DD/MM/YYYY') as
+		lifestyle_telephone_date,to_char(lifestyle_computer_date,'DD/MM/YYYY')
+		as lifestyle_computer_date,
+		to_char(lifestyle_mobile_date,'DD/MM/YYYY') as
+		lifestyle_mobile_date,
+		to_char(lifestyle_washing_machine_date,'DD/MM/YYYY') as
+		lifestyle_washing_machine_date,
+		to_char(lifestyle_television_date,'DD/MM/YYYY') as
+		lifestyle_television_date, lifestyle_car_market,
+		lifestyle_scooter_market, lifestyle_fridge_market,
+		lifestyle_telephone_market, lifestyle_computer_market,
+		lifestyle_mobile_market, lifestyle_washing_market,
+		lifestyle_television_market, lifestyle_car_loanamt,
+		lifestyle_scooter_loanamt, lifestyle_fridge_loanamt,
+		lifestyle_telephone_loanamt, lifestyle_computer_loanamt,
+		lifestyle_mobile_loanamt, lifestyle_washing_loanamt,
+		lifestyle_television_loanamt from per_lifestyle where
+		lifestyle_appno ='^'
+	</query>
+
+	<query code="dellifestyle">
+		delete from per_lifestyle where lifestyle_appno = ?
+	</query>
+
+	<query code="inslifestyle">
+		insert into per_lifestyle (lifestyle_appno, lifestyle_car,
+		lifestyle_scooter, lifestyle_fridge, lifestyle_telephone,
+		lifestyle_computer, lifestyle_mobile, lifestyle_washing_machine,
+		lifestyle_television, lifestyle_car_date,
+		lifestyle_scooter_date, lifestyle_fridge_date,
+		lifestyle_telephone_date, lifestyle_computer_date,
+		lifestyle_mobile_date, lifestyle_washing_machine_date,
+		lifestyle_television_date, lifestyle_car_market,
+		lifestyle_scooter_market, lifestyle_fridge_market,
+		lifestyle_telephone_market, lifestyle_computer_market,
+		lifestyle_mobile_market, lifestyle_washing_market,
+		lifestyle_television_market, lifestyle_car_loanamt,
+		lifestyle_scooter_loanamt, lifestyle_fridge_loanamt,
+		lifestyle_telephone_loanamt, lifestyle_computer_loanamt,
+		lifestyle_mobile_loanamt, lifestyle_washing_loanamt,
+		lifestyle_television_loanamt) values(?,?,?,?,?,?,?,?,?,
+		TO_DATE(?,'DD/MM/YYYY'), TO_DATE(?,'DD/MM/YYYY'),
+		TO_DATE(?,'DD/MM/YYYY'), TO_DATE(?,'DD/MM/YYYY'),
+		TO_DATE(?,'DD/MM/YYYY'), TO_DATE(?,'DD/MM/YYYY'),
+		TO_DATE(?,'DD/MM/YYYY'),
+		TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="agr_selotherassets">
+		SELECT appno, apptype, sno, agr_security, agr_particular,
+		agr_purchase, agr_market,
+		to_char(agr_valuationdate,'dd/mm/yyyy') as agr_valuationdate,
+		agr_valuedby from agr_otherassets where apptype='^' and
+		appno='^'
+	</query>
+	
+	<query code="agr_selotherassetsbysno">
+		SELECT appno, apptype, sno, agr_security, agr_particular,
+		agr_purchase, agr_market,
+		to_char(agr_valuationdate,'dd/mm/yyyy') as agr_valuationdate,
+		agr_valuedby from agr_otherassets where sno='^' and apptype='^' and
+		appno='^'
+	</query>
+
+	<query code="agr_maxotherassets">
+		select nvl(max(sno),0)+1 as cnt from agr_otherassets where
+		appno='^'
+	</query>
+
+	<query code="agr_delotherassets">
+		delete from agr_otherassets where sno=? and appno=?
+	</query>
+
+	<query code="agr_insotherassets">
+		insert into agr_otherassets(appno, apptype, sno, agr_security,
+		agr_particular, agr_purchase, agr_market, agr_valuationdate,
+		agr_valuedby) values (?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?)
+	</query>
+
+	<query code="agr_updotherassets">
+		update agr_otherassets set apptype=?, agr_security=?,
+		agr_particular=?, agr_purchase=?, agr_market=?,
+		agr_valuationdate=to_date(?,'dd/mm/yyyy'), agr_valuedby=? where
+		sno=? and appno=?
+	</query>
+
+	<query code="pergetcollateralauto">
+		select auto_appno, auto_applnt, auto_category, auto_make,
+		auto_model, auto_dealer, auto_serialno, auto_ser_age,
+		auto_valuation, auto_price_type, auto_age, auto_type,
+		to_char(auto_lasttax,'DD/MM/YYYY') as auto_lasttax, auto_regno,
+		auto_cost,auto_lifetaxpd,auto_sno from per_auto where
+		auto_appno='^' and auto_applnt='^' and auto_type='^' and
+		auto_appid=^
+	</query>
+	
+	<query code="pergetcollateralautobysno">
+		select auto_appno, auto_applnt, auto_category, auto_make,
+		auto_model, auto_dealer, auto_serialno, auto_ser_age,
+		auto_valuation, auto_price_type, auto_age, auto_type,
+		to_char(auto_lasttax,'DD/MM/YYYY') as auto_lasttax, auto_regno,
+		auto_cost,auto_lifetaxpd,auto_sno from per_auto where auto_sno='^' and
+		auto_appno='^' and auto_applnt='^' and auto_type='^' and
+		auto_appid=^
+	</query>
+
+	<query code="perinscollateralauto">
+		insert into per_auto( auto_appno, auto_applnt, auto_category,
+		auto_model, auto_make, auto_dealer, auto_serialno, auto_ser_age,
+		auto_valuation, auto_price_type, auto_age, auto_type,
+		auto_lasttax, auto_appid, auto_cost, auto_lifetaxpd,auto_sno)
+		values(?,?,?,?,?,?,?,?,?,?,?,?, TO_DATE(?,'DD/MM/YYYY'),?,?,?,?)
+	</query>
+
+	<query code="sel_maxperautosno">
+		select nvl(max(auto_sno),0)+1 as auto_sno from per_auto where
+		auto_appno='^' and auto_type='^'
+	</query>
+
+	<query code="perupdcollateralauto">
+		update per_auto set auto_category=?, auto_model=?, auto_make=?,
+		auto_dealer=?, auto_serialno=?, auto_ser_age=?,
+		auto_valuation=?, auto_price_type=?, auto_age=?, auto_type=?,
+		auto_lasttax=to_date(?,'dd/mm/yyyy'), auto_appid=?, auto_cost=?,
+		auto_lifetaxpd=? where auto_appno=? and auto_applnt=? and
+		auto_type=? and auto_appid=? and auto_sno=?
+	</query>
+
+	<query code="sel_collatraldetails">
+		select home_appno, home_applnt, home_appid, home_sino,
+		home_contperson, home_titleadd1, home_titleadd2, home_titlecity,
+		home_titlestate, home_titlezip, home_yrbuilt, home_purchaseval,
+		home_appval,home_mortval, home_extent, home_surveyno,
+		to_char(home_propertytax,'DD/MM/YYYY') as home_propertytax,
+		to_char(home_watertax,'DD/MM/YYYY') as home_watertax,
+		home_other, home_desc, city_name, state_name, home_contperson2,
+		home_contperson3 from per_home, laps_cities, laps_states s where
+		home_appno='^' and home_applnt='^' and home_appid='^' and
+		city_code(+)=home_titlecity and s.state_code(+)=home_titlestate
+	</query>
+	
+	<query code="sel_collatraldetailsbysno">
+		select home_appno, home_applnt, home_appid, home_sino,
+		home_contperson, home_titleadd1, home_titleadd2, home_titlecity,
+		home_titlestate, home_titlezip, home_yrbuilt, home_purchaseval,
+		home_appval,home_mortval, home_extent, home_surveyno,
+		to_char(home_propertytax,'DD/MM/YYYY') as home_propertytax,
+		to_char(home_watertax,'DD/MM/YYYY') as home_watertax,
+		home_other, home_desc, city_name, state_name, home_contperson2,
+		home_contperson3 from per_home, laps_cities, laps_states s where home_sino='^' and
+		home_appno='^' and home_applnt='^' and home_appid='^' and
+		city_code(+)=home_titlecity and s.state_code(+)=home_titlestate
+	</query>
+
+	<query code="perinscollateralhome">
+		insert into per_home( home_appno,home_applnt, home_sino,
+		home_titleaccnt, home_titleadd1, home_titleadd2, home_titlecity,
+		home_titlestate,home_titlezip, home_contperson, home_yrbuilt,
+		home_purchaseval,home_appval, home_mortval, home_extent,
+		home_surveyno,home_propertytax, home_watertax, home_other,
+		home_desc, home_appid, home_contperson2, home_contperson3)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),
+		TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?)
+	</query>
+
+	<query code="perupdcollateralhome">
+		update per_home set home_titleaccnt=?, home_titleadd1=?,
+		home_titleadd2=?, home_titlecity=?, home_titlestate=?,
+		home_titlezip=?, home_contperson=?, home_yrbuilt=?,
+		home_purchaseval=?, home_appval=?, home_mortval=?,
+		home_extent=?, home_surveyno=?,
+		home_propertytax=TO_DATE(?,'DD/MM/YYYY'),
+		home_watertax=TO_DATE(?,'DD/MM/YYYY'), home_other=?,
+		home_desc=?, home_contperson2=?, home_contperson3=? where
+		home_appno=? and home_applnt=? and home_sino=?
+	</query>
+
+	<query code="sel_max_collatraldetails">
+		select NVL(max(home_sino),0)+1 as maxid from per_home where
+		home_appno='^'
+	</query>
+
+	<query code="perdelcollateralhome">
+		delete from per_home where home_appno=? and home_applnt=? and
+		home_sino=?
+	</query>
+
+	<query code="pergetloanProduct">
+		select ap.app_no AS appno, ap.app_status AS status,ap.APP_PERM_NO,
+		pa.perapp_fname AS aname, d.demo_appid AS appid, pc.cat_name AS
+		subcategory, pc1.cat_name AS category,p.prd_rng_from AS rfrom,
+		p.prd_rng_to AS rangeto, p.prd_code AS prdcode, p.prd_type,
+		l.loan_modintrate AS mintrate, l.loan_terms AS lterms,
+		l.loan_amtreqd AS amtreqd, l.loan_costloanprd AS cloanprd,
+		l.loan_recmdamt AS sancamount, l.loan_downpay AS downpay,
+		l.loan_tradein AS tradein,l.loan_loantrade AS loantrade,
+		pmc.margin_perct AS margin_perct, par.prd_maxintclass AS
+		hidclass ,pri.prd_totalint AS intrest, l.loan_reqterms AS
+		lreqterms, l.loan_termrange AS loan_termrange , l.loan_inttype
+		AS loan_inttype ,loan_purposeofloan AS loan_purposeofloan,
+		TO_CHAR(l.loan_filedon,'DD/MM/YYYY') AS loan_filedon,
+		loan_repaymenttype, loan_appamt AS raamount, p.prd_renew,
+		p.prd_term, l.loan_margin as loan_margin, l.loan_docfee,
+		l.loan_profee, l.loan_bank_refno, l.loan_interestcharged,
+		l.loan_repaycapacity, l.loan_steptype, l.loan_fileno,
+		l.loan_intrate, p.prd_type, TO_CHAR(l.loan_receivedate,
+		'DD/MM/YYYY') AS loan_receivedate, pa.perapp_salaryrouted,
+		l.loan_deviationloanamount, loan_type, loan_modeofpay,
+		loan_facility, loan_govt, loan_sub, offeredmargin,
+		LAND_MEASUREMENT, govt_scheme, loan_annualincome,
+		nvl(indinfo_is_staff,'N') indinfo_is_staff, nvl(prd_principal,0)
+		prd_principal, nvl(prd_interest,0) prd_interest,nvl(PRD_STAFF_MAXTERM_PRIN,0)
+		PRD_STAFF_MAXTERM_PRIN, nvl(PRD_STAFF_MAXTERM_INTR,0) PRD_STAFF_MAXTERM_INTR,l.loan_emi,
+		l.loan_interest_emi, prd_collpass as income_limit_employed,
+		prd_liqpass as income_limit_self_employed, pa.perapp_employment,to_char(perapp_invocdate,'dd/mm/yyyy') as perapp_invocdate,
+		prd_empretireage, prd_selfretireage, maxmetro, maxnon_metro,
+		indinfo_service_years, l.loan_operativeaccno as
+		loan_operativeaccno,l.loan_secvalue as
+		loan_secvalue,l.LOAN_DIGI_RESIDUAL,l.LOAN_ECSBANKNAME,l.LOAN_ECSACCOUNTTYPE,l.LOAN_ECSOPERACCNUM,l.LOAN_ECSATHUNMODE,l.LOAN_ECSIFSCCODE,
+		loan_copsociety, to_char(ap.app_processdate,'dd/mm/yyyy') as
+		app_processdate, app_loantype, prd_netemp, prd_netselfemp,
+		prd_staffprd, loan_sponseragency, loan_subsidytype,LOAN_AGENCYNAME,
+		prd_loantype, nsc_loan, app_inwardno,
+		perapp_title,prd_appminage,p.scheme_code,l.loan_intcalcmode,l.loan_prepaycharge,l.loan_upfrontfee,
+		ap.app_isdeviated, p.incomeflag,prd_loanlimit, i.indinfo_service_years,l.loan_cgtmse,l.loan_docrecvd,
+		l.loan_docspecify,l.loan_specialcust,p.prd_holiday,l.loan_ageofveh,l.loan_interestid,l.loan_baserate,l.LOAN_SECURITYCOLLATERAL,
+		l.LOAN_TIMESOFABOVE,l.loan_mongrossrent,l.loan_mongrossrent,p.prd_purpose as prd_purpose,APP_RENEW_FLAG,
+		to_char(ap.app_clpudate,'dd/mm/yyyy') as app_clpudate,to_char(ap.app_cpcdate,'dd/mm/yyyy') as app_cpcdate,pa.perapp_cbsid as perapp_cbsid,loan_takeover
+		,l.loan_creditrskval,l.loan_busstatval,l.loan_mclrtabcode,l.loan_mclrtype,p.prd_depositloanfor,p.prd_deposittype,p.prd_whetheragri,
+		least(loan_amtreqd,loan_appamt) as recmdamt,prd_bankscheme,to_char(ap.APP_ROHODATE,'dd/mm/yyyy') as APP_ROHODATE,prd_minterm,
+		loan_goldrate_masterid,loan_lockperiod,loan_dnw_revisions,loan_metlifepremiumamt,prd_vehitype,to_char(LOAN_DUEDATE,'dd/mm/yyyy') 
+		as LOAN_DUEDATE,to_char(LOAN_MCLR_MIGRATION_DATE,'dd/mm/yyyy') as LOAN_MCLR_MIGRATION_DATE,APP_PARENT_APPNO,
+		LOAN_CG_PERCENT,LOAN_TOT_INT,LOAN_CGTMSE_APPLICABLE,PRD_DESC,PRD_SHARETYPE,loan_restr_scheme,to_char(APP_CREATEDATE,'dd/mm/yyyy') as APP_CREATEDATE,LOAN_CERSAI_CHECK,loan_roitype,loan_roiscore,
+		LOAN_INS_COMPANY_NAME,LOAN_PREMIUM_TENOR,LOAN_PREMIUM_LOAN_AMOUNT,LOAN_INS_ACCOUNT_NO,LOAN_PREMIUM_AMOUNT,
+		LOAN_INS_FUNDED_COMPANY_NAME,loan_crp,loan_bsp,PRD_TERM_REST,PRD_MINTERM_REST,PRD_HOLIDAY_REST,p.prd_CGTMSEFALG as prd_CGTMSEFALG ,to_char(Loan_Sanct_Eff_ROI_date,'dd/mm/yyyy') as Loan_Sanct_Eff_ROI_date
+		from perapplicant pa,  individual_info i,  cust_contactinfo c, applications ap, loandetails l,
+		per_demographics d,products p,prd_interest pri, prd_authority
+		par,prd_margincost pmc,prd_category pc,prd_category pc1 where
+		loan_appno = '^' and ap.app_no = l.loan_appno and
+		d.demo_type='a' and d.demo_appno=l.loan_appno and d.demo_appid =
+		pa.perapp_id and i.indinfo_appid  = pa.perapp_id and c.con_appid=pa.perapp_id and p.prd_code = ap.app_prdcode and p.prd_code =
+		pri.prd_code and p.prd_code = par.prd_code and p.prd_code =
+		pmc.margin_prdcode and pc.cat_id = prd_catid and pc.cat_parent =
+		pc1.cat_id and (l.loan_amtreqd between pmc.margin_range_from and
+		pmc.margin_range_to)
+	</query>
+
+	<query code="getperapplicantbycbsid">
+		select perapp_id, perapp_branchcode, org_name from perapplicant,
+		organisations where org_scode=perapp_branchcode and
+		perapp_cbsid='^'
+	</query>
+	
+	<!-- Per Liabilities start -->
+	
+	<query code="pergetfinancialliab">
+		select liab_appno, liab_applnt, liab_serialno, liab_company,
+		liab_loantype, liab_crdlimit, liab_balance, liab_minpayment,
+		liab_accountno, to_char(per_defaultoverdue,'DD/MM/YYYY') as
+		per_defaultoverdue, per_securities, per_ourbank,
+		liab_overdueamount,liab_sancrefno,liab_presentstatus from per_liabilities where liab_applnt='^' and liab_appno='^'
+		order by liab_serialno
+	</query>
+	
+	<query code="pergetfinancialliabbysno">
+		select liab_appno, liab_applnt, liab_serialno, liab_company,
+		liab_loantype, liab_crdlimit, liab_balance, liab_minpayment,
+		liab_accountno, to_char(per_defaultoverdue,'DD/MM/YYYY') as
+		per_defaultoverdue, per_securities, per_ourbank,
+		liab_overdueamount,liab_sancrefno,liab_presentstatus from per_liabilities where liab_serialno='^' and liab_applnt='^' and liab_appno='^'		
+	</query>
+	
+	<query code="perinsfinancialliab">
+		insert into per_liabilities(liab_appno, liab_applnt,
+		liab_serialno, liab_company, liab_loantype, liab_crdlimit,
+		liab_balance, liab_minpayment, liab_accountno,
+		per_defaultoverdue, per_securities, per_ourbank,
+		LIAB_OVERDUEAMOUNT,liab_sancrefno,liab_presentstatus) values
+		(?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?)
+	</query>
+	
+	<query code="perdelfinancialliab">
+		delete from per_liabilities where liab_serialno=? and liab_appno=?
+	</query>
+	
+	<query code="perupdfinancialliab">
+		update per_liabilities set liab_appno=?, liab_applnt=?,
+		liab_company=?, liab_loantype=?, liab_crdlimit=?,
+		liab_balance=?, liab_minpayment=?, liab_accountno=?,
+		per_defaultoverdue=TO_DATE(?,'DD/MM/YYYY'), per_securities=?,
+		per_ourbank=?, liab_overdueamount=?, liab_sancrefno=?, liab_presentstatus=? where liab_serialno =? and liab_appno=?
+	</query>
+	
+	<query code="perfinancialliabmax">
+		select nvl(max(liab_serialno+1),1) as maxid from per_liabilities where liab_appno='^'
+	</query>
+	
+	<query code="sel_vehicledetails">
+		select
+		sum(auto_accessories+auto_valuation+auto_tax+auto_insurance+auto_charges)
+		as total_newvehicle, auto_category, auto_leastvalue from
+		per_auto where auto_appno='^' group by
+		auto_category,auto_leastvalue
+	</query>
+	<query code="sel_orgname_cusprofile">
+		select org_name from ORGANISATIONS,perapplicant 
+		where ORG_SCODE=perapp_branchcode and PERAPP_ID='^'
+	</query>
+	
+	<!-- For Rating on 17/04/2013 by Venkata Prasad chowdary -->
+	<query code="cusrating_del">
+		delete from CUS_RATING where RAT_ID=?
+	</query>
+	
+	<query code="cusdefaulter_del">
+		delete from CUS_DEFAULTER where DEF_ID=?
+	</query>
+	<query code="cusrating_ins">
+		insert into cus_rating(rat_id, rat_type,
+		rat_agency, rat_symbol, rat_year, rat_date,rat_status) values
+		(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?)
+	</query>
+	<query code="cusdefaulter_ins">
+		insert into CUS_DEFAULTER( def_id, def_rbidefis,
+		def_rbifrmdat, def_rbideldat, def_ecgsepis, def_ecgfrmdat,def_ecgdeldat,def_wildefis,
+		def_wilfrmdat,def_wildeldat,def_exitpolis,def_exitfrmdat,def_exitdeldat,rat_status,def_rbidefcomm,
+		def_ecgsepcomm,def_wilddefcomm,def_exitpolcomm,asonRBIdate,asonECGCIdate,asonWillfuldate,DEF_SUITFILED,DEF_SUITFILEDCOMM,DEF_PROBE,DEF_PROBECMT)
+		values(?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,
+		to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,?,?,?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,?,?,?)
+	</query>
+	
+	<query code="cusrating_sel">
+		select rat_id, rat_type,
+		rat_agency, rat_symbol, rat_year,to_char(rat_date,'dd/mm/yyyy')as rat_date,rat_status from CUS_RATING where RAT_ID='^'
+	</query>
+	
+	<query code="cusratingnew_sel">
+		SELECT RAT_ID,RAT_SNO,RAT_AGENCY,TO_CHAR(RATE_DATE,'dd/mm/yyyy') as RATE_DATE,RAT_PARTICULARS,
+		RAT_AMOUNT,RAT_SYMBOL,RAT_DESC,to_char(RAT_DUEDATE,'dd/mm/yyyy') as RAT_DUEDATE,RAT_RISK_WEIGHT,RAT_TERMTYPE
+		FROM CUS_RATINGNEW where RAT_ID='^' order by RAT_SNO
+	</query>
+	<query code="cusratingnew_select">
+		SELECT RAT_ID,RAT_SNO,RAT_AGENCY,TO_CHAR(RATE_DATE,'dd/mm/yyyy') as RATE_DATE,RAT_PARTICULARS,
+		RAT_AMOUNT,RAT_SYMBOL,RAT_DESC,to_char(RAT_DUEDATE,'dd/mm/yyyy') as RAT_DUEDATE,RAT_RISK_WEIGHT,RAT_TERMTYPE,EXTERNAL_DEFINITION
+		FROM CUS_RATINGNEW,com_externalrating where RAT_ID='^' and RAT_AGENCY='^' and trim(external_instype)=trim(RAT_TERMTYPE) and RAT_SYMBOL=EXTERNAL_SYMBOL||' - '||EXTERNAL_MEANING order by RAT_TERMTYPE
+	</query>
+	
+	<query code="sel_existingratingvalues">
+		SELECT RAT_ID,RAT_SNO,RAT_AGENCY,TO_CHAR(RATE_DATE,'dd/mm/yyyy') as RATE_DATE,RAT_PARTICULARS,
+		RAT_AMOUNT,RAT_SYMBOL,RAT_DESC,to_char(RAT_DUEDATE,'dd/mm/yyyy') as RAT_DUEDATE,RAT_RISK_WEIGHT,RAT_TERMTYPE,EXTERNAL_DEFINITION
+		FROM CUS_RATINGNEW,com_externalrating ,perapplicant where RAT_ID=perapp_id and perapp_oldid='^' and rat_id&lt;&gt;'^' and RAT_AGENCY='^' and RAT_TERMTYPE='^' and RAT_SYMBOL=EXTERNAL_SYMBOL||' - '||EXTERNAL_MEANING order by perapp_id desc
+	</query>
+	
+	<query code="cusdefaulter_sel">
+		select def_id, def_rbidefis,to_char(def_rbifrmdat,'dd/mm/yyyy')as def_rbifrmdat,
+		to_char(def_rbideldat,'dd/mm/yyyy')as def_rbideldat,def_ecgsepis,to_char(def_ecgfrmdat,'dd/mm/yyyy')as def_ecgfrmdat,
+		to_char(def_ecgdeldat,'dd/mm/yyyy')as def_ecgdeldat,def_wildefis,to_char(def_wilfrmdat,'dd/mm/yyyy')as def_wilfrmdat,
+		to_char(def_wildeldat,'dd/mm/yyyy')as def_wildeldat,def_exitpolis,to_char(def_exitfrmdat,'dd/mm/yyyy')as def_exitfrmdat,
+		to_char(def_exitdeldat,'dd/mm/yyyy')as def_exitdeldat,rat_status,def_rbidefcomm,def_ecgsepcomm,def_wilddefcomm,def_exitpolcomm,
+		to_char(asonRBIdate,'dd/mm/yyyy')as asonRBIdate,to_char(asonECGCIdate,'dd/mm/yyyy')as asonECGCIdate,to_char(asonWillfuldate,'dd/mm/yyyy')as asonWillfuldate
+		,DEF_SUITFILED,DEF_SUITFILEDCOMM,DEF_PROBE,DEF_PROBECMT
+		from CUS_DEFAULTER where (DEF_ID='^' or DEF_ID= (select PERAPP_ID from PERAPPLICANT where PERAPP_OLDID='^' and (PERAPP_RENEW is null or perapp_renew='n')))
+	</query>
+	
+	<query code="persourceofmargin_del">
+		delete from per_sourceofmargin where PER_MARGIN_APPNO=?
+	</query>
+	<query code="persourceofmargin_ins">
+		insert into PER_SOURCEOFMARGIN(per_margin_appno, per_margin_reqamt,
+		per_margin_costincured, per_margin_ownsavings, per_margin_others_desc1, per_margin_others_value1,
+		per_margin_others_desc2,per_margin_others_value2,per_margin_others_desc3,per_margin_others_value3,per_margin_total_fund) values
+		(?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+		<query code="persourceofmargin_sel">
+		select per_margin_appno, per_margin_reqamt,
+		per_margin_costincured, per_margin_ownsavings, per_margin_others_desc1, per_margin_others_value1,
+		per_margin_others_desc2,per_margin_others_value2,per_margin_others_desc3,per_margin_others_value3,per_margin_total_fund from PER_SOURCEOFMARGIN where per_margin_appno='^'
+	</query>
+	<query code="getloanreqamt_sel">
+		select loan_amtreqd,loan_reqterms,loan_costloanprd,loan_takeover,LOAN_INS_COMPANY_NAME,LOAN_PREMIUM_TENOR,LOAN_PREMIUM_LOAN_AMOUNT,LOAN_INS_ACCOUNT_NO,LOAN_PREMIUM_AMOUNT,LOAN_INS_FUNDED_COMPANY_NAME from loandetails where loan_appno = '^'
+	</query>
+	<query code="cuscibildetails_del">
+		delete from CUS_CIBILDETAILS where cibil_appid=?
+	</query>
+	<query code="cuscibildetails_ins">
+		insert into CUS_CIBILDETAILS(cibil_appid, cibil_score,cibil_details, cibil_rat_status,cibil_reporteddate,cibil_smadetails,cibil_CRILC,
+		cibil_smacategory,CRIF_REFERED,CRIF_SCORE,CRIF_DETAILS,CRIF_DATE,crif_auto_update,cibil_auto_update,EXPERIAN_REFERED,EXPERIAN_SCORE,EXPERIAN_DETAILS,EXPERIAN_DATE)
+		 values (?,?,?,?,to_date(?,'dd/mm/yyyy'),
+		?,to_date(?,'dd/mm/yyyy'),?,?,?,?,to_date(?,'dd/mm/yyyy'),'N','N',?,?,?,to_date(?,'dd/mm/yyyy'))
+	</query>
+	<query code="cuscibildetails_sel">
+		select cibil_appid, cibil_score,cibil_details, cibil_rat_status,to_char(cibil_reporteddate,'dd/mm/yyyy')as cibil_reporteddate,cibil_smadetails,
+		to_char(cibil_CRILC,'dd/mm/yyyy')as cibil_CRILC,cibil_smacategory,CRIF_REFERED,CRIF_SCORE,CRIF_DETAILS,to_char(CRIF_DATE,'dd/mm/yyyy')as CRIF_DATE,
+		crif_auto_update,cibil_auto_update,EXPERIAN_REFERED,EXPERIAN_SCORE,EXPERIAN_DETAILS,to_char(EXPERIAN_DATE,'dd/mm/yyyy')as EXPERIAN_DATE from CUS_CIBILDETAILS 
+		where (cibil_appid='^' or cibil_appid= (select to_char(PERAPP_ID) from PERAPPLICANT where PERAPP_OLDID='^' and (PERAPP_RENEW is null or perapp_renew='n'))) order by cibil_appid
+	</query>
+	
+	<query code="sel_security_nontradeable">
+		select sec_rated,sec_agency,sec_symbol,sec_policyno,to_char(sec_policydate,'dd/mm/yyyy') as sec_policydate,
+		sec_issuedby,sec_specify,sec_currencytype,sec_facevalue,sec_maturityvalue,sec_surrendervalue,
+		to_char(sec_maturitydate,'dd/mm/yyyy') as sec_maturitydate
+		from security_nontradeble where sec_id='^'
+	</query>
+	<query code="ins_security_nontradeable">
+		insert into security_nontradeble(sec_id,sec_rated,sec_agency,sec_symbol,sec_policyno,sec_policydate,
+		sec_issuedby,sec_specify,sec_currencytype,sec_facevalue,sec_maturityvalue,sec_surrendervalue,
+		sec_maturitydate)
+		values(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'))
+	</query>
+	<query code="del_security_nontradeable">
+		delete from security_nontradeble where sec_id=? 
+	</query>
+	<query code="sel_security_tradeable">
+		select sec_exccode,sec_specify,sec_units,sec_presentrate,sec_totalvalue,sec_maturityvalue,
+		to_char(sec_maturitydate,'dd/mm/yyyy') as sec_maturitydate
+		from security_tradeble where sec_id='^' 
+	</query>
+	<query code="ins_security_tradeable">
+		insert into security_tradeble(sec_id,sec_exccode,sec_specify,sec_units,sec_presentrate,sec_totalvalue,
+		sec_maturityvalue,sec_maturitydate)
+		values(?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'))
+	</query>
+	<query code="del_security_tradeable">
+		delete from security_tradeble where sec_id=? 
+	</query>
+	
+	<query code="sel_security_vehicle">
+		select sec_vehicletype,sec_company,sec_vehiclecat,sec_make,sec_model,sec_age,sec_purchasevalue,
+		sec_bookvalue,sec_regno,sec_hpno,sec_ownername,sec_ownerdoorno,sec_owneraddress1,sec_owneraddress2,
+		sec_ownercity,sec_ownerstate,sec_ownerdistrict,sec_ownercountry,sec_ownerzipcode,SEC_CHASSISNO,SEC_VEH_REGSTATE,to_char(SEC_RC_SUBDATE,'dd/mm/yyyy') as SEC_RC_SUBDATE,
+		to_char(SEC_VEH_HYPODATE,'dd/mm/yyyy') as SEC_VEH_HYPODATE,to_char(SEC_LAST_INSPDATE,'dd/mm/yyyy') as SEC_LAST_INSPDATE,sec_dealername,sec_dealercont,sec_dealeraddress1,sec_dealercity,sec_dealeraddress2,
+		sec_dealerstate,sec_dealerdistrict,sec_dealercountry,sec_dealerpin,sec_dealermail,to_char(sec_taxpaid,'dd/mm/yyyy') as sec_taxpaid,to_char(sec_insvalid,'dd/mm/yyyy') as sec_insvalid,sec_DOCS,sec_Dealercode,sec_Dealertinno,sec_cbsid,SEC_SALUTATION
+		from security_vehicle where sec_id='^'
+	</query>
+	<query code="ins_security_vehicle">
+		insert into security_vehicle(sec_id,sec_vehicletype,sec_company,sec_vehiclecat,sec_make,
+		sec_model,sec_age,sec_purchasevalue,sec_bookvalue,sec_regno,sec_hpno,sec_ownername,sec_ownerdoorno,sec_owneraddress1,sec_owneraddress2,
+		sec_ownercity,sec_ownerstate,sec_ownerdistrict,sec_ownercountry,sec_ownerzipcode,SEC_CHASSISNO,SEC_VEH_REGSTATE,SEC_RC_SUBDATE,SEC_VEH_HYPODATE,SEC_LAST_INSPDATE,
+		sec_dealername,sec_dealercont,sec_dealeraddress1,sec_dealercity,sec_dealeraddress2,sec_dealerstate,sec_dealerdistrict,sec_dealercountry,sec_dealerpin,sec_dealermail,sec_taxpaid,sec_insvalid,sec_DOCS,
+		SEC_DEALERCODE,SEC_DEALERTINNO,sec_cbsid,SEC_SALUTATION)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?)
+	</query>
+	<query code="del_security_vehicle">
+		delete from security_vehicle where sec_id=? 
+	</query>
+	<query code="sel_security_bankdeposit">
+		select sec_banktype,sec_branchname,sec_accno,sec_roi,to_char(sec_dateofissue,'dd/mm/yyyy') as sec_dateofissue,sec_facevalue,
+		sec_maturityvalue,sec_bookvalue,to_char(sec_duedate,'dd/mm/yyyy') as sec_duedate,sec_branchscode
+		from security_bankdeposit where sec_id='^' 
+	</query>
+	<query code="ins_security_bankdeposit">
+		insert into security_bankdeposit(sec_id,sec_banktype,sec_branchname,sec_branchscode,sec_accno,sec_roi,sec_dateofissue,sec_facevalue,
+		sec_maturityvalue,sec_bookvalue,sec_duedate)
+		values(?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,to_date(?,'dd/mm/yyyy'))
+	</query>
+	<query code="del_security_bankdeposit">
+		delete from security_bankdeposit where sec_id=? 
+	</query>
+	<query code="mastdemographicsincins">
+		insert into perincexpenses(perinc_id,perinc_pagestatus,perinc_applnt) values(?,?,?)
+	</query>
+	<query code="percompanyinfo_insertdata">
+		insert into company_info(cominfo_appid,cominfo_comgroupid) values(?,?) 
+	</query>
+	<!-- Query for Process Note Starts -->
+	<query code="sel_appl_details">
+	
+		select org_scode,d.perapp_id,perapp_title || ' ' || perapp_fname as fullname,
+		perapp_panno,to_char(perapp_dob,'dd/mm/yyyy') as dob,to_char(app_processdate,'dd/mm/yyyy') as app_processdate,
+		perapp_employment as empemployment ,d.perapp_occupation,d.perapp_constitution,d.PERAPP_CONSTITUTIONNEW,d.perapp_bank,
+		to_char(d.perapp_banksince,'dd/mm/yyyy') as perapp_banksince,perapp_employment,c.demo_type as app_type,
+		to_char(app_cpcdate,'dd/mm/yyyy') as app_cpcdate,to_char(app_clpudate,'dd/mm/yyyy') as app_clpudate,to_char(APP_ROHODATE,'dd/mm/yyyy') as APP_ROHODATE,
+		e.con_comaddr1,e.con_comaddr2,e.con_comvillage,e.con_comcity,e.con_comdist,e.con_comstate,e.con_comzip,e.con_comcountry 
+        ,a. app_renew_flag,d.perapp_networth,to_char(perapp_networthason,'dd/mm/yyyy') as perapp_networthason,d.PERAPP_CBSID,d.PERAPP_MSE_REGNO,d.PERAPP_UDYOG_AADHAR,d.PERAPP_SEX,d.PERAPP_AADHAAR from applications a, organisations b, per_demographics c, perapplicant d,cust_contactinfo e where
+		a.app_orgcode = b.org_code and a.app_no = '^' and c.demo_appno =
+		a.app_no and c.demo_appid = d.perapp_id and c.demo_appid=e.con_appid and c.demo_type='a'
+	</query>
+	<query code="sel_CoApp_details">
+	
+		select org_scode,d.perapp_id,perapp_title || ' ' || perapp_fname as fullname,
+		perapp_panno,to_char(perapp_dob,'dd/mm/yyyy') as dob,
+		perapp_employment as empemployment ,d.perapp_occupation,d.perapp_constitution,d.perapp_bank,
+		to_char(d.perapp_banksince,'dd/mm/yyyy') as perapp_banksince,perapp_employment,c.demo_type as app_type,
+		to_char(app_cpcdate,'dd/mm/yyyy') as app_cpcdate,to_char(app_clpudate,'dd/mm/yyyy') as app_clpudate,
+		e.con_comaddr1,e.con_comaddr2,e.con_comvillage,e.con_comcity,e.con_comdist,e.con_comstate,e.con_comzip,e.con_comcountry,demo_relation,d.perapp_networth,
+		perinc_proof,perinc_yearsalary,perinc_year1_income,to_char(perinc_yearend1,'dd/mm/yyyy') as perinc_yearend1 
+        from applications a, organisations b, per_demographics c, perapplicant d,cust_contactinfo e,perincexpenses pi where
+		a.app_orgcode = b.org_code and a.app_no = '^' and c.demo_appno =
+		a.app_no and c.demo_appid = d.perapp_id and c.demo_appid=e.con_appid and perinc_id=c.demo_appid and c.demo_type='c' order by perapp_fname
+	</query>	
+	<!-- for gur.. -->
+	<query code="sel_GrApp_details">
+	
+		select org_scode,d.perapp_id,perapp_title || ' ' || perapp_fname as fullname,
+		perapp_panno,to_char(perapp_dob,'dd/mm/yyyy') as dob,
+		perapp_employment as empemployment ,d.perapp_occupation,d.perapp_constitution,d.perapp_bank,
+		to_char(d.perapp_banksince,'dd/mm/yyyy') as perapp_banksince,perapp_employment,c.demo_type as app_type,
+		to_char(app_cpcdate,'dd/mm/yyyy') as app_cpcdate,to_char(app_clpudate,'dd/mm/yyyy') as app_clpudate,
+		e.con_comaddr1,e.con_comaddr2,e.con_comvillage,e.con_comcity,e.con_comdist,e.con_comstate,e.con_comzip,e.con_comcountry,demo_relation,d.perapp_networth,
+		perinc_proof,perinc_yearsalary,perinc_year1_income,to_char(perinc_yearend1,'dd/mm/yyyy') as perinc_yearend1 
+        from applications a, organisations b, per_demographics c, perapplicant d,cust_contactinfo e,perincexpenses pi where
+		a.app_orgcode = b.org_code and a.app_no = '^' and c.demo_appno =
+		a.app_no and c.demo_appid = d.perapp_id and c.demo_appid=e.con_appid and perinc_id=c.demo_appid and c.demo_type in ('g','o') order by perapp_fname
+	</query>	
+	
+	<query code="sel_validappraisername">
+		select org_code, valuers_code, valuers_name, valuers_address1,
+		valuers_address2, valuers_address3, valuers_city, valuers_state,
+		valuers_pincode, valuers_country, valuers_off_phoneno,
+		valuers_off_faxno, valuers_res_phoneno, valuers_res_mobno,
+		valuers_contper, valuers_contper_phmobno, valuers_design,
+		valuers_email, TO_CHAR( valuers_empaneleddt, 'DD/MM/YYYY') as
+		valuers_empaneleddt, valuers_active, valuers_comments,
+		valuers_blacklist, TO_CHAR( valuers_blacklistdate, 'DD/MM/YYYY')
+		as valuers_blacklistdate ,city_name, state_name,
+		valuers_seqno,valuers_sancrefno,TO_CHAR( valuers_expdateofsanc, 'DD/MM/YYYY') as valuers_expdateofsanc,valuers_detofsecdep,TO_CHAR(valuers_jewappdateofagr, 'DD/MM/YYYY')as valuers_jewappdateofagr,valuer_cbsid,VALUER_VALUATIONNATURE,VALUER_CATEGORYCODE,VALUER_VALUEDLOC 
+		from valuersmaster, laps_cities lc, laps_states ls
+		where (org_code like '%^%') and
+		valappflag='^'  and VALUERS_EXPDATEOFSANC >= TRIM(sysdate) and state_code(+)=valuers_state and
+		city_code(+)=valuers_city   and lc.STATE_ID=ls.STATE_ID and VALUERS_ACTIVE='1' order by valuers_code
+	</query>
+	
+	<query code="sel_validappraisernamewithsearchid">
+		select org_code, valuers_code, valuers_name, valuers_address1,
+		valuers_address2, valuers_address3, valuers_city, valuers_state,
+		valuers_pincode, valuers_country, valuers_off_phoneno,
+		valuers_off_faxno, valuers_res_phoneno, valuers_res_mobno,
+		valuers_contper, valuers_contper_phmobno, valuers_design,
+		valuers_email, TO_CHAR( valuers_empaneleddt, 'DD/MM/YYYY') as
+		valuers_empaneleddt, valuers_active, valuers_comments,
+		valuers_blacklist, TO_CHAR( valuers_blacklistdate, 'DD/MM/YYYY')
+		as valuers_blacklistdate,city_name, state_name,
+		valuers_seqno,valuers_sancrefno,TO_CHAR( valuers_expdateofsanc, 'DD/MM/YYYY') as valuers_expdateofsanc,valuers_detofsecdep,
+		valuers_jewappdateofagr,valuer_cbsid,VALUER_VALUATIONNATURE,VALUER_CATEGORYCODE,VALUER_VALUEDLOC from valuersmaster, laps_cities lc, laps_states ls
+		where org_code like '%^%' and
+		upper(valuers_name) like upper('%^%') and valappflag='^' and VALUERS_EXPDATEOFSANC >= TRIM(sysdate) and
+		state_code(+)=valuers_state and city_code(+)=valuers_city and lc.STATE_ID=ls.STATE_ID and VALUERS_ACTIVE='1'
+		order by valuers_name
+	</query>
+	<query code="ins_appraiserdet">
+	insert into jewel_appraiserdetails(ja_appno,ja_name,ja_appraiseon,ja_comments, ja_valdate,ja_appraisercbsid) 
+	values(?,?, to_date(?,'dd/mm/yyyy'),?,sysdate,?)
+	</query>	
+	<query code="del_appraiserdet">
+	delete from jewel_appraiserdetails where ja_appno=?	
+	</query>
+	<query code="sel_appraiserdet">
+	select ja_name, to_char(ja_appraiseon,'dd/mm/yyyy') as ja_appraiseon,ja_comments,ja_appraisercbsid from jewel_appraiserdetails where ja_appno='^'
+	</query>
+	<query code="getselprdcode">
+	
+	 select app_prdcode from applications where APP_NO='^'
+	
+	</query>
+	
+	<query code="sel_riskparam_Setup">
+	
+	  select * from RSK_LAPS_PARAMS where RSK_SEQNO in(^) ORDER BY RSK_SEQNO
+	
+	</query>
+	
+	<query code="selriskdata">
+	
+	  select  RAT_SEQNO,RAT_VALUE from RAT_DATA where RAT_APPNO='^' and RAT_FACSNO='^' and  RAT_BUSID='^'  ORDER BY RAT_SEQNO
+	
+	</query>	
+	
+	<query code="delriskdata">
+	
+	  delete from RAT_DATA where RAT_APPNO=? 
+	
+	</query>
+	
+	<query code="insertriskdata">
+	
+	  insert into RAT_DATA(RAT_APPNO,RAT_SEQNO,RAT_VALUE,RAT_FACSNO,RAT_BUSID) values(?,?,?,?,?)
+	
+	</query>
+	
+	<query code="getbusidbyproduct">
+	 select P.BUSS_BUSSID from PROD_BUSINESS P,APPLICATIONS A
+WHERE P.BUSS_PRDID=A.APP_PRDCODE AND A.APP_NO='^'
+	
+	</query>
+	<!-- Added By Karthikeyan.S for Eligibility Check on 24/12/2013 -->
+	<query code="sel_JointApplicantIncome">
+		select p.PERAPP_ID, p.PERAPP_EMPLOYMENT,indinfo_resident_status,perapp_fname from PERAPPLICANT p,PER_DEMOGRAPHICS pd,individual_info
+		 where indinfo_appid=demo_appid and p.PERAPP_ID=pd.DEMO_APPID and pd.DEMO_APPNO='^' and pd.DEMO_TYPE='^' and pd.DEMO_INCLUDEINCOME='^'
+	</query>
+	<query code="sel_propgeninfo_regmonths">
+		select escalation_status,
+		floor(nvl(months_between(to_date(air.inward_appliedon,'dd/mm/yyyy'),to_date(pgi.registration_date,'dd/mm/yyyy')),0)) as reg_months
+		from prop_generalinfo pgi, appinwardreg air, applications app
+		where pgi.appno=app.app_no and app.app_inwardno=air.inward_no and app.app_no='^'
+	</query>
+	<query code="sel_perauto_regmonths">
+		select
+		floor(nvl(months_between(to_date(air.INWARD_CREATEDON,'DD/MM/YYYY'),to_date(pa.AUTO_DATEMANU,'DD/MM/YYYY')),0)) as reg_months
+		from per_auto pa, APPINWARDREG air, APPLICATIONS app
+		where pa.AUTO_APPNO=app.APP_NO and app.APP_INWARDNO=air.INWARD_NO and app.APP_NO='^'
+	</query>
+	<!-- End - Eligibility Check -->
+	<query code="selallriskparameters">
+	 	 
+       select to_char(perapp_dob,'dd/mm/yyyy') as perapp_dob,i.indinfo_dependents_child ,i.indinfo_dependents_others,p.perapp_employment,l.loan_amtreqd,
+       l.LOAN_MODINTRATE,p.perapp_bank,l.loan_emi,l.loan_reqterms,p.perapp_sex,p.perapp_marstat,l.loan_margin,c.con_comzip,p.perapp_constitution,pr.scheme_code,
+       NVL(FLOOR(MONTHS_BETWEEN(TO_DATE(TO_CHAR(SYSDATE,'dd/mm/yyyy'),'dd/mm/yyyy'),TO_DATE(to_char(PERAPP_BANKSINCE,'dd/mm/yyyy'),'dd/mm/yyyy'))),0) AS MONTHS,i.INDINFO_IS_STAFF as INDINFO_IS_STAFF,l.LOAN_REPAYMENTTYPE as LOAN_REPAYMENTTYPE,
+       l.LOAN_RECMDAMT as LOAN_RECMDAMT from PERAPPLICANT p,PER_DEMOGRAPHICS d,individual_info i,LOANDETAILS l,CUST_CONTACTINFO c,applications a,products pr where d.DEMO_APPNO='^' and p.PERAPP_ID=d.DEMO_APPID 	
+       and i.INDINFO_APPID=d.DEMO_APPID and d.DEMO_APPNO=l.loan_appno and d.DEMO_TYPE='^' and c.CON_APPID=d.DEMO_APPID and a.app_no=d.DEMO_APPNO and a.app_prdcode=pr.prd_code
+
+      
+       
+	</query>
+	
+	<query code="selcheckgurjointaccount">
+	
+	 select demo_type from PER_DEMOGRAPHICS where DEMO_APPNO='^'
+	
+	</query>
+	
+	<query code="getcomappid">
+	
+	 select demo_appid,demo_oldappid from PER_DEMOGRAPHICS where DEMO_APPNO='^' and upper(DEMO_TYPE)='A'
+	
+	</query>
+	
+	<query code="selorgnameforapp">
+	
+	   select o.org_name,o.org_scode from applications a,APPINWARDREG i,organisations o where APP_NO='^'
+and a.APP_INWARDNO=i.INWARD_NO and i.INWARD_ORGSCODE=o.ORG_SCODE
+	
+	</query>
+	
+	<query code="selcbsiddatadesc">	
+	 
+    select cbs_static_data_code,cbs_static_data_desc,cbs_static_data_show,cbs_slno,cbs_static_data_id,cbs_static_data_passing_code,CBS_STATIC_SANC_REFNO,CBS_STATIC_CGTMSE,LEG_OPI,DDR_BIR
+    from cbs_staticdata where cbs_static_data_id='^' and CBS_STATIC_DATA_CODE='^'	
+	
+	</query>
+	
+	<query code="selcbsiddatacode">
+	
+	
+	select cbs_static_data_code,cbs_static_data_desc,cbs_static_data_show,cbs_slno,cbs_static_data_id,cbs_static_data_passing_code
+ from cbs_staticdata where cbs_static_data_id='^' and cbs_static_data_desc='^'
+ 
+	</query>
+	
+	<query code="selbranhcnamebycode">
+	
+	 select org_name from ORGANISATIONS where ORG_SCODE='^'
+	
+	</query>
+	
+	<query code="creditratinsu">
+	  insert into CREDITSCORING(cre_appno,cre_sno,cre_rating,cre_freeze,cre_weight,cre_userid,cre_asondate,rating_year,rating_yeartype,cre_nonpoolflag,cre_rmdflag) values(?,?,?,?,?,?,sysdate,to_date(?,'dd/mm/yyyy'),?,?,?)
+	</query>
+	
+	<query code="creditratupdate">
+	
+	 update CREDITSCORING set cre_rating=?,cre_freeze=?,cre_nonpoolflag=?,CRE_WEIGHT=? where cre_appno=?
+	
+	</query>
+	
+	<query code="selcredfreez">
+	
+	 select cre_freeze,cre_rating,cre_weight,cre_userid,cre_rmdflag,to_char(cre_asondate,'dd/mm/yyyy') as cre_asondate,cre_asondate as cre_asondate1,cre_ratingerror from CREDITSCORING where cre_appno='^' and CRE_NONPOOLFLAG is null order by cre_asondate1 desc
+	
+	</query>
+	
+	<query code="creditratdelete_userid">
+	 delete from CREDITSCORING where cre_appno=? and cre_userid=?
+	</query>
+	<query code="pergetloanProductbymargin">
+	
+	select ap.app_no AS appno, ap.app_status AS status,ap.APP_PERM_NO,
+		pa.perapp_fname AS aname, d.demo_appid AS appid, pc.cat_name AS
+		subcategory, pc1.cat_name AS category,p.prd_rng_from AS rfrom,
+		p.prd_rng_to AS rangeto, p.prd_code AS prdcode, p.prd_type,
+		l.loan_modintrate AS mintrate, l.loan_terms AS lterms,
+		l.loan_amtreqd AS amtreqd, l.loan_costloanprd AS cloanprd,
+		l.loan_recmdamt AS sancamount, l.loan_downpay AS downpay,
+		l.loan_tradein AS tradein,l.loan_loantrade AS loantrade,
+		pmc.margin_perct AS margin_perct, par.prd_maxintclass AS
+		hidclass ,pri.prd_totalint AS intrest, l.loan_reqterms AS
+		lreqterms, l.loan_termrange AS loan_termrange , l.loan_inttype
+		AS loan_inttype ,loan_purposeofloan AS loan_purposeofloan,
+		TO_CHAR(l.loan_filedon,'DD/MM/YYYY') AS loan_filedon,
+		loan_repaymenttype, loan_appamt AS raamount, p.prd_renew,
+		p.prd_term, l.loan_margin as loan_margin, l.loan_docfee,
+		l.loan_profee, l.loan_bank_refno, l.loan_interestcharged,
+		l.loan_repaycapacity, l.loan_steptype, l.loan_fileno,
+		l.loan_intrate, p.prd_type, TO_CHAR(l.loan_receivedate,
+		'DD/MM/YYYY') AS loan_receivedate, pa.perapp_salaryrouted,
+		l.loan_deviationloanamount, loan_type, loan_modeofpay,to_char(perapp_invocdate,'dd/mm/yyyy') as perapp_invocdate,
+		loan_facility, loan_govt, loan_sub, offeredmargin,
+		LAND_MEASUREMENT, govt_scheme, loan_annualincome,
+		nvl(indinfo_is_staff,'N') indinfo_is_staff, nvl(prd_principal,0)
+		prd_principal, nvl(prd_interest,0) prd_interest,nvl(PRD_STAFF_MAXTERM_PRIN,0)
+		PRD_STAFF_MAXTERM_PRIN, nvl(PRD_STAFF_MAXTERM_INTR,0) PRD_STAFF_MAXTERM_INTR,l.loan_emi,
+		l.loan_interest_emi, prd_collpass as income_limit_employed,
+		prd_liqpass as income_limit_self_employed, pa.perapp_employment,
+		prd_empretireage, prd_selfretireage, maxmetro, maxnon_metro,
+		indinfo_service_years, l.loan_operativeaccno as
+		loan_operativeaccno,l.loan_secvalue as
+		loan_secvalue,l.LOAN_ECSBANKNAME,l.LOAN_ECSACCOUNTTYPE,l.LOAN_ECSOPERACCNUM,l.LOAN_ECSATHUNMODE,l.LOAN_ECSIFSCCODE,l.LOAN_DIGI_RESIDUAL,
+		loan_copsociety, to_char(ap.app_processdate,'dd/mm/yyyy') as
+		app_processdate, app_loantype, prd_netemp, prd_netselfemp,
+		prd_staffprd, loan_sponseragency, loan_subsidytype,LOAN_AGENCYNAME,
+		prd_loantype, nsc_loan, app_inwardno,LOAN_TIMESOFABOVE,loan_mongrossrent,
+		perapp_title,prd_appminage,p.scheme_code,l.loan_intcalcmode,l.loan_prepaycharge,l.loan_upfrontfee,
+		ap.app_isdeviated, p.incomeflag,prd_loanlimit, i.indinfo_service_years,l.loan_cgtmse,l.loan_docrecvd,
+		l.loan_docspecify,l.loan_specialcust,p.prd_holiday,l.loan_ageofveh,l.loan_interestid,l.loan_baserate,p.prd_purpose as prd_purpose,APP_RENEW_FLAG,
+		to_char(ap.app_clpudate,'dd/mm/yyyy') as app_clpudate,to_char(ap.app_cpcdate,'dd/mm/yyyy') as app_cpcdate,pa.perapp_cbsid as perapp_cbsid,loan_takeover
+		,l.loan_creditrskval,l.loan_busstatval,l.loan_mclrtabcode,l.loan_mclrtype,p.prd_depositloanfor,p.prd_deposittype,p.prd_whetheragri,
+		least(loan_amtreqd,loan_appamt) as recmdamt,prd_bankscheme,to_char(ap.APP_ROHODATE,'dd/mm/yyyy') as APP_ROHODATE,prd_minterm,loan_lockperiod,
+		loan_dnw_revisions,loan_metlifepremiumamt,prd_vehitype,to_char(LOAN_DUEDATE,'dd/mm/yyyy') as LOAN_DUEDATE,
+		to_char(LOAN_MCLR_MIGRATION_DATE,'dd/mm/yyyy') as LOAN_MCLR_MIGRATION_DATE,APP_PARENT_APPNO,LOAN_CG_PERCENT,
+		LOAN_TOT_INT,LOAN_CGTMSE_APPLICABLE,PRD_DESC,PRD_SHARETYPE,loan_restr_scheme,to_char(APP_CREATEDATE,'dd/mm/yyyy') as APP_CREATEDATE,LOAN_CERSAI_CHECK,loan_roitype,loan_roiscore,		
+        LOAN_INS_COMPANY_NAME,LOAN_PREMIUM_TENOR,LOAN_PREMIUM_LOAN_AMOUNT,LOAN_INS_ACCOUNT_NO,LOAN_PREMIUM_AMOUNT,LOAN_INS_FUNDED_COMPANY_NAME,
+        loan_crp,loan_bsp,PRD_TERM_REST,PRD_MINTERM_REST,PRD_HOLIDAY_REST,p.prd_CGTMSEFALG as prd_CGTMSEFALG ,to_char(Loan_Sanct_Eff_ROI_date,'dd/mm/yyyy') as Loan_Sanct_Eff_ROI_date
+		from perapplicant pa,  individual_info i,  cust_contactinfo c, applications ap, loandetails l,
+		per_demographics d,products p,prd_interest pri, prd_authority
+		par,prd_margincost pmc,prd_category pc,prd_category pc1 where
+		loan_appno = '^' and ap.app_no = l.loan_appno and
+		d.demo_type='a' and d.demo_appno=l.loan_appno and d.demo_appid =
+		pa.perapp_id and i.indinfo_appid  = pa.perapp_id and c.con_appid=pa.perapp_id and p.prd_code = ap.app_prdcode and p.prd_code =
+		pri.prd_code and p.prd_code = par.prd_code and p.prd_code =
+		pmc.margin_prdcode and pc.cat_id = prd_catid and pc.cat_parent =
+		pc1.cat_id and (l.loan_ageofveh between pmc.margin_range_from and
+		pmc.margin_range_to)
+	</query>
+	<query code="selprodpurpose">
+	select  prd_purpose,prd_type,prd_vehitype,prd_staffprd,prd_loantype from applications, products where app_prdcode=prd_code and prd_type in ('pH','pA','pU') and app_no='^'
+	</query>
+	<query code="upd_secDetails">
+	update app_securitydetails set app_sec_securitytype=?,app_sec_loantype=? where app_sec_secid=? and app_sec_appno=?
+	</query>
+	<query code="del_secDetails">
+	delete from app_securitydetails where app_sec_secid=? and app_sec_appno=?
+	</query>
+	<query code="sel_prdDesc">
+	  select prd_desc,prd_code,PRD_TYPE,prd_applicablefor,prd_purpose,PRD_STAFFPRD from products where prd_code=(select app_prdcode from applications where app_no='^')
+	 </query>
+	 
+	 <query code="sel_per_bankingsum">
+ 	select sum(COMBK_OS) from COM_BANKING where COMBK_APPNO='^' and COMBK_CREDITTYPE='^' 
+ 	</query>
+ 	<query code="sel_secprimexisdetails">
+ 	select sec_name,APP_SEC_SECURITYVALUE as cus_sec_netsecurity,cus_sec_reidualval from app_securitydetails ap,security_master sm,cus_securities cs 
+ 	where app_sec_appno='^' and ap.app_sec_securitytype='^' and ap.app_sec_loantype='^'  
+	and ap.app_sec_secid= cs.cus_sec_id and cs.cus_sec_type= sm.sec_id
+ 	</query>
+ 	<query code="sel_seccollateraldetails">
+	select sec_name,APP_SEC_SECURITYVALUE as cus_sec_netsecurity,cus_sec_reidualval from app_securitydetails ap,security_master sm,cus_securities cs 
+	where app_sec_appno='^' and ap.app_sec_securitytype='^'
+	and ap.app_sec_secid= cs.cus_sec_id and cs.cus_sec_type= sm.sec_id
+ 	</query>
+ 	<query code="sel_proprimarydetails">
+	select sec_name,APP_SEC_SECURITYVALUE as cus_sec_netsecurity,cus_sec_reidualval from app_securitydetails ap,security_master sm,cus_securities cs 
+	where app_sec_appno='^' and ap.app_sec_securitytype='^' and ap.app_sec_loantype='^'  
+	and ap.app_sec_secid= cs.cus_sec_id and cs.cus_sec_type= sm.sec_id
+ 	</query>
+ 	<query code="sel_secdetbyappno">
+ 	select sec_name,cus_sec_netsecurity,app_sec_secid,ap.APP_SEC_DESCRIPTION as cus_sec_security_description from app_securitydetails ap,security_master sm,cus_securities cs 
+	where app_sec_appno='^' and ap.app_sec_secid= cs.cus_sec_id and cs.cus_sec_type= sm.sec_id and ap.app_sec_loantype='P'
+ 	</query>
+ 	
+ 	<query code="upd_apploanamtsec_ratio"> 	
+ 	 
+       UPDATE APP_SECURITYCOVERAGE SET APP_TOTALCOLLETRALCOV=? WHERE APPNO=? 	
+ 	</query>
+ 	
+ 	<query code="selloanrecmtamntloanddet">
+ 	 select loan_recmdamt,loan_reqterms from loandetails where LOAN_APPNO='^'
+ 	</query>
+ 	
+ 	<query code="selprdpurposeVehicle">
+ 	select p.PRD_CODE,p.PRD_PURPOSE,p.PRD_TYPE,l.LOAN_AMTREQD,l.LOAN_DOWNPAY,l.loan_costloanprd from applications a ,products p,loandetails l where APP_NO='^'
+and a.APP_PRDCODE=p.PRD_CODE  and a.APP_NO=l.LOAN_APPNO 	
+ 	</query>
+ 	
+ 	<query code="selmaturdatedetails">  	 
+     select c.CUS_SEC_REIDUALVAL,a.APP_SEC_SECID,c.CUS_SEC_TYPE,c.CUS_SEC_CLASSIFICATION,to_char(m.SEC_MATURITYDATE,'dd/mm/yyyy') as  maturdate,
+     A.APP_SEC_LOANTYPE,A.APP_SEC_SECURITYTYPE,c.cus_sec_netsecurity as cus_sec_netsecurity from APP_SECURITYDETAILS a,CUS_SECURITIES c,SECURITY_MASTER s,SECURITY_NONTRADEBLE M
+     where a.APP_SEC_APPNO='^' and a.APP_SEC_LOANTYPE='P' AND a.APP_SEC_SECURITYTYPE='^'
+     and a.APP_SEC_SECID=c.CUS_SEC_ID 
+     and c.CUS_SEC_CLASSIFICATION=s.SEC_ID
+     and c.CUS_SEC_ID=m.SEC_ID
+     and UPPER(s.SEC_ISLIQUIDFLAG)='Y' 	
+ 	</query> 	
+ 	<query code="update_recamt_marginapp"> 	
+ 	 update LOANDETAILS set LOAN_MARGIN=?,LOAN_DOWNPAY=? where LOAN_APPNO=?	
+ 	</query>
+ 	
+ 	<query code="sel_sancauthbyappno">
+ 	select cbs_static_data_desc,appraisal_department,appraisal_branch from appraisalsanction ap,cbs_staticdata cbs where ap.appsanc_appno='^' 
+ 	and ap.appraisal_sancauth=cbs.cbs_static_data_code and cbs.cbs_static_data_id='^'
+ 	</query>
+ 	
+ 	<query code="selalldeatilsforinserrat">	
+	select perapp_fname,PERAPP_CBSID,CON_COMCOUNTRY,CON_COUNTRY,to_char(perapp_dob,'dd/mm/yyyy') as perapp_dob,
+	to_char(perapp_banksince,'dd/mm/yyyy') as perapp_banksince,perapp_branchcode,perapp_constitution,PERAPP_ID from perapplicant,PER_DEMOGRAPHICS,CUST_CONTACTINFO,COUNTRYSETUP
+    where DEMO_APPNO='^' and UPPER(DEMO_TYPE)='A' and DEMO_APPID=PERAPP_ID and PERAPP_ID=CON_APPID AND CON_COUNTRYCODE=CON_COMCOUNTRY
+	</query>
+	<query code="seluserrmd">
+	select substr(SOLID,length(SOLID)-2,3) as SOLID,USR_RMDFLAG,USR_FNAME from users,ORGANISATIONS where USR_ID='^'
+and USR_ORGCODE=ORG_CODE
+	</query>
+	<query code="selriskparamcodetype">	
+	 select rsk_paramcode,RSK_PARMDATATYPE from RSK_LAPS_PARAMS where RSK_SEQNO='^'	
+	</query>
+    <query code="selrentpercsetup">
+    
+     select prd_type,s.prd_leasenrReceivable  from products p,prd_specificconditions s  where p.PRD_CODE='^'
+and p.PRD_CODE=s.PRD_CODE
+    
+    </query>    
+       
+    <query code="selproposedcollnsckvp">    
+       select c.CUS_SEC_REIDUALVAL,a.APP_SEC_SECID,c.CUS_SEC_TYPE,c.CUS_SEC_CLASSIFICATION,to_char(m.SEC_MATURITYDATE,'dd/mm/yyyy') as  maturdate,
+     A.APP_SEC_LOANTYPE,A.APP_SEC_SECURITYTYPE from APP_SECURITYDETAILS a,CUS_SECURITIES c,SECURITY_MASTER s,SECURITY_NONTRADEBLE M
+     where a.APP_SEC_APPNO='^' and a.APP_SEC_LOANTYPE='P' AND a.APP_SEC_SECURITYTYPE='1'
+     and a.APP_SEC_SECID=c.CUS_SEC_ID 
+     and c.CUS_SEC_CLASSIFICATION=s.SEC_ID
+     and c.CUS_SEC_ID=m.SEC_ID
+     and UPPER(s.SEC_ISLIQUIDFLAG)='Y' 
+     AND S.SEC_ID  IN ('29','32')
+     and to_date(m.SEC_MATURITYDATE,'dd/mm/yyyy')=(select max(to_date(m.SEC_MATURITYDATE,'dd/mm/yyyy')) as SEC_MATURITYDATE 
+     from APP_SECURITYDETAILS a,CUS_SECURITIES c,SECURITY_MASTER s,SECURITY_NONTRADEBLE M
+     where a.APP_SEC_APPNO='^' and a.APP_SEC_LOANTYPE='P' AND a.APP_SEC_SECURITYTYPE='1'
+     and a.APP_SEC_SECID=c.CUS_SEC_ID 
+     and c.CUS_SEC_CLASSIFICATION=s.SEC_ID
+     and c.CUS_SEC_ID=m.SEC_ID
+     and UPPER(s.SEC_ISLIQUIDFLAG)='Y' AND S.SEC_ID IN ('29','32'))     
+    </query>  
+  <query code="selproposedcollnsckvp_others">     
+     select c.CUS_SEC_REIDUALVAL,a.APP_SEC_SECID,c.CUS_SEC_TYPE,c.CUS_SEC_CLASSIFICATION,to_char(m.SEC_MATURITYDATE,'dd/mm/yyyy') as  maturdate,
+     A.APP_SEC_LOANTYPE,A.APP_SEC_SECURITYTYPE from APP_SECURITYDETAILS a,CUS_SECURITIES c,SECURITY_MASTER s,SECURITY_NONTRADEBLE M
+     where a.APP_SEC_APPNO='^' and a.APP_SEC_LOANTYPE='P' AND a.APP_SEC_SECURITYTYPE='1'
+     and a.APP_SEC_SECID=c.CUS_SEC_ID 
+     and c.CUS_SEC_CLASSIFICATION=s.SEC_ID
+     and c.CUS_SEC_ID=m.SEC_ID
+     and UPPER(s.SEC_ISLIQUIDFLAG)='Y' 
+     AND S.SEC_ID  NOT IN ('29','32')
+     and to_date(m.SEC_MATURITYDATE,'dd/mm/yyyy')=(select max(to_date(m.SEC_MATURITYDATE,'dd/mm/yyyy')) as SEC_MATURITYDATE 
+     from APP_SECURITYDETAILS a,CUS_SECURITIES c,SECURITY_MASTER s,SECURITY_NONTRADEBLE M
+     where a.APP_SEC_APPNO='^' and a.APP_SEC_LOANTYPE='P' AND a.APP_SEC_SECURITYTYPE='1'
+     and a.APP_SEC_SECID=c.CUS_SEC_ID 
+     and c.CUS_SEC_CLASSIFICATION=s.SEC_ID
+     and c.CUS_SEC_ID=m.SEC_ID
+     and UPPER(s.SEC_ISLIQUIDFLAG)='Y' AND S.SEC_ID NOT IN ('29','32'))
+</query>
+
+<query code="update_loandetails_mnargin">
+ update loandetails set loan_margin=? where LOAN_APPNO=?
+</query>
+<query code="sel_ba">
+select combk_facility from com_banking where combk_appno='^' and combk_credittype='E' order by combk_id
+</query>
+<query code="sel_CIBILdetails">
+select p.perapp_fname as name,d.demo_type as demotype,c.cibil_score as score,c.cibil_details as comments,c.cibil_smacategory,c.cibil_smadetails,to_char(c.cibil_CRILC,'dd/mm/yyyy') as cibil_CRILC,c.CRIF_REFERED,c.CRIF_SCORE,c.CRIF_DETAILS,to_char(c.CRIF_DATE,'dd/mm/yyyy') as CRIF_DATE from perapplicant p,cus_cibildetails c,per_demographics d 
+where to_char(p.perapp_id)=c.cibil_appid  and p.perapp_id=d.demo_appid and d.demo_appno='^' order by demo_type
+</query>
+<query code="sel_appfacexisting">
+select decode(case when combk_modtype in ('p','r') then (select PRD_LOANTYPE from PRODUCTS where PRD_CODE=substr(COMBK_FACILITY,1,length(COMBK_FACILITY)-2)) when COMBK_MODTYPE in ('a','c') then (select 
+COM_FACILITY_LOANTYPE from FACILITY_CORP where COM_FACID=substr(COMBK_FACILITY,1,length(COMBK_FACILITY)-2)) end,'OD','Working Capital','TL','Term Loan','DL','Demand Loan')||'~'||combk_limit 
+as combk_limit,combk_sancrefno,combk_os,combk_purpose,combk_prestatus,combk_modtype,combk_facility,combk_interestrate,combk_monthly_ins,to_char(combk_duedate,'dd/mm/yyyy') as combk_duedate,combk_arrears,combk_credittype from com_banking where combk_appno='^'
+</query>
+
+<query code="sel_JAppfacexisting">
+select  comgc_limit,comgc_sancrefno,comgc_os,comgc_prestatus,comgc_parentappno,comgc_modtype,comgc_facility,comgc_purpose,
+comgc_interestrate,comgc_monthly_ins,to_char(comgc_duedate,'dd/mm/yyyy') as comgc_duedate,comgc_arrears,demo_type,comgc_intrate 
+ from com_groupconcerns,per_demographics where comgc_companyname=demo_oldappid  and demo_type in ('c','g','p','o') and demo_appno=comgc_appno and comgc_appno='^'  and  comgc_credittype='E'
+</query>
+
+ <query code="selcb_prd_specificconditions">
+	select PRD_CAUTIONDEPOSIT,PRD_BOOKEQUIPMENTS from prd_specificconditions where prd_code='^'
+	</query>
+	
+	<query code="sel_proleasedloandetails">
+		select  loan_Timesofabove from  loandetails  where LOAN_APPNO='^'
+	</query>
+	<query code="ins_agrappshg">
+		insert into perapp_shgdetails(perapp_id,perapp_shgname,perapp_shgvillage,perapp_shgtaluk,
+perapp_shgdistrict,perapp_shgpinno,perapp_shgmember,perapp_shgrepresent1,
+perapp_shgrepresent2,perapp_shgdatestablish,perapp_shgtype,
+perapp_shgplace,perapp_shgday,perapp_shgtime,perapp_shgtelno,perapp_shgpersoname,
+perapp_shgselmember,perapp_shgpersonbook,perapp_shgsbaccno,perapp_shgrotation,perapp_shgrotcomment,
+perapp_shgminsavings,perapp_shgtotsavings,perapp_shgsreeshakti,perapp_shgrevolving,perapp_shgamount,
+perapp_shgactygroup,perapp_shgrecpercent) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+	<query code="upd_agrappshg">
+	update perapp_shgdetails set perapp_shgname=?,perapp_shgvillage=?,perapp_shgtaluk=?,
+perapp_shgdistrict=?,perapp_shgpinno=?,perapp_shgmember=?,perapp_shgrepresent1=?,
+perapp_shgrepresent2=?,perapp_shgdatestablish=?,perapp_shgtype=?,perapp_shgplace=?,perapp_shgday=?,perapp_shgtime=?,perapp_shgtelno=?,perapp_shgpersoname=?,
+perapp_shgselmember=?,perapp_shgpersonbook=?,perapp_shgsbaccno=?,perapp_shgrotation=?,perapp_shgrotcomment=?,
+perapp_shgminsavings=?,perapp_shgtotsavings=?,perapp_shgsreeshakti=?,perapp_shgrevolving=?,perapp_shgamount=?,
+perapp_shgactygroup=? where perapp_id=?
+	</query>
+	<query code="del_agrappshg">
+	delete from perapp_shgdetails where perapp_id=?
+	</query>
+	<query code="sel_agrappshg">
+	select perapp_shgname,perapp_shgvillage,perapp_shgtaluk,
+perapp_shgdistrict,perapp_shgpinno,perapp_shgmember,perapp_shgrepresent1,
+perapp_shgrepresent2,perapp_shgdatestablish,perapp_shgtype,
+perapp_shgplace,perapp_shgday,perapp_shgtime,perapp_shgtelno,perapp_shgpersoname,
+perapp_shgselmember,perapp_shgpersonbook,perapp_shgsbaccno,perapp_shgrotation,perapp_shgrotcomment,
+perapp_shgminsavings,perapp_shgtotsavings,perapp_shgsreeshakti,perapp_shgrevolving,perapp_shgamount,
+perapp_shgactygroup,perapp_shgrecpercent from perapp_shgdetails where perapp_id='^'
+	</query>
+
+    <query code="sel_perAuto_count">
+    select count(*)as auto_count from per_auto where auto_appno='^'
+	</query>
+	
+	<query code="upd_secVechicleDetails">
+		update cus_securities set cus_sec_netsecurity=?,cus_sec_natureofcharge=?,cus_sec_joint_holder=?,cus_sec_reidualval=? where cus_sec_id=?
+	</query>
+	
+	<query code="sel_appsecDetails_secid">
+		select app_sec_secid from app_securitydetails where app_sec_appno='^'
+	</query>
+		
+	<query code="sel_perHouse_count">
+		select count(*)as perhouse_count from PER_HOUSE_PROPOSED_ASSET where phpa_appno='^'
+	</query>
+
+	<!-- Added by Dinesh on 27/02/2014 -->
+	<query code="sel_secApplicants">
+		select * from per_demographics where demo_appno='^'
+	</query>
+	
+	<query code="sel_combankingsum_funded">
+ 		select sum(COMBK_OS) as COMBK_OS  from COM_BANKING where COMBK_APPNO='^' 
+ 	</query>
+ 	
+ 	<query code="sel_grpconcsum_funded">
+		Select SUM(COMGC_OS) as COMGC_OS from com_groupconcerns where comgc_appno='^' and comgc_companyname='^' 
+	</query>
+	
+	<query code="pergetloanProductInstaCash">
+	   select ap.app_no AS appno, ap.app_status AS status,ap.APP_PERM_NO,
+		pa.perapp_fname AS aname, d.demo_appid AS appid, pc.cat_name AS
+		subcategory, pc1.cat_name AS category,p.prd_rng_from AS rfrom,
+		p.prd_rng_to AS rangeto, p.prd_code AS prdcode, p.prd_type,
+		l.loan_modintrate AS mintrate, l.loan_terms AS lterms,
+		l.loan_amtreqd AS amtreqd, l.loan_costloanprd AS cloanprd,
+		l.loan_recmdamt AS sancamount, l.loan_downpay AS downpay,
+		l.loan_tradein AS tradein,l.loan_loantrade AS loantrade,
+		pmc.margin_perct AS margin_perct, par.prd_maxintclass AS
+		hidclass ,pri.prd_totalint AS intrest, l.loan_reqterms AS
+		lreqterms, l.loan_termrange AS loan_termrange , l.loan_inttype
+		AS loan_inttype ,loan_purposeofloan AS loan_purposeofloan,
+		TO_CHAR(l.loan_filedon,'DD/MM/YYYY') AS loan_filedon,
+		loan_repaymenttype, loan_appamt AS raamount, p.prd_renew,
+		p.prd_term, l.loan_margin as loan_margin, l.loan_docfee,
+		l.loan_profee, l.loan_bank_refno, l.loan_interestcharged,
+		l.loan_repaycapacity, l.loan_steptype, l.loan_fileno,
+		l.loan_intrate, p.prd_type, TO_CHAR(l.loan_receivedate,
+		'DD/MM/YYYY') AS loan_receivedate, pa.perapp_salaryrouted,
+		l.loan_deviationloanamount, loan_type, loan_modeofpay,
+		loan_facility, loan_govt, loan_sub, offeredmargin,
+		LAND_MEASUREMENT, govt_scheme, loan_annualincome,
+		nvl(indinfo_is_staff,'N') indinfo_is_staff, nvl(prd_principal,0)
+		prd_principal, nvl(prd_interest,0) prd_interest,nvl(PRD_STAFF_MAXTERM_PRIN,0)
+		PRD_STAFF_MAXTERM_PRIN, nvl(PRD_STAFF_MAXTERM_INTR,0) PRD_STAFF_MAXTERM_INTR,l.loan_emi,
+		l.loan_interest_emi, prd_collpass as income_limit_employed,
+		prd_liqpass as income_limit_self_employed, pa.perapp_employment,
+		prd_empretireage, prd_selfretireage, maxmetro, maxnon_metro,
+		indinfo_service_years, l.loan_operativeaccno as
+		loan_operativeaccno,loan_copsociety, to_char(ap.app_processdate,'dd/mm/yyyy') as
+		app_processdate, app_loantype, prd_netemp, prd_netselfemp,
+		prd_staffprd, loan_sponseragency, loan_subsidytype,LOAN_AGENCYNAME,to_char(perapp_invocdate,'dd/mm/yyyy') as perapp_invocdate,
+		prd_loantype, nsc_loan, app_inwardno,APP_RENEW_FLAG,l.LOAN_DIGI_RESIDUAL,
+		perapp_title,prd_appminage,p.scheme_code,l.loan_intcalcmode,l.loan_prepaycharge,l.loan_upfrontfee,
+		ap.app_isdeviated, p.incomeflag,prd_loanlimit, i.indinfo_service_years,l.loan_cgtmse,l.loan_docrecvd,
+		l.loan_docspecify,l.loan_specialcust,p.prd_holiday,l.loan_ageofveh,l.loan_interestid,l.loan_baserate,l.LOAN_SECURITYCOLLATERAL,
+		l.LOAN_ECSBANKNAME,l.LOAN_ECSACCOUNTTYPE,l.LOAN_ECSOPERACCNUM,l.LOAN_ECSATHUNMODE,l.LOAN_ECSIFSCCODE,
+		l.LOAN_TIMESOFABOVE,l.loan_mongrossrent,l.loan_mongrossrent,p.prd_purpose as prd_purpose,to_char(ap.app_clpudate,'dd/mm/yyyy') as 
+		app_clpudate,to_char(ap.app_cpcdate,'dd/mm/yyyy') as app_cpcdate,pa.perapp_cbsid as perapp_cbsid,loan_takeover
+		,l.loan_creditrskval,l.loan_busstatval,l.loan_mclrtabcode,l.loan_mclrtype,p.prd_depositloanfor,p.prd_deposittype,p.prd_whetheragri,
+		least(loan_amtreqd,loan_appamt) as recmdamt,prd_bankscheme,to_char(ap.APP_ROHODATE,'dd/mm/yyyy') as APP_ROHODATE,prd_minterm,
+		loan_lockperiod,loan_dnw_revisions,loan_metlifepremiumamt,prd_vehitype,to_char(LOAN_DUEDATE,'dd/mm/yyyy') as LOAN_DUEDATE,
+		to_char(LOAN_MCLR_MIGRATION_DATE,'dd/mm/yyyy') as LOAN_MCLR_MIGRATION_DATE,APP_PARENT_APPNO,LOAN_CG_PERCENT,
+		LOAN_TOT_INT,LOAN_CGTMSE_APPLICABLE,PRD_DESC,PRD_SHARETYPE,loan_restr_scheme,to_char(APP_CREATEDATE,'dd/mm/yyyy') as APP_CREATEDATE,LOAN_CERSAI_CHECK,loan_roitype,loan_roiscore,
+		LOAN_INS_COMPANY_NAME,LOAN_PREMIUM_TENOR,LOAN_PREMIUM_LOAN_AMOUNT,LOAN_INS_ACCOUNT_NO,LOAN_PREMIUM_AMOUNT,LOAN_INS_FUNDED_COMPANY_NAME,loan_crp,loan_bsp,l.loan_secvalue as
+		loan_secvalue,PRD_TERM_REST,PRD_MINTERM_REST,PRD_HOLIDAY_REST,p.prd_CGTMSEFALG as prd_CGTMSEFALG ,to_char(Loan_Sanct_Eff_ROI_date,'dd/mm/yyyy') as Loan_Sanct_Eff_ROI_date from perapplicant pa,  individual_info i,  cust_contactinfo c, applications ap, loandetails l,
+		per_demographics d,products p,prd_interest pri, prd_authority
+		par,prd_margincost pmc,prd_category pc,prd_category pc1 where
+		loan_appno = '^' and ap.app_no = l.loan_appno and
+		d.demo_type='a' and d.demo_appno=l.loan_appno and d.demo_appid =
+		pa.perapp_id and i.indinfo_appid  = pa.perapp_id and c.con_appid=pa.perapp_id and p.prd_code = ap.app_prdcode and p.prd_code =
+		pri.prd_code and p.prd_code = par.prd_code and p.prd_code =
+		pmc.margin_prdcode and pc.cat_id = prd_catid and pc.cat_parent =
+		pc1.cat_id
+	</query>
+	<!-- End -->
+	
+	<query code="sel_maxratingsno">
+		select NVL(max(RAT_SNO),0)+1 as maxsno from CUS_RATINGNEW where RAT_ID='^'
+	</query>
+	<query code="cusratingnew_del">
+		delete from CUS_RATINGNEW where RAT_ID=? and RAT_SNO=?
+	</query>
+	<query code="cusratingnew_delall">
+		delete from CUS_RATINGNEW where RAT_ID=?
+	</query>
+	<query code="cusratingnew_ins">
+		insert into CUS_RATINGNEW(RAT_ID,RAT_SNO,RAT_AGENCY,RATE_DATE,RAT_PARTICULARS,RAT_AMOUNT,RAT_SYMBOL,
+		RAT_DESC,RAT_DUEDATE,RAT_RISK_WEIGHT,rat_termtype) values(?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?)
+	</query>
+	<query code="cusratingnew_upd">
+		update CUS_RATINGNEW set RAT_AGENCY=?,RATE_DATE=to_date(?,'dd/mm/yyyy'),RAT_PARTICULARS=?,RAT_AMOUNT=?,
+		RAT_SYMBOL=?,RAT_DESC=?,RAT_DUEDATE=to_date(?,'dd/mm/yyyy'),RAT_RISK_WEIGHT=?,rat_termtype=? where RAT_ID=? and RAT_SNO=?
+	</query>
+	
+	<query code="sel_leasedetailssno">
+		select NVL(max(PER_LEASEID),0)+1 as PER_LEASEID from PER_LEASEDETAILS where PER_APPNO='^'
+	</query>
+	
+	<query code="ins_leasedetails">
+	insert into PER_LEASEDETAILS(PER_APPNO,PER_LEASEID,PER_DESCRIPTION,PER_FROMDATE,PER_TODATE,PER_GROSSRENT)
+	values(?,?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?)
+	</query>
+	
+	<query code="upd_leasedetails">
+	update PER_LEASEDETAILS set PER_DESCRIPTION=?,PER_FROMDATE=to_date(?,'dd/mm/yyyy'),PER_TODATE=to_date(?,'dd/mm/yyyy'),PER_GROSSRENT=?
+	where PER_APPNO=? and PER_LEASEID=?
+	</query>
+
+	<query code="sel_leasedetails">
+	Select PER_LEASEID,PER_DESCRIPTION,TO_CHAR(PER_FROMDATE,'DD/MM/YYYY') as PER_FROMDATE,TO_CHAR(PER_TODATE,'DD/MM/YYYY') as PER_TODATE,PER_GROSSRENT
+	from PER_LEASEDETAILS where PER_APPNO='^'
+	</query>
+	<query code="del_leasedetails">
+		delete from PER_LEASEDETAILS where PER_APPNO=? and PER_LEASEID=?
+	</query>
+	
+	<query code="selalldeatilsforinserrat_corp">	
+	select perapp_fname,PERAPP_ID,PERAPP_CBSID,CON_COMCOUNTRY,CON_COUNTRY,to_char(perapp_dob,'dd/mm/yyyy') as perapp_dob,
+	to_char(perapp_banksince,'dd/mm/yyyy') as perapp_banksince,perapp_branchcode,perapp_constitution from perapplicant,COM_DEMOGRAPHICS c,CUST_CONTACTINFO,COUNTRYSETUP
+    where c.DEMO_APPNO='^' and c.DEMO_COMAPPNEWID=PERAPP_ID and PERAPP_ID=CON_APPID AND CON_COUNTRYCODE=CON_COMCOUNTRY
+	</query>
+	<query code="sel_grossleaseamnt">
+	select sum(per_grossrent) as per_grossrent from per_leasedetails where per_appno='^'
+	</query>
+	<query code="pergetloanProduct_selsancamount">	
+	select l.loan_recmdamt AS sancamount,l.loan_modintrate,l.loan_reqterms,p.loan_noofinstallment,l.loan_repaymenttype from loandetails l,per_loan_secure p
+	where l.loan_appno=p.loan_appno and  l.loan_appno='^'
+	</query>
+	
+	<query code="ins_CUS_RATINGNEWType">	
+	  insert into CUS_RATINGNEWType(RAT_ID,Rat_Rating)values(?,?)
+	</query>
+	<query code="sel_CUS_RATINGNEWType">
+	  select RAT_ID,Rat_Rating from CUS_RATINGNEWType where RAT_ID='^'
+	</query>
+	<query code="del_CUS_RATINGNEWType">		
+	delete from CUS_RATINGNEWType where  RAT_ID=?
+	</query>
+	<query code="checkriskdatatemp">
+	
+	 select  * from RAT_DATA where RAT_APPNO='^'
+	
+	</query>
+	
+		<query code="sel_applications_freeze_flag">
+     select app_freeze_flag from applications where APP_NO='^'
+	</query>
+	
+	<query code="selcrezflag_nonpoolbor">
+	
+	 select cre_freeze,cre_rating,cre_weight,cre_userid,cre_rmdflag,to_char(cre_asondate,'dd/mm/yyyy') as cre_asondate,cre_asondate as cre_asondate1,cre_ratingerror from CREDITSCORING where cre_appno='^' AND CRE_NONPOOLFLAG IS not NULL order by cre_asondate1 desc
+	
+	</query>
+	
+	<query code="creditratdelete_nonpool">
+	
+	 delete from CREDITSCORING where cre_appno=? and cre_userid=? and CRE_NONPOOLFLAG=?
+	
+	</query>
+	<query code="sel_per_house_proposed_asset_new">
+	select phpa_loan_purpose,phpa_project_finance from per_house_proposed_asset where phpa_appno='^'
+	</query>
+	<query code="selprodpurpose_new">
+	select  prd_purpose,PRD_REPAYTYPE from products where prd_code='^'
+	</query>
+	<query code="sel_specificeligible_new">
+	select prd_hourepperiod,prd_noofapplicntinc from prd_specificconditions  where prd_code='^'
+	</query>
+	<query code="selcredfreezuserwise">
+	 select cre_freeze,CRE_RATING,CRE_WEIGHT from CREDITSCORING where cre_appno='^' and cre_userid='^' and cre_freeze='Y'
+	</query>
+	<query code="creditratdelete">
+	 delete from CREDITSCORING where cre_appno=?
+	</query>
+	
+	<query code="sel_assessmentloandetails">
+	 select loan_recmdamt as sancamount,loan_margin,loan_amtreqd as reqamt,
+		least(loan_amtreqd,loan_appamt) as recmdamt,loan_securitycollateral from loandetails where loan_appno='^'
+	</query>
+	<query code="sel_newappid">
+	 select PERAPP_ID from PERAPPLICANT where PERAPP_OLDID='^' and PERAPP_RENEW='n'
+	</query>
+	<query code="sel_instasno">
+	 select nvl(max(insta_sno)+1,1) as sno from  per_instacash where insta_appno='^'
+	</query>
+	<query code="ins_instacash">
+	 insert into per_instacash(insta_appno,insta_sno,insta_sectype,insta_amount,insta_maturitydate,insta_margin,insta_marginamt,insta_eligibleamt)values
+	 (?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?)
+	</query>
+	<query code="del_instacash">
+	 delete from  per_instacash where insta_appno=? and insta_sno=?
+	</query>
+	<query code="sel_instacash">
+	 select insta_sno,insta_sectype,insta_amount,to_char(insta_maturitydate,'dd/mm/yyyy') as insta_maturitydate,insta_margin,insta_marginamt,insta_eligibleamt from per_instacash where insta_appno='^' order by insta_sno desc
+	</query>
+	
+	<query code="del_rating_year">
+	 delete from  rat_data_rating where rdr_appno=?
+	</query>
+	
+	<query code="ins_rating_year">
+	insert into rat_data_rating(rdr_year,rdr_financial,rdr_rating,rdr_appno,rdr_sno,rdr_parentappno)values(to_date(?,'dd/mm/yyyy'),?,?,?,?,?)
+	</query>
+	
+	<query code="sel_rating_year">
+	select to_char(rdr_year,'dd/mm/yyyy') as rdr_year,rdr_financial,rdr_rating,rdr_sno,rat_rmdprint,RDR_APPNO,rdr_parentappno  from rat_data_rating where RDR_APPNO='^' 
+	</query>
+	
+	<query code="sel_rmdusercheck_rating">
+	 select  USR_RMDFLAG from users where USR_ID in(select CRE_USERID from CREDITSCORING where CRE_APPNO='^' and CRE_NONPOOLFLAG is null and CRE_RATING is not null)
+	</query>
+ 
+	<query code="deluplratresultdata_poolbased_newconn">
+		delete from UPL_REQUEST_RESULT where proposal_id =? 
+	</query>
+	<query code="deluplratresultdata_poolbased">
+	 delete from UPL_REQUEST_RESULT@KALYPTO_TEST where proposal_id =?  
+	</query>
+	<query code="deluplraqresulterror_newconn">
+		delete from UPL_REQUEST_ERRORS where PROPOSAL_ID =? 
+	</query>
+ 
+	<query code="rat_check_flag">
+	select  cre_freeze,CRE_RATING,CRE_WEIGHT from creditscoring, applications where cre_appno=app_no and 
+	cre_userid=app_applnholder and cre_appno='^'
+	</query>
+	<query code="sel_rate_userid">
+	select  cre_rating,cre_weight,to_char(rating_year,'dd/mm/yyyy') as rating_year ,rating_yeartype from creditscoring where cre_rmdflag='Y' and cre_appno='^'
+	order by cre_asondate desc
+	</query>
+	<query code="sel_crerating">
+	select  cre_rating,cre_weight,to_char(rating_year,'dd/mm/yyyy') as rating_year ,rating_yeartype from creditscoring where cre_appno='^' and cre_weight not like 'FRS'
+	order by cre_asondate desc
+	</query>
+ 	<query code="selcredfreezuser">
+	 select cre_freeze,CRE_RATING,CRE_WEIGHT from CREDITSCORING where cre_appno='^' and cre_userid='^'
+	</query>
+	<query code="sel_ratingsno">
+	select NVL(max(rdr_sno),0)+1 as ratsno from RAT_DATA_RATING where RDR_APPNO='^' 
+	</query>
+	<query code="sel_rating_year_audited">
+	select to_char(rdr_year,'dd/mm/yyyy') as rdr_year,lower(rdr_financial) as rdr_financial,rdr_rating,rdr_sno,rdr_year as rdr_year1  from rat_data_rating where RDR_APPNO='^' and rat_rmdprint='Y' order by  rdr_year1 DESC
+	</query>
+	<query code="upd_rating_year">
+	update rat_data_rating set rdr_year=to_date(?,'dd/mm/yyyy'),rdr_financial=?,rdr_rating=? where rdr_appno=? and rdr_sno=?
+	</query>
+	<query code="percompanyinfo_updatedata">
+		update company_info set cominfo_comgroupid=? where cominfo_appid=?
+	</query>
+	<query code="sel_recentrating">
+	select  cre_rating,cre_weight,cre_nonpoolflag from creditscoring where cre_appno='^' and cre_freeze='Y' order by cre_asondate desc
+	</query>
+	<query code="sel_instaamt_sum">
+	select sum(insta_amount) as amtsum from per_instacash where insta_appno='^'
+	</query>
+	<query code="upd_costofloan_loandetails_pI">
+	update loandetails set loan_costloanprd=? where loan_appno=?
+	</query>
+	<query code="sel_costofloan_loandetails_pI">
+	select loan_costloanprd from loandetails  where loan_appno='^'
+	</query>
+	<query code="sel_attachedsec_sum">
+	select sum(app_sec_securityvalue) as secamt from APP_SECURITYDETAILS where APP_SEC_APPNO='^' and app_sec_loantype='P'
+	</query>
+	<query code="sel_renewedfacilitydetails">
+	select app.cbs_accountno,' '||'~'||l.loan_recmdamt as sanc_lmt,ar.sanctionrefno,(select prd_desc from 
+	products where prd_code=app.app_prdcode)  as prddesc,(case when LOAN_REPAYMENTTYPE='1' then to_char(l.loan_emi) else '' end)as loan_emi,l.loan_modintrate
+	from applications app,APP_REFERNCENUMBER ar,loandetails l where
+	app.app_no=ar.app_no and app.app_no=l.loan_appno and
+	app.app_no in (select app_parent_appno from applications a where a.app_no='^') 
+	and app_renew_flag='R'
+	</query>
+	
+	<query code="sel_relation_type_ret">
+		select DEMO_CBSRELATIONTYPE||'@'||CBS_STATIC_DATA_PASSING_CODE||'@'||PERAPP_CBSID as relation_type
+		from PER_DEMOGRAPHICS,CBS_STATICDATA,PERAPPLICANT where DEMO_APPID=PERAPP_ID and DEMO_RELATION=CBS_STATIC_DATA_CODE and CBS_STATIC_DATA_ID='32' 
+		and DEMO_APPNO='^' and DEMO_TYPE!='a'
+	</query>
+	
+	<query code="sel_relation_type_corp_agri">
+		select COM_CBSRELATIONTYPE||'@'||CBS_STATIC_DATA_PASSING_CODE||'@'||PERAPP_CBSID as relation_type
+		from COM_COMPANYDETAILS,CBS_STATICDATA,PERAPPLICANT where COM_COMPDTAPPID=PERAPP_ID and COM_COMPRELATIONSHIP=CBS_STATIC_DATA_CODE and CBS_STATIC_DATA_ID='32' 
+		and COM_COMPDTAPPNO='^' and COM_FACILITY_SNO='^'
+	</query>
+	
+	<query code="sel_vehicle_type_CBS">
+		select AUTO_CATEGORY,AUTO_OLDVEHICLETYPE,AUTO_VEHICLETYPE from APPLICATIONS,PRODUCTS,PER_AUTO where APP_NO=AUTO_APPNO and APP_PRDCODE=PRD_CODE and PRD_STAFFPRD='Y' and APP_NO='^'
+	</query>
+	<query code="sel_proprietor_details">
+	
+		select org_scode,d.perapp_id,perapp_title || ' ' || perapp_fname as fullname,
+		perapp_panno,to_char(perapp_dob,'dd/mm/yyyy') as dob,
+		perapp_employment as empemployment ,d.perapp_occupation,d.perapp_constitution,d.perapp_bank,
+		to_char(d.perapp_banksince,'dd/mm/yyyy') as perapp_banksince,perapp_employment,c.demo_type as app_type,
+		to_char(app_cpcdate,'dd/mm/yyyy') as app_cpcdate,to_char(app_clpudate,'dd/mm/yyyy') as app_clpudate,
+		e.con_comaddr1,e.con_comaddr2,e.con_comvillage,e.con_comcity,e.con_comdist,e.con_comstate,e.con_comzip,e.con_comcountry,demo_relation,d.perapp_networth,
+		perinc_proof,perinc_yearsalary,perinc_year1_income,to_char(perinc_yearend1,'dd/mm/yyyy') as perinc_yearend1 
+        from applications a, organisations b, per_demographics c, perapplicant d,cust_contactinfo e,perincexpenses where
+		a.app_orgcode = b.org_code and a.app_no = '^' and c.demo_appno =a.app_no and c.demo_appid = d.perapp_id 
+		and c.demo_appid=e.con_appid and c.demo_appid=perinc_id and c.demo_type='p' order by perapp_fname
+	</query>
+	
+	<query code="sel_staffexisprdlimit">
+		select PRD_CODE,nvl(PRD_EXISTING_LIMIT,PRD_RNG_TO) as PRD_EXISTING_LIMIT,PRD_RNG_TO,USR_ID||' - '||USR_FNAME as mod_user,
+		to_char(PRD_MODIFIED_ON,'dd/mm/yyyy') as PRD_MODIFIED_ON from PRODUCTS left join USERS on PRD_MODIFIED_BY=USR_ID where PRD_CODE='^'
+	</query>
+	
+	<query code="upd_products_newlimit">
+		update PRODUCTS set PRD_RNG_TO=?,PRD_EXISTING_LIMIT=?,PRD_MODIFIED_BY=?,PRD_MODIFIED_ON=sysdate where PRD_CODE=?
+	</query>
+	<query code="upd_charges_newlimit">
+		update PRD_PROCESSCHARGE set PROCESS_RANGETO=? where PROCESS_RANGETO=? and PROCESS_PRDCODE=?
+	</query>
+	<query code="upd_delegation_newlimit">
+		update PRD_SANCTION_LIMIT set SANCTION_LIMIT=? where SANCTION_LIMIT=? and PRD_CODE=?
+	</query>
+	<query code="upd_interest_newlimit">
+		update PRDINT_MASTER set PRD_AMTRANGETO=? where PRD_AMTRANGETO=? and PRDINT_PRDCODE=?
+	</query>
+	<query code="upd_repaycapcity_newlimit">
+		update PRD_REPAYCAPACITY set REPAY_INCRANGETO=? where REPAY_INCRANGETO=? and REPAY_PRDCODE=?
+	</query>
+	<query code="upd_collateral_newlimit">
+		update SET_PROD_COLLATERALSECURITY set COL_RANGE_TO=? where COL_RANGE_TO=? and COL_PRDCODE=?
+	</query>
+	<query code="upd_margin_newlimit">
+		update PRD_MARGINCOST set MARGIN_RANGE_TO=? where MARGIN_RANGE_TO=? and MARGIN_PRDCODE=?
+	</query>
+	<query code="ins_prdstaffloan_limit">
+		insert into PRD_STAFFLOANLIMIT_BKP(PRD_CODE,PRD_CHANGEDBY,PRD_CHANGEDON,PRD_OLDVALUE,PRD_NEWVALUE) values(?,?,sysdate,?,?)
+	</query>
+	<query code="sel_stafflimit_History">
+		select USR_ID||' - '||USR_FNAME as username,to_char(PRD_CHANGEDON,'dd/mm/yyyy hh12:MI:ss') as PRD_CHANGEDON,PRD_OLDVALUE,PRD_NEWVALUE from PRD_STAFFLOANLIMIT_BKP,USERS where PRD_CHANGEDBY=USR_ID 
+		and PRD_CODE='^' order by PRD_CHANGEDON desc
+	</query>
+	<query code="sel_facLoanRepayType_Ret">
+		select decode(LOAN_REPAYMENTTYPE,'1','E','12','OD') as LOAN_REPAYMENTTYPE from LOANDETAILS where LOAN_APPNO='^'
+	</query>
+	<query code="sel_facLoanRepayType_Corp">
+		select FACILITY_REPAYTYPE,FACILITY_DOC_BRANCHCODE as org_scode from FACILITIES where FACILITY_APPNO='^' and FACILITY_SNO='^'
+	</query>
+	
+	<query code="sel_sancdate_diff_Intcode">
+		select (to_date('^','dd/mm/yyyy')-to_date('01/01/2016','dd/mm/yyyy')) as datediff from dual
+	</query>
+	<query code="sel_baseratechk">
+		select facility_appno from facilities where facility_intindexid='1' and facility_appno='^'
+	    union 
+	    select loan_appno from loandetails where loan_interestid='1' and  loan_appno='^'
+	</query>
+	<query code="sel_land_holding_landvalue">
+		select nvl(sum(LAND_ACREAGE),0) as land_hectare from PER_DEMOGRAPHICS,AGR_LANDHOLDINGS where  DEMO_TYPE='a' and DEMO_APPID=LAND_APPID and DEMO_APPNO='^'
+	</query>
+	<query code="renew_agrappshg">
+		insert into perapp_shgdetails(perapp_id,perapp_shgname,perapp_shgvillage,perapp_shgtaluk,
+		perapp_shgdistrict,perapp_shgpinno,perapp_shgmember,perapp_shgrepresent1,
+		perapp_shgrepresent2,perapp_shgdatestablish,perapp_shgtype,
+		perapp_shgplace,perapp_shgday,perapp_shgtime,perapp_shgtelno,perapp_shgpersoname,
+		perapp_shgselmember,perapp_shgpersonbook,perapp_shgsbaccno,perapp_shgrotation,perapp_shgrotcomment,
+		perapp_shgminsavings,perapp_shgtotsavings,perapp_shgsreeshakti,perapp_shgrevolving,perapp_shgamount,
+		perapp_shgactygroup,perapp_shgrecpercent) select ?,perapp_shgname,perapp_shgvillage,perapp_shgtaluk,
+		perapp_shgdistrict,perapp_shgpinno,perapp_shgmember,perapp_shgrepresent1,
+		perapp_shgrepresent2,perapp_shgdatestablish,perapp_shgtype,
+		perapp_shgplace,perapp_shgday,perapp_shgtime,perapp_shgtelno,perapp_shgpersoname,
+		perapp_shgselmember,perapp_shgpersonbook,perapp_shgsbaccno,perapp_shgrotation,perapp_shgrotcomment,
+		perapp_shgminsavings,perapp_shgtotsavings,perapp_shgsreeshakti,perapp_shgrevolving,perapp_shgamount,
+		perapp_shgactygroup,perapp_shgrecpercent from perapp_shgdetails where perapp_id=?
+	</query>
+	<query code="renew_agrappshg_member">
+		insert into PERAPP_SHGMEMBERS(SHG_ID,SHG_MEM_SNO,SHG_MEM_CBSID,SHG_MEM_LAPSID,SHG_MEM_NAME,
+		SHG_MEM_DOB,SHG_MEM_PAN,SHG_MEM_EXISTING,SHG_MEM_DEFAULT,SHG_MEM_CONCERNTYPE) 
+		select ?,SHG_MEM_SNO,SHG_MEM_CBSID,SHG_MEM_LAPSID,SHG_MEM_NAME,
+		SHG_MEM_DOB,SHG_MEM_PAN,SHG_MEM_EXISTING,SHG_MEM_DEFAULT,SHG_MEM_CONCERNTYPE from PERAPP_SHGMEMBERS where SHG_ID=?
+	</query>
+	<query code="renew_agrappshg_addtnlinfo">
+		insert into PERAPP_SHG_ADDNINFO(SHGINFO_APPID,SHGINFO_SNO,SHGINFO_TYPE,SHGINFO_NAME,SHGINFO_BANK,
+		SHGINFO_ACCNO,SHGINFO_BORROW,SHGINFO_OS,SHGINFO_STATUS)
+		select ?,SHGINFO_SNO,SHGINFO_TYPE,SHGINFO_NAME,SHGINFO_BANK,SHGINFO_ACCNO,SHGINFO_BORROW,
+		SHGINFO_OS,SHGINFO_STATUS from PERAPP_SHG_ADDNINFO where SHGINFO_APPID=?
+	</query>
+	
+	<query code="ins_shgMemberInfo">
+		insert into PERAPP_SHGMEMBERS(SHG_ID,SHG_MEM_SNO,SHG_MEM_CBSID,SHG_MEM_LAPSID,SHG_MEM_NAME,
+		SHG_MEM_DOB,SHG_MEM_PAN,SHG_MEM_EXISTING,SHG_MEM_DEFAULT,shg_mem_concerntype) values(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?)
+	</query>
+	<query code="del_shgMemberInfo">
+		delete from PERAPP_SHGMEMBERS where SHG_ID=?
+	</query>
+	<query code="del_shgMemberInfo_indv">
+		update PERAPP_SHGMEMBERS set SHG_MEM_CBSID='',SHG_MEM_LAPSID='',SHG_MEM_NAME='',SHG_MEM_DOB='',SHG_MEM_PAN='',SHG_MEM_EXISTING='S',
+		SHG_MEM_DEFAULT='S' where SHG_ID=? and SHG_MEM_SNO=?
+	</query>
+	<query code="del_shgAddtnl_info1">
+		delete from PERAPP_SHG_ADDNINFO where SHGINFO_APPID=? and SHGINFO_TYPE='EXE' and (SHGINFO_SNO in (select SHG_MEM_SNO from PERAPP_SHGMEMBERS 
+		where SHG_ID=? and SHG_MEM_EXISTING!='Y') or SHGINFO_SNO not in (select SHG_MEM_SNO from PERAPP_SHGMEMBERS where SHG_ID=?))
+	</query>
+	<query code="del_shgAddtnl_info2">
+		delete from PERAPP_SHG_ADDNINFO where SHGINFO_APPID=? and SHGINFO_TYPE='DEF' and (SHGINFO_SNO in (select SHG_MEM_SNO from PERAPP_SHGMEMBERS 
+		where SHG_ID=? and SHG_MEM_EXISTING!='Y') or SHGINFO_SNO not in (select SHG_MEM_SNO from PERAPP_SHGMEMBERS where SHG_ID=?))
+	</query>
+	<query code="sel_shgmembersdetails">
+		select SHG_MEM_SNO,SHG_MEM_CBSID,SHG_MEM_LAPSID,SHG_MEM_NAME,to_char(SHG_MEM_DOB,'dd/mm/yyyy') as SHG_MEM_DOB,SHG_MEM_PAN,SHG_MEM_EXISTING,SHG_MEM_DEFAULT,SHG_MEM_CONCERNTYPE 
+		from PERAPP_SHGMEMBERS where SHG_ID='^'
+	</query>
+	<query code="del_shg_addntl_det">
+		delete from PERAPP_SHG_ADDNINFO where SHGINFO_APPID=? and SHGINFO_SNO=? and SHGINFO_TYPE=?
+	</query>
+	<query code="ins_shg_addntl_det">
+		insert into PERAPP_SHG_ADDNINFO(SHGINFO_APPID,SHGINFO_SNO,SHGINFO_TYPE,SHGINFO_NAME,SHGINFO_BANK,
+		SHGINFO_ACCNO,SHGINFO_BORROW,SHGINFO_OS,SHGINFO_STATUS)values(?,?,?,?,?,?,?,?,?)
+	</query>
+	<query code="sel_shg_addntl_det">
+		select SHGINFO_APPID,SHGINFO_SNO,SHGINFO_TYPE,SHGINFO_NAME,SHGINFO_BANK,SHGINFO_ACCNO,SHGINFO_BORROW,SHGINFO_OS,SHGINFO_STATUS from 
+		PERAPP_SHG_ADDNINFO where SHGINFO_APPID='^' and SHGINFO_SNO='^' and SHGINFO_TYPE='^'
+	</query>
+	<query code="sel_noofmembersadded">
+		select count(SHG_ID) from PERAPP_SHGMEMBERS where SHG_ID='^' and SHG_MEM_CBSID is not null
+	</query>
+	<query code="del_shgmember">
+		delete from PERAPP_SHGMEMBERS where SHG_ID=? and SHG_MEM_SNO>?
+	</query>
+	<query code="sel_loanshare_shg1">
+		select SHG_MEM_SNO,SHG_MEM_CBSID,SHG_MEM_NAME,DEMO_COMAPPID,SHG_MEM_LAPSID as appid from COM_DEMOGRAPHICS,PERAPP_SHGMEMBERS where DEMO_COMAPPNEWID=SHG_ID and DEMO_APPNO='^' order by to_number(SHG_MEM_SNO)
+	</query>
+	<query code="sel_loanshare_shg2">
+		select FAC_MEM_SNO,FAC_MEM_SHARE,FAC_LOAN_TAKEN,FAC_LOAN_AMT,FAC_LOAN_BANK from FAC_SHG_SHARE where FAC_APPNO='^' and FAC_SNO='^' order by to_number(FAC_MEM_SNO)
+	</query>
+	<query code="ins_shgmembershare">
+		insert into FAC_SHG_SHARE(FAC_APPNO,FAC_SNO,FAC_MEM_SNO,FAC_MEM_SHARE,FAC_LOAN_TAKEN,FAC_LOAN_AMT,FAC_LOAN_BANK) values (?,?,?,?,?,?,?)
+	</query>
+	<query code="del_shgmembershare">
+		delete from FAC_SHG_SHARE where FAC_APPNO=? and FAC_SNO=?
+	</query>
+	<query code="sel_proposed_loan_total">
+		select sum(FACILITY_SANCAMT) as total_amt from FACILITIES where FACILITY_APPNO='^' and FACILITY_SNO='^'
+	</query>
+	<query code="sel_shgshareAmount">
+		select FACILITY_SNO,FACILITY_SANCAMT,(select sum(FAC_MEM_SHARE) from FAC_SHG_SHARE where FAC_APPNO=FACILITY_APPNO and FAC_SNO=FACILITY_SNO) 
+		as sharesum from FACILITIES where FACILITY_APPNO='^'
+	</query>
+	<query code="sel_validappraisernamewithsearchcbsid">
+		select org_code, valuers_code, valuers_name, valuers_address1,
+		valuers_address2, valuers_address3, valuers_city, valuers_state,
+		valuers_pincode, valuers_country, valuers_off_phoneno,
+		valuers_off_faxno, valuers_res_phoneno, valuers_res_mobno,
+		valuers_contper, valuers_contper_phmobno, valuers_design,
+		valuers_email, TO_CHAR( valuers_empaneleddt, 'DD/MM/YYYY') as
+		valuers_empaneleddt, valuers_active, valuers_comments,
+		valuers_blacklist, TO_CHAR( valuers_blacklistdate, 'DD/MM/YYYY')
+		as valuers_blacklistdate,city_name, state_name,
+		valuers_seqno,valuers_sancrefno,TO_CHAR( valuers_expdateofsanc, 'DD/MM/YYYY') as valuers_expdateofsanc,valuers_detofsecdep,
+		valuers_jewappdateofagr,valuer_cbsid,VALUER_VALUATIONNATURE,VALUER_CATEGORYCODE,VALUER_VALUEDLOC from valuersmaster, laps_cities lc, laps_states ls
+		where org_code  like '%^%' and
+		VALUER_CBSID='^' and valappflag='^' and VALUERS_EXPDATEOFSANC >= TRIM(sysdate) and
+		state_code(+)=valuers_state and city_code(+)=valuers_city and lc.STATE_ID=ls.STATE_ID and VALUERS_ACTIVE='1'
+		order by valuers_name
+	</query>
+	
+	<query code="select_takeoverflag">
+	   
+	     select loan_takeover from loandetails where LOAN_APPNO='^'
+	</query>
+	
+	<query code="sel_countjointapplicant">
+	     select count(demo_appid) as demo_appid from per_demographics  where demo_appno='^' and demo_type ='^'
+	</query>
+	<query code="getNSDLParameters">
+	 	select nsdl_url_info, nsdl_username, nsdl_password from nsdl_param where upper(nsdl_action) = upper('^')
+	</query>
+	
+	<query code="getNSDLFolder">
+	 	select nsdl_folder_loc from nsdl_folder_location where upper(nsdl_action) = upper('^')
+	</query>
+	
+	<query code="ins_downloadStatus">
+		insert into NSDL_DOWNLOAD_STATUS (NSDL_REFNO,NSDL_FILENAME,NSDL_USERID_ID,NSDL_DOWNLOAD_DATE) values((select nvl(max(NSDL_REFNO+1),1) as sno from NSDL_DOWNLOAD_STATUS),?,?,sysdate)
+	</query>
+	<query code="sel_loanshare_retail">
+		select SHG_MEM_SNO,SHG_MEM_CBSID,SHG_MEM_NAME from PER_DEMOGRAPHICS,PERAPP_SHGMEMBERS where DEMO_APPID=SHG_ID and DEMO_APPNO='^' order by to_number(SHG_MEM_SNO)
+	</query>
+	<query code="sel_shgshareamount_retail">
+		select '1' as facility_sno,loan_recmdamt as facility_sancamt,(select sum(fac_mem_share) from fac_shg_share where fac_appno=loan_appno and fac_sno='1') 
+		as sharesum from loandetails where loan_appno='^'
+	</query>
+	<query code="deletegolddetails">
+		delete agr_goldloan where AGR_ARTCATID=?
+	</query>
+	<query code="deleteautocollateral">
+		delete from per_auto where auto_appno=?
+	</query>
+	<query code="deleteedudetails">
+		delete from edu_details where edudetail_appno=?
+	</query>
+	<query code="delete_leasedetails">
+		delete from PER_LEASEDETAILS where PER_APPNO=?
+	</query>
+	<query code="delete_instacash">
+	 delete from  per_instacash where insta_appno=?
+	</query>
+	<query code="select_cusdefaulter">
+		select DEF_ID from CUS_DEFAULTER where DEF_ID='^'
+	</query>
+	<query code="sel_npa_prov_enddate">
+		select to_char(max(to_date(NPA_QEND_DATE,'dd/mm/yyyy')),'dd/mm/yyyy') as qdate from NPA_PROV_QEND_DATE
+	</query>
+	<query code="chk_npa_prov_enddate">
+		select * from npa_prov_qend_date where npa_qend_date='^'
+	</query>
+	<query code="ins_npa_prov_enddate">
+		insert into npa_prov_qend_date(npa_qend_date)values(?) 
+	</query>
+	<query code="ins_per_bir">
+		insert into per_bir(appno,bir_flag,bir_submitteddate,bir_receiptdate,bir_charges,bir_comments,bir_processdate,bir_service_name,bir_quality_report,bir_opinion_all,BIR_VERIFIED_BY,BIR_VERIFIED_DATE) values(?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,to_date(?,'dd/mm/yyyy')) 
+	</query>
+	<query code="del_per_bir">
+		delete from per_bir where appno=? 
+	</query>
+	<query code="sel_per_bir">
+		select bir_flag,to_char(bir_submitteddate,'dd/mm/yyyy') as bir_submitteddate,to_char(bir_receiptdate,'dd/mm/yyyy') as bir_receiptdate,bir_charges,bir_comments,to_char(bir_processdate,'dd/mm/yyyy') as bir_processdate,bir_service_name,bir_quality_report,bir_opinion_all,BIR_VERIFIED_BY,to_char(BIR_VERIFIED_DATE,'dd/mm/yyyy') as BIR_VERIFIED_DATE from per_bir where appno='^' 
+	</query>
+	<query code="sel_CBScustomerdetails">
+		select PERAPP_INTROTYPE,PERAPP_INTROSTAFFID,PERAPP_INTROCBSID,PERAPP_INTRONAME from perapplicant where perapp_cbsid='^' and (nvl(perapp_renew,'n')='n') 
+	</query>
+	<query code="upd_CBScustomerdetails">
+		update perapplicant set PERAPP_INTRONAME=?,PERAPP_INTROCBSID=? where perapp_id=? 
+	</query>
+	
+		<query code="sel_townnamebycode">
+		select TOWN_DESC from TOWN_MASTER where TOWN_CODE='^'
+	</query>
+	
+		<query code="ins_pmay_desc">
+			insert into PMAY_HOUSELOAN_DETAILS (PMAY_APPNO,PMAY_HOUSE_CAT,PMAY_LOAN_TYPE,PMAY_OWN_MODE,PMAY_BORR_PUCCA,PMAY_PREFER_CAT,PMAY_SUBSID_INST,PMAY_OTHER_CATEGORY,PMAY_CERTIF_HOUSEOWN,PMAY_SOURCE_APP)values (?,?,?,?,?,?,?,?,?,?)
+		</query>
+		
+		<query code="sel_PMAY_desc">
+			select PMAY_HOUSE_CAT,PMAY_LOAN_TYPE,PMAY_OWN_MODE,PMAY_BORR_PUCCA,PMAY_PREFER_CAT,PMAY_SUBSID_INST,PMAY_OTHER_CATEGORY,PMAY_CERTIF_HOUSEOWN,PMAY_SOURCE_APP from PMAY_HOUSELOAN_DETAILS where PMAY_APPNO='^'
+		</query>
+		
+		<query code="del_pmay_desc">
+			delete from PMAY_HOUSELOAN_DETAILS where PMAY_APPNO=?
+		</query>
+		
+		<query code="sel_town_master">
+			select DISTRICT_CODE,TOWN_CODE,TOWN_DESC,TOWN_SNO,TOWN_ACTION from TOWN_MASTER where DISTRICT_CODE ='^' 
+		</query>
+		
+		<query code="sel_gentown_master">
+			select DISTRICT_CODE,TOWN_CODE,TOWN_DESC,TOWN_SNO,TOWN_ACTION from TOWN_MASTER where DISTRICT_CODE ='^' AND TOWN_ACTION='E'
+		</query>
+		
+		<query code="ins_town_desc">
+			insert into TOWN_MASTER (DISTRICT_CODE,TOWN_CODE,TOWN_DESC,TOWN_ACTION,TOWN_SNO)values (?,?,?,?,?)
+		</query>
+		
+		<query code="upd_town_desc">
+			update TOWN_MASTER set TOWN_DESC=?,TOWN_ACTION=? where TOWN_SNO=?
+	</query>
+	
+	<query code="selTownCodeCheckDuplication">
+		select TOWN_CODE from TOWN_MASTER where upper(TOWN_CODE)=upper('^')
+	</query>
+	
+	<query code="selmaxtownid">
+	    select max(nvl(TOWN_SNO,0)) as townidmax from TOWN_MASTER
+	</query>
+	
+	<query code="ins_permissionGist_loanreq">
+		insert into DEV_PERMGIST_LOANREQ (DEV_PRESENT_APPNO,DEV_PRESENT_SERIALNO,DEV_PRESENT_NATURE,DEV_PRESENT_LOANAMT,DEV_PRESENT_INTEREST,DEV_PRESENT_PERIOD,DEV_PRESENT_PURPOSE,DEV_PRESENT_BANKSCHEME)values (?,?,?,?,?,?,?,?)
+	</query>
+	
+	<query code="sel_permissionGist_loanreq">
+		select DEV_PRESENT_APPNO,DEV_PRESENT_SERIALNO,DEV_PRESENT_NATURE,DEV_PRESENT_LOANAMT,DEV_PRESENT_INTEREST,DEV_PRESENT_PURPOSE,DEV_PRESENT_PERIOD,DEV_PRESENT_BANKSCHEME from DEV_PERMGIST_LOANREQ where DEV_PRESENT_APPNO='^'
+	</query>	
+		
+	<query code="del_permissionGist_loanreq">
+		delete from DEV_PERMGIST_LOANREQ where DEV_PRESENT_APPNO=?
+	</query>	
+			
+	<query code="sel_per_CGTMSE">
+		select CG_PROPOSALNO,CG_APPLICATION_NO,CG_ORGCODE from corp_cgtmse where CG_PROPOSALNO='^' 
+	</query>
+	
+	<query code="sel_pmayAppl_master">
+		select PM_SUBCATEGORYFAMILY_INCOME, PM_FEMALE_OWNERSHIP, PM_LOAN_SUBSIDY, PM_MAXLOAN_TENOR, PM_AREA, PM_NRI_BORROWER, PMAY_BORR_PUCCA, PM_AADHAR_MANDATORY,PM_INTEREST_SUBSIDY,PM_MAX_SUBSIDY  from 
+		LOANDETAILS l,PMAY_HOUSELOAN_DETAILS p,PMAY_MASTER pm where LOAN_APPNO='^' and l.LOAN_APPNO=p.PMAY_APPNO and p.PMAY_HOUSE_CAT=pm.PM_SUBCATID
+	</query>
+
+
+<query code="sel_Fac_appl_details">
+		select org_scode,d.perapp_id,perapp_title || ' ' || perapp_fname as fullname,
+		perapp_panno,
+		to_char(perapp_dob,'DD/MM/YYYY') as dob,
+		perapp_employment as empemployment ,
+		d.perapp_occupation,
+		d.perapp_constitution,
+		.perapp_bank,
+		to_char(d.perapp_banksince,'dd/mm/yyyy') as perapp_banksince,
+		perapp_employment,
+		c.demo_type as app_type,
+		to_char(app_cpcdate,'dd/mm/yyyy') as app_cpcdate,
+		to_char(app_clpudate,'dd/mm/yyyy') as app_clpudate,
+		to_char(APP_ROHODATE,'dd/mm/yyyy') as APP_ROHODATE,
+		e.con_comaddr1,e.con_comaddr2,e.con_comvillage,
+		e.con_comcity,e.con_comdist,e.con_comstate,
+		e.con_comzip,e.con_comcountry 
+        ,a. app_renew_flag,d.perapp_networth,
+        to_char(perapp_networthason,'dd/mm/yyyy') as perapp_networthason,
+        d.PERAPP_CBSID,d.PERAPP_MSE_REGNO,d.PERAPP_UDYOG_AADHAR,d.PERAPP_SEX from applications a, organisations b, per_demographics c, perapplicant d,cust_contactinfo e 
+        where a.app_orgcode = b.org_code and a.app_no = '^' and c.demo_appno = a.app_no and c.demo_appid = d.perapp_id and c.demo_appid=e.con_appid and c.demo_type='a'
+	</query>	
+		<query code="sel_security_Stock">
+		select SEC_STOCK_NAME,SEC_STOCK_SURVEY,SEC_STOCK_ADDRESS1,SEC_STOCK_ADDRESS2,SEC_STOCK_CITY,SEC_STOCK_STATE,
+        SEC_STOCK_DIST,SEC_STOCK_COUNTRY,SEC_STOCK_ZIP,SEC_STOCK_SAL,sec_cbsid from security_Stock where sec_id='^'
+	</query>
+	<query code="ins_security_Stock">
+		insert into security_Stock(sec_id,SEC_STOCK_NAME,SEC_STOCK_SURVEY,SEC_STOCK_ADDRESS1,SEC_STOCK_ADDRESS2,
+		SEC_STOCK_CITY,SEC_STOCK_STATE,SEC_STOCK_DIST,SEC_STOCK_COUNTRY,SEC_STOCK_ZIP,SEC_STOCK_SAL,sec_cbsid)
+		values(?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+	<query code="del_security_Stock">
+		delete from security_Stock where sec_id=? 
+	</query>
+
+	<query code="del_security_crop">
+	delete from SECURITY_CROP where SEC_ID=?
+	</query>
+	
+	<query code="ins_security_crop">
+	insert into SECURITY_CROP(SEC_ID,SEC_AREA,SEC_MEASUREMENT,SEC_SALUTATION,SEC_BELONGING,SEC_SUR_NO,SEC_ADDRESS_1,SEC_ADDRESS_2,
+SEC_CITY,SEC_DIST,SEC_STATE,SEC_COUNTRY,SEC_PIN,sec_cbsid)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+	
+		<query  code="sel_security_crop">
+	select SEC_AREA,SEC_MEASUREMENT,SEC_SALUTATION,SEC_BELONGING,SEC_SUR_NO,SEC_ADDRESS_1,SEC_ADDRESS_2,SEC_CITY,SEC_DIST,SEC_STATE,SEC_COUNTRY,
+	SEC_PIN,sec_cbsid from SECURITY_CROP where SEC_ID='^'
+	</query>
+	<query  code="select_Pmay_exist">
+	select PMAY_HOUSE_CAT from PMAY_HOUSELOAN_DETAILS WHERE PMAY_APPNO='^'
+	</query>
+	<query  code="select_Pmay_subcat">
+	select PMAY_HOUSE_CAT from PMAY_HOUSELOAN_DETAILS where PMAY_APPNO='^'
+	</query>
+	<query  code="select_Pmay_subcat_value">
+	select PM_SUBCATEGORY,PM_SUBCATID from PMAY_Master where PM_MAIN_CATEGORY='^' and PM_SUBCATID='^' and PM_ACTIVE_TYPE='D'
+	</query>
+	<query code="upd_eduparticulars">
+		update edu_loan set edu_studies_in=? where eduloan_appno=?
+	</query>
+	
+	<query code="sel_CIBILdetails_corpAppl">
+		select p.perapp_fname as name,'a' as demotype,c.cibil_score as score,c.cibil_details as comments,c.cibil_smacategory,
+	 	c.cibil_smadetails,to_char(c.cibil_CRILC,'dd/mm/yyyy') as cibil_CRILC,c.CRIF_REFERED,c.CRIF_SCORE,c.CRIF_DETAILS,to_char(c.CRIF_DATE,'dd/mm/yyyy') as CRIF_DATE
+		from perapplicant p,cus_cibildetails c,COM_DEMOGRAPHICS d 
+		where to_char(p.perapp_id)=c.cibil_appid  and p.perapp_id=d.DEMO_COMAPPID and d.demo_appno='^' 
+	</query>
+	
+	<query code="sel_CIBILdetails_corpBorr">
+	    select p.perapp_fname as name,d.COM_COMPDTTYPE as demotype,c.cibil_score as score,c.cibil_details as comments,c.cibil_smacategory,c.cibil_smadetails,to_char(c.cibil_CRILC,'dd/mm/yyyy')
+    	as cibil_CRILC,c.CRIF_REFERED,c.CRIF_SCORE,c.CRIF_DETAILS,to_char(c.CRIF_DATE,'dd/mm/yyyy') as CRIF_DATE
+     	from perapplicant p,cus_cibildetails c,COM_COMPANYDETAILS d 
+		where to_char(p.perapp_id)=c.cibil_appid  and p.perapp_id=d.com_compdtappid and d.COM_COMPDTAPPNO='^' order by COM_COMPDTTYPE
+	</query>
+	<query code="sel_editApply_valuation">
+	 select EDIT_APPLY_FLAG from valuationentry where app_no='^'	
+	</query>
+	<query code="sel_editApply_house">
+	 select PHPA_EDIT_APPLYFLAG from PER_HOUSE_PROPOSED_ASSET where phpa_appno='^'	
+	</query>
+	<query code="sel_editApply_vehicle">
+	 select AUTO_EDIT_APPLYFLAG from PER_AUTO where AUTO_APPNO='^'	
+	</query>
+	<query code="sel_defaulter_list_note">
+	select p.perapp_fname as name,d.demo_type as demotype,c.DEF_RBIDEFIS,to_char(c.ASONRBIDATE,'dd/mm/yyyy') as ASONRBIDATE ,c.DEF_RBIDEFCOMM,
+	c.DEF_ECGSEPIS,to_char(c.asonECGCIdate,'dd/mm/yyyy') as asonECGCIdate,c.DEF_ECGSEPCOMM,c.DEF_SUITFILED,c.DEF_SUITFILEDCOMM from perapplicant p,CUS_DEFAULTER c,per_demographics d 
+	where p.perapp_id=c.DEF_ID  and p.perapp_id=d.demo_appid and d.demo_appno='^' order by demo_type 
+	</query>
+	<query code="sel_cat_house">
+	select CAT_ID, PRD_PURPOSE,PRD_TYPE,PRD_APPLICABLEFOR from PRD_CATEGORY,PRODUCTS,APPLICATIONS where APP_NO='^' and cat_id=prd_catid and prd_code=app_prdcode
+	</query>
+	<query code="sel_querystatus">
+	select count(aq_appno) as cnt from app_querydetails where aq_appno='^' and aq_status&lt;&gt;'QC'
+	</query>
+	<query code="sel_PMAY_detailps">
+			select PMAY_HOUSE_CAT,PMAY_LOAN_TYPE,PMAY_OWN_MODE,PMAY_BORR_PUCCA,PMAY_PREFER_CAT,PMAY_SUBSID_INST,PMAY_OTHER_CATEGORY,PMAY_CERTIF_HOUSEOWN,PMAY_SOURCE_APP from PMAY_HOUSELOAN_DETAILS_PS where PMAY_APPNO='^'
+	</query>
+	<query code="sel_retratingROI">
+	select roi_intid,roi_intsno,roi_ratingcode,
+	roi_sector,roi_baserate ,roi_adjust,roi_interest,roi_crp,roi_bsp from retprd_ratingbasedroi where roi_intid='^' 
+	and roi_intsno ='^' and roi_sector='^'
+	</query>
+	<query code="ins_retratingROI">
+	insert into retprd_ratingbasedroi(roi_intid,roi_intsno,roi_ratingcode,
+	roi_sector,roi_baserate ,roi_adjust,roi_interest,roi_crp,roi_bsp) values (?,?,?,?,?,?,?,?,?)
+	</query>
+	<query code="del_retratingROI">
+	delete from retprd_ratingbasedroi where roi_intid=? and roi_intsno =? and roi_sector=?
+	</query>
+	<query code="del_retratingROIforprd">
+	delete from retprd_ratingbasedroi where roi_intid=?
+	</query>
+	<query code="checkotherinterestprdrangeins">
+		select count(*) as cnt from prdint_master where
+		prdint_prdcode='^'and prdint_inttype='^' and (('^' between
+		prd_amtrangefrom and prd_amtrangeto) or ('^' between
+		prd_amtrangefrom and prd_amtrangeto) or (prd_amtrangefrom
+		between '^' and '^') or (prd_amtrangeto between '^' and '^')) and prd_roitype='^' and (('^' between
+		prd_tenorfrom and prd_tenorto) or ('^' between
+		prd_tenorfrom and prd_tenorto) or (prd_tenorfrom
+		between '^' and '^') or (prd_tenorto between '^' and '^')) and prdint_reftype='^'
+	</query>
+
+	<query code="checkotherinterestprdrangeupd">
+		select count(*) as cnt from prdint_master where
+		prdint_prdcode='^'and prdint_inttype='^' and prdint_sno!='^' and
+		(('^' between prd_amtrangefrom and prd_amtrangeto) or ('^'
+		between prd_amtrangefrom and prd_amtrangeto) or
+		(prd_amtrangefrom between '^' and '^') or (prd_amtrangeto
+		between '^' and '^')) and prd_roitype='^'  and (('^' between
+		prd_tenorfrom and prd_tenorto) or ('^' between
+		prd_tenorfrom and prd_tenorto) or (prd_tenorfrom
+		between '^' and '^') or (prd_tenorto between '^' and '^')) and prdint_reftype='^'
+	</query>
+	<query code="select_cuscibildetails">
+		select cibil_score,cibil_rat_status,CRIF_REFERED,CRIF_SCORE from CUS_CIBILDETAILS 
+		where cibil_appid='^' 
+	</query>
+	<query code="select_inttypefloatingrate">
+		select '' as prd_interest,
+		prd_adjust,prd_interestid,'' as prd_baserate,prd_creditrskpremium,prd_busstrategicpremium from
+		prd_interest_limit pil where
+		prd_intid = (select prdint_sno from prdint_master where
+		upper(prdint_inttype)=upper('^') and prdint_prdcode='^' and
+		prd_amtrangefrom ^ '^' and prd_amtrangeto ^ '^' and prd_roitype='^' and
+		PRD_TENORFROM ^ '^' and PRD_TENORTO ^ '^'  and prdint_reftype='^') and ^ between prd_termfrom and prd_termto
+	</query>
+	<query code="select_facilitydetails">
+		select FAC_ROITYPE from facilities where facility_appno='^' and FAC_ROITYPE in ('CRIF','CIBIL') 
+	</query>
+	<query code="selectinttypefloatingrate">
+		select prd_creditrskpremium,prd_busstrategicpremium,prd_intid,prd_sno from
+        prd_interest_limit pil,prdint_master where
+        prd_intid = prdint_sno and
+        upper(prdint_inttype)=upper('^') and prdint_prdcode='^' and ^ between
+        prd_amtrangefrom and prd_amtrangeto and prd_roitype='^' and ^ between
+        prd_termfrom  and prd_termto and PRDINT_REFTYPE='^' 
+	</query>
+	<query code="sel_goldwight">
+		select sum(agr_artnetwt) as netweight,sum(agr_estrate) as netval from agr_goldloan where 	AGR_ARTCATID='^'
+	</query>
+	<query code="sel_cgtmsecoveredval">
+		select app_no,TXNDET_CGPAN_NO,TXNDET_APPL_STATUS,(nvl(TXNDET_CRDT_AMT,0)+nvl(TXNDET_CRDT_FUNDBASED,0)+nvl(TXNDET_CRDT_NONFUNDBASED,0)) as Coveramt from applications,loandetails,per_demographics,WORFLOW_CGTMSE_TXNDETAILS
+	where app_no=loan_appno and loan_appno=demo_appno and demo_type='a' and TXNDET_APPNO=app_no and txndet_fac_sno='1' and LOAN_CGTMSE_APPLICABLE='Y' and TXNDET_APPL_STATUS='C'
+	and DEMO_OLDAPPID='^' and app_delflag='N' and app_status in  ('pa','ca','op')
+	union all
+	select app_no,TXNDET_CGPAN_NO,TXNDET_APPL_STATUS,(nvl(TXNDET_CRDT_AMT,0)+nvl(TXNDET_CRDT_FUNDBASED,0)+nvl(TXNDET_CRDT_NONFUNDBASED,0)) as Coveramt from applications,facilities,WORFLOW_CGTMSE_TXNDETAILS
+	where app_no=facility_appno and  TXNDET_APPNO=facility_appno and txndet_fac_sno=facility_sno and FACILITY_WHT_CGTMSEAPPLY='Y' and TXNDET_APPL_STATUS='C'
+	and BORROWER_ID='^'  and app_delflag='N'  and app_status in  ('pa','ca','op')
+	</query>
+	<query code="chk_districtavailability">
+		select con_comdist,con_permdist from cust_contactinfo a,district_master c,laps_states c1,district_master p,laps_states p1
+      where con_appid='^' and c.District_Code=a.con_comdist and c.state_code=C1.State_Id and C1.State_Code='^' 
+      and p.District_Code=a.con_permdist and p.state_code=p1.State_Id and p1.State_Code='^'  and c.District_Active='E'
+      and p.District_Active='E'
+	</query>
+	<query code="chk_duplicateGST">
+		select COMINFO_GSTIN,perapp_cbsid from perapplicant,company_info where COMINFO_GSTIN like '^'
+and cominfo_appid=perapp_id and nvl(perapp_renew,'n')='n' and perapp_id&lt;&gt;'^'
+	</query>
+	<query code="ins_app_deviation_renew">
+		insert into app_deviation (appno, deviation_type,
+		deviation_oldvalue, deviation_newvalue, deviation_req,
+		 deviation_specification,deviation_apprej)  
+   		select ?, deviation_type,
+		deviation_oldvalue, deviation_newvalue, deviation_req,
+		 deviation_specification,deviation_apprej from app_deviation where appno=?
+	</query>
+	<query code="upd_loanagainstdeposit_intrate">
+		update PER_loanagainstdeposit set LOAN_RATEINCHARGES=? where LOAN_APPNO=?
+	</query>
+	<query code="chk_thirdpartydeposit">
+		SELECT loan_APPNO,LOAN_RATEINCHARGES FROM PER_loanagainstdeposit WHERE loan_APPNO ='^' and loan_banktype='2'
+	</query>
+	<query code="upd_allloanagainstdeposit_intrate">
+		update per_loanagainstdeposit set loan_rateincharges=loan_rateofint+? where loan_appno=?
+	</query>
+	<query code="upd_loandetailsintrate">
+		update loandetails set loan_intrate=null,loan_modintrate=null,loan_inttype=null,loan_baserate=null,loan_creditrskval=null,loan_busstatval=null,loan_mclrtabcode=null,
+		loan_mclrtype=null,loan_roitype=null,loan_roiscore=null  where loan_appno=?
+	</query>
+	<query code="ins_ratingdet_postsanction">
+		insert into creditscoring(cre_appno,cre_sno,cre_rating,cre_freeze,cre_weight,cre_nonpoolflag,cre_userid,cre_asondate,cre_ratingerror,rating_year,rating_yeartype,cre_rmdflag)
+		select ?,cre_sno,cre_rating,cre_freeze,cre_weight,cre_nonpoolflag,cre_userid,cre_asondate,cre_ratingerror,rating_year,rating_yeartype,cre_rmdflag from creditscoring where cre_appno=?
+	</query>
+	<query code="ins_drawdown_history">
+		insert into LOAN_DRAWDOWN_HISTORY(APP_NO, FAC_SNO,QTR_START_DATE,QTR_END_DATE,TOT_QTR,AMT_QTR,DD_SNO,ACTION,action_dated)
+		values(?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,?,?,?,sysdate)
+	</query>
+	<query code="sel_distinctratingtype">
+		SELECT distinct(RAT_AGENCY) as agency FROM CUS_RATINGNEW where RAT_ID='^'
+	</query>
+	<query code="copy_drawdown_history">
+		insert into LOAN_DRAWDOWN_HISTORY(APP_NO, FAC_SNO,QTR_START_DATE,QTR_END_DATE,TOT_QTR,AMT_QTR,DD_SNO,ACTION,action_dated)
+		select APP_NO, FAC_SNO,QTR_START_DATE,QTR_END_DATE,TOT_QTR,AMT_QTR,DD_SNO,'Sanction',sysdate from LOAN_DRAWDOWN where APP_NO=?
+	</query>
+	<query code="del_drawdown_history">
+		delete from LOAN_DRAWDOWN_HISTORY where APP_NO=? and ACTION='Sanction'
+	</query>
+	<query code="sel_drawdown_history">
+		select to_char(qtr_start_date,'dd/mm/yyyy') as qtr_start_date,to_char(qtr_end_date,'dd/mm/yyyy') as qtr_end_date,tot_qtr,amt_qtr,DD_SNO,
+    qtr_end_date as qtr_end_date_order from LOAN_DRAWDOWN_HISTORY where APP_NO='^' and ACTION='Sanction'  order by qtr_end_date_order,DD_SNO
+	</query>
+	<query code="sel_validJappraisername">
+		select valuer_orgcode as org_code, valuers_code, valuers_name, valuers_address1,
+		valuers_address2, valuers_address3, valuers_city, valuers_state,
+		valuers_pincode, valuers_country, valuers_off_phoneno,
+		valuers_off_faxno, valuers_res_phoneno, valuers_res_mobno,
+		valuers_contper, valuers_contper_phmobno, valuers_design,
+		valuers_email, TO_CHAR( valuers_empaneleddt, 'DD/MM/YYYY') as
+		valuers_empaneleddt, valuers_active, valuers_comments,
+		valuers_blacklist, TO_CHAR( valuers_blacklistdate, 'DD/MM/YYYY')
+		as valuers_blacklistdate ,city_name, state_name,
+		valuers_seqno,valuers_sancrefno,TO_CHAR( valuer_expirydate, 'DD/MM/YYYY') as valuers_expdateofsanc,valuers_detofsecdep,TO_CHAR(valuers_jewappdateofagr, 'DD/MM/YYYY')as valuers_jewappdateofagr,valuer_cbsid,VALUER_VALUATIONNATURE,VALUER_CATEGORYCODE,VALUER_VALUEDLOC 
+		from valuersmaster, laps_cities lc, laps_states ls,valuer_orgdetails
+		where (valuer_orgcode like '%^%') and
+		valappflag='^'  and valuer_cbsid is not null and state_code(+)=valuers_state and
+		city_code(+)=valuers_city   and lc.STATE_ID=ls.STATE_ID and valuer_seqno=VALUERS_SEQNO order by valuers_code
+	</query>
+	
+	<query code="sel_validJappraisernamewithsearchid">
+		select valuer_orgcode as org_code, valuers_code, valuers_name, valuers_address1,
+		valuers_address2, valuers_address3, valuers_city, valuers_state,
+		valuers_pincode, valuers_country, valuers_off_phoneno,
+		valuers_off_faxno, valuers_res_phoneno, valuers_res_mobno,
+		valuers_contper, valuers_contper_phmobno, valuers_design,
+		valuers_email, TO_CHAR( valuers_empaneleddt, 'DD/MM/YYYY') as
+		valuers_empaneleddt, valuers_active, valuers_comments,
+		valuers_blacklist, TO_CHAR( valuers_blacklistdate, 'DD/MM/YYYY')
+		as valuers_blacklistdate,city_name, state_name,
+		valuers_seqno,valuers_sancrefno,TO_CHAR( valuer_expirydate, 'DD/MM/YYYY') as valuers_expdateofsanc,valuers_detofsecdep,
+		valuers_jewappdateofagr,valuer_cbsid,VALUER_VALUATIONNATURE,VALUER_CATEGORYCODE,VALUER_VALUEDLOC from valuersmaster, laps_cities lc, laps_states ls,valuer_orgdetails
+		where valuer_orgcode like '%^%' and
+		upper(valuers_name) like upper('%^%') and valappflag='^' and valuer_cbsid is not null and
+		state_code(+)=valuers_state and city_code(+)=valuers_city and lc.STATE_ID=ls.STATE_ID   and valuer_seqno=VALUERS_SEQNO
+		order by valuers_name
+	</query>
+	<query code="sel_validJappraisernamewithsearchcbsid">
+		select valuer_orgcode as org_code, valuers_code, valuers_name, valuers_address1,
+		valuers_address2, valuers_address3, valuers_city, valuers_state,
+		valuers_pincode, valuers_country, valuers_off_phoneno,
+		valuers_off_faxno, valuers_res_phoneno, valuers_res_mobno,
+		valuers_contper, valuers_contper_phmobno, valuers_design,
+		valuers_email, TO_CHAR( valuers_empaneleddt, 'DD/MM/YYYY') as
+		valuers_empaneleddt, valuers_active, valuers_comments,
+		valuers_blacklist, TO_CHAR( valuers_blacklistdate, 'DD/MM/YYYY')
+		as valuers_blacklistdate,city_name, state_name,
+		valuers_seqno,valuers_sancrefno,TO_CHAR( valuer_expirydate, 'DD/MM/YYYY') as valuers_expdateofsanc,valuers_detofsecdep,
+		valuers_jewappdateofagr,valuer_cbsid,VALUER_VALUATIONNATURE,VALUER_CATEGORYCODE,VALUER_VALUEDLOC from valuersmaster, laps_cities lc, laps_states ls,valuer_orgdetails
+		where valuer_orgcode  like '%^%' and
+		VALUER_CBSID='^' and valappflag='^' and valuer_cbsid is not null and
+		state_code(+)=valuers_state and city_code(+)=valuers_city and lc.STATE_ID=ls.STATE_ID  and valuer_seqno=VALUERS_SEQNO
+		order by valuers_name
+	</query>
+	<query code="upd_valuersorgcode">
+		update valuer_orgdetails set VALUER_ORGCODE=? where VALUER_ORGCODE=?
+	</query>
+	<query code="insertbranchuser">
+		insert into users (usr_id, usr_grpid,usr_fname, usr_orgcode,usr_class, usr_avail, usr_function, user_designation, user_first_flag,usr_rmdflag)values(?,'26',?,?,'25','u','Monitoring','099','Y','0')
+	</query>
+	<query code="ins_gstreturndetails">
+		insert into per_gstreturndetails(gst_appno,gst_year,gst_returnamt,gst_sno)values(?,?,?,?)
+	</query>
+	<query code="delgstreturndetails">
+		delete from per_gstreturndetails where gst_appno=?
+	</query>
+	<query code="sel_gstreturndetails">
+		select gst_appno,gst_year,gst_returnamt,gst_sno from per_gstreturndetails where gst_appno='^' order by gst_sno
+	</query>
+	<query code="sum_gstreturndetails">
+		select sum(gst_returnamt) as gstamount from per_gstreturndetails where gst_appno='^'
+	</query>
+	<query code="sel_svanidhidetails">
+		select perapp_id ,perapp_cig ,perapp_cigname ,perapp_cigcode ,
+perapp_jlg ,perapp_jlgname ,perapp_jlgcode ,perapp_nativity ,perapp_familyavailable ,
+perapp_venderidcardno ,perapp_cartvendingno ,perapp_letterofRecommd ,perapp_nativeofactivity ,
+perapp_placeofvending ,perapp_durofvendingyrs ,perapp_durofvendingmonth ,perapp_stationaryveyndor  ,
+perapp_nearestlandmark ,perapp_mobileveyndor ,perapp_mobilenearestlandmark ,perapp_wardno ,
+perapp_district ,perapp_pincode ,perapp_averagemonthly ,perapp_bankname ,perapp_branchname ,
+perapp_ifsccode ,perapp_accountno ,perapp_paymentaggregator ,perapp_upiid ,perapp_QRCode ,perapp_term1certified ,
+perapp_term1certifiedby ,perapp_termcertified2 ,perapp_term2certifiedby,perapp_pwd,perapp_whtapplundertaken,
+perapp_localref1_name,perapp_localref2_name,perapp_localref1_mobile,perapp_localref2_mobile,perapp_localref1_address,perapp_localref2_address,perapp_govtschemes,per_svanidhiappno
+from per_svanidhiDetails where perapp_id='^'
+	</query>
+	<query code="ins_svanidhidetails">
+		insert into per_svanidhiDetails(perapp_id ,perapp_cig ,perapp_cigname ,perapp_cigcode ,
+perapp_jlg ,perapp_jlgname ,perapp_jlgcode ,perapp_nativity ,perapp_familyavailable ,
+perapp_venderidcardno ,perapp_cartvendingno ,perapp_letterofRecommd ,perapp_nativeofactivity ,
+perapp_placeofvending ,perapp_durofvendingyrs ,perapp_durofvendingmonth ,perapp_stationaryveyndor  ,
+perapp_nearestlandmark ,perapp_mobileveyndor ,perapp_mobilenearestlandmark ,perapp_wardno ,
+perapp_district ,perapp_pincode ,perapp_averagemonthly ,perapp_bankname ,perapp_branchname ,
+perapp_ifsccode ,perapp_accountno ,perapp_paymentaggregator ,perapp_upiid ,perapp_QRCode ,perapp_term1certified ,
+perapp_term1certifiedby ,perapp_termcertified2 ,perapp_term2certifiedby,perapp_pwd,perapp_whtapplundertaken,
+perapp_localref1_name,perapp_localref2_name,perapp_localref1_mobile,perapp_localref2_mobile,perapp_localref1_address,perapp_localref2_address,perapp_govtschemes,per_svanidhiappno)
+values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+	<query code="del_svanidhidetails">
+		delete from per_svanidhiDetails where perapp_id=?
+	</query>
+	<query code="ins_per_familyDetails">
+		insert into per_familyDetails(perapp_id ,perapp_sno ,perapp_relationname ,perapp_relationtype ,perapp_relationage)values(?,?,?,?,?)
+	</query>
+	<query code="del_per_familyDetails">
+		delete from per_familyDetails where perapp_id=?
+	</query>
+	<query code="sel_per_familyDetails">
+		select perapp_id ,perapp_sno ,perapp_relationname ,perapp_relationtype ,perapp_relationage from per_familyDetails where perapp_id='^'
+	</query>
+	<query code="sel_svanidhidetails1">
+		select perapp_id ,decode(perapp_cig,'Y','Yes','N','No',perapp_cig) as perapp_cig ,perapp_cigname ,perapp_cigcode ,
+decode(perapp_jlg,'Y','Yes','N','No',perapp_jlg) as  perapp_jlg,perapp_jlgname ,perapp_jlgcode ,perapp_nativity ,perapp_familyavailable ,
+perapp_venderidcardno ,perapp_cartvendingno ,perapp_letterofRecommd ,perapp_nativeofactivity ,
+perapp_placeofvending ,perapp_durofvendingyrs ,perapp_durofvendingmonth ,perapp_stationaryveyndor  ,
+perapp_nearestlandmark ,perapp_mobileveyndor ,perapp_mobilenearestlandmark ,perapp_wardno ,
+perapp_district ,perapp_pincode ,perapp_averagemonthly ,perapp_bankname ,perapp_branchname ,
+perapp_ifsccode ,perapp_accountno ,perapp_paymentaggregator ,perapp_upiid ,decode(perapp_QRCode,'Y','Yes','N','No',perapp_QRCode) as perapp_QRCode ,perapp_term1certified ,
+perapp_term1certifiedby ,perapp_termcertified2 ,perapp_term2certifiedby,decode(perapp_pwd,'Y','Yes','N','No',perapp_pwd) as perapp_pwd,
+decode(perapp_whtapplundertaken,'Y','Yes','N','No',perapp_whtapplundertaken) as perapp_whtapplundertaken,
+perapp_localref1_name,perapp_localref2_name,perapp_localref1_mobile,perapp_localref2_mobile,perapp_localref1_address,perapp_localref2_address,perapp_govtschemes,per_svanidhiappno
+ from per_svanidhiDetails where perapp_id='^'
+	</query>
+	
+	<query code="ins_svanidhidetails_renew">
+		insert into per_svanidhiDetails(perapp_id ,perapp_cig ,perapp_cigname ,perapp_cigcode ,
+		perapp_jlg ,perapp_jlgname ,perapp_jlgcode ,perapp_nativity ,perapp_familyavailable ,
+		perapp_venderidcardno ,perapp_cartvendingno ,perapp_letterofRecommd ,perapp_nativeofactivity ,
+		perapp_placeofvending ,perapp_durofvendingyrs ,perapp_durofvendingmonth ,perapp_stationaryveyndor  ,
+		perapp_nearestlandmark ,perapp_mobileveyndor ,perapp_mobilenearestlandmark ,perapp_wardno ,
+		perapp_district ,perapp_pincode ,perapp_averagemonthly ,perapp_bankname ,perapp_branchname ,
+		perapp_ifsccode ,perapp_accountno ,perapp_paymentaggregator ,perapp_upiid ,perapp_QRCode ,perapp_term1certified ,
+		perapp_term1certifiedby ,perapp_termcertified2 ,perapp_term2certifiedby,perapp_pwd,perapp_whtapplundertaken,
+		perapp_localref1_name,perapp_localref2_name,perapp_localref1_mobile,perapp_localref2_mobile,perapp_localref1_address,perapp_localref2_address,perapp_govtschemes,per_svanidhiappno)
+		select ?,perapp_cig ,perapp_cigname ,perapp_cigcode ,
+		perapp_jlg ,perapp_jlgname ,perapp_jlgcode ,perapp_nativity ,perapp_familyavailable ,
+		perapp_venderidcardno ,perapp_cartvendingno ,perapp_letterofRecommd ,perapp_nativeofactivity ,
+		perapp_placeofvending ,perapp_durofvendingyrs ,perapp_durofvendingmonth ,perapp_stationaryveyndor  ,
+		perapp_nearestlandmark ,perapp_mobileveyndor ,perapp_mobilenearestlandmark ,perapp_wardno ,
+		perapp_district ,perapp_pincode ,perapp_averagemonthly ,perapp_bankname ,perapp_branchname ,
+		perapp_ifsccode ,perapp_accountno ,perapp_paymentaggregator ,perapp_upiid ,perapp_QRCode ,perapp_term1certified ,
+		perapp_term1certifiedby ,perapp_termcertified2 ,perapp_term2certifiedby,perapp_pwd,perapp_whtapplundertaken,
+		perapp_localref1_name,perapp_localref2_name,perapp_localref1_mobile,perapp_localref2_mobile,perapp_localref1_address,perapp_localref2_address,perapp_govtschemes,per_svanidhiappno
+		from per_svanidhiDetails where perapp_id=?
+ 	</query>
+ 	
+ 	<query code="ins_per_familyDetails_renew">
+		insert into per_familyDetails(perapp_id ,perapp_sno ,perapp_relationname ,perapp_relationtype ,perapp_relationage)
+		select ?,perapp_sno ,perapp_relationname ,perapp_relationtype ,perapp_relationage from per_familyDetails where perapp_id=?
+ 	</query>
+ 	<query code="ins_gstreturndetail_digi">
+		insert into per_gstreturndetails(gst_appno,gst_year,gst_returnamt,gst_sno)values(?,?,?,?)
+	</query>
+	<query code="ins_actionhistory">
+	insert into ACTION_HISTORY(ACT_APPNO,ACT_STAFFID,ACT_ORGCODE,ACT_ORGDEPT,ACT_DATE) values(?,?,?,?,sysdate)
+	</query>
+	<query code="ins_app_creditsales">
+	INSERT INTO APP_CREDITSALES (APP_APPNO, APP_DIGIAPPNO,APP_ELIGCRITERIA,APP_REASON,APP_OTHERREASON,APP_COMMENTS) VALUES(?,?,?,?,?,?)
+	</query>
+	<query code="del_app_creditsales">
+		delete from APP_CREDITSALES where APP_APPNO=? 
+	</query>
+	<query code="sel_app_creditsales">
+ 		SELECT APP_APPNO, APP_DIGIAPPNO, APP_ELIGCRITERIA, APP_REASON, APP_OTHERREASON,APP_COMMENTS FROM APP_CREDITSALES where APP_APPNO='^'
+ 	</query>
+ 	<query code="ins_rest_Assesment">
+ 	INSERT INTO COM_RESTRUCTURE_ASSESMENT (COM_APPNO,COM_TYPE_OF_BORROWER,  COM_PURPOSE_OF_LOAN,COM_AGRI_ALLIED,  COM_PERM_ACT,COM_OTHER_LOAN,COM_PERM_ACT_ELIGIBLE, COM_EXPOSUE, COM_EXPOSUE_ELIGIBLE,   COM_BRW_AVAILED,COM_BRW_AVAILED_ELIGIBIE,COM_PREVIOUS_MOROTORIUM,COM_PRESENT_MOROTORIUM,COM_EXTENDED_DATE, COM_GST_NUMBER,COM_MSME_REST_SCHEME,COM_MSME_RESTR_SCHEME_ELIG, COM_RESOL_FW,COM_RESOL_FW_ELIGIBLE,COM_RESTRUCTURE_ALLIED ,COM_REST_ALLIED_ELIGIBLE)
+ 	 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?)
+	</query>
+	<query code="del_rest_Assesment">
+		delete from COM_RESTRUCTURE_ASSESMENT where COM_APPNO=?
+	</query>
+	<query code="sel_rest_Assesment">
+	SELECT COM_APPNO, COM_TYPE_OF_BORROWER, COM_PURPOSE_OF_LOAN, COM_AGRI_ALLIED, COM_PERM_ACT, 
+	COM_PERM_ACT_ELIGIBLE, COM_EXPOSUE, COM_EXPOSUE_ELIGIBLE, COM_BRW_AVAILED, COM_BRW_AVAILED_ELIGIBIE, COM_PRESENT_MOROTORIUM, COM_PREVIOUS_MOROTORIUM,TO_CHAR( COM_EXTENDED_DATE, 'DD/MM/YYYY') as COM_EXTENDED_DATE, COM_GST_NUMBER, COM_MSME_REST_SCHEME, COM_MSME_RESTR_SCHEME_ELIG, COM_RESOL_FW, COM_RESOL_FW_ELIGIBLE, COM_OTHER_LOAN,COM_RESTRUCTURE_ALLIED ,COM_REST_ALLIED_ELIGIBLE  FROM COM_RESTRUCTURE_ASSESMENT where COM_APPNO='^' 
+ </query>
+ 
+ <query code="sel_rest_assess_selection">
+ select FACILITY_APPNO,FAC_RESTR_SCHEME from FACILITIES where FACILITY_APPNO='^'  and FAC_RESTR_SCHEME in('27','28','29')
+ </query>
+	<query code="sel_restr_static">
+
+select STAT_DATA_DESC,STAT_DATA_DESC1 from STATIC_DATA where STAT_DATA_ID='^' and  STAT_DATA_ACTIVE='Y' and  STAT_DATA_DESC in(with Split_values as
+	( select a.STAT_DATA_ID,a.STAT_DATA_VALUE from STATIC_DATA a where a.STAT_DATA_ID='^'  and STAT_DATA_VALUEDESC like
+		'%^%')
+	select distinct regexp_substr (STAT_DATA_VALUE, '[^@]+', 1, level) STAT_DATA_VALUE
+	from Split_values  connect by regexp_substr(STAT_DATA_VALUE, '[^@]+', 1, level) is not null)	
+	</query>
+	<query code="sel_ret_tab_validation">
+	select LOAN_APPNO,LOAN_RESTR_SCHEME from LOANDETAILS where LOAN_RESTR_SCHEME in('27','28','29') and LOAN_APPNO='^'
+	</query>
+	<query code="sel_ret_rest_processnote">
+	select APP_RENEW_FLAG,APP_RENEW_STATUS,LOAN_RESTR_SCHEME,LOAN_REQTERMS,LOAN_INTRATE,LOAN_RECMDAMT from loandetails,APPLICATIONS where LOAN_APPNO='^'and APP_NO = LOAN_APPNO 
+	
+	</query>
+	<query code="sel_corp_rest_processnote">
+	select FACILITY_SNO,APP_RENEW_FLAG,APP_RENEW_STATUS, FAC_RESTR_SCHEME,nvl(FACILITY_PROPOSED,0) as FACILITY_PROPOSED,nvl(FACILITY_INTEREST,0) as FACILITY_INTEREST,nvl(FACILITY_MONTHS,0) as 
+FACILITY_MONTHS ,nvl(FACILITY_HOLIDAYPERIOD,0) as FACILITY_HOLIDAYPERIOD,decode(FACILITY_INTERESTREC ,'y','Yes','n','No') as FACILITY_INTERESTREC  from  FACILITIES,APPLICATIONS where  FACILITY_APPNO='^'and APP_NO = FACILITY_APPNO order by FACILITY_SNO
+	</query>
+	
+	<query code="sel_rest_holiday_details">
+	select loan_appno, loan_noofinstallment, loan_periodicity,
+		loan_secure, loan_secureamount, decode( loan_servised ,'y','Yes','n' ,'No' ) as loan_servised from
+		per_loan_secure where loan_appno = '^'
+	</query>
+	
+	<query code="sel_sanccustdet_ahp">
+		select c.CON_RESTYPE as CON_RESTYPE from perapplicant p, cust_contactinfo c, per_demographics d, INDIVIDUAL_INFO ii
+		where p.perapp_id=c.con_appid and p.perapp_id=d.demo_appid and p.PERAPP_ID=ii.INDINFO_APPID and d.demo_appno='^' and ^ order by demo_type
+	</query>
+	
+	<query code="ins_ahp_details">
+			insert into AHP_HOUSELOAN_DETAILS (AHP_APPNO,AHP_ALLOTMENT_LETTER,AHP_INCOME_CERTIFICATE,AHP_BANKNAME,AHP_BRANCHNAME,AHP_ACCNUMBER,
+			AHP_IFSCCODE,AHP_COSTLOANPRD,AHP_GOI_AMT,AHP_GOK_AMT,AHP_RESIDENT_TYPE,AHP_SAVINGS)values (?,?,?,?,?,?,
+			?,?,?,?,?,?)
+		</query>
+		
+		<query code="sel_ahp_details">
+			select AHP_ALLOTMENT_LETTER,AHP_INCOME_CERTIFICATE,AHP_BANKNAME,AHP_BRANCHNAME,AHP_ACCNUMBER,
+			AHP_IFSCCODE,AHP_GOI_AMT,AHP_GOK_AMT,AHP_SAVINGS,AHP_RESIDENT_TYPE,AHP_COSTLOANPRD from AHP_HOUSELOAN_DETAILS where AHP_APPNO='^'
+		</query>
+		
+		<query code="del_ahp_details">
+			delete from AHP_HOUSELOAN_DETAILS where AHP_APPNO=?
+		</query>
+		
+		<query code="ins_dechis_details">
+			insert into COMPANY_DEC_HISTORY (COM_CUSTOMERID,COM_CUSTOMERNAME,COM_PROPOSALNUMBER,COM_CINNUMBER,COM_STAFFID,COM_ORGCODE,COM_ORGDEPT,COM_MODIFIEDDATE)values (?,?,?,?,?,?,?,sysdate)
+		</query>
+		<query code="sel_Gold_loanAccountNo">
+		select CBS_ACCOUNTNO from APPLICATIONS where APP_NO='^' and APP_STATUS in('pa','ca')
+		</query>
+		<query code="sel_GoldRate_value_alreadyappoved">
+		select AGR_ARTCATID,AGR_ARTDESC, AGR_ARTNO, AGR_ARTGROSSWT,AGR_ARTNETWT, AGR_ARTMKTRATE,AGR_QUANTITY from agr_goldloan where
+		AGR_ARTCATID='^' order by AGR_ARTNO asc
+		</query>
+		<query code="ins_Gold_rEApprasial">
+		insert into GOLD_REAPPRISAL(GOLD_APPNO,GOLD_SLNO,GOLD_DESC,GOLD_QUANTITY,GOLD_GROSSWEIGHT,GOLD_NETWEIGHT,GOLD_CURRMARVAL,GOLD_REMARKS,GOLD_REAPRNAME,GOLD_REAPPDATE,GOLD_USERID,GOLD_TIME,STATUS,GOLD_REAPRCUSTID) values (?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,SYSTIMESTAMP,?,?)
+		</query>
+		<query code="del_Gold_rEApprasial">
+			delete from  GOLD_REAPPRISAL  where GOLD_APPNO=?
+		</query>
+		<query code="sel_Gold_rEApprasial">
+		SELECT GOLD_APPNO,GOLD_SLNO,GOLD_DESC,GOLD_GROSSWEIGHT,GOLD_NETWEIGHT,GOLD_CURRMARVAL,GOLD_REMARKS,GOLD_REAPRNAME,to_char(GOLD_REAPPDATE,'dd/mm/yyyy') as GOLD_REAPPDATE,GOLD_REAPPBY,GOLD_USERID,GOLD_QUANTITY,GOLD_REAPRCUSTID,STATUS,REASON_FOR_REJECT FROM GOLD_REAPPRISAL
+			WHERE GOLD_APPNO='^' AND GOLD_DELFLAG IS NULL
+		</query>
+		<query code="gst_newAssemnt_businLoanQuick">
+		select APP_NO from APPLICATIONS where  APP_NO='^' and APP_LOANTYPE='P' and APP_STATUS='op' and APP_DELFLAG='N'
+		</query>
+		<query code="get_mobileno_ABM_sendSMS">
+		select ORG_MANAGER_CTNUM,ORG_ABMMOBILE,to_char(AQ_CREATEDON, 'dd/mm/yyyy') datepart, to_char(AQ_CREATEDON, 'hh24:mi:ss')
+        timepart from ORGANISATIONS,app_querydetails where ORG_CODE=AQ_ORGCODE and AQ_APPNO='^' and ORG_LEVEL='A'  and AQ_SNO='^'
+		</query>
+		<query code="ins_goldREAPPRISAL_HISTORY">
+		INSERT INTO GOLD_REAPPRISAL_HISTORY(GOLD_REAPPNO,GOLD_SLNO,GOLD_DESC,GOLD_QUANTITY,GOLD_RATE,GOLD_REMARKS,GOLD_REAPRNAME,GOLD_REAPPDATE,GOLD_RETIME,GOLD_RESOLID,GOLD_REUSERID,GOLD_REAPRCUSTID) VALUES(?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),SYSTIMESTAMP,?,?,?)
+		</query>
+		<query code="upd_GOLD_REAPPRISAL_appno">
+		update GOLD_REAPPRISAL SET GOLD_REAPPBY=?,GOLD_REAPPTIME=SYSTIMESTAMP,STATUS=? WHERE GOLD_APPNO=?
+		</query>
+
+		<query code="sel_name_sms_permissionmodule">
+		select PG_APPLIANTNAME from DEV_PERMISSION_GIST where DEV_APPNO='^'
+		</query>
+
+		<query code="upd_GOLD_REAPPRISAL_appno_for_reject">
+		update GOLD_REAPPRISAL SET GOLD_REAPPBY=?,GOLD_REAPPTIME=SYSTIMESTAMP,STATUS=?,REASON_FOR_REJECT=? WHERE GOLD_APPNO=?
+		</query>
+		<query code="selectgoldpreviousdata">
+		select GOLD_APPNO,to_char(GOLD_REAPPDATE,'dd/mm/yyyy') as GOLD_REAPPDATE,GOLD_SLNO,GOLD_DESC,GOLD_CURRMARVAL,GOLD_REMARKS,GOLD_REAPRNAME,GOLD_REAPRCUSTID,GOLD_QUANTITY,GOLD_USERID from GOLD_REAPPRISAL WHERE GOLD_APPNO ='^'
+		</query>
+
+		
+		<query code="getcertificatereportforpa">
+		select e.LOANDISBBRANCH as Branch,trunc(a.GOLD_REAPPDATE) as Date_of_Reappraisal,d.PERAPP_FNAME as Party_Name,b.CBS_ACCOUNTNO as Account_Number,
+         a.GOLD_SLNO as Sl_No, GOLD_DESC as Description_Of_Gold_Ornaments,GOLD_QUANTITY as No,
+         a.GOLD_GROSSWEIGHT as Gross_Weight,a.GOLD_NETWEIGHT as Net_Weight,
+         cast(a.GOLD_REMARKS as varchar2(1000)) as Remarks,sum(a.GOLD_QUANTITY) over(PARTITION by b.CBS_ACCOUNTNO) as Total_Qty,
+          sum(a.GOLD_GROSSWEIGHT)over(PARTITION by b.CBS_ACCOUNTNO)
+          as Total_Gross_Weight,sum(a.GOLD_NETWEIGHT) over( PARTITION by b.CBS_ACCOUNTNO) as Total_Net_Weight from gold_reapprisal a, applications b, per_demographics c, perapplicant d ,per_cuscbsaccountdata e
+          where a.GOLD_APPNO=b.APP_NO and b.APP_NO=c.DEMO_APPNO and c.DEMO_APPID=d.perapp_id and e.appno=b.app_no and a.STATUS='pa'
+         and a.GOLD_APPNO='^' group by e.LOANDISBBRANCH,a.GOLD_REAPPDATE,d.PERAPP_FNAME,b.CBS_ACCOUNTNO,a.GOLD_DESC,a.GOLD_SLNO,
+                a.GOLD_GROSSWEIGHT, a.GOLD_NETWEIGHT,cast(a.GOLD_REMARKS as varchar2(1000)), a.gold_quantity ORDER BY SL_NO ASC
+		</query>
+		<query code="selectbranchname">
+		select org_name from organisations where ORG_SCODE = '^'
+		</query>
+		<query code="insdeluserid_goldREAPPRISAL_HISTORY">
+		INSERT INTO GOLD_REAPPRISAL_HISTORY(GOLD_REAPPNO,GOLD_SLNO,GOLD_DESC,GOLD_QUANTITY,GOLD_RATE,GOLD_REMARKS,GOLD_REAPRNAME,GOLD_REAPPDATE,GOLD_RETIME,GOLD_RESOLID,GOLD_REUSERID,GOLD_REAPRCUSTID,GOLD_DELUSERID) VALUES(?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),SYSTIMESTAMP,?,?,?,?)
+		</query>
+		<query code="selapp_processdate">
+		select to_char(APP_PROCESSDATE,'dd/mm/yyyy') as APP_PROCESSDATE,APP_STATUS,APP_LOANTYPE from APPLICATIONS where app_no='^'
+		</query>
+		<query code="seldeviaforagrcorp">
+		select FAC_APPNO, FAC_SLNO, FAC_AGE_DEF, FAC_AGE_DEV, FAC_AGE_NEW, FAC_AGE_REMARKS, FAC_AGE_APPROV, FAC_AGE_APPREMARK, FAC_LP_DEF, FAC_LP_DEV, 
+		FAC_LP_NEW,FAC_LP_REMARKS, FAC_LP_APPROV, FAC_LP_APPREMARK, FAC_LA_DEF, FAC_LA_DEV, FAC_LA_NEW, FAC_LA_REMARKS, FAC_LA_APPROV, FAC_LA_APPREMARK,
+		FAC_REP_DEF, FAC_REP_DEV, FAC_REP_NEW, FAC_REP_REMARKS, FAC_REP_APPROV, FAC_REP_APPREMARK, FAC_CIBIL_DEV, FAC_CIBIL_REMARKS,
+	    FAC_CIBIL_APPROV, FAC_CIBIL_APPREMARK, FAC_TOLTOW_PBM, FAC_TOLTOW_ACT, FAC_TOLTOW_DEV, FAC_TOLTOW_REMARKS, FAC_TOLTOW_APPROV, 
+	    FAC_TOLTOW_APPREMARK, FAC_NWC_PBM, FAC_NWC_ACT, FAC_NWC_DEV, FAC_NWC_REMARKS, FAC_NWC_APPROV, FAC_NWC_APPREMARK, FAC_CURR_RAT_PBM, 
+	    FAC_CURR_RAT_ACT, FAC_CURR_RAT_DEV, FAC_CURR_RAT_REMARKS, FAC_CURR_RAT_APPROV, FAC_CURR_RAT_APPREMARK, FAC_DEBT_EQ_RAT_PBM, FAC_DEBT_EQ_RAT_ACT, 
+		FAC_DEBT_EQ_RAT_DEV, FAC_DEBT_EQ_RAT_REMARKS, FAC_DEBT_EQ_RAT_APPROV, FAC_DEBT_EQ_RAT_APPREMARK, FAC_DV_PBM, FAC_DV_ACT, FAC_DV_DEV,
+	    FAC_DV_REMARKS, FAC_DV_APPROV, FAC_DV_APPREMARK, FAC_NETW_PBM, FAC_NETW_ACT, FAC_NETW_DEV, FAC_NETW_REMARKS, FAC_NETW_APPROV, 
+	    FAC_NETW_APPREMARK, FAC_SELANDOTH_PBM, FAC_SELANDOTH_ACT, FAC_SELANDOTH_DEV, FAC_SELANDOTH_REMARKS, FAC_SELANDOTH_APPROV, 
+		FAC_SELANDOTH_APPREMARK, FAC_ACC_STMNT_CHQRTN_REMARKS, FAC_ACC_STMNT_CHQRTN_APPROV, FAC_ACC_STMNT_CHQRTN_APPREMARK, FAC_FRAUD_CHK_REMARKS, 
+		FAC_FRAUD_CHK_APPROV, FAC_FRAUD_CHK_APPREMARK, FAC_IN_TAX_RTN_REMARKS, FAC_IN_TAX_RTN_APPROV, FAC_IN_TAX_RTN_APPREMARK, FAC_ANY_OTH_DEV_REMARKS,
+		FAC_ANY_OTH_DEV_APPROV, FAC_ANY_OTH_DEV_APPREMARK, FAC_PERMIT_AUT_REM, FAC_ADD_INT_IF, FAC_HAND_CHA_IF,
+	    FAC_ADD_INT_VAL, FAC_HAND_CHA_VAL, FAC_APPRAISED_BY, FAC_VETTED_BY, FAC_PERMIT_BY,FAC_STATUS from FAC_DEVIATION where FAC_APPNO='^' and FAC_SLNO='^'
+		</query>
+		<query code="del_deviation_foragricorp">
+			delete from  FAC_DEVIATION  where FAC_APPNO=? and FAC_SLNO=?
+		</query>
+		<query code="insert_into_fac_deviation">
+		INSERT INTO FAC_DEVIATION (FAC_APPNO, FAC_SLNO, FAC_AGE_DEF, FAC_AGE_DEV, FAC_AGE_NEW, FAC_AGE_REMARKS, FAC_AGE_APPROV, FAC_AGE_APPREMARK, 
+		FAC_LP_DEF, FAC_LP_DEV, FAC_LP_NEW,FAC_LP_REMARKS, FAC_LP_APPROV, FAC_LP_APPREMARK, FAC_LA_DEF, FAC_LA_DEV, FAC_LA_NEW, FAC_LA_REMARKS, 
+		FAC_LA_APPROV, FAC_LA_APPREMARK, FAC_REP_DEF, FAC_REP_DEV, FAC_REP_NEW, FAC_REP_REMARKS, FAC_REP_APPROV, FAC_REP_APPREMARK, 
+		FAC_CIBIL_DEV, FAC_CIBIL_REMARKS, FAC_CIBIL_APPROV, FAC_CIBIL_APPREMARK, FAC_TOLTOW_PBM, FAC_TOLTOW_ACT, FAC_TOLTOW_DEV, FAC_TOLTOW_REMARKS, 
+		FAC_TOLTOW_APPROV, FAC_TOLTOW_APPREMARK, FAC_NWC_PBM, FAC_NWC_ACT, FAC_NWC_DEV, FAC_NWC_REMARKS, FAC_NWC_APPROV, FAC_NWC_APPREMARK,
+		 FAC_CURR_RAT_PBM, FAC_CURR_RAT_ACT, FAC_CURR_RAT_DEV, FAC_CURR_RAT_REMARKS, FAC_CURR_RAT_APPROV, FAC_CURR_RAT_APPREMARK, FAC_DEBT_EQ_RAT_PBM, 
+		 FAC_DEBT_EQ_RAT_ACT, FAC_DEBT_EQ_RAT_DEV, FAC_DEBT_EQ_RAT_REMARKS, FAC_DEBT_EQ_RAT_APPROV, FAC_DEBT_EQ_RAT_APPREMARK, FAC_DV_PBM, FAC_DV_ACT,
+		  FAC_DV_DEV, FAC_DV_REMARKS, FAC_DV_APPROV, FAC_DV_APPREMARK, FAC_NETW_PBM, FAC_NETW_ACT, FAC_NETW_DEV, FAC_NETW_REMARKS, FAC_NETW_APPROV,
+		   FAC_NETW_APPREMARK, FAC_SELANDOTH_PBM, FAC_SELANDOTH_ACT, FAC_SELANDOTH_DEV, FAC_SELANDOTH_REMARKS, FAC_SELANDOTH_APPROV,
+		 FAC_SELANDOTH_APPREMARK, FAC_ACC_STMNT_CHQRTN_REMARKS, FAC_ACC_STMNT_CHQRTN_APPROV, FAC_ACC_STMNT_CHQRTN_APPREMARK, FAC_FRAUD_CHK_REMARKS, 
+		 FAC_FRAUD_CHK_APPROV, FAC_FRAUD_CHK_APPREMARK, FAC_IN_TAX_RTN_REMARKS, FAC_IN_TAX_RTN_APPROV, FAC_IN_TAX_RTN_APPREMARK, FAC_ANY_OTH_DEV_REMARKS, 
+		 FAC_ANY_OTH_DEV_APPROV, FAC_ANY_OTH_DEV_APPREMARK,FAC_PERMIT_AUT_REM, FAC_ADD_INT_IF, FAC_HAND_CHA_IF,
+		  FAC_ADD_INT_VAL, FAC_HAND_CHA_VAL, FAC_APPRAISED_BY, FAC_VETTED_BY, FAC_PERMIT_BY) VALUES 
+		  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		</query>
+		<query code="getapplicantcbilrate">
+			select CIBIL_SCORE,CRIF_SCORE,PERAPP_CONSTITUTIONNEW from CUS_CIBILDETAILS,perApplicant where PERAPP_ID=CIBIL_APPID and CIBIL_APPID='^'
+		</query>
+		<query code="getcoappgurantid">
+			select COM_COMPDTTYPE,COM_COMPDTID from com_companydetails where COM_COMPDTAPPNO='^'
+		</query>
+		<query code="getuserdetailsfordeviation">
+			select USR_ID,USR_FNAME||' '||USR_MNAME||' '||USR_LNAME as nameofuseer,user_designation,USR_ORGCODE,USR_CLASS   from users where USR_ID='^'
+		</query>
+		<query code="updateFAC_APPRAISED_BY">
+		 update FAC_DEVIATION set FAC_APPRAISED_BY =? Where FAC_APPNO=? and FAC_SLNO=?
+		</query>
+		<query code="updateFAC_VETTED_BY">
+		 update FAC_DEVIATION set FAC_VETTED_BY =? Where FAC_APPNO=? and FAC_SLNO=?
+		</query>
+		<query code="checkDeviationApprove">
+	 	 select STAT_DATA_DESC from STATIC_DATA  where STAT_DATA_ID='7' and STAT_DATA_DESC1='SENIOR MANAGER'
+	</query>
+	<query code="getlimitamount">
+	 	select FACILITY_MONTHS,FACILITY_CODE,FACILITY_SANCAMT from FACILITIES where FACILITY_APPNO='^' and FACILITY_SNO='^' 
+	</query>
+	<query code="updatepermitfordeviation">
+	 	UPDATE FAC_DEVIATION SET FAC_STATUS=?,FAC_PERMIT_BY=?,FAC_PERMIT_ORG=?,FAC_PERMIT_CLASS=? where FAC_APPNO=? and FAC_SLNO=?
+	</query>
+	<query code="updateundofordeviation">
+	 	UPDATE FAC_DEVIATION SET FAC_STATUS=?,FAC_PERMIT_BY=?,FAC_PERMIT_ORG=?,FAC_PERMIT_CLASS=?,FAC_UNDO=? where FAC_APPNO=? and FAC_SLNO=?
+	</query>
+	
+	<query code="checkeducationloansyschk1">
+	 	select PRD_CODE,PRD_TYPE, PRD_RNG_FROM,PRD_RNG_TO,APP_NO,APP_STATUS,APP_APPLNHOLDER,LOAN_RECMDAMT from PRODUCTS p,APPLICATIONS a,LOANDETAILS l where a.APP_PRDCODE=p.PRD_CODE and l.LOAN_APPNO=a.APP_NO
+and p.PRD_TYPE='pE' and a.APP_STATUS='op' and a.APP_DELFLAG='N' and p.PRD_RNG_FROM!='5000' and l.LOAN_RECMDAMT &lt;=750000 and a.APP_NO='^'
+	</query>
+	<query code="checkeducationloansyschk2">
+	 select PRD_CODE,PRD_TYPE, PRD_RNG_FROM,PRD_RNG_TO,APP_NO,APP_STATUS,APP_APPLNHOLDER,LOAN_RECMDAMT from PRODUCTS p,APPLICATIONS a,LOANDETAILS l where a.APP_PRDCODE=p.PRD_CODE and l.LOAN_APPNO=a.APP_NO
+and p.PRD_TYPE='pE' and a.APP_STATUS='op' and a.APP_DELFLAG='N' and p.PRD_RNG_FROM='5000' and l.LOAN_RECMDAMT &lt;=150000 and a.APP_NO='^'
+	 
+	</query>	
+	<query code="getdetailsfordoc">
+	 	select LOAN_REQTERMS from LOANDETAILS where LOAN_APPNO='^' 
+	</query>	
+	<query code="getdetailsfordoc1">	
+      Select LOAN_PERIODICITY,LOAN_SECURE,LOAN_NOOFINSTALLMENT from PER_LOAN_SECURE where LOAN_APPNO='^'
+	</query>	
+	<query code="getdetailsfordoc2">	
+     select INTRATEFREQ from PER_CUSCBSACCOUNTDATA where APPNO='^'
+	</query>
+		<query code="getdetailsfordoc3">	
+     Select FACILITY_TENOR,FACILITY_INTERESTREC,FACILITY_HOLIDAYPERIOD,FACILITY_PERINSTALL from FACILITIES where FACILITY_APPNO='^' and FACILITY_SNO='^'
+	</query>
+	<query code="getdetailsfordoc4">	
+     select INTRATEFREQ from PER_CUSCBSACCOUNTDATA where APPNO='^' and FACILITY_SNO='^'
+	</query>		
+     <query code="checkeducationloansyschkforsec">
+	 select PRD_CODE,PRD_TYPE, PRD_RNG_FROM,PRD_RNG_TO,APP_NO,APP_STATUS,APP_APPLNHOLDER,LOAN_RECMDAMT from PRODUCTS p,APPLICATIONS a,LOANDETAILS l,APP_SECURITYDETAILS S where a.APP_PRDCODE=p.PRD_CODE and l.LOAN_APPNO=a.APP_NO
+and p.PRD_TYPE='pE' and a.APP_STATUS='op' and a.APP_DELFLAG='N' and ((p.PRD_RNG_FROM!='5000' and l.LOAN_RECMDAMT &lt;=750000) or (p.PRD_RNG_FROM='5000' and l.LOAN_RECMDAMT &lt;=150000)) and a.APP_NO=S.APP_SEC_APPNO AND  S.APP_SEC_SECURITYTYPE='2' AND S.APP_SEC_LOANTYPE='P' AND a.APP_LOANTYPE='P' and a.APP_NO='^'	
+	 
+	</query>
+	<query code="checkeduloanforcogur">
+	 select PRD_CODE,PRD_TYPE, PRD_RNG_FROM,PRD_RNG_TO,APP_NO,APP_STATUS,APP_APPLNHOLDER,LOAN_RECMDAMT, pd.DEMO_CBSRELATIONTYPE,pd.DEMO_TYPE from PRODUCTS p,APPLICATIONS a,LOANDETAILS l,per_demographics pd
+ where a.APP_PRDCODE=p.PRD_CODE and l.LOAN_APPNO=a.APP_NO and pd.DEMO_APPNO=a.APP_NO
+and p.PRD_TYPE='pE' and a.APP_STATUS='op' and a.APP_DELFLAG='N' and ((p.PRD_RNG_FROM!='5000' and l.LOAN_RECMDAMT &lt;=750000) or
+ (p.PRD_RNG_FROM='5000' and l.LOAN_RECMDAMT &lt;=150000)) and (pd.DEMO_TYPE in ('g','p','o') or pd.DEMO_CBSRELATIONTYPE in ('P','C','G','A'))
+AND a.APP_LOANTYPE='P' and a.APP_NO='^'	
+	 
+	</query>
+	 <query code="chkedusysformispage1">
+	select M.APP_NO from PRODUCTS p,APPLICATIONS a,LOANDETAILS l,MIS_APPDETAILS M
+where a.APP_PRDCODE=p.PRD_CODE and l.LOAN_APPNO=a.APP_NO and M.APP_NO=a.APP_NO and M.app_guarantee!='13'
+and p.PRD_TYPE='pE' and a.APP_STATUS='op' and a.APP_DELFLAG='N' and p.PRD_RNG_FROM!='5000' and l.LOAN_RECMDAMT &lt;=750000 and a.APP_NO='^'
+	 
+	</query>
+	<query code="chkedusysformispage2">
+	select M.APP_NO from PRODUCTS p,APPLICATIONS a,LOANDETAILS l,MIS_APPDETAILS M
+where a.APP_PRDCODE=p.PRD_CODE and l.LOAN_APPNO=a.APP_NO and M.APP_NO=a.APP_NO and M.app_guarantee!='14'
+and p.PRD_TYPE='pE' and a.APP_STATUS='op' and a.APP_DELFLAG='N' and p.PRD_RNG_FROM='5000' and l.LOAN_RECMDAMT &lt;=150000 and a.APP_NO='^'
+	 
+	</query>
+	<query code="updateloandetailsforod">
+    UPDATE LOANDETAILS SET LOAN_MARGIN=?,LOAN_DOWNPAY=?, LOAN_COSTLOANPRD=?,OFFEREDMARGIN=?,LOAN_GOVT=?,LOAN_SPECIALCUST=? where LOAN_APPNO=?
+	</query>
+
+   <query code="getgolddetails">
+		select PER_GOLDRATE,PER_AVG_RATE from PER_GOLDRATE_UPDATE where to_char(PER_DATE,'dd/mm/yyyy')='^'
+   </query>
+	
+	<query code="getuniqueid">
+         select UNIQUEID from APPLICATIONS A,APPINWARDREG B where A.APP_INWARDNO=B.INWARD_NO and A.APP_NO='^'
+	</query>
+	
+	  <query code="sel_indinfo_perapplicant">
+	  select INDINFO_PHYSICALLY_CHALLANGED ,INDINFO_APPID,PERAPP_ID,PERAPP_CBSID,PERAPP_OLDID,
+      PERAPP_AADHAAR from INDIVIDUAL_INFO,perapplicant where PERAPP_ID=INDINFO_APPID and PERAPP_ID='^'
+	 </query> 
+	
+    <query code="sel_cbsidPerapplicant"> 
+   select  c.COMAPP_DIV_ID_OLD,c.COMAPP_ID,c.COMAPP_CHF_PROMOTER,c.COMAPP_CBSID,p.PERAPP_CONSTITUTION,p.PERAPP_AADHAAR,p.PERAPP_CBSID,p.PERAPP_ID,COMAPP_ID  from  
+   comapp_company_divisions c, perapplicant p where COMAPP_ID=PERAPP_ID and COMAPP_CBSID is not null  and PERAPP_ID='^'
+  </query> 
+	
+  <query code="sel_cbsid_promoter"> 
+  select PERAPP_CBSID,perapp_aadhaar,PERAPP_ID,CON_MOBILE,CON_COMPHONE,INDINFO_PHYSICALLY_CHALLANGED,indinfo_caste,PERAPP_NETWORTH from perapplicant,CUST_CONTACTINFO,INDIVIDUAL_INFO where PERAPP_ID=(
+  select max(PERAPP_ID) from perapplicant where perapp_cbsid in (select COMAPP_CBSID from comapp_company_divisions where 
+  COMAPP_ID='^' and COMAPP_CHF_PROMOTER='Y' and COMAPP_CBSID is not null) 
+  and (perapp_renew='n' or perapp_renew is null) )
+  and PERAPP_ID=CON_APPID
+  and INDINFO_APPID=CON_APPID
+  and PERAPP_ID=INDINFO_APPID
+  </query> 
+  
+ <query code="sel_cbsid_promoterExperience">
+	select PERAPP_CBSID,perapp_aadhaar,PERAPP_ID,CON_MOBILE,CON_COMPHONE,PEREMP_EXPINYRS,PEREMP_CONFEMP from perapplicant,CUST_CONTACTINFO,peremployer where PERAPP_ID=(
+select max(PERAPP_ID) from perapplicant where perapp_cbsid in (select COMAPP_CBSID from comapp_company_divisions where 
+COMAPP_ID='^' and COMAPP_CHF_PROMOTER='Y' and COMAPP_CBSID is not null) 
+and (perapp_renew='n' or perapp_renew is null))
+and PEREMP_ID=CON_APPID
+and PERAPP_ID=PEREMP_ID
+ </query>
+ <query code="sel_cbsid_proDetails"> 
+  select  c.COMAPP_DIV_ID_OLD,c.COMAPP_ID,c.COMAPP_CHF_PROMOTER,c.COMAPP_CBSID,p.PERAPP_CONSTITUTION,p.PERAPP_AADHAAR,p.PERAPP_CBSID,p.PERAPP_ID,COMAPP_ID  from  
+  comapp_company_divisions c, perapplicant p where COMAPP_ID=PERAPP_ID and COMAPP_CBSID is not null and COMAPP_CHF_PROMOTER='Y'  and PERAPP_ID='^'
+ </query>
+
+<query code="sel_cbsid_promoDetails"> 
+select PERAPP_CBSID,perapp_aadhaar,PERAPP_ID,CON_MOBILE,CON_COMPHONE,INDINFO_PHYSICALLY_CHALLANGED,indinfo_caste,PERAPP_CONSTITUTION,PERAPP_AADHAAR ,COMAPP_CHF_PROMOTER from perapplicant,CUST_CONTACTINFO,INDIVIDUAL_INFO,comapp_company_divisions where PERAPP_ID=(
+select max(PERAPP_ID) from perapplicant where perapp_cbsid in (select COMAPP_CBSID from comapp_company_divisions where 
+COMAPP_ID='^' and COMAPP_CHF_PROMOTER='Y' and COMAPP_CBSID is not null) 
+and (perapp_renew='n' or perapp_renew is null) )
+and PERAPP_ID=CON_APPID
+and INDINFO_APPID=CON_APPID
+and PERAPP_ID=INDINFO_APPID
+and COMAPP_ID=PERAPP_ID
+and COMAPP_ID=INDINFO_APPID
+and COMAPP_ID=CON_APPID
+</query>
+	
+	<query code="getallorganizationformibor">
+   SELECT ORG_CODE,ORG_LEVEL,ORG_SCODE,ORG_NAME FROM ORGANISATIONS ORDER BY ORG_NAME
+	</query>
+	<query code="getscodebasedon_sel_mibore">
+   SELECT ORG_MIBOR_SEL FROM MIBOR_SEL_ORG WHERE ORG_SCODE ='^'
+	</query>
+	<query code="delmibordata">
+   DELETE FROM MIBOR_SEL_ORG
+	</query>
+	
+	<query code="insertmibordata">
+		INSERT INTO MIBOR_SEL_ORG(ORG_NAME,ORG_CODE,ORG_SCODE,ORG_LEVEL,ORG_MIBOR_SEL) VALUES(?,?,?,?,?)
+		</query>
+		<query code="getinwardcreateddate">
+		select to_char(inward_createdon,'dd/mm/yyyy') as inward_created from APPINWARDREG A, APPLICATIONS B where A.INWARD_NO = B.APP_INWARDNO and B.APP_NO='^'
+		</query>
+
+	
+   <query code="getgolddetails">
+		select PER_GOLDRATE,PER_AVG_RATE from PER_GOLDRATE_UPDATE where to_char(PER_DATE,'dd/mm/yyyy')='^'
+   </query>
+	
+	<query code="getuniqueid">
+         select UNIQUEID from APPLICATIONS A,APPINWARDREG B where A.APP_INWARDNO=B.INWARD_NO and A.APP_NO='^'
+	</query>
+	
+	  <query code="sel_indinfo_perapplicant">
+	  select INDINFO_PHYSICALLY_CHALLANGED ,INDINFO_APPID,PERAPP_ID,PERAPP_CBSID,PERAPP_OLDID,
+      PERAPP_AADHAAR from INDIVIDUAL_INFO,perapplicant where PERAPP_ID=INDINFO_APPID and PERAPP_ID='^'
+	 </query> 
+	
+    <query code="sel_cbsidPerapplicant"> 
+   select  c.COMAPP_DIV_ID_OLD,c.COMAPP_ID,c.COMAPP_CHF_PROMOTER,c.COMAPP_CBSID,p.PERAPP_CONSTITUTION,p.PERAPP_AADHAAR,p.PERAPP_CBSID,p.PERAPP_ID,COMAPP_ID  from  
+   comapp_company_divisions c, perapplicant p where COMAPP_ID=PERAPP_ID and COMAPP_CBSID is not null  and PERAPP_ID='^'
+  </query> 
+	
+  <query code="sel_cbsid_promoter"> 
+  select PERAPP_CBSID,perapp_aadhaar,PERAPP_ID,CON_MOBILE,CON_COMPHONE,INDINFO_PHYSICALLY_CHALLANGED,indinfo_caste,PERAPP_NETWORTH from perapplicant,CUST_CONTACTINFO,INDIVIDUAL_INFO where PERAPP_ID=(
+  select max(PERAPP_ID) from perapplicant where perapp_cbsid in (select COMAPP_CBSID from comapp_company_divisions where 
+  COMAPP_ID='^' and COMAPP_CHF_PROMOTER='Y' and COMAPP_CBSID is not null) 
+  and (perapp_renew='n' or perapp_renew is null) )
+  and PERAPP_ID=CON_APPID
+  and INDINFO_APPID=CON_APPID
+  and PERAPP_ID=INDINFO_APPID
+  </query> 
+  
+ <query code="sel_cbsid_promoterExperience">
+	select PERAPP_CBSID,perapp_aadhaar,PERAPP_ID,CON_MOBILE,CON_COMPHONE,PEREMP_EXPINYRS,PEREMP_CONFEMP from perapplicant,CUST_CONTACTINFO,peremployer where PERAPP_ID=(
+select max(PERAPP_ID) from perapplicant where perapp_cbsid in (select COMAPP_CBSID from comapp_company_divisions where 
+COMAPP_ID='^' and COMAPP_CHF_PROMOTER='Y' and COMAPP_CBSID is not null) 
+and (perapp_renew='n' or perapp_renew is null))
+and PEREMP_ID=CON_APPID
+and PERAPP_ID=PEREMP_ID
+ </query>
+ <query code="sel_cbsid_proDetails"> 
+  select  c.COMAPP_DIV_ID_OLD,c.COMAPP_ID,c.COMAPP_CHF_PROMOTER,c.COMAPP_CBSID,p.PERAPP_CONSTITUTION,p.PERAPP_AADHAAR,p.PERAPP_CBSID,p.PERAPP_ID,COMAPP_ID  from  
+  comapp_company_divisions c, perapplicant p where COMAPP_ID=PERAPP_ID and COMAPP_CBSID is not null and COMAPP_CHF_PROMOTER='Y'  and PERAPP_ID='^'
+ </query>
+
+<query code="sel_cbsid_promoDetails"> 
+select PERAPP_CBSID,perapp_aadhaar,PERAPP_ID,CON_MOBILE,CON_COMPHONE,INDINFO_PHYSICALLY_CHALLANGED,indinfo_caste,PERAPP_CONSTITUTION,PERAPP_AADHAAR ,COMAPP_CHF_PROMOTER from perapplicant,CUST_CONTACTINFO,INDIVIDUAL_INFO,comapp_company_divisions where PERAPP_ID=(
+select max(PERAPP_ID) from perapplicant where perapp_cbsid in (select COMAPP_CBSID from comapp_company_divisions where 
+COMAPP_ID='^' and COMAPP_CHF_PROMOTER='Y' and COMAPP_CBSID is not null) 
+and (perapp_renew='n' or perapp_renew is null) )
+and PERAPP_ID=CON_APPID
+and INDINFO_APPID=CON_APPID
+and PERAPP_ID=INDINFO_APPID
+and COMAPP_ID=PERAPP_ID
+and COMAPP_ID=INDINFO_APPID
+and COMAPP_ID=CON_APPID
+</query>
+<query code="getgolddetails">
+			select PER_GOLDRATE,PER_AVG_RATE from PER_GOLDRATE_UPDATE where to_char(PER_DATE,'dd/mm/yyyy')='^'
+		</query>
+		
+		<query code="getalljewelappraiserslist">
+	select valuer_cbsid, valuers_name,to_char(VALUER_EXPIRYDATE,'dd/mm/yyyy') as VALUER_EXPIRYDATE,O.ORG_SCODE as ORG_SCODE from valuer_orgdetails v,VALUERSMASTER R,ORGANISATIONS O 
+where valuer_seqno=VALUERS_SEQNO and valappflag='J'  and valuer_cbsid is not null and O.ORG_CODE=v.VALUER_ORGCODE
+	</query>
+	<query code="getjewelappraiserslist">
+	select valuer_cbsid, valuers_name,to_char(VALUER_EXPIRYDATE,'dd/mm/yyyy') as VALUER_EXPIRYDATE,O.ORG_SCODE as ORG_SCODE from valuer_orgdetails v,VALUERSMASTER R,ORGANISATIONS O 
+where valuer_seqno=VALUERS_SEQNO and valappflag='J'  and valuer_cbsid is not null and O.ORG_CODE=v.VALUER_ORGCODE and O.ORG_SCODE ='^'
+	</query>
+	<query code="chkproposalisgoldloan">
+	Select APP_ORGCODE from PRODUCTS p,APPLICATIONS a where a.APP_PRDCODE=p.PRD_CODE and  p.PRD_TYPE='pG' and a.APP_STATUS='pa' and  a.APP_DELFLAG='N' 
+     and a.APP_NO='^' and a.CBS_ACCOUNTNO is not null
+	</query>
+	
+	<query code="chkcbsidforreappraiser">
+select VALUERS_NAME from  valuer_orgdetails v,VALUERSMASTER R where v.VALUER_SEQNO=R.VALUERS_SEQNO and R.valappflag='J' and v.VALUER_EXPIRYDATE>=sysdate
+and R.valuer_cbsid ='^' and v.VALUER_ORGCODE='^'  
+	</query>
+	<query code="ins_Gold_rEApprasial_sysuser">
+		insert into GOLD_REAPPRISAL(GOLD_APPNO,GOLD_SLNO,GOLD_DESC,GOLD_QUANTITY,GOLD_GROSSWEIGHT,GOLD_NETWEIGHT,GOLD_CURRMARVAL,GOLD_REMARKS,GOLD_REAPRNAME,GOLD_REAPPDATE,GOLD_USERID,GOLD_TIME,STATUS,GOLD_REAPRCUSTID,GOLD_REAPPBY,GOLD_REAPPTIME) values (?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,SYSTIMESTAMP,?,?,?,SYSTIMESTAMP)
+		</query>
+
+<query code="getfbillvalfrommclr"> 
+  Select * from MCLRMASTER where TO_DATE(MCLR_EFFECTIVEFROM,'dd/mm/yyyy') &#60;= To_DATE('^','dd/mm/yyyy') and  MCLR_TABLECODE='^'
+ </query>
+ <query code="chkhousingloan">
+	Select * from APPLICATIONS A,PRODUCTS P where A.APP_PRDCODE=P.PRD_CODE and P.PRD_TYPE='pH' and P.PRD_STAFFPRD='N' and A.APP_NO='^'
+	</query>
+	<query code="chkhousingloandeviation">
+	select * from APP_DEVIATION WHERE DEVIATION_TYPE='MN' AND DEVIATION_REQ='Y' AND DEVIATION_APPREJ='A' AND APPNO='^'
+	</query>
+	<query code="chkhousingloandeviation2">
+	select * from APP_DEVIATION WHERE DEVIATION_TYPE='MN' AND DEVIATION_REQ='Y' AND APPNO='^'
+	</query>
+<query code="selonlyfbill"> 
+        select mclr_sno,MCLR_TYPE,MCLR_BASERATESPREAD,MCLR_TABLECODE,to_char(MCLR_EFFECTIVEFROM,'dd/mm/yyyy')
+		as effdate,cs.cbs_static_data_desc as
+		description,MCLR_TABLECODEOVERDRAFTS from MCLRMASTER a,cbs_staticdata
+		cs WHERE CBS_STATIC_DATA_CODE=a.MCLR_TYPE and CBS_STATIC_DATA_ID='34'
+		and MCLR_EFFECTIVEFROM = TO_DATE('^','dd/mm/yyyy') and cs.cbs_static_data_desc like 'FBIL%'
+ </query>
+ <query code="getonlyfbilldataforxl"> 
+        select mclr_sno,MCLR_TYPE,MCLR_BASERATESPREAD,MCLR_TABLECODE,to_char(MCLR_EFFECTIVEFROM,'dd/mm/yyyy')
+		as effdate,cs.cbs_static_data_desc as
+		description,MCLR_TABLECODEOVERDRAFTS from MCLRMASTER a,cbs_staticdata
+		cs WHERE CBS_STATIC_DATA_CODE=a.MCLR_TYPE and CBS_STATIC_DATA_ID='34'
+		and cs.cbs_static_data_desc like 'FBIL%'
+ </query>	
+ 
+ <query code="sel_fetchsmdetforsecurity"> 
+   select APP_NO,ORG_SCODE,ORG_CODE,trunc(add_months(CUS_SEC_VALUATION_DATE,'36')- sysdate) as diff,
+    perapp_title ||'.' || perapp_fname as name,cus_sec_id,
+ 
+to_char(CUS_SEC_VALUATION_DATE,'dd/mm/yyyy') as CUS_SEC_VALUATION_DATE1
+,cus_sec_valuation_date,ORG_ABMMOBILE,ORG_MANAGER_CTNUM from perapplicant,organisations,CUS_SECURITIES,security_master,
+app_securitydetails,applications,loandetails,
+PER_CUSCBSACCOUNTDATA where trunc(add_months(CUS_SEC_VALUATION_DATE,'36') - sysdate)  in (90,60,30,7) and
+(perapp_renew='n' or perapp_renew is null) and sec_id=cus_sec_type and
+(CUS_RELEASEFLAG!='Y' or CUS_RELEASEFLAG is null) 
+and org_scode=(case when app_orglevel='C' then LOAN_PERTAINS_BRANCH when app_orglevel='D' 
+then LOAN_PERTAINS_BRANCH else LOANDISBBRANCH end) and  cus_sec_id=APP_SEC_SECID and APP_SEC_BORROWER_ID=perapp_oldid
+  and appno=app_No and app_no=APP_SEC_APPNO and app_no=loan_appno
+and app_sec_loantype='P' and app_loantype='P' and app_status='pa' and nvl(app_delflag,'N')='N' 
+and org_code like '001%'  
+and cus_sec_type in ('10','11','12','13','14','15','16','17')
+union all
+select APP_NO,ORG_SCODE,ORG_CODE,trunc(add_months(CUS_SEC_VALUATION_DATE,'36')- sysdate) as diff,
+perapp_title ||'.' || perapp_fname as name ,cus_sec_id,
+ 
+to_char(CUS_SEC_VALUATION_DATE,'dd/mm/yyyy') as CUS_SEC_VALUATION_DATE1,
+cus_sec_valuation_date,ORG_ABMMOBILE,ORG_MANAGER_CTNUM from perapplicant,organisations,CUS_SECURITIES,security_master,
+app_securitydetails,applications,facilities f,COM_BRIEFBACKGROUND,
+PER_CUSCBSACCOUNTDATA c where trunc(add_months(CUS_SEC_VALUATION_DATE,'36') - sysdate)  in (90,60,30,7) and
+(perapp_renew='n' or perapp_renew is null) and sec_id=cus_sec_type and
+(CUS_RELEASEFLAG!='Y' or CUS_RELEASEFLAG is null)  
+and org_scode=(case when COM_PERTAINS_BRANCH is not null then (case when app_orglevel='C' 
+then COM_PERTAINS_BRANCH when app_orglevel='D' then COM_PERTAINS_BRANCH else LOANDISBBRANCH end)
+else LOANDISBBRANCH end) and  cus_sec_id=APP_SEC_SECID and APP_SEC_BORROWER_ID=perapp_oldid 
+and appno=facility_appno and c.facility_sno=f.FACILITY_SNO and app_no=APP_SEC_APPNO and app_no=COM_APPNO
+and app_sec_loantype='P' and app_loantype in ('A','C') and facility_appno=APP_SEC_APPNO and f.facility_sno=APP_SEC_FACSNO
+and FACILITY_STATUS='pa' and nvl(app_delflag,'N')='N'  
+and org_code like '001%' and cus_sec_type in ('10','11','12','13','14','15','16','17')
+order by cus_sec_id,cus_sec_valuation_date asc
+ </query>		
+  <query code="getallinwarddetails">
+	SELECT INWARD_REF_NO, to_char(Inward_Date,'dd/mm/yyyy') as Inward_Date, INWARD_LAR,INWARD_SOL_ID,INWARD_BRANCH_NAME,INWARD_REGION_NAME,INWARD_CUST_ID,              
+INWARD_BORROWER_NAME, INWARD_TYPEOFINWARD, INWARD_DTLSOFINWARDRECEIVED, INWARD_REMARKS,INWARD_TYPEOFBORROWER,INWARD_CREATED_DATE,         
+INWARD_CREATED_BY,INWARD_MODIFIED_BY,INWARD_MODIFIED_DT,ACT_FLG from INWARD where (trunc(sysdate) - trunc(INWARD_CREATED_DATE)) &lt;='7' order by INWARD_REF_NO desc
+	</query>
+ <query code="insertintoinwardtable">
+	INSERT INTO INWARD (INWARD_REF_NO, INWARD_DATE, INWARD_LAR,INWARD_SOL_ID,INWARD_BRANCH_NAME,INWARD_REGION_NAME,INWARD_CUST_ID,              
+INWARD_BORROWER_NAME, INWARD_TYPEOFINWARD, INWARD_DTLSOFINWARDRECEIVED, INWARD_REMARKS,INWARD_TYPEOFBORROWER,INWARD_CREATED_DATE,         
+INWARD_CREATED_BY,ACT_FLG)  VALUES (?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?,?,?,?,sysdate,?,?) 
+	</query>
+	
+	 <query code="updateintoinwardtable">
+	update INWARD set INWARD_DATE=TO_DATE(?,'DD/MM/YYYY'), INWARD_LAR=?,
+		INWARD_SOL_ID=?, INWARD_BRANCH_NAME=?, INWARD_REGION_NAME=?, INWARD_CUST_ID=?, INWARD_BORROWER_NAME=?,
+		INWARD_TYPEOFINWARD=?, INWARD_DTLSOFINWARDRECEIVED=?, INWARD_REMARKS=?, INWARD_TYPEOFBORROWER =? ,
+    INWARD_MODIFIED_BY=?,INWARD_MODIFIED_DT=sysdate,ACT_FLG=?  where INWARD_REF_NO=?
+	</query>
+	
+	 <query code="getinwardpropsal">
+	SELECT INWARD_REF_NO, to_char(Inward_Date,'dd/mm/yyyy') as Inward_Date,case when (trunc(sysdate-1)-trunc(Inward_Date)) &lt; 0 then 0  else (trunc(sysdate-1)-trunc(Inward_Date)) end  datediff, INWARD_LAR,INWARD_SOL_ID,INWARD_BRANCH_NAME,INWARD_REGION_NAME,INWARD_CUST_ID,              
+INWARD_BORROWER_NAME, INWARD_TYPEOFINWARD, INWARD_DTLSOFINWARDRECEIVED, INWARD_REMARKS,INWARD_TYPEOFBORROWER,INWARD_CREATED_DATE,         
+INWARD_CREATED_BY,INWARD_MODIFIED_BY,INWARD_MODIFIED_DT from INWARD where INWARD_TYPEOFINWARD='1' and ACT_FLG='Y' and  INWARD_REF_NO NOT in (Select INWARD_REF_NO from INWARD_OUTWARDSHORTNOTE)
+	</query>
+	
+	<query code="getalloutwarddetails">
+	SELECT OUTWARD_REF_NO, to_char(OUTWARD_DATE,'dd/mm/yyyy') as OUTWARD_DATE, OUTWARD_LAR,OUTWARD_SOL_ID,OUTWARD_BRANCH_NAME,OUTWARD_REGION_NAME,OUTWARD_CUST_ID,              
+OUTWARD_BORROWER_NAME, OUTWARD_TYPEOFINWARD, OUTWARD_DTLSOFINWARDRECEIVED, OUTWARD_REMARKS,OUTWARD_TYPEOFBORROWER,OUTWARD_CREATED_DATE,         
+OUTWARD_CREATED_BY,OUTWARD_MODIFIED_BY,OUTWARD_MODIFIED_DT,OUTWARD_ACT_FLG from OUTWARD where (trunc(sysdate) - trunc(OUTWARD_CREATED_DATE)) &lt;='7' order by OUTWARD_REF_NO desc
+	</query>
+ <query code="insertintooutwardtable">
+	INSERT INTO OUTWARD (OUTWARD_REF_NO, OUTWARD_DATE, OUTWARD_LAR,OUTWARD_SOL_ID,OUTWARD_BRANCH_NAME,OUTWARD_REGION_NAME,OUTWARD_CUST_ID,              
+OUTWARD_BORROWER_NAME, OUTWARD_TYPEOFINWARD, OUTWARD_DTLSOFINWARDRECEIVED, OUTWARD_REMARKS,OUTWARD_TYPEOFBORROWER,OUTWARD_CREATED_DATE,         
+OUTWARD_CREATED_BY,OUTWARD_ACT_FLG)  VALUES (?,TO_DATE(?,'DD/MM/YYYY'),?,?,?,?,?,?,?,?,?,?,sysdate,?,?) 
+	</query>
+	
+	 <query code="updateintooutwardtable">
+	update OUTWARD set OUTWARD_DATE=TO_DATE(?,'DD/MM/YYYY'), OUTWARD_LAR=?,
+		OUTWARD_SOL_ID=?, OUTWARD_BRANCH_NAME=?, OUTWARD_REGION_NAME=?, OUTWARD_CUST_ID=?, OUTWARD_BORROWER_NAME=?,
+		OUTWARD_TYPEOFINWARD=?, OUTWARD_DTLSOFINWARDRECEIVED=?, OUTWARD_REMARKS=?, OUTWARD_TYPEOFBORROWER =? ,
+    OUTWARD_MODIFIED_BY=?,OUTWARD_MODIFIED_DT=sysdate,OUTWARD_ACT_FLG=?  where OUTWARD_REF_NO=?
+	</query>
+	<query code="getbrachlistwithregionwise">
+	select ORG_SCODE, ORG_NAME ,
+(select ORG_NAME  from  organisations b where b.ORG_CODE like SUBSTR(a.ORG_CODE,1,6)||'%' and  b.ORG_LEVEL='R'  ) as REGIONAL_OFFICE from ORGANISATIONS a order by a.ORG_SCODE
+	</query>
+	<query code="getmaxinwardnum">
+	select max(INWARD_REF_NO) + 1 as maxval from INWARD
+	</query>
+	 <query code="insertinwardoutwardproposal">
+		INSERT INTO INWARD_OUTWARDPROPOSAL(INWARD_REF_NO,PROPOSED_FBLIMIT,PROPOSED_NFBLIMIT,TOTAL_EXPOSURE,             
+	EXPOSURE_BRACKET,PROPOSAL_HANDLED_AT,LOAN_PROCESSOFFICERNAME,STATUS_OFPROPOSAL,TAT,REMARKS,TYPE_OF_PROPOSAL,           
+	DUE_DATEOF_WC,SANCTIONING_AUTH,SANCTION_REF_NO,SANCTION_DATE,LODGE_REF_NO, LODGE_DATE, DROPPED_REF_NO, DROPPED_DATE,               
+	DEFFERRED_DETAILS, DEFERRED_DATE,              
+	INOUT_PROPOSALCREATED_DATE, 
+	INOUT_PROPOSALCREATED_BY,ACT_FLAG_PRO) VALUES
+	(?,?,?,?,?,?,?,?,?,?,?,
+	to_date(?,'dd/mm/yyyy'),?,?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),SYSDATE,?,?)
+	</query>
+	
+	 <query code="updateinwardoutwardproposal">
+	UPDATE INWARD_OUTWARDPROPOSAL SET PROPOSED_FBLIMIT=?,PROPOSED_NFBLIMIT=?,TOTAL_EXPOSURE=?,EXPOSURE_BRACKET=?,PROPOSAL_HANDLED_AT=?,        
+	LOAN_PROCESSOFFICERNAME=?,STATUS_OFPROPOSAL=?,TAT=?,REMARKS=?,TYPE_OF_PROPOSAL=?,DUE_DATEOF_WC=TO_DATE(?,'DD/MM/YYYY'),SANCTIONING_AUTH=?,           
+	SANCTION_REF_NO=?,SANCTION_DATE=TO_DATE(?,'DD/MM/YYYY'),LODGE_REF_NO=?,LODGE_DATE=TO_DATE(?,'DD/MM/YYYY'),DROPPED_REF_NO=?,             
+	DROPPED_DATE=TO_DATE(?,'DD/MM/YYYY'),DEFFERRED_DETAILS=?,DEFERRED_DATE=TO_DATE(?,'DD/MM/YYYY'), INOUT_PROPOSALMODIFIED_BY=?,  
+	INOUT_PROPOSALMODIFIED_DT=SYSDATE,ACT_FLAG_PRO=? WHERE INWARD_REF_NO=? 
+	</query>	
+	<query code="deleteinwardproposal">
+        delete from INWARD_OUTWARDPROPOSAL where INWARD_REF_NO =?
+	</query>
+	 <query code="getallinwardoutwardproposal">
+	SELECT A.INWARD_REF_NO, TO_CHAR(INWARD_DATE,'DD/MM/YYYY') as INWARD_DATE,INWARD_LAR,INWARD_SOL_ID,PROPOSED_FBLIMIT,INWARD_BRANCH_NAME,INWARD_REGION_NAME,INWARD_CUST_ID, PROPOSED_NFBLIMIT,INWARD_BORROWER_NAME, TOTAL_EXPOSURE,EXPOSURE_BRACKET, PROPOSAL_HANDLED_AT,  LOAN_PROCESSOFFICERNAME,    
+	STATUS_OFPROPOSAL,TAT,INWARD_TYPEOFBORROWER, REMARKS,TYPE_OF_PROPOSAL,TO_CHAR(DUE_DATEOF_WC,'DD/MM/YYYY') AS DUE_DATEOF_WC , SANCTIONING_AUTH,SANCTION_REF_NO,            
+	TO_CHAR(SANCTION_DATE,'DD/MM/YYYY') AS SANCTION_DATE,LODGE_REF_NO,TO_CHAR(LODGE_DATE,'DD/MM/YYYY') AS LODGE_DATE,DROPPED_REF_NO,TO_CHAR(DROPPED_DATE,'DD/MM/YYYY') as DROPPED_DATE,               
+	DEFFERRED_DETAILS,TO_CHAR(DEFERRED_DATE,'DD/MM/YYYY') as DEFERRED_DATE,INOUT_PROPOSALCREATED_DATE, INOUT_PROPOSALCREATED_BY,   
+	INOUT_PROPOSALMODIFIED_BY,  INOUT_PROPOSALMODIFIED_DT,ACT_FLAG_PRO FROM INWARD_OUTWARDPROPOSAL A,INWARD B where A.INWARD_REF_NO=B.INWARD_REF_NO
+	</query>
+	<query code="getinwardshortnote">
+	SELECT INWARD_REF_NO, to_char(Inward_Date,'dd/mm/yyyy') as Inward_Date,case when (trunc(sysdate-1)-trunc(Inward_Date)) &lt; 0 then 0  else (trunc(sysdate-1)-trunc(Inward_Date)) end  datediff, INWARD_LAR,INWARD_SOL_ID,INWARD_BRANCH_NAME,INWARD_REGION_NAME,INWARD_CUST_ID,              
+INWARD_BORROWER_NAME, INWARD_TYPEOFINWARD, INWARD_DTLSOFINWARDRECEIVED, INWARD_REMARKS,INWARD_TYPEOFBORROWER,INWARD_CREATED_DATE,         
+INWARD_CREATED_BY,INWARD_MODIFIED_BY,INWARD_MODIFIED_DT from INWARD where INWARD_TYPEOFINWARD='3' and ACT_FLG='Y' and  INWARD_REF_NO NOT in (Select SN_INWARD_REF_NO from INWARD_OUTWARDSHORTNOTE)
+	</query>
+	
+	<query code="insertinwardoutwardshortnotes">
+	INSERT INTO INWARD_OUTWARDSHORTNOTE(SN_INWARD_REF_NO,SN_FBLIMIT, SN_NFBLIMIT,SN_TOTAL_EXPOSURE,SN_EXPOSURE_BRACKET,        
+SN_HANDLED_AT,SN_LOAN_PROCESSOFFICERNAME, SN_STATUS_OFPROPOSAL,SN_TAT,SN_REMARKS,SN_TYPE_OF_PROPOSAL,SN_DUE_DATEOF_WC,           
+SN_SANCTIONING_AUTH,SN_SANCTION_REF_NO,SN_SANCTION_DATE,SN_LODGE_REF_NO,SN_LODGE_DATE,SN_DROPPED_REF_NO,SN_DROPPED_DATE,            
+SN_DEFFERRED_DETAILS,SN_DEFERRED_DATE,INOUT_SN_CREATED_DATE,INOUT_SN_CREATED_BY,ACT_FLAG_SN)
+VALUES(?,?,?,?,?,?,?,?,?,?,?,to_date(?,'DD/MM/YYYY'),?,?,to_date(?,'DD/MM/YYYY'),
+?,to_date(?,'DD/MM/YYYY'),?,to_date(?,'DD/MM/YYYY'),?,
+to_date(?,'DD/MM/YYYY'),SYSDATE,?,?) 
+	</query>
+	<query code="updateinwardoutwardshortnotes">     
+UPDATE INWARD_OUTWARDSHORTNOTE  SET SN_FBLIMIT=?, SN_NFBLIMIT=?,SN_TOTAL_EXPOSURE=?,SN_EXPOSURE_BRACKET=?,        
+SN_HANDLED_AT=?,SN_LOAN_PROCESSOFFICERNAME=?, SN_STATUS_OFPROPOSAL=?,SN_TAT=?,SN_REMARKS=?,SN_TYPE_OF_PROPOSAL=?,        
+SN_DUE_DATEOF_WC=to_date(?,'DD/MM/YYYY'),SN_SANCTIONING_AUTH=?,SN_SANCTION_REF_NO=?,SN_SANCTION_DATE=to_date(?,'DD/MM/YYYY'),           
+SN_LODGE_REF_NO=?,SN_LODGE_DATE=to_date(?,'DD/MM/YYYY'),SN_DROPPED_REF_NO=?,SN_DROPPED_DATE=to_date(?,'DD/MM/YYYY'),            
+SN_DEFFERRED_DETAILS=?,SN_DEFERRED_DATE=to_date(?,'DD/MM/YYYY'),INOUT_SN_MODIFIED_BY=?,       
+INOUT_SN_MODIFIED_DT=SYSDATE,       
+ACT_FLAG_SN=? WHERE SN_INWARD_REF_NO=?
+	</query>
+	
+	<query code="getallinwardoutwardshortnotes">
+SELECT S.SN_INWARD_REF_NO, TO_CHAR(INWARD_DATE,'DD/MM/YYYY') as INWARD_DATE,INWARD_LAR,INWARD_TYPEOFBORROWER,INWARD_SOL_ID,INWARD_BRANCH_NAME,INWARD_REGION_NAME,INWARD_CUST_ID,
+INWARD_BORROWER_NAME,         
+SN_FBLIMIT,SN_NFBLIMIT,SN_TOTAL_EXPOSURE,SN_EXPOSURE_BRACKET,SN_HANDLED_AT,SN_LOAN_PROCESSOFFICERNAME, 
+SN_STATUS_OFPROPOSAL,SN_TAT,SN_REMARKS,SN_TYPE_OF_PROPOSAL,TO_CHAR(SN_DUE_DATEOF_WC,'DD/MM/YYYY') as SN_DUE_DATEOF_WC,     
+SN_SANCTIONING_AUTH,SN_SANCTION_REF_NO,TO_CHAR(SN_SANCTION_DATE,'DD/MM/YYYY') as SN_SANCTION_DATE,           
+SN_LODGE_REF_NO,SN_LODGE_DATE,SN_DROPPED_REF_NO,TO_CHAR(SN_DROPPED_DATE,'DD/MM/YYYY') as SN_DROPPED_DATE,            
+SN_DEFFERRED_DETAILS,TO_CHAR(SN_DEFERRED_DATE,'DD/MM/YYYY') as SN_DEFERRED_DATE,INOUT_SN_CREATED_DATE,      
+INOUT_SN_CREATED_BY,INOUT_SN_MODIFIED_BY,INOUT_SN_MODIFIED_DT,ACT_FLAG_SN FROM INWARD_OUTWARDSHORTNOTE S, INWARD I 
+WHERE S.SN_INWARD_REF_NO=I.INWARD_REF_NO 
+	</query>
+	<query code="deleteinwardshortnotes">
+        delete from INWARD_OUTWARDSHORTNOTE where SN_INWARD_REF_NO =?
+	</query>
+	<query code="getmaxoutwardnum">
+	select max(OUTWARD_REF_NO) + 1 as maxval from OUTWARD
+	</query>
+	
+	<query code="getgoldloanprocesschrg">
+	select LOAN_PROFEE from LOANDETAILS where LOAN_APPNO='^'
+	</query>
+	
+	<query code="countnumberofmembers">
+	select count(*) as members
+from COM_DEMOGRAPHICS,PERAPP_SHGMEMBERS where DEMO_COMAPPNEWID=SHG_ID and DEMO_APPNO='^'
+	</query>
+	
+	<query code="getPerapplicantdetails">
+	select PERAPP_TITLE||' '||PERAPP_FNAME||' '||PERAPP_LNAME as full_name,PERAPP_CBSID,CBS_STATIC_DATA_DESC,PERAPP_PANNO from 
+PERAPPLICANT,CBS_STATICDATA  where 
+ CBS_STATIC_DATA_CODE=PERAPP_CONSTITUTIONNEW 
+and CBS_STATIC_DATA_ID='2'
+and PERAPP_ID='^'
+	</query>
+	<query code="upd_sec_inbox_mod_NEW">
+	update SECURITIES_APPROVAL_TEMP set
+		SEC_FLAG=?,SEC_VALUERVALUE_OLD=?,SEC_VALUERVALUE_NEW=?,SEC_SALEVALUE_OLD=?,SEC_SALEVALUE_NEW=?,SEC_ORGSCODE=?
+		where sec_id=?
+	</query>
+	
+	
+	<query code="getbranchnamesolid">
+	Select ORG_SCODE,ORG_NAME,decode(APP_RENEW_FLAG,'F','Fresh','R','Renewal','P','Post Sanction','C','Closed',APP_RENEW_FLAG) as Typeofproposal from APPLICATIONS,ORGANISATIONS where APP_ORGCODE =ORG_CODE and 
+	 APP_NO='^' 
+	</query>
+	<query code="getsanctioningAuthority">
+	select com_sancauthority,CBS_STATIC_DATA_DESC  from com_briefbackground,CBS_STATICDATA where CBS_STATIC_DATA_ID='15' and
+ CBS_STATIC_DATA_CODE=com_sancauthority and com_appno='^'
+ 
+	</query>
+	
+	<query code="ins_sec_inbox_mod_new">
+		insert into SECURITIES_APPROVAL_TEMP
+		(SEC_ID,SEC_CREATEDBY,SEC_CREATEDDATE,SEC_FLAG,SEC_VALUERVALUE_OLD,SEC_VALUERVALUE_NEW,SEC_SALEVALUE_OLD
+,SEC_SALEVALUE_NEW,SEC_ORGSCODE)values
+		(?,?,sysdate,?,?,?,?,?,?)
+	</query>
+	
+	<query code="getotherbankdetails">
+	Select C.COM_CON_BANK_CODE,C.COM_CON_LIMIT,C.COM_CON_OUTSTANDING,C.COM_CON_INT_RATE,C.COM_CON_BRANCH_NAME,C.COM_CON_EMAIL_ID,C.COM_CON_FAC_NATURE,C.COM_CON_FAC_TYPE  from COM_BANKING_CONSORTIUM C where C.COM_CON_APPNO='^'  UNION ALL 
+Select T.COM_CON_BANK_CODE,T.COM_CON_LIMIT,T.COM_CON_OUTSTANDING,T.COM_CON_INT_RATE,T.COM_CON_BRANCH_NAME,T.COM_CON_EMAIL_ID,T.COM_CON_FAC_NATURE,T.COM_CON_FAC_TYPE from COM_BANKING_CONSORTIUM_TL T where T.COM_CON_APPNO='^'
+	</query>
+	<query code="getbranckandbankname">
+	select STAT_DATA_DESC1  from STATIC_DATA where STAT_DATA_ID='^' and STAT_DATA_DESC='^'
+	</query>
+	<query code="getshgrateofinterest">
+	SELECT CORPPRD_INTEREST FROM corpprd_interest_limit WHERE corpprd_intid=
+	( SELECT CORPPRDINT_SNO FROM  corpprdint_master WHERE CORPPRDINT_PRDCODE='581' AND CORPPRDINT_INTTYPE='fixed' ) 
+     AND CORPPRD_TERMFROM is not null AND CORPPRD_TERMTO is not null
+	</query>
+	
+	<query code="del_com_comments_shg">
+	 delete from com_comments where COM_PAGE=? and COM_APPNO=? and COM_SNO=?
+	</query>
+	<query code="del_com_comments_shg_other">
+	delete from com_comments where COM_PAGE='otherfac' and COM_APPNO= ? and
+	 COM_SNO in ('1','3','4','5','6','7','8','9','10','11','12','13')
+	</query>
+	<query code="chkforpastatus">
+  select STATUS from GOLD_REAPPRISAL where GOLD_APPNO='^'
+</query>	
+<query code="getsanctioningAuthorityRet">
+	select APPRAISAL_SANCAUTH,CBS_STATIC_DATA_DESC  from appraisalsanction,CBS_STATICDATA where CBS_STATIC_DATA_ID='15' and
+ CBS_STATIC_DATA_CODE=APPRAISAL_SANCAUTH and APPSANC_APPNO='^'
+ 
+	</query>
+	<query code="getsanctioningdeptRet">
+	select APPRAISAL_DEPARTMENT,CBS_STATIC_DATA_DESC  from appraisalsanction,CBS_STATICDATA where CBS_STATIC_DATA_ID='26' and
+ CBS_STATIC_DATA_CODE=APPRAISAL_DEPARTMENT and APPSANC_APPNO='^'
+	</query>
+	
+	<query code="perbankingselectretail">
+		select perbank_sno,perbank_type,perbank_facility,to_char(perbank_osasondate,'DD/MM/YYYY') as perbank_osasondate,
+		perbank_inttype,perbank_bnktype,to_char(perbank_duedate,'DD/MM/YYYY') as perbank_duedate,perbank_arrears,perbank_bnkname,perbank_fundtype,perbank_limit,perbank_os,perbank_spread,perbank_remarks,
+		perbank_monthly_ins,perbank_intrate,to_date(PERBANK_DUEDATE)-to_date(sysdate) as Days,per_drawingpower,per_repaymenttype,perbank_leaderbank,PERBANK_SECDESCRIP,PERBANK_SECVALUE,
+		PERBANK_NATURELITIGATION,to_char(PERBANK_DATELITIGATION,'DD/MM/YYYY') as PERBANK_DATELITIGATION,PERBANK_CLAIMAMOUNT,PERBANK_OTHERCLAIMS,PERBANK_PRESENTPOS,PERBANK_LITIGATIONS,to_char(perbank_startdate,'dd/mm/yyyy') as perbank_startdate,perbank_os
+		from per_otherbank	where PERBANK_DELETEFLAG is null and 
+		PERBANK_OLDID  in (select PERAPP_OLDID from perapplicant where PERAPP_ID='^') and PERBANK_ID &lt; = ^  order by perbank_sno 
+</query>
+
+<query code="ins_Gold_rEApprasial_sysuser_new">
+		insert into GOLD_REAPPRISAL(GOLD_APPNO,GOLD_SLNO,GOLD_DESC,GOLD_QUANTITY,GOLD_GROSSWEIGHT,GOLD_NETWEIGHT,GOLD_ARTQTYTOUCH,GOLD_CURRMARVAL,GOLD_ARTRATE
+,GOLD_ESTRATE,GOLD_REAPRNAME,GOLD_REAPPDATE,GOLD_USERID,GOLD_TIME,STATUS,GOLD_REAPRCUSTID,GOLD_REAPPBY,GOLD_REAPPTIME,GOLD_DIGI)
+values(?,?,?,?,?,?,?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,SYSTIMESTAMP,?,?,?,SYSTIMESTAMP,?)
+		</query>
+		<query code="currentgoldrate_new">
+		select * from PER_GOLDRATE_UPDATE where PER_DATE=to_date('^','dd/mm/yyyy')
+		</query>
+
+<query code="getrelationdetails">
+ select COMAPP_DIV_NAME,COMAPP_RELATION,COMAPP_DIVISIONSUBTYPE from com_demographics,comapp_company_divisions where DEMO_APPNO='^'
+  and DEMO_COMAPPID=COMAPP_DIV_ID_OLD and COMAPP_ID='^'
+</query>
+	<query code="getAGR_CUMSAVINGSamtSHG">
+     select AGR_CUMSAVINGS from AGR_SHGFINANCEPOSITION where AGR_APPNO='^'
+</query>	
+<query code="update_SEC_VALUERVALUE_old">
+		update SECURITY_LAND set
+		SEC_VALUERVALUE = ? where SEC_ID = ?
+	</query>
+	<query code="update_SEC_SALEVALUE_old">
+		update SECURITY_LAND set
+		SEC_SALEVALUE = ? where SEC_ID = ?
+	</query>
+	<query code="chksecurityid">
+		select cus_releaseflag,CUS_SEC_TYPE,CUS_PROPERTY_LEASEHOLD,CUS_SEC_NETSECURITY,CUS_SEC_TOTALSECVALUE from CUS_SECURITIES where CUS_SEC_ID='^'
+	</query>
+	<query code="chkpostparameterchbbranch">
+		select * from app_post_sanction where PS_MODIFY_TERMS LIKE '%CHBRANCH%' and PS_APP_NO='^'
+	</query>
+	<query code="chkLOANDISBBRANCHforPost">
+		Select LOANDISBBRANCH from PER_CUSCBSACCOUNTDATA where APPNO='^'
+	</query>
+	<query code="chkLOANDISBBRANCHforPostCA">
+		Select LOANDISBBRANCH from PER_CUSCBSACCOUNTDATA where APPNO='^' and FACILITY_SNO='^'
+	</query>
+	
+	<query code="updateperapplicantmob">
+		UPDATE PERAPPLICANT SET PERAPP_EMPLOYMENT='3',PERAPP_STATUS='001',PERAPP_RELATION_BANKSTAFF='001' where PERAPP_ID=? and PERAPP_CBSID=?
+	</query>
+	<query code="updateindividualmob">
+		UPDATE INDIVIDUAL_INFO SET INDINFO_MINORITY='N',INDINFO_DEPENDENTS_CHILD='0',INDINFO_EARNING_MEMBER='1',INDINFO_FAMILY_INCOME='10000' where INDINFO_APPID=?
+	</query>
+	<query code="updatecompanyinfomob">
+		UPDATE COMPANY_INFO set COMINFO_GSTINREG='NA' where COMINFO_APPID=?
+	</query>
+	<query code="updatecustcontactmob">
+		UPDATE CUST_CONTACTINFO set CON_YEARS=? ,CON_PERMDIST=?,CON_RESTYPE='2' where CON_APPID=?
+	</query>
+	<query code="updatekycnormsmob">
+		UPDATE APPLICANT_KYCNORMS SET KYC_RESIPROOFTYPE='RP004',KYC_DOC_DATE=sysdate,KYC_ACTIVITY='N',KYC_RESIIDREFNO=? where KYC_CUSTID=?
+	</query>
+	<query code="insertcusratemob">
+		insert into CUS_RATING (RAT_TYPE,RAT_STATUS,RAT_ID) values('2','Y',?)
+	</query>
+	<query code="insertcusdefaultermob">
+		insert into CUS_DEFAULTER (RAT_STATUS,DEF_ID) values ('Y',?)
+	</query>
+	<query code="insertcuscibildetailsmob">
+		insert into CUS_CIBILDETAILS (CIBIL_RAT_STATUS,CIBIL_SMACATEGORY,CRIF_REFERED,CRIF_AUTO_UPDATE,EXPERIAN_REFERED,CIBIL_APPID)
+         values ('N','NA','NA','N','NA',?)
+	</query>
+	<query code="insertperincexpensesmob">
+		INSERT INTO PERINCEXPENSES (PERINC_ID, PERINC_MONSALARY, PERINC_TAKEHOME, PERINC_OTHERINCOME, PERINC_RENT, PERINC_AGRICULTURE, PERINC_SECINCOME,
+	    PERINC_AUTOLOANEXP, PERINC_RENTEXP, PERINC_OTHEREXP, PERINC_SECDESC, PERINC_SELFINCOMETYPE, PERINC_SELFYRSPROF, PERINC_APPLNT, PERINC_OTHERS, 
+		PERINC_OTHERMONDESC, PERINC_ANNUALTAX, PERINC_DOMESTICEXP, PERINC_EXPENSES, PERINC_DEDUCTION, PERINC_DESC, PERINC_OTHERDEDUCTION, PERINC_YEARSALARY,
+		PERINC_YEARDEDUCTION, PERINC_YEAROTHERDEDUC, PERINC_ITRETURN, PERINC_ASSETANDLIAB, PERINC_YEAR1, PERINC_YEAR2, PERINC_YEAR3, PERINC_YEAR1_INCOME,
+		PERINC_YEAR2_INCOME, PERINC_YEAR3_INCOME, PERINC_PATTERN, PERINC_PROOF, PERINC_LOYALTY, PERINC_HISTORY, PERINCTYPE, PERINC_IT, PERINC_DEPRECIATION_YEAR1,
+		PERINC_DEPRECIATION_YEAR2, PERINC_INTONLIAB_YEAR1, PERINC_INTONLIAB_YEAR2, PERINC_PAGESTATUS, PERINC_ITRDATE1, PERINC_ITRDATE2, PERINC_YEAREND1,
+		PERINC_YEAREND2, PERAPPACTUALINCOME, PERINC_INC_SUPPORTDOC, PERINC_PROFITBUSINESS1, PERINC_PROFITBUSINESS2, PERINC_CAPITALGAIN) 
+		VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, '01', null, 'A', 0, null, null, 0, null, 0, null, 0, 0, 0, 0, 'N', 'N', null, null, null, 10000, 0, 0,
+		      '0', '2', null, null, '1', null, 0, 0, 0, 0, 'Y  ', null, null, null, null, 10000, '006', 0, 0, 0)
+	</query>
+	<query code="getdistinctcode">
+		Select ORG_DISTRICT from ORGANISATIONS where ORG_SCODE='^'
+	</query>
+	
+	<query code="updateprofilestatus">
+	update perapplicant set perapp_profilestatus='' where perapp_id=?
+	</query>
+	<query code="getproductcode_general">
+		select PRD_CODE from PRODUCTS where PRD_WHTDIGIPRD='Y' and PRD_TYPE='^' and
+		^ between prd_rng_from and prd_rng_to and PRD_REPAYTYPE like '%^%' and PRD_STOP='n'
+		order by PRD_INTRO_DATE desc
+	</query>
+	
+	<query code="getproductcode_staff">
+		select PRD_CODE from PRODUCTS where PRD_WHTDIGIPRD='Y' and PRD_TYPE='^' and
+		^ between prd_rng_from and prd_rng_to and PRD_REPAYTYPE like '%^%' and PRD_STOP='n' and PRD_STAFFPRD='Y'
+		order by PRD_INTRO_DATE desc
+	</query>
+	<query code="checkforStaff">
+	select INDINFO_IS_STAFF from INDIVIDUAL_INFO where INDINFO_APPID='^'
+	</query>
+	<query code="getpendingquerystatus">
+	    select Q.AQ_APPNO,A.APP_LOANTYPE,A.APP_ORGCODE,(trunc(sysdate)-trunc(Q.AQ_RAISEDON)) defdate,O.ORG_LEVEL,B.MAIL_FROMFLOWPOINT,B.MAIL_TOFLOWPOINT,
+    O.ORG_HEAD,A.APP_APPLNHOLDER from APP_QUERYDETAILS Q,APPLICATIONS A,ORGANISATIONS O,APPMAILBOX B where A.APP_NO=Q.AQ_APPNO and O.ORG_CODE=A.APP_ORGCODE 
+    and  B.MAIL_APPNO= A.APP_NO and A.APP_LOANTYPE in ('P','A','C') and A.APP_STATUS='op' and a.APP_DELFLAG='N' AND  Q.AQ_SENTORGCODE 
+    IN('001014001000000','001007001000000','001002001000000')and AQ_SNO=(select min(Q2.AQ_SNO)   from APP_QUERYDETAILS Q2 where Q2.AQ_APPNO=Q.AQ_APPNO and 
+    Q2.AQ_STATUS='QS') and  trunc(sysdate)-trunc(Q.AQ_RAISEDON) &gt; 80 and B.MAIL_DATE=(select max(MAIL_DATE) from APPMAILBOX B2 where B2.MAIL_APPNO= A.APP_NO)
+
+
+	</query>
+	
+	
+	<query code="commworkflowinsnew_query">
+		insert into appmailbox
+		(mail_appno,mail_fromusrid,mail_tousrid,mail_fromflowpoint,mail_toflowpoint,mail_date,mail_type,mail_from_orgcode,
+		mail_from_orgdept,mail_to_orgcode,mail_to_orgdept,MAIL_REALLOCATION,MAIL_QRDPND_NO_DAYS)
+		values(?,?,?,?,?,sysdate,?,?,?,?,?,?,?)
+	</query>
+	<query code="getsanctioningdept">
+	select COM_SANCDEPT,CBS_STATIC_DATA_DESC  from com_briefbackground,CBS_STATICDATA where CBS_STATIC_DATA_ID='26' and
+ CBS_STATIC_DATA_CODE=COM_SANCDEPT and COM_APPNO='^'
+	</query>
+	<query code="getfsvvalues">
+	select SEC_VALUERVALUE,SEC_SALEVALUE from Security_Land where SEC_ID='^'
+	</query>
+	
+	<query code="chkquerypending">
+	select Q.AQ_APPNO,Q.AQ_SNO,A.APP_LOANTYPE,A.APP_ORGCODE,(trunc(sysdate)-trunc(Q.AQ_RAISEDON)) defdate,O.ORG_LEVEL,B.MAIL_FROMFLOWPOINT,B.MAIL_TOFLOWPOINT,
+O.ORG_HEAD,A.APP_APPLNHOLDER,B.MAIL_TOUSRID from APP_QUERYDETAILS Q,APPLICATIONS A,ORGANISATIONS O,APPMAILBOX B where A.APP_NO=Q.AQ_APPNO and 
+O.ORG_CODE=A.APP_ORGCODE and  B.MAIL_APPNO= A.APP_NO and A.APP_LOANTYPE in ('P','A','C') and A.APP_STATUS='op' and a.APP_DELFLAG='N' AND 
+Q.AQ_SENTORGCODE IN ('001014001000000','001007001000000','001002001000000') and  AQ_SNO=(select min(Q2.AQ_SNO)   from APP_QUERYDETAILS Q2 
+where Q2.AQ_APPNO=Q.AQ_APPNO and Q2.AQ_STATUS='QS' and  trunc(sysdate)-trunc(Q2.AQ_RAISEDON)>7 ) and B.MAIL_DATE=(select max(MAIL_DATE) 
+from APPMAILBOX B2 where B2.MAIL_APPNO= A.APP_NO) and  B.MAIL_QRDPND_NO_DAYS is not Null and Q.AQ_APPNO='^' and Q.AQ_SNO='^'
+	</query>
+	<query code="updmailbxnoofdays">
+	UPDATE APPMAILBOX SET MAIL_QRDPND_NO_DAYS='' where MAIL_APPNO=? and MAIL_QRDPND_NO_DAYS is not null
+	</query>
+	<query code="chkagrigoldproduct">
+	select * from products where PRD_WHETHERAGRI='Y' and PRD_TYPE='pG' and PRD_CODE='^'
+	</query>
+	<query code="chkforquerypendingcount">
+	select count(*) as cnt  from app_querydetails q,APPLICATIONS a where q.AQ_APPNO=a.APP_NO and a.APP_LOANTYPE IN ('P','A','C')
+      and aq_status='QS' and AQ_APPNO='^'
+	</query>
+	<query code="getBureaudetailsforwebservice">
+		select
+		BUR_APPNO,BUR_CBSID,BUR_CUSTYPE,CREATED_USRID,CREATED_ORG,to_char(CREATED_DATE,'dd-mm-yyyy')
+		as CREATED_DATE,BUR_FNAME,BUR_LNAME,to_char(BUR_DOB,'dd/mm/yyyy') as
+		BUR_DOB,BUR_GENDER,BUR_ADDRESS1,
+		BUR_ADDRESS2,BUR_CITY,BUR_STATE,BUR_DIST,BUR_ZIP,BUR_PANNO,BUR_COUNTRY,BUR_AADHAR,BUR_EMAIL,BUR_PRDTYPE,BUR_REQAMNT,BUR_TENOR,BUR_ORGCODE,BUR_PERAPPID,BUR_FATHERNAME,bur_marstat,created_usrid,bur_mobile,BUR_HUNTER_REQ,to_char(BUR_HUNTER_FETCH_DATE,'dd/mm/yyyy')
+		as BUR_HUNTER_FETCH_DATE,BUR_HUNTER_SCORE from BUREAU_INWARDREG where
+		BUR_APPNO='^'
+	</query>
+</sql>

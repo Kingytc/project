@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+	<query code="retail_lapstoram_customer1">
+		select nvl(perapp.perapp_oldid,pdemo.demo_appid) as ApplicantID,
+		pdemo.demo_appno, prd.prd_type,
+		to_char(perapp.perapp_dob,'dd/mm/yyyy') as perapp_dob,
+		perapp.perapp_education, perapp_employment,
+		perapp.perapp_typeofprof, nvl(perapp_yrsexp,0) as perapp_yrsexp, perapp.perapp_oldid as
+		OldID from per_demographics pdemo, applications app, products
+		prd,perapplicant perapp where prd.prd_code = app_prdcode and
+		app_no=demo_appno and perapp.perapp_id =demo_appid and
+		demo_appno='^' and demo_type='a'
+	</query>
+
+	<query code="retail_lapstoram_customer2">
+		select ls.lifestyle_car, ls.lifestyle_scooter,
+		ls.lifestyle_fridge, ls.lifestyle_telephone,
+		ls.lifestyle_computer, ls.lifestyle_mobile,
+		ls.lifestyle_washing_machine, ls.lifestyle_television from
+		per_lifestyle ls where ls.lifestyle_appno='^'
+	</query>
+
+	<query code="retail_lapstoram_customer3">
+		select ldetails.loan_costloanprd, ldetails.offeredmargin,
+		ldetails.loan_emi from loandetails ldetails where
+		ldetails.loan_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_customer31">
+		select perinctype,perinc_monsalary from perincexpenses where
+		perinc_id=(select demo_appid from per_demographics where
+		demo_appno='^' and demo_type='a')
+	</query>
+	
+	<query code="retail_lapstoram_customer32">
+		select sum(perinc_monsalary) as  coapp_perinc_monsalary from perincexpenses,per_demographics where
+		perinc_id=demo_appid and demo_appno='^' and demo_type='c' and  demo_includeincome='2'
+	</query>
+	
+	<query code="retail_lapstoram_customer4">
+		select ppdetails.prop_type1, NVL(ppdetails.prop_age,0) as
+		prop_age from perpropertydet ppdetails where
+		ppdetails.prop_appid ='^'
+	</query>
+	
+	<query code="retail_lapstoram_customer41">
+		select auto_category as prop_type1,auto_model as prop_age from
+		per_auto where auto_appno='^' and (auto_category='1' or auto_category='2')
+	</query>
+	
+	<query code="retail_lapstoram_customer5">
+		select sum(lia.liab_balance)as liab_balance from per_liabilities lia where
+		lia.liab_appno='^' and liab_applnt like'a%'
+	</query>
+	
+	<query code="retail_lapstoram_customer51">
+	 select sum(liab_balance)as coapp_liab_balance from per_liabilities,per_demographics 
+	 where  SUBSTR(liab_applnt,2,length(liab_applnt))=demo_appid and substr(liab_applnt,0,1)=demo_type and demo_type = 'c' and demo_appno='^' 
+	 and demo_appno=liab_appno and demo_includeincome ='2' 
+	</query>
+	
+	<query code="retail_lapstoram_customer6">
+		select pinexp.perinc_autoloanexp, pinexp.perinc_yearsalary as perinc_takehome from
+		perincexpenses pinexp where pinexp.perinc_id = (select
+		demo_appid from per_demographics where demo_appno='^' and
+		demo_type='a')
+	</query>
+	
+	<query code="retail_lapstoram_customer61">
+		select sum(pinexp.perinc_autoloanexp) as coappperinc_autoloanexp, sum(pinexp.perinc_yearsalary) as coapp_perinc_takehome from
+		perincexpenses  pinexp,per_demographics where pinexp.perinc_id =demo_appid and demo_appno='^' and
+		demo_type='c' and demo_includeincome=2
+	</query>
+	
+	<query code="retail_lapstoram_customer8">
+		select pinexp.perinc_otherexp,pinexp.perinc_rentexp as appother_deduction1,
+		pinexp.perinc_domesticexp as appinsurance,pinexp.perinc_monsalary as app_perinc_monsalary from
+		perincexpenses pinexp where pinexp.perinc_id = (select
+		demo_appid from per_demographics where demo_appno='^' and
+		demo_type='a')
+	</query>
+	
+	<query code="retail_lapstoram_customer81">
+		select sum(pinexp.perinc_otherexp) as coapp_other_deduction2,sum(pinexp.perinc_rentexp) as coapp_other_deduction1,
+		sum(pinexp.perinc_domesticexp) as coapp_insurance,sum(pinexp.perinc_monsalary)  as coapps_perinc_monsalary from
+		perincexpenses pinexp,per_demographics  where pinexp.perinc_id = demo_appid and demo_appno='^' and
+		demo_type='c' and demo_includeincome=2
+	</query>
+	
+	<query code="retail_lapstoram_customer9">
+		select app_usrid,to_char(app_createdate,'dd/mm/yyyy') as
+		app_createdate from applications where app_no='^'
+	</query>
+
+	<query code="retail_lapstoram_edu1">
+		select nvl(perapp.perapp_oldid,demo_appid) as ApplicantID,
+		demo_appno from per_demographics, perapplicant perapp where
+		perapp.perapp_id=demo_appid and demo_appno='^' and demo_type='a'
+	</query>
+
+	<query code="retail_lapstoram_edu2">
+		select prd_type from products where prd_code=(select app_prdcode
+		from applications where app_no='^')
+	</query>
+	
+	<query code="retail_lapstoram_edu3">
+		select edu_age from edu_student where edu_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu4">
+		select perapp_education from perapplicant where
+		perapp_id=(select demo_appid from per_demographics where
+		demo_appno='^'and demo_type='a')
+	</query>
+	
+	<query code="retail_lapstoram_edu5">
+		select edu_marks from edu_details where edudetail_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu6">
+		select edu_no_of_years from edu_student where edu_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu61">
+		select perapp_employment from perapplicant where
+		perapp_id=(select demo_appid from per_demographics where
+		demo_appno='^' and demo_type='c')
+	</query>
+	
+	<query code="retail_lapstoram_edu71">
+		select perapp_typeofprof from perapplicant where perapp_id
+		in(select demo_appid from per_demographics where demo_appno='^'
+		and demo_type='c')
+	</query>
+	
+	<query code="retail_lapstoram_edu8">
+		select nvl(perapp_yrsexp,0) as perapp_yrsexp from perapplicant
+		where perapp_id in(select demo_appid from per_demographics where
+		demo_appno='^' and demo_type='c')
+	</query>
+	
+	<query code="retail_lapstoram_edu9">
+		select perapp_residencetype from perapplicant where perapp_id=
+		(select demo_appid from per_demographics where demo_appno='^'and
+		demo_type='c')
+	</query>
+	
+	<query code="retail_lapstoram_edu10">
+		select perapp_yrsinpresadd from perapplicant where perapp_id=
+		(select demo_appid from per_demographics where demo_appno='^'
+		and demo_type='c')
+	</query>
+	
+	<query code="retail_lapstoram_edu11">
+		select lifestyle_car, lifestyle_scooter, lifestyle_fridge,
+		lifestyle_telephone,lifestyle_computer,lifestyle_mobile,
+		lifestyle_washing_machine, lifestyle_television from
+		per_lifestyle where lifestyle_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu12">
+		select sum(ec.edu_col_total) AS totalcost from edu_course_exp
+		ec,loandetails ld where ec.edu_appno=ld.loan_appno and
+		ld.loan_appno='^' and UPPER(ec.EDU_TYPE)='E'
+	</query>
+	
+	<query code="retail_lapstoram_edu121">
+		select loan_amtreqd as amtreq from loandetails where
+		loan_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu13">
+		select edu_studies_in,edu_qual_proposed,edu_partfull from
+		edu_loan where eduloan_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu14">
+		select edu_amount from edu_scholar where eduscholar_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu15">
+		select (ld.loan_reqterms- pls.loan_noofinstallment) as tenor
+		from loandetails ld, per_loan_secure pls where
+		ld.loan_appno=pls.loan_appno and ld.loan_appno='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu151">
+		select COUNT(*) from per_demographics where demo_appno='^' and
+		demo_type='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu152">
+		select perinc.perinctype,ld.loan_emi,perinc.perinc_monsalary from loandetails
+		ld,perincexpenses perinc,per_demographics demo where
+		ld.loan_appno=demo.demo_appno and
+		demo.demo_appid=perinc.perinc_id and loan_appno='^' and
+		demo.demo_type='^'
+	</query>
+	
+	<query code="retail_lapstoram_edu16">
+		select sum(lia.liab_balance) as liab_balance from per_liabilities lia where
+		lia.liab_appno='^' and liab_applnt like'a%'
+	</query>
+	
+	<query code="retail_lapstoram_edu161">
+	 select sum(liab_balance)as coapp_liab_balance from per_liabilities,per_demographics 
+	 where  SUBSTR(liab_applnt,2,length(liab_applnt))=demo_appid and substr(liab_applnt,0,1)=demo_type and demo_type='c' and demo_appno='^' 
+	 and demo_appno=liab_appno and demo_includeincome ='2'
+	</query> 
+	
+	<query code="retail_lapstoram_edu17">
+		select pinexp.perinc_autoloanexp, pinexp.perinc_yearsalary as perinc_takehome from
+		perincexpenses pinexp where pinexp.perinc_id = (select
+		demo_appid from per_demographics where demo_appno='^' and
+		demo_type='c' and demo_includeincome=2)
+	</query>
+	
+	<query code="retail_lapstoram_edu171">
+		select sum(pinexp.perinc_autoloanexp) as coappperinc_autoloanexp, sum(pinexp.perinc_yearsalary) as coapp_perinc_takehome from
+		perincexpenses  pinexp,per_demographics where pinexp.perinc_id =demo_appid and demo_appno='^' and
+		demo_type='c' and demo_includeincome=2
+	</query>
+	
+	<query code="retail_lapstoram_edu18">
+		select
+		(sum(perinc_domesticexp)+sum(perinc_rentexp)+sum(perinc_otherexp))
+		as otherexpenses,sum(perinc_autoloanexp) as perinc_autoloanexp from perincexpenses where perinc_id=(select
+		demo_appid from per_demographics where demo_appno='^' and
+		demo_type='c' and demo_includeincome=2)
+	</query>
+	
+	<query code="retail_lapstoram_edu19">
+		select app_usrid,to_char(app_createdate,'dd/mm/yyyy') as
+		app_createdate from applications where app_no='^'
+	</query>
+	
+	<query code="ram_sector">
+		select SECTOR_CODE, SECTOR_NAME from RAM_LAPS_SECTORMASTER
+	</query>
+	
+	<query code="ram_segment">
+		select SEG_CODE, SEG_NAME from RAM_LAPS_MARKETSEGMASTER
+	</query>
+	
+	<query code="ram_assetclass">
+		select CC_ASSETCODE, CC_ASSETNAME from RAM_LAPS_ASSETCLASSMASTER
+	</query>
+	
+	<query code="ram_industry">
+		select RBI_INDUSTRY_CODE,RBI_INDUSTRY_NAME from
+		RAM_LAPS_RBIINDUSTRYMASER
+	</query>
+	
+	<query code="ram_country">
+		select cc_countrycode,cc_countryname from RAM_LAPS_COUNTRYMASTER
+	</query>
+	
+	<query code="insert_laps_ram_customerprofile">
+		insert into laps_ram_companymaster (BORROWERTYPE, COMPANYCODE,
+		COMPANYNAME, GROUPCODE, BRANCHLOCATION, COMPANYDELETED,
+		COMPANYCOUNTRYCODE, COMPANYSECTORCODE, MARKETSEGMENT,
+		STANDARDHOME, STANDARDHOST, CBSCOMPANYCODE, IRBHOME, IRBHOST,
+		STATUS, RBIINDUSTRYCODE, MARKETPARTICIPANT, COMMERCIALBANK,
+		PSENOTIFIED, CENTRALSOVERIGN)
+		values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="selRAMparameters">
+		select companysectorcode, companycountrycode, marketsegment,
+		rbiindustrycode, standardhost, marketparticipant,
+		commercialbank, psenotified, centralsoverign from
+		laps_ram_companymaster where companycode='^' and
+		borrowertype='C'
+	</query>
+	
+	<query code="del_laps_ram_customerprofile">
+		delete from laps_ram_companymaster where companycode=? and
+		borrowertype='C'
+	</query>
+	
+	<query code="laps_ram_select_custmerprofile">
+		select comapp_group,comapp_companyname,org_name,CBS_COMPANYCODE
+		from comapplicant,organisations where org_scode=comapp_org_scode
+		and comapp_id=^
+	</query>
+	
+	<query code="retail_lapstoram_customerfilecreation">
+		select prd.prd_type from products prd where prd.prd_code=(select
+		app_prdcode from applications where app_no='^')
+	</query>
+
+	<query code="ramtolaps_sectormaster">
+		insert into RAM_LAPS_SECTORMASTER (SECTOR_CODE, SECTOR_NAME,
+		SECTOR_DELETED, SECTOR_BANKCODE)values(?,?,?,?)
+	</query>
+
+	<query code="ramtolaps_sectormaster_delete">
+		delete from RAM_LAPS_SECTORMASTER where sector_code=?
+	</query>
+
+	<query code="ramtolaps_marketsegmaster">
+		insert into ram_laps_marketsegmaster( seg_code,seg_name,
+		seg_deleted, bankcode, seg_overheadcost) values(?,?,?,?,?)
+	</query>
+
+	<query code="ramtolaps_marketsegmaster_delete">
+		delete from ram_laps_marketsegmaster where seg_code=?
+	</query>
+	
+	<query code="ramtolaps_assetclassmaster">
+		insert into ram_laps_assetclassmaster(cc_assetcode,
+		cc_assetname, cc_approach, cc_assetdeleted, cc_assetcompclass,
+		cc_assetdesc, cc_bankcode, cc_comp_approach,
+		cc_comp_appext)values (?,?,?,?,?,?,?,?,?)
+	</query>
+
+	<query code="ramtolaps_assetclassmaster_delete">
+		delete from ram_laps_assetclassmaster where cc_assetcode=?
+	</query>
+
+	<query code="ramtolaps_countrymaster">
+		insert into ram_laps_countrymaster(cc_countrycode,
+		cc_countryname, cc_countrydeleted, cc_bankcode,
+		rw_sov_foreign)values(?,?,?,?,?)
+	</query>
+
+	<query code="ramtolaps_countrymaster_delete">
+		delete from ram_laps_countrymaster where cc_countrycode=?
+	</query>
+
+	<query code="ramtolaps_RBIindustrymaster">
+		insert into ram_laps_rbiindustrymaser(rbi_industry_code,
+		rbi_industry_name, rbi_industry_deleted,
+		rbi_industry_bankcode)values(?,?,?,?)
+	</query>
+
+	<query code="ramtolaps_RBIindustrymaster_delete">
+		delete from ram_laps_rbiindustrymaser where rbi_industry_code=?
+	</query>
+	
+	<query code="insreport105">
+		insert into ramtolaps105(appno, branchname, regionname,
+		companyname, companycode, dateoffinalisation,
+		lastrateddate_basemodel, lastrating_basemodel,
+		lastscore_basemodel, lastgradef_basemodel,
+		lastrateddate_dynamicmodel, lastrating_dynamicmodel,
+		lastscore_dynamicmodel, lastgradef_dynamicmodel,
+		lastcombinedrating_dm, currentratingdate_basemodel,
+		currentrating_basemodel, currentscore_basemodel,
+		currentgradef_basemodel, currentratingdate_dynamicmodel,
+		currentrating_dynamicmodel, currentscore_dynamicmodel,
+		currentgradef_dynamicmodel, currentcombinedrating_dm,
+		ratingrationale, ratingpoolremarks)
+		values(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy'),?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,
+		to_date(?,'dd/mm/yyyy'),?,?,?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?)
+	</query>
+
+	<query code="getramrating105details">
+		select branchname, regionname, companyname, companycode,
+		to_char(dateoffinalisation,'dd/mm/yyyy') as dateoffinalisation ,
+		to_char(lastrateddate_basemodel,'dd/mm/yyyy') as
+		lastrateddate_basemodel, lastrating_basemodel,
+		lastscore_basemodel, lastgradef_basemodel,
+		to_char(lastrateddate_dynamicmodel,'dd/mm/yyyy') as
+		lastrateddate_dynamicmodel, lastrating_dynamicmodel,
+		lastscore_dynamicmodel, lastgradef_dynamicmodel,
+		lastcombinedrating_dm,
+		to_char(currentratingdate_basemodel,'dd/mm/yyyy') as
+		currentratingdate_basemodel, currentrating_basemodel,
+		currentscore_basemodel, currentgradef_basemodel,
+		to_char(currentratingdate_dynamicmodel,'dd/mm/yyyy') as
+		currentratingdate_dynamicmodel, currentrating_dynamicmodel,
+		currentscore_dynamicmodel, currentgradef_dynamicmodel,
+		currentcombinedrating_dm, ratingrationale, ratingpoolremarks,remarks,extrating_remarks
+		from ramtolaps105 where appno='^'
+	</query>
+
+	<query code="ramtolaps_report105">
+		select Appno,BranchName,RegionName,CompanyCode
+		,to_char(DateofFinalisation,'dd/mm/yyyy') ,
+		to_char(LastRatedDate_BaseModel,'dd/mm/yyyy')
+		,LastRating_BaseModel ,
+		to_char(LastRatedDate_DynamicModel,'dd/mm/yyyy'),LastRating_DynamicModel,
+		to_char(CurrentRatingDate_BaseModel,'dd/mm/yyyy'),CurrentRating_BaseModel,
+		to_char(CurrentRatingDate_DynamicModel,'dd/mm/yyyy'),CurrentRating_DynamicModel,
+		RatingRationale,RatingPoolRemarks from RAMTOLAPS105 where
+		Appno='^'
+	</query>
+	
+	<query code="delreport105">
+		delete from RAMTOLAPS105 where Appno=?
+	</query>
+	
+	<!-- <query code="insreport106">
+		insert into RAMTOLAPS106(Appno, sno, BranchName, CompanyName,
+		CompanyCode, DateofFinalisation, CreditRatingbyRatingPool,
+		RatingPoolDate, RatingConfirmedbyCG, CGRating, CGRationale,
+		FacilityName, InterestRate, RatingReview, CGObservations,
+		laps_facility_id, laps_facility_parent, laps_facility_schemecode)
+		values(?,?,?,?,?,to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy'),?,?,?,?,?,?,?,?,?,?)
+	</query> -->
+
+	<query code="sel_rating_details">
+		select FacilityName, cgrating, interestrate, laps_facility_id,
+		laps_facility_parent, laps_facility_schemecode from RAMTOLAPS106
+		where appno='^' and laps_facility_id='^'
+	</query>
+	
+	<query code="ramtolaps_report106">
+		select Appno, sno, BranchName, CompanyCode,
+		to_char(DateofFinalisation,'dd/mm/yyyy'),
+		CreditRatingbyRatingPool, to_char(RatingPoolDate,'dd/mm/yyyy'),
+		RatingConfirmedbyCG, CGRating, CGRationale, FacilityName,
+		InterestRate, RatingReview, CGObservations, laps_facility_id,
+		laps_facility_parent, laps_facility_schemecode from RAMTOLAPS106
+		where Appno='^'
+	</query>
+
+	<query code="ramtolaps_newreport106">
+		select Appno, sno, BranchName, companyname, CompanyCode,
+		to_char(DateofFinalisation,'dd/mm/yyyy')as DateofFinalisation,
+		CreditRatingbyRatingPool, to_char(RatingPoolDate,'dd/mm/yyyy')
+		as RatingPoolDate, RatingConfirmedbyCG, CGRating, CGRationale,
+		FacilityName, InterestRate, RatingReview, CGObservations,
+		laps_facility_id, laps_facility_parent, laps_facility_schemecode
+		from RAMTOLAPS106 where Appno='^'
+	</query>
+
+	<query code="ramtolaps_new1report106">
+		select sno, FacilityName,InterestRate from RAMTOLAPS106 where
+		Appno='^' order by sno
+	</query>
+
+	<query code="delreport106">
+		delete from RAMTOLAPS106 where Appno=?
+	</query>
+	
+	<query code="ramtolaps_retailscoringdelete">
+		delete from ram_laps_retailscoring where rating_appno=?
+	</query>
+	
+	<query code="getretailscore">
+		select rating_score from ram_laps_retailscoring where
+		rating_appno='^'
+	</query>
+	
+	<query code="ramtolaps_checkretailscoringselect">
+		select rating_appno, rating_score,
+		retail_grade,to_char(retail_dateoffinal,'dd/mm/yyyy') from
+		ram_laps_retailscoring where rating_appno='^'
+	</query>
+
+	<query code="ramtolaps_retailscoringinsert">
+		insert into ram_laps_retailscoring (rating_appno, rating_score,
+		retail_grade, retail_dateoffinal)
+		values(?,?,?,to_date(?,'dd/mm/yyyy'))
+	</query>
+	
+	<query code="retail_lapstoram_industrymaster1">
+		select ind_bsr_code,ind_name from industry_master
+	</query>
+	
+	<query code="retail_lapstoram_groupmaster1">
+		SELECT EXP_ID,EXP_DESC FROM EXPOSURE WHERE
+		UPPER(EXP_TYPE)=UPPER('GROUP')
+	</query>
+
+	<query code="ins_IRBRating1">
+		insert into IRB_Rating1 (Appno, serial_no, Description,
+		Previous_year, Current_year) values (?,?,?,?,?)
+	</query>
+
+	<query code="ins_IRBRating2">
+		insert into IRB_Rating2 (Appno, serial_no, parameter, value,
+		secured, score) values (?,?,?,?,?,?)
+	</query>
+
+	<query code="del_IRBRating1">
+		delete from IRB_Rating1 where Appno=?
+	</query>
+
+	<query code="del_IRBRating2">
+		delete from IRB_Rating2 where Appno=?
+	</query>
+
+	<query code="securitydetials">
+		select SEC_APPNO, SEC_DESC_ID, SEC_SRLNO, SEC_DESC_VALUE,
+		SEC_TENOR from FAC_SECURITY_DETAILS where SEC_APPNO='^'
+	</query>
+
+	<query code="chargedetials">
+		select SEC_APPNO,SEC_FACSNO,SEC_SRLNO,SEC_CHARGE, facility_sno from
+		fac_security_details, facilities where facility_group='0' and  facility_appno=sec_appno and SEC_APPNO='^'
+	</query>
+
+	<query code="securitymaster">
+		select stat_data_sno, stat_data_desc, stat_data_id,
+		stat_data_desc1,'N' as N from static_data where
+		stat_data_id='12' order by stat_data_desc1
+	</query>
+
+	<query code="facilitymaster">
+		select FACility_catid,facility_schemecode,facility_catdesc,
+		decode(facility_parent,'1','0','4','1','3','0') as fund,
+		decode(facility_parent,'3','W','4','W','1','T') as fac_type,'N'
+		as N from facility_master where facility_parent != 0 order by
+		facility_catid
+	</query>
+
+	<query code="facilitydetials">
+		select facility_appno, facility_id, facility_sno,
+		facility_proposed, App_valuesin as denomination, 'INR' as
+		currency, facility_months, facility_interest from
+		facilities,applications where FACILITY_APPNO='^' and
+		facility_group='0' and FACILITY_APPNO=APP_NO
+	</query>
+
+	<query code="sel_comapp_oldid">
+		select comapp_oldid from COMAPPLICANT where comapp_id='^'
+	</query>
+	
+	<query code="sel_comapp_irbid">
+		select comapp_irbid, comapp_companyname from COMAPPLICANT,
+		com_demographics where comapp_id=demo_comappid and
+		demo_appno='^'
+	</query>
+	
+	 <query code="del_laps_ram_users">
+	 delete from laps_ram_users
+	</query>
+	
+	<query code="setusersselect_all">
+		select usr_id, usr_grpid, usr_orgcode, usr_fname, usr_mname,
+		usr_lname, usr_password, usr_class, usr_supid, usr_supstatus,
+		usr_avail, usr_function, usr_sanction_limit, user_designation
+		from users 
+	</query>
+	
+	<query code="ins_laps_ram_users">
+		insert into laps_ram_users(laps_id, user_code, user_password) values(?,?,?)
+	</query>
+	
+	<query code="upd_laps_ram_users">
+		update laps_ram_users set laps_id =?, user_code=?
+		where user_code=?
+	</query>
+	
+	<query code="reset_laps_ram_users">
+		update laps_ram_users set user_password=? where user_code=?
+	</query>
+	
+	<query code="select_laps_ram_users">
+		select laps_id,user_password from laps_ram_users where laps_id = '^'
+	</query>
+	
+	<query code="laps_ram_select_locationbasedonuser">
+		select usr_id,org_name from users,organisations
+		where usr_orgcode=org_code and usr_id='^'
+		and org_issaral = 'Y'
+	</query>
+</sql>

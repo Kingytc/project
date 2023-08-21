@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.kalyptorisk.com/credit/rating" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://www.kalyptorisk.com/credit/rating" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.kalyptorisk.com/credit/rating">
+      <s:element name="RetailEvaluation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ProposalID" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetailEvaluationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetailEvaluationResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CorporateRating">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ProposalID" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CorporateRatingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CorporateRatingResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RetailEvaluationSoapIn">
+    <wsdl:part name="parameters" element="tns:RetailEvaluation"/>
+  </wsdl:message>
+  <wsdl:message name="RetailEvaluationSoapOut">
+    <wsdl:part name="parameters" element="tns:RetailEvaluationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="CorporateRatingSoapIn">
+    <wsdl:part name="parameters" element="tns:CorporateRating"/>
+  </wsdl:message>
+  <wsdl:message name="CorporateRatingSoapOut">
+    <wsdl:part name="parameters" element="tns:CorporateRatingResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="RatingSoap">
+    <wsdl:operation name="RetailEvaluation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Rating upload and evaluation for retail pool customers.</wsdl:documentation>
+      <wsdl:input message="tns:RetailEvaluationSoapIn"/>
+      <wsdl:output message="tns:RetailEvaluationSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="CorporateRating">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Rating upload for Corporate customers. This evaluation is for Borrower and Facility Rating.</wsdl:documentation>
+      <wsdl:input message="tns:CorporateRatingSoapIn"/>
+      <wsdl:output message="tns:CorporateRatingSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RatingSoap" type="tns:RatingSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="RetailEvaluation">
+      <soap:operation soapAction="http://www.kalyptorisk.com/credit/rating/RetailEvaluation" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CorporateRating">
+      <soap:operation soapAction="http://www.kalyptorisk.com/credit/rating/CorporateRating" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RatingSoap12" type="tns:RatingSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="RetailEvaluation">
+      <soap12:operation soapAction="http://www.kalyptorisk.com/credit/rating/RetailEvaluation" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CorporateRating">
+      <soap12:operation soapAction="http://www.kalyptorisk.com/credit/rating/CorporateRating" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Rating">
+    <wsdl:port name="RatingSoap" binding="tns:RatingSoap">
+      <soap:address location="http://172.20.115.57/Kalypto.Credit.Test/interfaces/ratingretail.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="RatingSoap12" binding="tns:RatingSoap12">
+      <soap12:address location="http://172.20.115.57/Kalypto.Credit.Test/interfaces/ratingretail.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+
